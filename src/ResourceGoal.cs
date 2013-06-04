@@ -6,7 +6,7 @@ namespace MissionController
 {
     public class ResourceGoal : MissionGoal
     {
-        public String name;
+        public String name = "LiquidFuel";
         public double maxAmount = 0.0;
         public double minAmount = 0.0;
 

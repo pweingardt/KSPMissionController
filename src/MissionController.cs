@@ -185,6 +185,7 @@ namespace MissionController
             if (vessel.situation == Vessel.Situations.PRELAUNCH) {
                 showCostValue("Construction costs:", res.construction, styleValueGreen);
                 showCostValue("Liquid fuel costs:", res.liquid (), styleValueGreen);
+                showCostValue("Oxidizer costs:", res.oxidizer (), styleValueGreen);
                 showCostValue("Solid fuel costs:", res.solid(), styleValueGreen);
                 showCostValue("Other resource costs:", res.other(), styleValueGreen);
                 showCostValue("Sum:", res.sum(), (res.sum () > manager.budget ? styleValueRed : styleValueGreen));
@@ -296,13 +297,17 @@ namespace MissionController
                     GUILayout.EndHorizontal ();
                 }
                 
-                if (c.isDone (vessel) && orderOk) {
+                if ((c.isDone (vessel) && orderOk) || c.optional) {
                     if (c.nonPermanent && !hiddenGoals.Contains(c)) {
-                        manager.finishMissionGoal (c, vessel);
-                        if (GUILayout.Button ("Hide finished goal!")) {
-                            hiddenGoals.Add(c);
+                        if(FlightInputHandler.state.mainThrottle != 0.0 && c.throttleDown) { 
+                            GUILayout.Label("Throttle down in order to finish mission goal!", styleCaption);
+                        } else {
+                            manager.finishMissionGoal (c, vessel);
+                            if (GUILayout.Button ("Hide finished goal!")) {
+                                hiddenGoals.Add(c);
+                            }
                         }
-                    }
+                    }                    
                 } else {
                     orderOk = false;
                 }
@@ -338,6 +343,10 @@ namespace MissionController
                             res.monoFuel += p.Resources ["MonoPropellant"].amount;
                         }
 
+                        if (p.Resources ["Oxidizer"] != null) {
+                            res.oxidizerFuel += p.Resources ["Oxidizer"].amount;
+                        }
+
                         if (p.Resources ["Xenon"] != null) {
                             res.xenonFuel += p.Resources ["Xenon"].amount;
                         }
@@ -357,11 +366,13 @@ namespace MissionController
         private class VesselResources
         {
             public double liquidFuel;
+            public double oxidizerFuel;
             public double solidFuel;
             public double monoFuel;
             public double mass;
             public double xenonFuel;
             public double construction;
+
 
             public int liquid() {
                 return (int)liquidFuel * 10;
@@ -372,7 +383,7 @@ namespace MissionController
             }
             
             public int solid() {
-                return (int)solidFuel * 20;
+                return (int)solidFuel * 7;
             }
             
             public int xenon() {
@@ -383,8 +394,12 @@ namespace MissionController
                 return (int)mass * 1000;
             }
 
+            public int oxidizer() {
+                return (int)oxidizerFuel * 2;
+            }
+
             public int sum() {
-                return (int)(construction + liquid () + solid () + mono () + xenon () + other ());
+                return (int)(construction + liquid () + solid () + mono () + xenon () + other () + oxidizer());
             }
 
         }

@@ -18,6 +18,8 @@ namespace MissionController
 
         public int crewCount = 0;
 
+        public Boolean throttleDown = true;
+
         public bool isDone (Vessel vessel)
         {
             if (nonPermanent && doneOnce) {
@@ -50,6 +52,15 @@ namespace MissionController
             if (crewCount != 0) {
                 vs.Add (new Value ("Crew count", "" + crewCount, "" + vessel.GetCrewCount (),
                                    crewCount <= vessel.GetCrewCount ()));
+            }
+
+            bool done = true;
+            foreach (Value v in vs) {
+                done = done && v.done;
+            }
+
+            if (done && throttleDown && FlightInputHandler.state.mainThrottle != 0.0) {
+                vs.Add(new Value("Throttle down!", "true", "false", false));
             }
 
             return vs;

@@ -6,7 +6,7 @@ namespace MissionController
     public class LandingGoal : MissionGoal
     {
         public bool splashedValid = true;
-        public String body;
+        public String body = "Kerbin";
 
         public double minLatitude = 0.0;
         public double maxLatitude = 0.0;
