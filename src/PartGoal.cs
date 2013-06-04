@@ -13,13 +13,19 @@ namespace MissionController
             List<Value> values = new List<Value> ();
 
             int count = 0;
-            foreach (Part p in vessel.Parts) {
-                if(p.partInfo.name.Equals(partName)) {
-                    ++count;
+            if (vessel != null) {
+                foreach (Part p in vessel.Parts) {
+                    if (p.partInfo.name.Equals (partName)) {
+                        ++count;
+                    }
                 }
             }
 
-            values.Add(new Value("Part", partCount + "x " + partName, "" + count, count >= partCount));
+            if (vessel == null) {
+                values.Add (new Value ("Part", partCount + "x " + partName));
+            } else {
+                values.Add (new Value ("Part", partCount + "x " + partName, "" + count, count >= partCount));
+            }
 
             return values;
         }

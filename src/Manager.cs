@@ -37,7 +37,10 @@ namespace MissionController
                 c.id = m.name + "__PART" + (count++);
                 c.repeatable = m.repeatable;
             }
-            prepareMission (m, vessel);
+
+            if (vessel != null) {
+                prepareMission (m, vessel);
+            }
             return m;
         }
 
@@ -74,6 +77,10 @@ namespace MissionController
         }
         
         public Boolean isMissionGoalAlreadyFinished(MissionGoal c, Vessel v) {
+            if (v == null) {
+                return false;
+            }
+
             foreach (GoalStatus con in currentProgram.completedGoals) {
                 if(con.id.Equals(c.id) && con.vesselGuid.Equals(v.id.ToString())) {
                     return true;
@@ -97,6 +104,10 @@ namespace MissionController
         }
         
         public bool isMissionAlreadyFinished(Mission m, Vessel v) {
+            if (v == null) {
+                return false;
+            }
+
             foreach (MissionStatus s in currentProgram.completedMissions) {
                 if(s.missionName.Equals(m.name)) {
                     if(m.repeatable) {

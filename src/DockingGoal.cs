@@ -9,8 +9,12 @@ namespace MissionController
         protected override List<Value> values(Vessel vessel) {
             List<Value> values = new List<Value> ();
 
-            bool docked = (vessel.situation == Vessel.Situations.DOCKED);
-            values.Add(new Value("Docked", "true", "" + docked, docked));
+            if (vessel == null) {
+                values.Add (new Value ("Docked", "true"));
+            } else {
+                bool docked = (vessel.situation == Vessel.Situations.DOCKED);
+                values.Add (new Value ("Docked", "true", "" + docked, docked));
+            }
 
             return values;
         }

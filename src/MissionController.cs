@@ -3,6 +3,9 @@ using UnityEngine;
 using MissionController;
 using System.Collections.Generic;
 
+/// <summary>
+/// Draws the GUI and handles the user input and events (like launch)
+/// </summary>
 namespace MissionController
 {
     public class MissionController : MonoBehaviour
@@ -101,19 +104,23 @@ namespace MissionController
 
         private Vessel vessel {
             get {
-                return FlightGlobals.ActiveVessel;
+                if(HighLogic.LoadedSceneIsFlight) {
+                    return FlightGlobals.ActiveVessel;
+                } else {
+                    return null;
+                }
             }
         }
 
         public void OnGUI ()
         {
-            if (!HighLogic.LoadedSceneIsFlight) {
+            if (!HighLogic.LoadedSceneIsFlight && !HighLogic.LoadedSceneIsEditor) {
                 return;
             }
 
-            if (vessel == null) {
-                return;
-            }
+//            if (vessel == null) {
+//                return;
+//            }
             
             loadIcons ();
             loadStyles ();
@@ -182,7 +189,7 @@ namespace MissionController
             GUILayout.Label (manager.budget + CurrencySuffix, (manager.currentProgram.money < 0 ? styleValueRed : styleValueGreen));
             GUILayout.EndHorizontal ();
 
-            if (vessel.situation == Vessel.Situations.PRELAUNCH) {
+            if (HighLogic.LoadedSceneIsEditor || (vessel != null && vessel.situation == Vessel.Situations.PRELAUNCH)) {
                 showCostValue("Construction costs:", res.construction, styleValueGreen);
                 showCostValue("Liquid fuel costs:", res.liquid (), styleValueGreen);
                 showCostValue("Oxidizer costs:", res.oxidizer (), styleValueGreen);
@@ -271,11 +278,10 @@ namespace MissionController
             bool orderOk = true;
             foreach (MissionGoal c in mission.goals) {
                 if (hiddenGoals.Contains(c)) {
+                    index++;
                     continue;
                 }
 
-                List<Value> values = c.getValues (vessel);
-                
                 GUILayout.Label ((index++) + ". Mission goal: " + c.getType () + (c.optional ? " (optional)" : ""), styleCaption);
                 
                 if (c.description.Length != 0) {
@@ -289,27 +295,36 @@ namespace MissionController
                     GUILayout.Label (c.reward + CurrencySuffix, styleValueGreen);
                     GUILayout.EndHorizontal ();
                 }
-                
+
+
+                List<Value> values = c.getValues (vessel);
+
                 foreach (Value v in values) {
                     GUILayout.BeginHorizontal ();
                     GUILayout.Label (v.name, styleValueName);
-                    GUILayout.Label (v.shouldBe + " : " + v.currentlyIs, (v.done ? styleValueGreen : styleValueRed));
+                    if(v.currentlyIs.Length == 0) {
+                        GUILayout.Label(v.shouldBe, styleValueGreen);
+                    } else {
+                        GUILayout.Label (v.shouldBe + " : " + v.currentlyIs, (v.done ? styleValueGreen : styleValueRed));
+                    }
                     GUILayout.EndHorizontal ();
                 }
-                
-                if ((c.isDone (vessel) && orderOk) || c.optional) {
-                    if (c.nonPermanent && !hiddenGoals.Contains(c)) {
-                        if(FlightInputHandler.state.mainThrottle != 0.0 && c.throttleDown) { 
-                            GUILayout.Label("Throttle down in order to finish mission goal!", styleCaption);
-                        } else {
-                            manager.finishMissionGoal (c, vessel);
-                            if (GUILayout.Button ("Hide finished goal!")) {
-                                hiddenGoals.Add(c);
+                    
+                if(vessel != null) {
+                    if ((c.isDone (vessel) && orderOk) || c.optional) {
+                        if (c.nonPermanent && !hiddenGoals.Contains(c)) {
+                            if(FlightInputHandler.state.mainThrottle != 0.0 && c.throttleDown) { 
+                                GUILayout.Label("Throttle down in order to finish mission goal!", styleCaption);
+                            } else {
+                                manager.finishMissionGoal (c, vessel);
+                                if (GUILayout.Button ("Hide finished goal!")) {
+                                    hiddenGoals.Add(c);
+                                }
                             }
-                        }
-                    }                    
-                } else {
-                    orderOk = false;
+                        }                    
+                    } else {
+                        orderOk = false;
+                    }
                 }
             }
         }
@@ -328,7 +343,14 @@ namespace MissionController
             get {
                 VesselResources res = new VesselResources ();
                 try {
-                    foreach (Part p in vessel.Parts) {
+                    List<Part> parts;
+                    if(vessel == null) {
+                        parts = EditorLogic.SortedShipList;
+                    } else {
+                        parts = vessel.parts;
+                    }
+
+                    foreach (Part p in parts) {
                         res.construction += p.partInfo.cost;
 
                         if (p.Resources ["LiquidFuel"] != null) {

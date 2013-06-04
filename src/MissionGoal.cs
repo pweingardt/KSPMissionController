@@ -22,6 +22,10 @@ namespace MissionController
 
         public bool isDone (Vessel vessel)
         {
+            if (vessel == null) {
+                return false;
+            }
+
             if (nonPermanent && doneOnce) {
                 return true;
             }
@@ -50,8 +54,12 @@ namespace MissionController
             List<Value> vs = values (vessel);
 
             if (crewCount != 0) {
-                vs.Add (new Value ("Crew count", "" + crewCount, "" + vessel.GetCrewCount (),
+                if(vessel == null) {
+                    vs.Add (new Value ("Crew count", "" + crewCount));
+                } else {
+                    vs.Add (new Value ("Crew count", "" + crewCount, "" + vessel.GetCrewCount (),
                                    crewCount <= vessel.GetCrewCount ()));
+                }
             }
 
             bool done = true;
@@ -59,8 +67,10 @@ namespace MissionController
                 done = done && v.done;
             }
 
-            if (done && throttleDown && FlightInputHandler.state.mainThrottle != 0.0) {
-                vs.Add(new Value("Throttle down!", "true", "false", false));
+            if (vessel != null) {
+                if (done && throttleDown && FlightInputHandler.state.mainThrottle != 0.0) {
+                    vs.Add (new Value ("Throttle down!", "true", "false", false));
+                }
             }
 
             return vs;
@@ -89,6 +99,12 @@ namespace MissionController
 
         public Value(String name, double shouldBe, double currentlyIs, bool done) :
             this (name, String.Format(MathTools.SingleDoubleValue, shouldBe), String.Format(MathTools.SingleDoubleValue, currentlyIs), done) {
+        }
+
+        public Value(String name, String value) : this(name, value, "", false) {
+        }
+
+        public Value(String name, double value) : this(name, String.Format(MathTools.SingleDoubleValue, value), "", false) {
         }
 
         public String name;

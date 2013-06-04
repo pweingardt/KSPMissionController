@@ -15,21 +15,33 @@ namespace MissionController
         public double maxLongitude = 0.0;
 
         protected override List<Value> values(Vessel vessel) {
-            Orbit o = vessel.orbit;
+
             List<Value> values = new List<Value> ();
 
-            values.Add(new Value("Landing Body", body, o.referenceBody.bodyName, 
-                                                 o.referenceBody.bodyName.Equals(body) && (vessel.situation == Vessel.Situations.LANDED ||
-                                                 (splashedValid ? vessel.situation == Vessel.Situations.SPLASHED : false))));
+            if (vessel == null) {
+                values.Add (new Value ("Landing Body", body));
+            } else {
+                values.Add (new Value ("Landing Body", body, vessel.orbit.referenceBody.bodyName, 
+                                                 vessel.orbit.referenceBody.bodyName.Equals (body) && (vessel.situation == Vessel.Situations.LANDED ||
+                    (splashedValid ? vessel.situation == Vessel.Situations.SPLASHED : false))));
+            }
 
             if(minLatitude != maxLatitude) {
-                values.Add(new Value("Latitude", String.Format(MathTools.MinMaxValue, minLatitude, maxLatitude), 
+                if(vessel == null) {
+                    values.Add(new Value("Latitude", String.Format(MathTools.MinMaxValue, minLatitude, maxLatitude)));
+                } else {
+                    values.Add(new Value("Latitude", String.Format(MathTools.MinMaxValue, minLatitude, maxLatitude), 
                                      vessel.latitude, MathTools.inMinMax(minLatitude, maxLatitude, vessel.latitude)));
+                }
             }
 
             if(minLongitude != maxLongitude) {
-                values.Add(new Value("Longitude", String.Format(MathTools.MinMaxValue, minLongitude, maxLongitude), 
+                if(vessel == null) {
+                    values.Add(new Value("Longitude", String.Format(MathTools.MinMaxValue, minLongitude, maxLongitude)));
+                } else {
+                    values.Add(new Value("Longitude", String.Format(MathTools.MinMaxValue, minLongitude, maxLongitude), 
                                      vessel.longitude, MathTools.inMinMax(minLongitude, maxLongitude, vessel.longitude)));
+                }
             }
 
             return values;

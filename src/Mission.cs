@@ -24,6 +24,10 @@ namespace MissionController
         }
 
         public bool isDone(Vessel vessel) {
+            if (vessel == null) {
+                return false;
+            }
+
             foreach (MissionGoal c in goals) {
                 if (!c.isDone (vessel) && !c.optional) {
                     return false;
