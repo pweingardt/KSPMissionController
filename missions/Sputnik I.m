@@ -2,7 +2,7 @@ Mission
 {
     name = Sputnik I
     description = Bring a small satellite into a suborbital flight around Kerbin.
-    reward = 12000
+    reward = 22000
 
     OrbitGoal
     {

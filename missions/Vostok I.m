@@ -2,7 +2,7 @@ Mission
 {
     name = Vostok I
     description = Bring a manned probe into a suborbital flight around Kerbin and bring it back.
-    reward = 12000
+    reward = 32000
 
     OrbitGoal
     {

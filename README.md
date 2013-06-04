@@ -13,6 +13,11 @@ the currently selected mission.
 But be careful with your rockets! Once you launch the space craft on the launchpad, it will cost you Kerbin krones (the currency on Kerbin, ₭). Even if you restart the
 flight, the krones are *GONE*.
 
+### VESSELS COST KRONES???
+
+Yes, indeed. You pay for construction, fuel (solid fuel, liquid fuel, mono propellant and xenon),
+and other materials (= mass without fuel). But don't worry, the Kerbal Space Program will borrow you money, if you need it.
+
 ### How to accomplish a mission
 
 Open the mission window and select the mission you want to accomplish.

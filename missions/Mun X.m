@@ -2,12 +2,12 @@ Mission
 {
     name = Mun X
     description = Bring a manned space craft onto the surface of the Mun and bring him back.
-    reward = 30000
+    reward = 100000
 
     OrbitGoal
     {
         crewCount = 1
-        reward = 4000
+        reward = 10000
         body = Kerbin
         minPeA = 70000
         maxEccentricity = 1
@@ -16,7 +16,7 @@ Mission
     OrbitGoal
     {
         crewCount = 1
-        reward = 10000
+        reward = 15000
         body = Mun
         minPeA = 3000
         maxEccentriciy = 1
@@ -30,7 +30,7 @@ Mission
 
     OrbitGoal
     {
-        reward = 10000
+        reward = 15000
         crewCount = 1
         body = Mun
         minPeA = 3000

@@ -2,7 +2,7 @@ Mission
 {
     name = Sputnik II
     description = Bring a small satellite into a stable orbit around Kerbin.
-    reward = 14000
+    reward = 24000
 
     OrbitGoal
     {
