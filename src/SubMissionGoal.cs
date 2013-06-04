@@ -4,6 +4,9 @@ using System.Linq;
 
 namespace MissionController
 {
+    /// <summary>
+    /// A submission that consists of several mission goals
+    /// </summary>
     public class SubMissionGoal : MissionGoal
     {
         public List<MissionGoal> subGoals = new List<MissionGoal>();

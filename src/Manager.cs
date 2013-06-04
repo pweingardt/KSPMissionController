@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace MissionController
 {
+    /// <summary>
+    /// Manages the missions and the current space program (budget and so on)
+    /// </summary>
     public class Manager
     {
         private Parser parser;

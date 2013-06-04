@@ -5,6 +5,9 @@ using System.Globalization;
 
 namespace MissionController
 {
+    /// <summary>
+    /// A mission goal to reach a certain orbit
+    /// </summary>
     public class OrbitGoal : MissionGoal
     {
         public double eccentricity = 0.0;
@@ -32,9 +35,9 @@ namespace MissionController
 
             if (eccentricity != 0.0) {
                 if(vessel == null) {
-                    values.Add (new Value("Eccentricity", String.Format(MathTools.Range, eccentricity, eccentricityPrecision)));
+                    values.Add (new Value ("Eccentricity", String.Format(MathTools.Range, eccentricity, eccentricityPrecision)));
                 } else {
-                    values.Add (new Value("Eccentricity", String.Format(MathTools.Range, eccentricity, eccentricityPrecision), 
+                    values.Add (new Value ("Eccentricity", String.Format(MathTools.Range, eccentricity, eccentricityPrecision), 
                                           vessel.orbit.eccentricity, MathTools.inRange (eccentricity, eccentricityPrecision, vessel.orbit.eccentricity)));
                 }
             }
@@ -51,7 +54,7 @@ namespace MissionController
                 if (vessel == null) {
                     values.Add (new Value ("min. Periapsis", String.Format(MathTools.SingleDoubleValue, minPeA)));
                 } else {
-                    values.Add (new Value("min. Periapsis", String.Format(MathTools.SingleDoubleValue, minPeA), 
+                    values.Add (new Value ("min. Periapsis", String.Format(MathTools.SingleDoubleValue, minPeA), 
                                           vessel.orbit.PeA, vessel.orbit.PeA >= minPeA));
                 }
             }
@@ -60,7 +63,7 @@ namespace MissionController
                 if (vessel == null) {
                     values.Add (new Value ("min. Apoapsis", String.Format(MathTools.SingleDoubleValue, minApA)));
                 } else {
-                    values.Add (new Value("min. Apoapsis", String.Format(MathTools.SingleDoubleValue, minApA), 
+                    values.Add (new Value ("min. Apoapsis", String.Format(MathTools.SingleDoubleValue, minApA), 
                                           vessel.orbit.ApA, vessel.orbit.ApA >= minApA));
                 }
             }
@@ -108,14 +111,14 @@ namespace MissionController
                     if (vessel == null) {
                         values.Add (new Value ("Eccentricity", String.Format(MathTools.MinMaxValue, minEccentricity, maxEccentricity)));
                     } else {
-                        values.Add (new Value("Eccentricity", String.Format(MathTools.MinMaxValue, minEccentricity, maxEccentricity), 
+                        values.Add (new Value ("Eccentricity", String.Format(MathTools.MinMaxValue, minEccentricity, maxEccentricity), 
                                               vessel.orbit.eccentricity, MathTools.inMinMax(minEccentricity, maxEccentricity, vessel.orbit.eccentricity)));
                     }
                 } else {
                     if (vessel == null) {
                         values.Add (new Value ("min. Eccentricity", String.Format(MathTools.SingleDoubleValue, minEccentricity)));
                     } else {
-                        values.Add (new Value("min. Eccentricity", String.Format(MathTools.SingleDoubleValue, minEccentricity), 
+                        values.Add (new Value ("min. Eccentricity", String.Format(MathTools.SingleDoubleValue, minEccentricity), 
                                               vessel.orbit.eccentricity, minEccentricity < vessel.orbit.eccentricity));
                     }
                 }

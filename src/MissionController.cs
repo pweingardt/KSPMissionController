@@ -117,10 +117,6 @@ namespace MissionController
             if (!HighLogic.LoadedSceneIsFlight && !HighLogic.LoadedSceneIsEditor) {
                 return;
             }
-
-//            if (vessel == null) {
-//                return;
-//            }
             
             loadIcons ();
             loadStyles ();
@@ -153,7 +149,11 @@ namespace MissionController
                 list.fontSize = 10;
             }
         }
-        
+
+        /// <summary>
+        /// Draws the window, that asks the user if he really wants to mark the active vessel as test vessel.
+        /// </summary>
+        /// <param name="id">Identifier.</param>
         private void drawTestWindow (int id)
         {
             GUI.skin = HighLogic.Skin;
@@ -173,7 +173,11 @@ namespace MissionController
             GUILayout.EndVertical ();
             GUI.DragWindow ();
         }
-        
+
+        /// <summary>
+        /// Draws the main mission window.
+        /// </summary>
+        /// <param name="id">Identifier.</param>
         private void drawMainWindow (int id)
         {
             GUI.skin = HighLogic.Skin;
@@ -236,7 +240,11 @@ namespace MissionController
             GUILayout.EndVertical ();
             GUI.DragWindow ();
         }
-        
+
+        /// <summary>
+        /// Selects the mission in the file
+        /// </summary>
+        /// <param name="file">File.</param>
         private void selectMission (String file)
         {
             fileBrowser = null;
@@ -248,7 +256,10 @@ namespace MissionController
             currentMission = manager.loadMission (file, vessel);
             hiddenGoals = new List<MissionGoal> ();
         }
-        
+
+        /// <summary>
+        /// Draws the mission parameters
+        /// </summary>
         private void drawMission ()
         {
             GUILayout.Label ("Current Mission: ", styleCaption);
@@ -264,15 +275,19 @@ namespace MissionController
             if (manager.isMissionAlreadyFinished (currentMission, vessel)) {
                 GUILayout.Label ("Mission already finished!", styleCaption);
             } else {
-                drawMissionConditions (currentMission);
+                drawMissionGoals (currentMission);
 
                 if(currentMission.isDone(vessel)) {
                     GUILayout.Label("All goals accomplished. You can finish the mission now!", styleCaption);
                 }
             }
         }
-        
-        private void drawMissionConditions (Mission mission)
+
+        /// <summary>
+        /// Draws the mission goals
+        /// </summary>
+        /// <param name="mission">Mission.</param>
+        private void drawMissionGoals (Mission mission)
         {
             int index = 1;
             bool orderOk = true;
@@ -369,8 +384,8 @@ namespace MissionController
                             res.oxidizerFuel += p.Resources ["Oxidizer"].amount;
                         }
 
-                        if (p.Resources ["Xenon"] != null) {
-                            res.xenonFuel += p.Resources ["Xenon"].amount;
+                        if (p.Resources ["XenonGas"] != null) {
+                            res.xenonFuel += p.Resources ["XenonGas"].amount;
                         }
 
                         res.mass += p.mass;
@@ -405,7 +420,7 @@ namespace MissionController
             }
             
             public int solid() {
-                return (int)solidFuel * 7;
+                return (int)solidFuel * 5;
             }
             
             public int xenon() {
@@ -423,7 +438,6 @@ namespace MissionController
             public int sum() {
                 return (int)(construction + liquid () + solid () + mono () + xenon () + other () + oxidizer());
             }
-
         }
 
         private void showCostValue(String name, double value, GUIStyle style) {

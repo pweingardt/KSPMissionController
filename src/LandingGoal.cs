@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace MissionController
 {
+    /// <summary>
+    /// A landing goal an a certain celestial body. Latitude and longitude range are optional
+    /// </summary>
     public class LandingGoal : MissionGoal
     {
         public bool splashedValid = true;

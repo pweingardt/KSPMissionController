@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace MissionController
 {
+    /// <summary>
+    /// A single mission goal.
+    /// </summary>
     public abstract class MissionGoal
     {
         public String description = "";
@@ -20,6 +23,11 @@ namespace MissionController
 
         public Boolean throttleDown = true;
 
+        /// <summary>
+        /// Checks, if this mission goal has been accomplished.
+        /// </summary>
+        /// <returns><c>true</c>, if done was ised, <c>false</c> otherwise.</returns>
+        /// <param name="vessel">current vessel</param>
         public bool isDone (Vessel vessel)
         {
             if (vessel == null) {
@@ -50,6 +58,11 @@ namespace MissionController
             return true;
         }
 
+        /// <summary>
+        /// Returns all values related to this mission goal
+        /// </summary>
+        /// <returns>The values.</returns>
+        /// <param name="vessel">current vessel</param>
         public List<Value> getValues(Vessel vessel) {
             List<Value> vs = values (vessel);
 
@@ -76,15 +89,26 @@ namespace MissionController
             return vs;
         }
 
+        /// <summary>
+        /// Returns an array of necessary values, like orbital parameters.
+        /// </summary>
+        /// <param name="v">current vessel, might be null!</param>
         virtual protected List<Value> values(Vessel v) {
             return new List<Value> ();
         }
 
+        /// <summary>
+        /// Caption user in the window for this mission goal
+        /// </summary>
+        /// <returns>The type.</returns>
         virtual public String getType() {
             return "Mission goal";
         }
     }
 
+    /// <summary>
+    /// A single value for this mission goal.
+    /// </summary>
     public class Value {
         public Value(String name, String shouldBe, string currentlyIs, bool done) {
             this.currentlyIs = currentlyIs;

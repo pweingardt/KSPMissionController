@@ -5,6 +5,9 @@ using System.Collections;
 
 namespace MissionController
 {
+    /// <summary>
+    /// Parses a file into an object. Uses reflection.
+    /// </summary>
     public class Parser
     {
         private const String NamespacePrefix = "MissionController.";

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace MissionController
 {
+    /// <summary>
+    /// A docking goal. Does not work yet.
+    /// </summary>
     public class DockingGoal : MissionGoal
     {
 

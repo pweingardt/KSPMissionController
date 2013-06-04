@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace MissionController
 {
+    /// <summary>
+    /// A space program.
+    /// </summary>
 	public class SpaceProgram
 	{
 		public int money;

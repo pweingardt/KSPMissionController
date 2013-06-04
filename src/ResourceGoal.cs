@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace MissionController
 {
+    /// <summary>
+    /// A mission goal that requires a certain amount of a certain resource in order to finish the mission goal.
+    /// </summary>
     public class ResourceGoal : MissionGoal
     {
         public String name = "LiquidFuel";

@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace MissionController
 {
+    /// <summary>
+    /// A mission goal that requires a certain amount of a certain part in order to finish the mission.
+    /// </summary>
     public class PartGoal : MissionGoal
     {
         public String partName = "";
