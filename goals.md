@@ -1,9 +1,18 @@
-# Mission gaols
+## Mission
 
-A missions consists of one of multiple mission goals. The mission goals have to be finished in the
-right order in order to finish the mission.
+A mission consists of one or multiple mission goals. You have to finish most mission goals in the given order in order to
+finish the mission (this behaviour can vary). After you have finished the mission, you get the reward.
 
-There are currently several mission goals:
+Mission fields:
+
+* name: unique name for this mission. Used to identify the mission throughout the space program.
+* description: The description for this mission.
+* reward: The reward in krones for finishing this mission
+
+
+## Mission goals
+
+There are currently several mission goals, but they all have these fields in common:
 
 ### Common fields (available in *all* mission goals)
 
@@ -12,7 +21,8 @@ There are currently several mission goals:
 * crewCount: amount of kerbals needed to finish the mission goals (default: 0)
 * optional: makes the mission goal optional (default: false)
 * throttleDown: if true, the vessel needs to throttle down in order to finish the mission goal (default: true)
-
+* repeatable: if true, the mission is repeatable. Requires a different vessel. You can't finish the same repeatable mission
+    with the same vessel more than once.
 
 ### OrbitGoal
 
@@ -144,7 +154,7 @@ For the start we want to write a basic exploration mission for Pol, one of Jools
 3. That is all? No. You have to balance the numbers, especially the reward. Try to finish the
     mission: Build your vessel and write down the initial costs and once you accomplish the mission with
     the vessel you have built, you can adjust the rewards for your mission so that the
-    `total reward = 2.5 * initial costs`.
+    `total reward = 2.5 * initial costs` (this is just an estimate equation).
 4. Keep in mind that you shouldn't build a huge vessel just to finish a simple orbiting mission around
     Mun or something. Your vessel needs to be as small as possible.
 
