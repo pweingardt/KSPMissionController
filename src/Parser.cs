@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Collections;
+using System.Text.RegularExpressions;
 
 namespace MissionController
 {
@@ -10,6 +11,19 @@ namespace MissionController
     /// </summary>
     public class Parser
     {
+        /// <summary>
+        /// Regex for random numbers: RANDOM(floating point, floating point)
+        /// Works for double fields only!
+        /// </summary>
+        private Regex randRegex = new Regex ("^RANDOM\\(\\s*([-+]?[0-9]*\\.?[0-9]+),\\s*([-+]?[0-9]*\\.?[0-9]+)\\)$");
+
+        /// <summary>
+        /// Regex for ADD instruction: ADD(fieldName, floating point)
+        /// Works for double fields only!
+        /// </summary>
+        private Regex addRegex = new Regex ("^ADD\\(\\s*([a-zA-Z_]+),\\s*([-+]?[0-9]*\\.?[0-9]+)\\)$");
+
+        private Random r = new Random ();
         private const String NamespacePrefix = "MissionController.";
 
         public void writeObject(object obj, String path) {
@@ -112,6 +126,35 @@ namespace MissionController
 
             if (info == null) {
                 return;
+            }
+
+            // If the value starts with RANDOM(x, y)
+            // We have to generate a new number
+            if (value.StartsWith ("RANDOM") && info.FieldType.Equals(typeof(double))) {
+                Match m = randRegex.Match (value);
+                if (m.Success) {
+                    double f1 = float.Parse (m.Groups[1].Value);
+                    double f2 = float.Parse (m.Groups[2].Value);
+
+                    value = "" + (r.NextDouble () * (f2 - f1) + f1);
+                }
+            }
+
+            // If the value starts with ADD(fieldName, floating point)
+            // we have to get the requested value and add the second parameter
+            if (value.StartsWith ("ADD") && info.FieldType.Equals(typeof(double))) {
+                Match m = addRegex.Match (value);
+                if (m.Success) {
+                    String fname = m.Groups[1].Value;
+                    double f2 = double.Parse (m.Groups[2].Value);
+
+                    FieldInfo finfo = o.GetType ().GetField (fname);
+                    if (finfo == null || !finfo.FieldType.Equals(typeof(double))) {
+                        return;
+                    }
+
+                    value = "" + ((double)finfo.GetValue (o) + f2);
+                }
             }
 
             if (info.FieldType.Equals (typeof(String))) {

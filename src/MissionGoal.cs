@@ -21,7 +21,7 @@ namespace MissionController
 
         public int crewCount = 0;
 
-        public Boolean throttleDown = true;
+        public bool throttleDown = true;
 
         /// <summary>
         /// Checks, if this mission goal has been accomplished.

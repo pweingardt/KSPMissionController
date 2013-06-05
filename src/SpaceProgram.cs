@@ -14,13 +14,7 @@ namespace MissionController
 
         public List<GoalStatus> completedGoals = new List<GoalStatus> ();
 
-        public void launch(int costs) {
-            money -= costs;
-        }
-
-        public void reuse(int costs) {
-            money += costs;
-        }
+        public List<ReusedVessel> reusedVessels = new List<ReusedVessel> ();
 
         public void add(MissionStatus m) {
             completedMissions.Add (m);
@@ -30,16 +24,14 @@ namespace MissionController
             completedGoals.Add (m);
         }
 
+        public void add(ReusedVessel vessel) {
+            reusedVessels.Add (vessel);
+        }
+
         public static SpaceProgram generate() {
             SpaceProgram sp = new SpaceProgram ();
             sp.money = 50000;
             return sp;
-        }
-
-        public void prepareMission(Mission m) {
-            foreach (MissionGoal goal in m.goals) {
-
-            }
         }
 	}
 
@@ -69,6 +61,10 @@ namespace MissionController
         public String vesselGuid;
         public String missionName;
         public bool repeatable;
+    }
+
+    public class ReusedVessel {
+        public String guid;
     }
 }
 

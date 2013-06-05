@@ -21,9 +21,9 @@ namespace MissionController
         }
 
         
-        public const String Range = "{0:0.##} (±{1:0.##})";
-        public const String SingleDoubleValue = "{0:0.##}";
-        public const String MinMaxValue = "{0:0.##} - {1:0.##}";
+        public const String Range = "{0:0.###} (±{1:0.###})";
+        public const String SingleDoubleValue = "{0:0.###}";
+        public const String MinMaxValue = "{0:0.###} - {1:0.###}";
     }
 }
 

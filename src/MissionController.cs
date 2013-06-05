@@ -28,6 +28,7 @@ namespace MissionController
         private bool showMainWindow = false;
         private bool showTestVesselWindow = false;
         private FileBrowser fileBrowser = null;
+        private String selectedMissionFile = null;
         private Mission currentMission = null;
         private Vector2 scrollPosition = new Vector2 (0, 0);
         private GUIStyle styleCaption;
@@ -93,13 +94,14 @@ namespace MissionController
         }
 
         private void onVesselChange(Vessel v) {
-            currentMission = null;
+            if (selectedMissionFile != null) {
+                currentMission = manager.loadMission (selectedMissionFile, v);
+            }
         }
         
         private void onLaunch (EventReport r)
         {
-            manager.currentProgram.launch (resources.sum());
-            manager.saveProgram ();
+            manager.launch (resources.sum());
         }
 
         private Vessel vessel {
@@ -114,13 +116,15 @@ namespace MissionController
 
         public void OnGUI ()
         {
-            if (!HighLogic.LoadedSceneIsFlight && !HighLogic.LoadedSceneIsEditor) {
-                return;
-            }
-            
+//            if (!HighLogic.LoadedSceneIsFlight && !HighLogic.LoadedSceneIsEditor) {
+//                return;
+//            }
+
             loadIcons ();
             loadStyles ();
-            
+
+            GUI.skin = HighLogic.Skin;
+
             if (GUI.Button (new Rect (Screen.width / 6 - 34, Screen.height - 34, 32, 32), menuIcon, styleIcon)) {
                 toggleWindow ();
             }
@@ -181,8 +185,6 @@ namespace MissionController
         private void drawMainWindow (int id)
         {
             GUI.skin = HighLogic.Skin;
-            VesselResources res = resources;
-            
             GUILayout.BeginVertical ();
             
             scrollPosition = GUILayout.BeginScrollView (scrollPosition);
@@ -193,12 +195,16 @@ namespace MissionController
             GUILayout.Label (manager.budget + CurrencySuffix, (manager.currentProgram.money < 0 ? styleValueRed : styleValueGreen));
             GUILayout.EndHorizontal ();
 
+            // Show only when the loaded scene is an editor or a vessel is available and its situation is PRELAUNCH
             if (HighLogic.LoadedSceneIsEditor || (vessel != null && vessel.situation == Vessel.Situations.PRELAUNCH)) {
+                VesselResources res = resources;
                 showCostValue("Construction costs:", res.construction, styleValueGreen);
                 showCostValue("Liquid fuel costs:", res.liquid (), styleValueGreen);
                 showCostValue("Oxidizer costs:", res.oxidizer (), styleValueGreen);
-                showCostValue("Solid fuel costs:", res.solid(), styleValueGreen);
-                showCostValue("Other resource costs:", res.other(), styleValueGreen);
+                showCostValue("Monopropellant costs:", res.mono (), styleValueGreen);
+                showCostValue("Solid fuel costs:", res.solid (), styleValueGreen);
+                showCostValue("Xenon gas costs:", res.xenon (), styleValueGreen);
+                showCostValue("Other resource costs:", res.other (), styleValueGreen);
                 showCostValue("Sum:", res.sum(), (res.sum () > manager.budget ? styleValueRed : styleValueGreen));
             }
 
@@ -252,7 +258,8 @@ namespace MissionController
             if (file == null) {
                 return;
             }
-            
+
+            selectedMissionFile = file;
             currentMission = manager.loadMission (file, vessel);
             hiddenGoals = new List<MissionGoal> ();
         }
@@ -332,7 +339,7 @@ namespace MissionController
                                 GUILayout.Label("Throttle down in order to finish mission goal!", styleCaption);
                             } else {
                                 manager.finishMissionGoal (c, vessel);
-                                if (GUILayout.Button ("Hide finished goal!")) {
+                                if (GUILayout.Button ((c.optional && !c.isDone(vessel) ? "Hide optional goal" : "Hide finished goal!"))) {
                                     hiddenGoals.Add(c);
                                 }
                             }
@@ -416,7 +423,7 @@ namespace MissionController
             }
             
             public int mono() {
-                return (int)monoFuel * 25;
+                return (int)monoFuel * 15;
             }
             
             public int solid() {
@@ -424,7 +431,7 @@ namespace MissionController
             }
             
             public int xenon() {
-                return (int)xenonFuel * 50;
+                return (int)xenonFuel * 20;
             }
             
             public int other() {

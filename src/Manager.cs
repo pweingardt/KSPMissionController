@@ -22,6 +22,16 @@ namespace MissionController
             loadProgram ();
         }
 
+        public void launch(int costs) {
+            currentProgram.money -= costs;
+            saveProgram ();
+        }
+
+        public void reuse(int costs) {
+            currentProgram.money += costs;
+            saveProgram ();
+        }
+
         public void loadProgram() {
             if (spaceProgram != null) {
                 saveProgram ();
@@ -79,7 +89,7 @@ namespace MissionController
             }
         }
         
-        public Boolean isMissionGoalAlreadyFinished(MissionGoal c, Vessel v) {
+        public bool isMissionGoalAlreadyFinished(MissionGoal c, Vessel v) {
             if (v == null) {
                 return false;
             }

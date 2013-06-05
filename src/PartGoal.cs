@@ -11,6 +11,7 @@ namespace MissionController
     {
         public String partName = "";
         public int partCount = 1;
+        public int maxPartCount = -1;
 
         protected override List<Value> values(Vessel vessel) {
             List<Value> values = new List<Value> ();
@@ -23,12 +24,20 @@ namespace MissionController
                     }
                 }
             }
-
-            if (vessel == null) {
-                values.Add (new Value ("Part", partCount + "x " + partName));
+            if(maxPartCount == -1) {
+                if (vessel == null) {
+                    values.Add (new Value ("Part", partCount + "x " + partName));
+                } else {
+                    values.Add (new Value ("Part", partCount + "x " + partName, "" + count, count >= partCount));
+                }
             } else {
-                values.Add (new Value ("Part", partCount + "x " + partName, "" + count, count >= partCount));
+                if (vessel == null) {
+                    values.Add (new Value ("max part", maxPartCount + "x " + partName));
+                } else {
+                    values.Add (new Value ("max part", maxPartCount + "x " + partName, "" + count, count <= maxPartCount));
+                }
             }
+
 
             return values;
         }

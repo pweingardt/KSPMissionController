@@ -14,7 +14,7 @@ namespace MissionController
         public String name;
 
         /// <summary>
-        /// missions Description
+        /// Missions Description
         /// </summary>
         public String description;
 
@@ -24,7 +24,7 @@ namespace MissionController
         public int reward = 100;
 
         /// <summary>
-        /// If true, this mission is repeatable. Reaptable missions can be finished with one vessel only once.
+        /// If true, this mission is repeatable. You can't finish the same mission with one vessel twice.
         /// </summary>
         public bool repeatable = false;
 
