@@ -144,8 +144,7 @@ Here is the example `Mun X.m` mission file:
 ## Random fields
 
 Say you want to create a randomized mission, e.g. an orbiting mission around Mun. You can use the instructions `RANDOM` and `ADD`
-to define your mission. But keep in mind, that randomized missions are not persistant. Everytime you select another vessel or go back to
-the space center, the randomized mission is discarded. This behaviour will change in the future.
+to define your mission.
 
 Here is an example randomized mission:
 
@@ -165,7 +164,8 @@ Here is an example randomized mission:
         }
     }
 
-The required orbit has a maximal eccentricity of 0.01 and its apoapsis is somewhere between 100000m and 200000m.
+The required orbit has a maximal eccentricity of 0.01 and its minimal apoapsis is somewhere between 100000m and 200000m,
+and the maximal apoapsis is 20000m higher than the minimal apoapsis.
 
 
 
