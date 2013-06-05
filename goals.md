@@ -143,7 +143,7 @@ Here is the example `Mun X.m` mission file:
 
 ## Random fields
 
-Say you want to create a randomized mission, e.g. an orbiting mission around Mun. You can use the instructions `RANDOM` and `ADD`
+Say you want to create a randomized mission, e.g. an orbiting mission around Kerbin. You can use the instructions `RANDOM` and `ADD`
 to define your mission.
 
 Here is an example randomized mission:
