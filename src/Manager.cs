@@ -43,9 +43,35 @@ namespace MissionController
             }
         }
 
+        public void discardRandomMission(Mission m) {
+            if (m.randomized) {
+                RandomMission rm = currentProgram.findRandomMission (m);
+                currentProgram.randomMissions.Remove (rm);
+            }
+        }
+
         public Mission loadMission(String path, Vessel vessel) {
             int count = 1;
             Mission m = (Mission) parser.readFile (path);
+
+            // If the mission is randomized, we need to reload it again, if it has been already loaded
+            if (m.randomized) {
+                RandomMission rm = currentProgram.findRandomMission(m);
+
+                if (rm != null) {
+                    m = (Mission)parser.readFile (path, rm.seed);
+                } else {
+                    rm = new RandomMission ();
+                    rm.seed = parser.lastSeed;
+                    rm.missionName = m.name;
+
+                    // TODO: Do we need to save the current program after this operation?
+                    // currently: yes
+                    currentProgram.add (rm);
+                    saveProgram ();
+                }
+            }
+
             foreach(MissionGoal c in m.goals) {
                 c.id = m.name + "__PART" + (count++);
                 c.repeatable = m.repeatable;
@@ -54,6 +80,7 @@ namespace MissionController
             if (vessel != null) {
                 prepareMission (m, vessel);
             }
+
             return m;
         }
 

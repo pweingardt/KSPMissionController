@@ -16,6 +16,8 @@ namespace MissionController
 
         public List<ReusedVessel> reusedVessels = new List<ReusedVessel> ();
 
+        public List<RandomMission> randomMissions = new List<RandomMission> ();
+
         public void add(MissionStatus m) {
             completedMissions.Add (m);
         }
@@ -28,10 +30,24 @@ namespace MissionController
             reusedVessels.Add (vessel);
         }
 
+        public void add(RandomMission mission) {
+            randomMissions.Add (mission);
+        }
+
         public static SpaceProgram generate() {
             SpaceProgram sp = new SpaceProgram ();
             sp.money = 50000;
             return sp;
+        }
+
+        public RandomMission findRandomMission(Mission m) {
+            foreach (RandomMission rm in randomMissions) {
+                if(rm.missionName.Equals(m.name)) {
+                    // The random mission has been loaded already. so we need to reload it with the given seed
+                    return rm;
+                }
+            }
+            return null;
         }
 	}
 
@@ -61,6 +77,11 @@ namespace MissionController
         public String vesselGuid;
         public String missionName;
         public bool repeatable;
+    }
+
+    public class RandomMission {
+        public String missionName;
+        public int seed;
     }
 
     public class ReusedVessel {

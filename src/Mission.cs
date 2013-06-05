@@ -38,6 +38,12 @@ namespace MissionController
         /// </summary>
         private List<MissionGoal> mGoals = new List<MissionGoal>();
 
+        /// <summary>
+        /// If true, the mission will be initialized with a random seed and this seed is saved within the space program
+        /// object. Once loaded (until discarded), the mission will stay the same.
+        /// </summary>
+        public bool randomized = false;
+
         public List<MissionGoal> goals { get { return mGoals; } }
 
         public override string ToString ()

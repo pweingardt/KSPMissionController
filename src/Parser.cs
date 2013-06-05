@@ -23,7 +23,10 @@ namespace MissionController
         /// </summary>
         private Regex addRegex = new Regex ("^ADD\\(\\s*([a-zA-Z_]+),\\s*([-+]?[0-9]*\\.?[0-9]+)\\)$");
 
-        private Random r = new Random ();
+        public int lastSeed = 0;
+
+        private Random random;
+        private Random seedGenerator = new Random ();
         private const String NamespacePrefix = "MissionController.";
 
         public void writeObject(object obj, String path) {
@@ -70,8 +73,16 @@ namespace MissionController
             writer.WriteLine ("}");
         }
 
-        public object readFile(String path) {
+        public object readFile(String path, int seed = -1) {
             KSP.IO.TextReader reader = KSP.IO.TextReader.CreateForType<MissionController> (path);
+
+            if (seed == -1) {
+                seed = seedGenerator.Next ();
+            }
+
+            lastSeed = seed;
+            random = new Random (seed);
+
             try {
                 return readObject (reader);
             } catch (Exception e) {
@@ -136,7 +147,7 @@ namespace MissionController
                     double f1 = float.Parse (m.Groups[1].Value);
                     double f2 = float.Parse (m.Groups[2].Value);
 
-                    value = "" + (r.NextDouble () * (f2 - f1) + f1);
+                    value = "" + (random.NextDouble () * (f2 - f1) + f1);
                 }
             }
 

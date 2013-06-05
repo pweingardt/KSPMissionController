@@ -22,7 +22,7 @@ There are currently several mission goals, but they all have these fields in com
 * optional: makes the mission goal optional (default: false)
 * throttleDown: if true, the vessel needs to throttle down in order to finish the mission goal (default: true)
 * repeatable: if true, the mission is repeatable. Requires a different vessel. You can't finish the same repeatable mission
-    with the same vessel more than once.
+    with the same vessel more than once. (default: false)
 
 ### OrbitGoal
 
@@ -80,7 +80,7 @@ Fields:
 
 * partName: name of the part
 * partCount: minimal amount of the defined part (default: 1)
-
+* maxPartCount: maximal amount of the defined part (default: -1, ignored)
 
 ### SubMissionGoal
 
@@ -140,6 +140,33 @@ Here is the example `Mun X.m` mission file:
             body = Kerbin
         }
     }
+
+## Random fields
+
+Say you want to create a randomized mission, e.g. an orbiting mission around Mun. You can use the instructions `RANDOM` and `ADD`
+to define your mission. But keep in mind, that randomized missions are not persistant. Everytime you select another vessel or go back to
+the space center, the randomized mission is discarded. This behaviour will change in the future.
+
+Here is an example randomized mission:
+
+    Mission
+    {
+        name = Randomized Example
+        description = Bring a satellite into the defined orbit
+        reward = 80000
+
+        OrbitGoal
+        {
+            body = Kerbin
+            minApA = RANDOM(100000, 200000)
+            maxApA = ADD(minApA, 20000)
+
+            maxEccentricity = 0.01
+        }
+    }
+
+The required orbit has a maximal eccentricity of 0.01 and its apoapsis is somewhere between 100000m and 200000m.
+
 
 
 ## How to create your own mission

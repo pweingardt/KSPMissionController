@@ -4,6 +4,7 @@ Mission
     description = We signed a contract to bring a satellite into a semi synchronous orbit around Kerbin.
     repeatable = true
     reward = 85000
+    randomized = true
 
     OrbitGoal
     {

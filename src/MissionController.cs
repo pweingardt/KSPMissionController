@@ -14,7 +14,7 @@ namespace MissionController
         public static string pluginFolder = root + "GameData/MissionController/";
         public static string missionFolder = pluginFolder + "Plugins/PluginData/MissionController";
         private Texture2D menuIcon = null;
-    
+
         private Manager manager {
             get {
                 return Manager.instance;
@@ -91,6 +91,11 @@ namespace MissionController
         {
             GameEvents.onLaunch.Add (this.onLaunch);
             GameEvents.onVesselChange.Add (this.onVesselChange);
+            GameEvents.onCrewKilled.Add (this.onCrewKilled);
+        }
+
+        private void onCrewKilled(EventReport report) {
+            print ("You will pay for your crimes! Killing innocent kerbonauts...");
         }
 
         private void onVesselChange(Vessel v) {
@@ -242,7 +247,15 @@ namespace MissionController
 //            } else {
 //                GUILayout.Label ("THIS IS A TEST VESSEL!", styleCaption);
 //            }
-            
+
+            // If this is a randomized mission, we can discard the mission
+            if (currentMission != null && currentMission.randomized) {
+                if (GUILayout.Button ("Discard mission!")) {
+                    manager.discardRandomMission (currentMission);
+                    selectMission (selectedMissionFile);
+                }
+            }
+
             GUILayout.EndVertical ();
             GUI.DragWindow ();
         }
@@ -331,9 +344,13 @@ namespace MissionController
                     }
                     GUILayout.EndHorizontal ();
                 }
-                    
+
+                // Here is a possible bug: the mission goal can be finished in the wrong order:
+                // example: two mission goals
+                // "finish" the 2nd mission goal, you won't get the reward right away
+                // finish the 1st mission goal and the you will get the reward for the 2nd mission goal 
                 if(vessel != null) {
-                    if ((c.isDone (vessel) && orderOk) || c.optional) {
+                    if ((orderOk && c.isDone (vessel)) || c.optional) {
                         if (c.nonPermanent && !hiddenGoals.Contains(c)) {
                             if(FlightInputHandler.state.mainThrottle != 0.0 && c.throttleDown) { 
                                 GUILayout.Label("Throttle down in order to finish mission goal!", styleCaption);

@@ -4,6 +4,7 @@ Mission
     description = We signed a contract to bring a satellite into a very specific orbit.
     repeatable = true
     reward = 60000
+    randomized = true
 
     OrbitGoal
     {
