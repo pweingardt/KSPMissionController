@@ -14,7 +14,7 @@ namespace MissionController
 
         public List<GoalStatus> completedGoals = new List<GoalStatus> ();
 
-        public List<ReusedVessel> reusedVessels = new List<ReusedVessel> ();
+        public List<RecycledVessel> recycledVessels = new List<RecycledVessel> ();
 
         public List<RandomMission> randomMissions = new List<RandomMission> ();
 
@@ -26,8 +26,8 @@ namespace MissionController
             completedGoals.Add (m);
         }
 
-        public void add(ReusedVessel vessel) {
-            reusedVessels.Add (vessel);
+        public void add(RecycledVessel vessel) {
+            recycledVessels.Add (vessel);
         }
 
         public void add(RandomMission mission) {
@@ -84,7 +84,7 @@ namespace MissionController
         public int seed;
     }
 
-    public class ReusedVessel {
+    public class RecycledVessel {
         public String guid;
     }
 }

@@ -27,9 +27,14 @@ namespace MissionController
             saveProgram ();
         }
 
-        public void reuse(int costs) {
-            currentProgram.money += costs;
-            saveProgram ();
+        public void recycleVessel(Vessel vessel, int costs) {
+            if (!isRecycledVessel (vessel)) {
+                currentProgram.money += costs;
+                RecycledVessel rv = new RecycledVessel ();
+                rv.guid = vessel.id.ToString ();
+                currentProgram.add (rv);
+                saveProgram ();
+            }
         }
 
         public void loadProgram() {
@@ -108,8 +113,9 @@ namespace MissionController
         }
 
         public void finishMissionGoal(MissionGoal goal, Vessel vessel) {
-            if (!isMissionGoalAlreadyFinished (goal, vessel) && goal.nonPermanent && goal.isDone(vessel)) {
-                currentProgram.completedGoals.Add(new GoalStatus(vessel.id.ToString(), goal.id));
+            if (!isMissionGoalAlreadyFinished (goal, vessel) && goal.nonPermanent && goal.isDone(vessel) &&
+                    !isRecycledVessel(vessel)) {
+                currentProgram.add(new GoalStatus(vessel.id.ToString(), goal.id));
                 currentProgram.money += goal.reward;
 
                 saveProgram();
@@ -130,8 +136,8 @@ namespace MissionController
         }
         
         public void finishMission(Mission m, Vessel vessel) {
-            if (!isMissionAlreadyFinished (m, vessel)) {
-                currentProgram.completedMissions.Add(new MissionStatus(m.name, vessel.id.ToString()));
+            if (!isMissionAlreadyFinished (m, vessel) && !isRecycledVessel(vessel) && m.isDone(vessel)) {
+                currentProgram.add(new MissionStatus(m.name, vessel.id.ToString()));
                 currentProgram.money += m.reward;
                 
                 // finish unfinished goals
@@ -164,6 +170,19 @@ namespace MissionController
 
         public int budget {
             get { return currentProgram.money; }
+        }
+
+        public bool isRecycledVessel(Vessel vessel) {
+            if (vessel == null) {
+                return false;
+            }
+
+            foreach (RecycledVessel rv in currentProgram.recycledVessels) {
+                if (rv.guid.Equals (vessel.id.ToString())) {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

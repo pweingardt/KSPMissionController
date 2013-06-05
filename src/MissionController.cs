@@ -23,7 +23,7 @@ namespace MissionController
 
         private List<MissionGoal> hiddenGoals = new List<MissionGoal> ();
     
-        private Rect mainWindowPosition = new Rect (300, 70, 300, 500);
+        private Rect mainWindowPosition = new Rect (300, 70, 400, 700);
         private Rect testWindowPosition = new Rect (Screen.width / 2 - 150, Screen.height / 2 - 100, 300, 150);
         private bool showMainWindow = false;
         private bool showTestVesselWindow = false;
@@ -38,9 +38,9 @@ namespace MissionController
         private GUIStyle styleButton;
         private GUIStyle styleValueName;
         private GUIStyle styleIcon;
+        private GUIStyle styleWarning;
 
-        private void loadIcons ()
-        {
+        private void loadIcons () {
             if (menuIcon == null) {
                 menuIcon = new Texture2D (30, 30, TextureFormat.ARGB32, false);
                 menuIcon.LoadImage (KSP.IO.File.ReadAllBytes<MissionController> ("icon.png"));
@@ -80,21 +80,32 @@ namespace MissionController
             styleValueName.alignment = TextAnchor.MiddleLeft;
 
             styleIcon = new GUIStyle ();
+
+            styleWarning = new GUIStyle (GUI.skin.label);
+            styleWarning.normal.textColor = Color.red;
+            styleWarning.fontStyle = FontStyle.Normal;
+            styleWarning.alignment = TextAnchor.MiddleLeft;
         }
 
-        public void toggleWindow ()
-        {
+        public void toggleWindow () {
             showMainWindow = !showMainWindow;
         }
 
-        public void Awake ()
-        {
+        public void Awake () {
             GameEvents.onLaunch.Add (this.onLaunch);
             GameEvents.onVesselChange.Add (this.onVesselChange);
             GameEvents.onCrewKilled.Add (this.onCrewKilled);
         }
 
+        private void Reset(GameScenes gameScenes) {
+            GameEvents.onLaunch.Remove (this.onLaunch);
+            GameEvents.onVesselChange.Remove (this.onVesselChange);
+            GameEvents.onCrewKilled.Remove (this.onCrewKilled);
+        }
+
         private void onCrewKilled(EventReport report) {
+            // TODO: PUNISHING THE PLAYER FOR KILLING KERBONAUTS
+            // Srsly: Manned missions should be more dangerous
             print ("You will pay for your crimes! Killing innocent kerbonauts...");
         }
 
@@ -104,8 +115,7 @@ namespace MissionController
             }
         }
         
-        private void onLaunch (EventReport r)
-        {
+        private void onLaunch (EventReport r) {
             manager.launch (resources.sum());
         }
 
@@ -119,11 +129,11 @@ namespace MissionController
             }
         }
 
-        public void OnGUI ()
-        {
-//            if (!HighLogic.LoadedSceneIsFlight && !HighLogic.LoadedSceneIsEditor) {
-//                return;
-//            }
+        public void OnGUI () {
+            if (!HighLogic.LoadedSceneIsFlight && !HighLogic.LoadedSceneIsEditor
+                    && !HighLogic.LoadedScene.Equals(GameScenes.SPACECENTER)) {
+                return;
+            }
 
             loadIcons ();
             loadStyles ();
@@ -163,8 +173,7 @@ namespace MissionController
         /// Draws the window, that asks the user if he really wants to mark the active vessel as test vessel.
         /// </summary>
         /// <param name="id">Identifier.</param>
-        private void drawTestWindow (int id)
-        {
+        private void drawTestWindow (int id) {
             GUI.skin = HighLogic.Skin;
             
             GUILayout.BeginVertical ();
@@ -187,8 +196,7 @@ namespace MissionController
         /// Draws the main mission window.
         /// </summary>
         /// <param name="id">Identifier.</param>
-        private void drawMainWindow (int id)
-        {
+        private void drawMainWindow (int id) {
             GUI.skin = HighLogic.Skin;
             GUILayout.BeginVertical ();
             
@@ -223,7 +231,10 @@ namespace MissionController
             if (GUILayout.Button ("Select Mission")) {
                 createFileBrowser ("Select mission", selectMission);
             }
-            
+
+            /// THIS IS OLD CODE. DO NOT UNCOMMENT!!!! AND DO NOT DELETE IT!
+            /// THIS IS OLD CODE. DO NOT UNCOMMENT!!!! AND DO NOT DELETE IT!
+
 //            if (vessel.situation == Vessel.Situations.LANDED && vessel.orbit.referenceBody.bodyName.Equals ("Kerbin") &&
 //                !reusedVessel) {
 //                if(GUILayout.Button("Reuse this spacecraft!")) {
@@ -238,6 +249,7 @@ namespace MissionController
 ////                        showTestVesselWindow = true;
 ////                    }
 //                }
+
             if (currentMission != null && currentMission.isDone (vessel) && 
                 !manager.isMissionAlreadyFinished (currentMission, vessel)) {
                 if (GUILayout.Button ("Finish the mission!")) {
@@ -256,6 +268,17 @@ namespace MissionController
                 }
             }
 
+            if (vessel != null && vessel.Landed && !manager.isRecycledVessel (vessel) && vessel.situation != Vessel.Situations.PRELAUNCH &&
+                    !vessel.isEVA) {
+                if (GUILayout.Button ("Recycle this vessel!")) {
+                    manager.recycleVessel (vessel, (int)(resources.reusable()));
+                }
+            }
+
+            if (manager.isRecycledVessel (vessel)) {
+                GUILayout.Label ("This is a recycled vessel. You can't finish any missions with this vessel!", styleWarning);
+            }
+
             GUILayout.EndVertical ();
             GUI.DragWindow ();
         }
@@ -264,8 +287,7 @@ namespace MissionController
         /// Selects the mission in the file
         /// </summary>
         /// <param name="file">File.</param>
-        private void selectMission (String file)
-        {
+        private void selectMission (String file) {
             fileBrowser = null;
             
             if (file == null) {
@@ -280,8 +302,7 @@ namespace MissionController
         /// <summary>
         /// Draws the mission parameters
         /// </summary>
-        private void drawMission ()
-        {
+        private void drawMission () {
             GUILayout.Label ("Current Mission: ", styleCaption);
             GUILayout.Label (currentMission.name, styleText);
             GUILayout.Label ("Description: ", styleCaption);
@@ -307,8 +328,7 @@ namespace MissionController
         /// Draws the mission goals
         /// </summary>
         /// <param name="mission">Mission.</param>
-        private void drawMissionGoals (Mission mission)
-        {
+        private void drawMissionGoals (Mission mission) {
             int index = 1;
             bool orderOk = true;
             foreach (MissionGoal c in mission.goals) {
@@ -331,7 +351,6 @@ namespace MissionController
                     GUILayout.EndHorizontal ();
                 }
 
-
                 List<Value> values = c.getValues (vessel);
 
                 foreach (Value v in values) {
@@ -348,20 +367,22 @@ namespace MissionController
                 // Here is a possible bug: the mission goal can be finished in the wrong order:
                 // example: two mission goals
                 // "finish" the 2nd mission goal, you won't get the reward right away
-                // finish the 1st mission goal and the you will get the reward for the 2nd mission goal 
-                if(vessel != null) {
-                    if ((orderOk && c.isDone (vessel)) || c.optional) {
-                        if (c.nonPermanent && !hiddenGoals.Contains(c)) {
-                            if(FlightInputHandler.state.mainThrottle != 0.0 && c.throttleDown) { 
-                                GUILayout.Label("Throttle down in order to finish mission goal!", styleCaption);
-                            } else {
-                                manager.finishMissionGoal (c, vessel);
-                                if (GUILayout.Button ((c.optional && !c.isDone(vessel) ? "Hide optional goal" : "Hide finished goal!"))) {
-                                    hiddenGoals.Add(c);
-                                }
+                // finish the 1st mission goal and the you will get the reward for the 2nd mission goal, because you finished it previously
+                // Probably fixed...
+                if (vessel != null) {
+                    if (orderOk && c.isDone (vessel)) {
+                        if (c.nonPermanent) {
+                            manager.finishMissionGoal (c, vessel);
+                            if (GUILayout.Button ("Hide finished goal")) {
+                                hiddenGoals.Add (c);
                             }
-                        }                    
+                        }
                     } else {
+                        if (c.optional) {
+                            if (GUILayout.Button ("Hide optional goal")) {
+                                hiddenGoals.Add (c);
+                            }
+                        }
                         orderOk = false;
                     }
                 }
@@ -369,8 +390,7 @@ namespace MissionController
         }
         
         // Create the file browser
-        private void createFileBrowser (string title, FileBrowser.FinishedCallback callback)
-        {
+        private void createFileBrowser (string title, FileBrowser.FinishedCallback callback) {
             fileBrowser = new FileBrowser (new Rect (Screen.width / 2, 100, 350, 500), title, callback, true);
             fileBrowser.BrowserType = FileBrowserType.File;
             fileBrowser.CurrentDirectory = missionFolder;
@@ -420,6 +440,9 @@ namespace MissionController
             }
         }
 
+        /// <summary>
+        /// I don't think that this method is called at all...
+        /// </summary>
         public void OnDestroy() {
             manager.saveProgram ();
         }
@@ -461,6 +484,10 @@ namespace MissionController
 
             public int sum() {
                 return (int)(construction + liquid () + solid () + mono () + xenon () + other () + oxidizer());
+            }
+
+            public int reusable() {
+                return (int)(0.75 * (construction + other ()) + 0.95 * (liquid () + solid () + mono () + xenon () +  + oxidizer()));
             }
         }
 
