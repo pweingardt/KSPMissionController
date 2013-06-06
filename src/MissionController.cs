@@ -295,8 +295,10 @@ namespace MissionController
 
             if (vessel != null && vessel.Landed && !manager.isRecycledVessel (vessel) && vessel.situation != Vessel.Situations.PRELAUNCH &&
                     !vessel.isEVA) {
+                VesselResources res = resources;
+                showCostValue("Recyclable value: ", res.recyclable(), styleCaption);
                 if (GUILayout.Button ("Recycle this vessel!")) {
-                    manager.recycleVessel (vessel, (int)(resources.reusable()));
+                    manager.recycleVessel (vessel, (int)(res.recyclable()));
                 }
             } else {
                 if (manager.isRecycledVessel (vessel)) {
@@ -511,7 +513,7 @@ namespace MissionController
                 return (int)(construction + liquid () + solid () + mono () + xenon () + other () + oxidizer());
             }
 
-            public int reusable() {
+            public int recyclable() {
                 return (int)(0.75 * (construction + other ()) + 0.95 * (liquid () + solid () + mono () + xenon () +  + oxidizer()));
             }
         }
@@ -531,7 +533,7 @@ namespace MissionController
         private void showStringValue(String name, String value, GUIStyle style) {
             GUILayout.BeginHorizontal ();
             GUILayout.Label (name, styleValueName);
-            GUILayout.Label (value, styleValueGreen);
+            GUILayout.Label (value, style);
             GUILayout.EndHorizontal ();
         }
 
