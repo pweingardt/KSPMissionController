@@ -1,6 +1,6 @@
 Mission
 {
-    name = ComSat Contract I
+    name = ComSat Contract IV
     description = We signed a contract to bring a satellite into a nearly perfect synchronous, equatorial orbit around Kerbin. Their orbit is really odd...
     repeatable = true
     reward = 200000
