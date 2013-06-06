@@ -11,24 +11,28 @@ namespace MissionController
         private void calculateStatus() {
             status = new Status ();
 
-            if (currentMission == null) {
-                return;
+            // Fill the mission status fields
+            if (currentMission != null) {
+
+                status.requiresAnotherMission = (currentMission.requiresMission.Length != 0 
+                                                 && !manager.isMissionAlreadyFinished (currentMission.requiresMission));
+
+                status.missionAlreadyFinished = manager.isMissionAlreadyFinished (currentMission, vessel);
             }
 
-            status.requiresAnotherMission = (currentMission.requiresMission.Length != 0 
-                                             && !manager.isMissionAlreadyFinished (currentMission.requiresMission));
-
-            status.missionAlreadyFinished = manager.isMissionAlreadyFinished (currentMission, vessel);
-
-            if (vessel == null) {
-                return;
+            // Fill the vessel fields, that are not dependant on the current mission
+            if (vessel != null) {
+                status.onLaunchPad = (vessel.situation == Vessel.Situations.PRELAUNCH);
+                status.recycledVessel = manager.isRecycledVessel (vessel);
+                status.recyclable = (vessel.Landed && !status.recycledVessel && !status.onLaunchPad && !vessel.isEVA);
+                status.vesselCanFinishMissions = !status.recycledVessel;
             }
 
-            status.onLaunchPad = (vessel.situation == Vessel.Situations.PRELAUNCH);
+            // for all other fields we need both: a mission and a vessel
 
-            status.recycledVessel = manager.isRecycledVessel (vessel);
-            status.recyclable = (vessel.Landed && !status.recycledVessel && !status.onLaunchPad && !vessel.isEVA);
-            status.vesselCanFinishMissions = !status.recycledVessel;
+            if (vessel == null || currentMission == null) {
+                return;
+            }
 
             status.canFinishMission = status.vesselCanFinishMissions && !status.requiresAnotherMission && !settings.DisablePlugin;
 

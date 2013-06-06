@@ -3,11 +3,8 @@ using System.Collections.Generic;
 
 namespace MissionController
 {
-    // TODO: Fix this behaviour
-
     /// <summary>
-    /// An EVA goal. Does not work properly for now. 
-    /// On vessel change the mission will be reloaded and the progress is lost for the new vessel, the kerbonaut.
+    /// An EVA goal.
     /// </summary>
     public class EVAGoal : MissionGoal
     {

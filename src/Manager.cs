@@ -53,7 +53,9 @@ namespace MissionController
         public void discardRandomMission(Mission m) {
             if (m.randomized) {
                 RandomMission rm = currentProgram.findRandomMission (m);
-                currentProgram.randomMissions.Remove (rm);
+                if(rm != null) {
+                    currentProgram.randomMissions.Remove (rm);
+                }
             }
         }
 
@@ -130,7 +132,8 @@ namespace MissionController
             }
 
             foreach (GoalStatus con in currentProgram.completedGoals) {
-                if(con.id.Equals(c.id) && con.vesselGuid.Equals(v.id.ToString())) {
+                // If the mission goal is an EVAGoal, we don't care about the vessel id. Otherwise we do...
+                if(con.id.Equals(c.id) && (con.vesselGuid.Equals (v.id.ToString()) || c is EVAGoal)) {
                     return true;
                 }
             }

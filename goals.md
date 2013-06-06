@@ -11,10 +11,13 @@ Mission fields:
 * reward: The reward in krones for finishing this mission
 * requiresMission: name of another mission, that needs to be finished in order to finish this mission
     (default: "", ignored)
-
+* repeatable: if true, the mission is repeatable. Requires a different vessel. You can't finish the
+    same repeatable mission with the same vessel more than once.
 
 ## Mission goals
 
+Every vessel has its own mission: You can't finish the 1st mission goal with vessel A
+and then continue to finish the 2nd mission goal with vessel B.
 There are currently several mission goals, but they all have these fields in common:
 
 ### Common fields (available in *all* mission goals)
@@ -24,10 +27,10 @@ There are currently several mission goals, but they all have these fields in com
 * crewCount: amount of kerbals needed to finish the mission goals (default: 0)
 * optional: makes the mission goal optional (default: false)
 * throttleDown: if true, the vessel needs to throttle down in order to finish the mission goal (default: true)
-* repeatable: if true, the mission is repeatable. Requires a different vessel. You can't finish the same repeatable mission
-    with the same vessel more than once. (default: false)
+* repeatable: if true, the mission goal is repeatable. Requires a different vessel. You can't finish the same repeatable mission
+    with the same vessel more than once. (default: false) (do not use this field unless you have to and you know what you are doing)
 * minSeconds: the minimal seconds the vessel needs to meet all requirements for this mission goal to be able to
-    finish this mission goal. (default: -1, ignored) Use TIME() instruction to set for high values (see below).
+    finish this mission goal. (default: -1, ignored) Use TIME() instruction to set high values (see below).
 
 ### OrbitGoal
 

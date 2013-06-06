@@ -143,7 +143,9 @@ namespace MissionController
         }
 
         private void onVesselChange(Vessel v) {
-            if (selectedMissionFile != null) {
+            // If we have a current mission selected, we need to reload it again!
+            // If the new vessel is on EVA, we don't reload the mission. No need to.
+            if (currentMission != null && !v.isEVA) {
                 currentMission = manager.loadMission (selectedMissionFile, v);
             }
         }
