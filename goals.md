@@ -84,7 +84,8 @@ Fields:
 
 ### SubMissionGoal
 
-Contains multiple mission goals and combines them into one mission goal.
+Contains multiple mission goals and combines them into one mission goal. Keep in mind that *all* mission goals
+have to be finished at the same time. Use with caution.
 
 Do not laugh about the name... I will change it in the future. SubMission like in suborbital...
 
@@ -144,7 +145,8 @@ Here is the example `Mun X.m` mission file:
 ## Random fields
 
 Say you want to create a randomized mission, e.g. an orbiting mission around Kerbin. You can use the instructions `RANDOM` and `ADD`
-to define your mission.
+to define your mission. Don't forget to add the `randomized = true` field, so that the users can discard the random mission and generate
+another one. The mission will be generated everytime it loads otherwise.
 
 Here is an example randomized mission:
 
@@ -153,6 +155,7 @@ Here is an example randomized mission:
         name = Randomized Example
         description = Bring a satellite into the defined orbit
         reward = 80000
+        randomized = true
 
         OrbitGoal
         {
