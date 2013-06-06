@@ -16,7 +16,7 @@ Mission
 
         maxInc = 0.02
 
-        minOrbitalPeriod = TIME(5s 59m 55s)
+        minOrbitalPeriod = TIME(5h 59m 55s)
         maxOrbitalPeriod = TIME(6h 5s)
     }
 }

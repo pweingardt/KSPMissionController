@@ -23,6 +23,8 @@ There are currently several mission goals, but they all have these fields in com
 * throttleDown: if true, the vessel needs to throttle down in order to finish the mission goal (default: true)
 * repeatable: if true, the mission is repeatable. Requires a different vessel. You can't finish the same repeatable mission
     with the same vessel more than once. (default: false)
+* minSeconds: the minimal seconds the vessel needs to meet all requirements for this mission goal to be able to
+    finish this mission goal. (default: -1, ignored) Use TIME() instruction to set for high values (see below).
 
 ### OrbitGoal
 
@@ -150,7 +152,7 @@ There are currently three instructions for double fields:
 
 * RANDOM(MINMAL, MAXIMAL) generates a random double value
 * ADD(fieldName, VALUE) calculates ADD(fieldName, VALUE)
-* TIME(aay bbd cch eem ffs) converts the time into seconds. All fields are optional.
+* TIME(aay bbd cch eem ffs) converts the time into seconds. All fields are optional. y = years, d = days, and so on.
 
 Keep in mind that those are *instructions*. You can't combine them like `RANDOM(ADD(fieldValue, 5) ...`. This requires a
 parser and it is not worth it.

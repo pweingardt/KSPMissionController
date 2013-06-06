@@ -7,7 +7,6 @@ Mission
     OrbitGoal
     {
         description = Achieve a suborbital flight around Kerbin.
-        id = Vostok I P1
         reward = 6000
 
         body = Kerbin
@@ -18,7 +17,6 @@ Mission
     LandingGoal
     {
        description = Land safely back on Kerbin
-       id = Vostok I P2
        reward = 6000
 
        body = Kerbin
