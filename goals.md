@@ -45,6 +45,8 @@ Fields:
 * maxLan: maximal longitude of ascending node (default: 0, ignored)
 * minInclination: minimal inclination (default: 0, ignored)
 * maxInclination: maximal inclination (default: 0, ignored)
+* minOrbitalPeriod: minimal orbital period in seconds (use TIME instruction, default: 0, ignored)
+* maxOrbitalPeriod: maximal orbital period in seconds (use TIME instruction, default: 0, ignored)
 
 
 ### LandingGoal
@@ -142,6 +144,18 @@ Here is the example `Mun X.m` mission file:
         }
     }
 
+## Mission file instructions
+
+There are currently three instructions for double fields:
+
+* RANDOM(MINMAL, MAXIMAL) generates a random double value
+* ADD(fieldName, VALUE) calculates ADD(fieldName, VALUE)
+* TIME(aay bbd cch eem ffs) converts the time into seconds. All fields are optional.
+
+Keep in mind that those are *instructions*. You can't combine them like `RANDOM(ADD(fieldValue, 5) ...`. This requires a
+parser and it is not worth it.
+
+
 ## Random fields
 
 Say you want to create a randomized mission, e.g. an orbiting mission around Kerbin. You can use the instructions `RANDOM` and `ADD`
@@ -169,7 +183,6 @@ Here is an example randomized mission:
 
 The required orbit has a maximal eccentricity of 0.01 and its minimal apoapsis is somewhere between 100000m and 200000m,
 and the maximal apoapsis is 20000m higher than the minimal apoapsis.
-
 
 
 ## How to create your own mission

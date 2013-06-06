@@ -15,5 +15,8 @@ Mission
         maxEccentricity = 0.0001
 
         maxInc = 0.02
+
+        minOrbitalPeriod = TIME(5s 59m 55s)
+        maxOrbitalPeriod = TIME(6h 5s)
     }
 }

@@ -8,25 +8,63 @@ namespace MissionController
     /// </summary>
     public abstract class MissionGoal
     {
+        /// <summary>
+        /// The mission goals description
+        /// </summary>
         public String description = "";
+
+        /// <summary>
+        /// Used to store finished mission goals. Do not set manually!
+        /// </summary>
         public String id = "";
+
+        /// <summary>
+        /// nonPermanent = false makes the mission goal a permanent condition to finish the mission goal.
+        /// Use with caution.
+        /// </summary>
         public bool nonPermanent = true;
+
+        /// <summary>
+        /// Indicates that the mission goals has been finished once. Don't set this inside a mission file.
+        /// </summary>
         public bool doneOnce = false;
 
+        /// <summary>
+        /// If repeatable = true, this mission goals can be accomplished more than once.
+        /// </summary>
         public bool repeatable = false;
 
+        /// <summary>
+        /// optional = true makes this mission goal optional
+        /// </summary>
         public bool optional = false;
 
+        /// <summary>
+        /// Optional reward for this specific mission goal
+        /// </summary>
         public int reward = 0;
 
+        /// <summary>
+        /// The minimal crew count needed for this mission goal
+        /// </summary>
         public int crewCount = 0;
 
+        /// <summary>
+        /// If true, the vessel needs to be throttled down in order to finish this mission goal
+        /// </summary>
         public bool throttleDown = true;
+
+        /// <summary>
+        /// Minimal time for this mission goal in seconds.
+        /// </summary>
+        public double minSeconds = 0.0;
+
+        private double timeStarted = -1.0;
 
         /// <summary>
         /// Checks, if this mission goal has been accomplished.
         /// </summary>
-        /// <returns><c>true</c>, if done was ised, <c>false</c> otherwise.</returns>
+        /// <returns><c>true</c>, if mission goal is done, <c>false</c> otherwise.</returns>
         /// <param name="vessel">current vessel</param>
         public bool isDone (Vessel vessel)
         {
@@ -80,9 +118,29 @@ namespace MissionController
                 done = done && v.done;
             }
 
+            // If the mission goal is finished so far and we need to throttle down in order
+            // to finish the mission goal, add another value if not throttled down
             if (vessel != null) {
                 if (done && throttleDown && FlightInputHandler.state.mainThrottle != 0.0) {
                     vs.Add (new Value ("Throttle down!", "true", "false", false));
+                    done = false;
+                }
+            }
+
+            if (done && timeStarted == -1.0 && minSeconds > 0.0) {
+                timeStarted = Planetarium.GetUniversalTime ();
+            }
+
+            if (minSeconds > 0.0 && !done) {
+                timeStarted = -1.0;
+            }
+
+            if (minSeconds > 0.0) {
+                if (vessel != null) {
+                    double diff = (timeStarted == -1.0 ? 0 : Planetarium.GetUniversalTime () - timeStarted);
+                    vs.Add (new Value("Minimal time", MathTools.formatTime(minSeconds), MathTools.formatTime(diff), diff > minSeconds));
+                } else {
+                    vs.Add (new Value("Minimal time", MathTools.formatTime(minSeconds)));
                 }
             }
 
@@ -92,13 +150,13 @@ namespace MissionController
         /// <summary>
         /// Returns an array of necessary values, like orbital parameters.
         /// </summary>
-        /// <param name="v">current vessel, might be null!</param>
+        /// <param name="v">current vessel, might be null when in editor mode or in space center mode!</param>
         virtual protected List<Value> values(Vessel v) {
             return new List<Value> ();
         }
 
         /// <summary>
-        /// Caption user in the window for this mission goal
+        /// Caption in the window for this mission goal
         /// </summary>
         /// <returns>The type.</returns>
         virtual public String getType() {

@@ -28,6 +28,9 @@ namespace MissionController
         public double minLan = 0.0;
         public double maxLan = 0.0;
 
+        public double minOrbitalPeriod = 0.0;
+        public double maxOrbitalPeriod = 0.0;
+
         public String body = "Kerbin";
 
         protected override List<Value> values(Vessel vessel) {
@@ -121,6 +124,17 @@ namespace MissionController
                         values.Add (new Value ("min. Eccentricity", String.Format(MathTools.SingleDoubleValue, minEccentricity), 
                                               vessel.orbit.eccentricity, minEccentricity < vessel.orbit.eccentricity));
                     }
+                }
+            }
+
+            if (minOrbitalPeriod < maxOrbitalPeriod) {
+                if (vessel == null || Planetarium.fetch == null) {
+                    values.Add (new Value("Orbital Period", String.Format(MathTools.MinMaxString, 
+                                                                         MathTools.formatTime(minOrbitalPeriod), MathTools.formatTime(maxOrbitalPeriod))));
+                } else {
+                    values.Add (new Value("Orbital Period", String.Format(MathTools.MinMaxString, 
+                                                                          MathTools.formatTime(minOrbitalPeriod), MathTools.formatTime(maxOrbitalPeriod)),
+                                          MathTools.formatTime(vessel.orbit.period), MathTools.inMinMax(minOrbitalPeriod, maxOrbitalPeriod, vessel.orbit.period)));
                 }
             }
 

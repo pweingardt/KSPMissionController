@@ -23,6 +23,12 @@ namespace MissionController
         /// </summary>
         private Regex addRegex = new Regex ("^ADD\\(\\s*([a-zA-Z_]+),\\s*([-+]?[0-9]*\\.?[0-9]+)\\)$");
 
+        /// <summary>
+        /// Regex for TIME value: TIME(5d).
+        /// Works for double fields only!
+        /// </summary>
+        private Regex timeRegex = new Regex("^TIME\\(\\s*(?:(\\d+)y)?\\s*(?:(\\d+)d)?\\s*(?:(\\d+)h)?\\s*(?:(\\d+)m)?\\s*(?:(\\d+(?:\\.\\d+)?)s)?\\s*\\)$");
+
         public int lastSeed = 0;
 
         private Random random;
@@ -165,6 +171,19 @@ namespace MissionController
                     }
 
                     value = "" + ((double)finfo.GetValue (o) + f2);
+                }
+            }
+
+            if (value.StartsWith ("TIME") && info.FieldType.Equals(typeof(double))) {
+                Match m = timeRegex.Match (value);
+                if (m.Success) {
+                    double ys = m.Groups[1].Success ? double.Parse(m.Groups[1].Value) : 0.0;
+                    double ds = m.Groups[2].Success ? double.Parse(m.Groups[2].Value) : 0.0;
+                    double hs = m.Groups[3].Success ? double.Parse(m.Groups[3].Value) : 0.0;
+                    double ms = m.Groups[4].Success ? double.Parse(m.Groups[4].Value) : 0.0;
+                    double ss = m.Groups[5].Success ? double.Parse(m.Groups[5].Value) : 0.0;
+
+                    value = "" + (ys * (365.0 * 24.0 * 60.0 * 60.0) + ds * (24.0 * 60.0 * 60.0) + hs * (60.0 * 60.0) + ms * 60.0 + ss);
                 }
             }
 

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace MissionController
 {
@@ -20,10 +21,50 @@ namespace MissionController
             return value <= max &&  value >= min;
         }
 
+        public static String formatTime(double seconds) {
+            int y = (int)(seconds / (24.0 * 60.0 * 60.0 * 365.0));
+            seconds = seconds % (24.0 * 60.0 * 60.0 * 365.0);
+            int d = (int)(seconds / (24.0 * 60.0 * 60.0));
+            seconds = seconds % (24.0 * 60.0 * 60.0);
+            int h = (int)(seconds / (60.0 * 60.0));
+            seconds = seconds % (60.0 * 60.0);
+            int m = (int)(seconds / (60.0));
+            seconds = seconds % (60.0);
+
+            List<String> parts = new List<String> ();
+
+            if (y > 0) {
+                parts.Add (String.Format("{0:00}y", y));
+            }
+
+            if (d > 0) {
+                parts.Add (String.Format("{0:00}d", d));
+            }
+
+            if (h > 0) {
+                parts.Add (String.Format("{0:00}h", h));
+            }
+
+            if (m > 0) {
+                parts.Add (String.Format("{0:00}m", m));
+            }
+
+            if (seconds > 0) {
+                parts.Add (String.Format("{0:00}s", seconds));
+            }
+
+            if (parts.Count > 0) {
+                return String.Join (" ", parts.ToArray ());
+            } else {
+                return "0s";
+            }
+        }
+
         
         public const String Range = "{0:0.###} (±{1:0.###})";
         public const String SingleDoubleValue = "{0:0.###}";
         public const String MinMaxValue = "{0:0.###} - {1:0.###}";
+        public const String MinMaxString = "{0} - {1}";
     }
 }
 
