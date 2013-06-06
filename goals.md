@@ -5,7 +5,8 @@ finish the mission (this behaviour can vary). After you have finished the missio
 
 Mission fields:
 
-* name: unique name for this mission. Used to identify the mission throughout the space program.
+* name: unique name for this mission. Used to identify the mission throughout the space program. Whenever
+    possible us the file name without the suffix `.m`.
 * description: The description for this mission.
 * reward: The reward in krones for finishing this mission
 
