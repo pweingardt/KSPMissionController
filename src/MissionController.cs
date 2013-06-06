@@ -10,6 +10,7 @@ using KSP.IO;
 /// </summary>
 namespace MissionController
 {
+    [KSPAddon(KSPAddon.Startup.EveryScene, true)]
     public class MissionController : MonoBehaviour
     {
         private AssemblyName assemblyName;
@@ -101,6 +102,8 @@ namespace MissionController
         }
 
         public void Awake () {
+            DontDestroyOnLoad (this);
+
             GameEvents.onLaunch.Add (this.onLaunch);
             GameEvents.onVesselChange.Add (this.onVesselChange);
             GameEvents.onCrewKilled.Add (this.onCrewKilled);
@@ -412,7 +415,9 @@ namespace MissionController
                                 hiddenGoals.Add (c);
                             }
                         }
-                        orderOk = false;
+                        if (mission.inOrder) {
+                            orderOk = false;
+                        }
                     }
                 }
             }
@@ -546,32 +551,32 @@ namespace MissionController
     /// <summary>
     /// This code is necessary, so the user doesn't have to add a part to his vessel 
     /// </summary>
-    public class MissionControllerTest : KSP.Testing.UnitTest
-    {
-        public MissionControllerTest () : base()
-        {
-            I.AddI<MissionController> ("MISSION_CONTROLLER");
-        }
-    }
-
-    static class I
-    {
-        private static GameObject _gameObject;
-    
-        public static T AddI<T> (string name) where T : Component
-        {
-            if (_gameObject == null) {
-                _gameObject = new GameObject (name, typeof(T));
-                GameObject.DontDestroyOnLoad (_gameObject);
-            
-                return _gameObject.GetComponent<T> ();
-            } else {
-                if (_gameObject.GetComponent<T> () != null)
-                    return _gameObject.GetComponent<T> ();
-                else
-                    return _gameObject.AddComponent<T> ();
-            }
-        }
-    }
+//    public class MissionControllerTest : KSP.Testing.UnitTest
+//    {
+//        public MissionControllerTest () : base()
+//        {
+//            I.AddI<MissionController> ("MISSION_CONTROLLER");
+//        }
+//    }
+//
+//    static class I
+//    {
+//        private static GameObject _gameObject;
+//    
+//        public static T AddI<T> (string name) where T : Component
+//        {
+//            if (_gameObject == null) {
+//                _gameObject = new GameObject (name, typeof(T));
+//                GameObject.DontDestroyOnLoad (_gameObject);
+//            
+//                return _gameObject.GetComponent<T> ();
+//            } else {
+//                if (_gameObject.GetComponent<T> () != null)
+//                    return _gameObject.GetComponent<T> ();
+//                else
+//                    return _gameObject.AddComponent<T> ();
+//            }
+//        }
+//    }
 }
 
