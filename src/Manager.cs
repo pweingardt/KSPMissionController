@@ -151,8 +151,13 @@ namespace MissionController
             }
         }
 
-        public bool isMissionAlreadyFinished(String file) {
-
+        public bool isMissionAlreadyFinished(String name) {
+            foreach (MissionStatus s in currentProgram.completedMissions) {
+                if (s.missionName.Equals (name)) {
+                    return true;
+                }
+            }
+            return false;
         }
         
         public bool isMissionAlreadyFinished(Mission m, Vessel v) {

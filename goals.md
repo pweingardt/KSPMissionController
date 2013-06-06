@@ -9,6 +9,8 @@ Mission fields:
     possible us the file name without the suffix `.m`.
 * description: The description for this mission.
 * reward: The reward in krones for finishing this mission
+* requiresMission: name of another mission, that needs to be finished in order to finish this mission
+    (default: "", ignored)
 
 
 ## Mission goals

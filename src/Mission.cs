@@ -44,6 +44,12 @@ namespace MissionController
         /// </summary>
         public bool randomized = false;
 
+        /// <summary>
+        /// If this field is not empty, then this mission requires another mission to be finished. If it has not been finished, 
+        /// then this mission can not be finished either.
+        /// </summary>
+        public String requiresMission = "";
+
         public List<MissionGoal> goals { get { return mGoals; } }
 
         public override string ToString ()

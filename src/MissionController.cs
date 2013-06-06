@@ -37,6 +37,8 @@ namespace MissionController
             }
         }
 
+        private Status status = new Status();
+
         private List<MissionGoal> hiddenGoals = new List<MissionGoal> ();
     
         private Rect mainWindowPosition = new Rect (300, 70, 400, 700);
@@ -147,7 +149,7 @@ namespace MissionController
         }
         
         private void onLaunch (EventReport r) {
-            manager.launch (resources.sum());
+            manager.launch (vesselResources.sum());
         }
 
         private Vessel vessel {
@@ -165,6 +167,8 @@ namespace MissionController
                     && !HighLogic.LoadedScene.Equals(GameScenes.SPACECENTER)) {
                 return;
             }
+
+            calculateStatus ();
 
             loadIcons ();
             loadStyles ();
@@ -229,6 +233,7 @@ namespace MissionController
 
         /// <summary>
         /// Draws the main mission window.
+        /// Do not use currentMission.isDone or missionGoal.isDone(), use status instead!!!
         /// </summary>
         /// <param name="id">Identifier.</param>
         private void drawMainWindow (int id) {
@@ -244,8 +249,8 @@ namespace MissionController
             GUILayout.EndHorizontal ();
 
             // Show only when the loaded scene is an editor or a vessel is available and its situation is PRELAUNCH
-            if (HighLogic.LoadedSceneIsEditor || (vessel != null && vessel.situation == Vessel.Situations.PRELAUNCH)) {
-                VesselResources res = resources;
+            if (HighLogic.LoadedSceneIsEditor || status.onLaunchPad) {
+                VesselResources res = vesselResources;
                 showCostValue("Construction costs:", res.construction, styleValueGreen);
                 showCostValue("Liquid fuel costs:", res.liquid (), styleValueGreen);
                 showCostValue("Oxidizer costs:", res.oxidizer (), styleValueGreen);
@@ -278,39 +283,19 @@ namespace MissionController
                 }
             }
 
-            /// THIS IS OLD CODE. DO NOT UNCOMMENT!!!! AND DO NOT DELETE IT!
-            /// THIS IS OLD CODE. DO NOT UNCOMMENT!!!! AND DO NOT DELETE IT!
-
-//            if (vessel.situation == Vessel.Situations.LANDED && vessel.orbit.referenceBody.bodyName.Equals ("Kerbin") &&
-//                !reusedVessel) {
-//                if(GUILayout.Button("Reuse this spacecraft!")) {
-//                    manager.currentProgram.reuse(currentCosts);
-//                    reusedVessel = true;
-//                }
-//            }
-            
-//            if (!isTestVessel) {
-//                if(vessel.situation == Vessel.Situations.PRELAUNCH) {
-////                    if (GUILayout.Button ("This is a test vessel!")) {
-////                        showTestVesselWindow = true;
-////                    }
-//                }
-
-            if (currentMission != null && currentMission.isDone (vessel) && 
-                !manager.isMissionAlreadyFinished (currentMission, vessel)) {
+            if (status.missionIsFinishable) {
                 if (GUILayout.Button ("Finish the mission!")) {
                     manager.finishMission (currentMission, vessel);
                 }
             } else {
-                if (vessel != null && vessel.Landed && !manager.isRecycledVessel (vessel) && vessel.situation != Vessel.Situations.PRELAUNCH &&
-                        !vessel.isEVA) {
-                    VesselResources res = resources;
+                if (status.recyclable) {
+                    VesselResources res = vesselResources;
                     showCostValue("Recyclable value: ", res.recyclable(), styleCaption);
                     if (GUILayout.Button ("Recycle this vessel!")) {
                         manager.recycleVessel (vessel, (int)(res.recyclable()));
                     }
                 } else {
-                    if (manager.isRecycledVessel (vessel)) {
+                    if (status.recycledVessel) {
                         GUILayout.Label ("This is a recycled vessel. You can't finish any missions with this vessel!", styleWarning);
                     }
                 }
@@ -326,8 +311,6 @@ namespace MissionController
                     selectMission (selectedMissionFile);
                 }
             }
-
-
 
             GUILayout.EndVertical ();
             GUI.DragWindow ();
@@ -367,12 +350,17 @@ namespace MissionController
                 GUILayout.Label ("Mission is repeatable!", styleCaption);
             }
 
-            if (manager.isMissionAlreadyFinished (currentMission, vessel)) {
+            if (status.requiresAnotherMission) {
+                GUILayout.Label ("This mission requires the mission \"" + currentMission.requiresMission + "\". Finish mission \"" + 
+                                    currentMission.requiresMission + "\" first, before you proceed.", styleWarning);
+            }
+
+            if (status.missionAlreadyFinished) {
                 GUILayout.Label ("Mission already finished!", styleCaption);
             } else {
                 drawMissionGoals (currentMission);
 
-                if(currentMission.isDone(vessel)) {
+                if(status.missionIsFinishable) {
                     GUILayout.Label("All goals accomplished. You can finish the mission now!", styleCaption);
                 }
             }
@@ -384,7 +372,7 @@ namespace MissionController
         /// <param name="mission">Mission.</param>
         private void drawMissionGoals (Mission mission) {
             int index = 1;
-            bool orderOk = true;
+
             foreach (MissionGoal c in mission.goals) {
                 if (hiddenGoals.Contains(c)) {
                     index++;
@@ -424,21 +412,15 @@ namespace MissionController
                 // finish the 1st mission goal and the you will get the reward for the 2nd mission goal, because you finished it previously
                 // Probably fixed...
                 if (vessel != null) {
-                    if (orderOk && c.isDone (vessel)) {
-                        if (c.nonPermanent) {
-                            manager.finishMissionGoal (c, vessel);
-                            if (GUILayout.Button ("Hide finished goal")) {
-                                hiddenGoals.Add (c);
-                            }
+                    if (status.finishableGoals[c.id]) {
+                        if (GUILayout.Button ("Hide finished goal")) {
+                            hiddenGoals.Add (c);
                         }
                     } else {
                         if (c.optional) {
                             if (GUILayout.Button ("Hide optional goal")) {
                                 hiddenGoals.Add (c);
                             }
-                        }
-                        if (mission.inOrder) {
-                            orderOk = false;
                         }
                     }
                 }
@@ -466,99 +448,7 @@ namespace MissionController
             }
         }
 
-        private VesselResources resources {
-            get {
-                VesselResources res = new VesselResources ();
-                try {
-                    List<Part> parts;
-                    if(vessel == null) {
-                        parts = EditorLogic.SortedShipList;
-                    } else {
-                        parts = vessel.parts;
-                    }
 
-                    foreach (Part p in parts) {
-                        res.construction += p.partInfo.cost;
-
-                        if (p.Resources ["LiquidFuel"] != null) {
-                            res.liquidFuel += p.Resources ["LiquidFuel"].amount;
-                        }
-
-                        if (p.Resources ["SolidFuel"] != null) {
-                            res.solidFuel += p.Resources ["SolidFuel"].amount;
-                        }
-
-                        if (p.Resources ["MonoPropellant"] != null) {
-                            res.monoFuel += p.Resources ["MonoPropellant"].amount;
-                        }
-
-                        if (p.Resources ["Oxidizer"] != null) {
-                            res.oxidizerFuel += p.Resources ["Oxidizer"].amount;
-                        }
-
-                        if (p.Resources ["XenonGas"] != null) {
-                            res.xenonFuel += p.Resources ["XenonGas"].amount;
-                        }
-
-                        res.mass += p.mass;
-                    }
-                } catch {
-                }
-                return res;
-            }
-        }
-
-        /// <summary>
-        /// I don't think that this method is called at all...
-        /// </summary>
-        ~MissionController() {
-            manager.saveProgram ();
-            SettingsManager.Manager.saveSettings ();
-        }
-
-        private class VesselResources
-        {
-            public double liquidFuel;
-            public double oxidizerFuel;
-            public double solidFuel;
-            public double monoFuel;
-            public double mass;
-            public double xenonFuel;
-            public double construction;
-
-
-            public int liquid() {
-                return (int)liquidFuel * 2;
-            }
-            
-            public int mono() {
-                return (int)monoFuel * 15;
-            }
-            
-            public int solid() {
-                return (int)solidFuel * 5;
-            }
-            
-            public int xenon() {
-                return (int)xenonFuel * 20;
-            }
-            
-            public int other() {
-                return (int)mass * 1000;
-            }
-
-            public int oxidizer() {
-                return (int)(oxidizerFuel * 8.54);
-            }
-
-            public int sum() {
-                return (int)(construction + liquid () + solid () + mono () + xenon () + other () + oxidizer());
-            }
-
-            public int recyclable() {
-                return (int)(0.75 * (construction + other ()) + 0.95 * (liquid () + solid () + mono () + xenon () +  + oxidizer()));
-            }
-        }
 
         private void showCostValue(String name, double value, GUIStyle style) {
             showStringValue (name, String.Format ("{0:0.##}{1}", value, CurrencySuffix), style);

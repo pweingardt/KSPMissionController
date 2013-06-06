@@ -64,6 +64,7 @@
     <Compile Include="EVAGoal.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="SettingsGUI.cs" />
+    <Compile Include="MissionControllerCalc.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
