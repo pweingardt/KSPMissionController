@@ -493,7 +493,7 @@ namespace MissionController
 
 
             public int liquid() {
-                return (int)liquidFuel * 10;
+                return (int)liquidFuel * 2;
             }
             
             public int mono() {
@@ -513,7 +513,7 @@ namespace MissionController
             }
 
             public int oxidizer() {
-                return (int)oxidizerFuel * 2;
+                return (int)(oxidizerFuel * 8.54);
             }
 
             public int sum() {
