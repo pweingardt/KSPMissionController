@@ -2,6 +2,8 @@ using System;
 using UnityEngine;
 using MissionController;
 using System.Collections.Generic;
+using System.Reflection;
+using KSP.IO;
 
 /// <summary>
 /// Draws the GUI and handles the user input and events (like launch)
@@ -10,6 +12,13 @@ namespace MissionController
 {
     public class MissionController : MonoBehaviour
     {
+        private AssemblyName assemblyName;
+        private String versionCode;
+        private DateTime buildDateTime;
+        private String mainWindowTitle;
+
+//        private PluginConfiguration cfg = PluginConfiguration.CreateForType<MissionController>();
+
         public static string root = KSPUtil.ApplicationRootPath.Replace ("\\", "/");
         public static string pluginFolder = root + "GameData/MissionController/";
         public static string missionFolder = pluginFolder + "Plugins/PluginData/MissionController";
@@ -95,6 +104,15 @@ namespace MissionController
             GameEvents.onLaunch.Add (this.onLaunch);
             GameEvents.onVesselChange.Add (this.onVesselChange);
             GameEvents.onCrewKilled.Add (this.onCrewKilled);
+
+            assemblyName = Assembly.GetExecutingAssembly ().GetName ();
+            versionCode = "" + assemblyName.Version.Major + "." + assemblyName.Version.Minor;
+            buildDateTime = new DateTime(2000, 1, 1).Add(new TimeSpan(
+                TimeSpan.TicksPerDay * assemblyName.Version.Build + // days since 1 January 2000
+                TimeSpan.TicksPerSecond * 2 * assemblyName.Version.Revision));
+
+            mainWindowTitle = "Mission Controller " + 
+                versionCode + " (" + buildDateTime.ToShortDateString () + ")";
         }
 
         private void Reset(GameScenes gameScenes) {
@@ -145,7 +163,7 @@ namespace MissionController
             }
             
             if (showMainWindow) {
-                mainWindowPosition = GUILayout.Window (98765, mainWindowPosition, drawMainWindow, "Mission Controller");
+                mainWindowPosition = GUILayout.Window (98765, mainWindowPosition, drawMainWindow, mainWindowTitle);
             }
             
             if (showTestVesselWindow) {
@@ -177,7 +195,7 @@ namespace MissionController
             GUI.skin = HighLogic.Skin;
             
             GUILayout.BeginVertical ();
-            GUILayout.Label ("Do you want to mark this vessel as test vessel? Test vessel *CAN NOT* complete missions, but cost only half the price!", styleText);
+            GUILayout.Label ("Do you want to mark this vessel as test vessel? Test vessels *CAN NOT* finish missions, but cost only half the price!", styleText);
             
             GUILayout.BeginHorizontal ();
             if (GUILayout.Button ("Yes")) {
@@ -227,9 +245,16 @@ namespace MissionController
             
             GUILayout.EndVertical ();
             GUILayout.EndScrollView ();
-            
-            if (GUILayout.Button ("Select Mission")) {
+
+            if (GUILayout.Button ("Select mission")) {
                 createFileBrowser ("Select mission", selectMission);
+            }
+
+            if(currentMission != null) {
+                if (GUILayout.Button ("Deselect mission")) {
+                    selectedMissionFile = null;
+                    currentMission = null;
+                }
             }
 
             /// THIS IS OLD CODE. DO NOT UNCOMMENT!!!! AND DO NOT DELETE IT!
@@ -273,10 +298,10 @@ namespace MissionController
                 if (GUILayout.Button ("Recycle this vessel!")) {
                     manager.recycleVessel (vessel, (int)(resources.reusable()));
                 }
-            }
-
-            if (manager.isRecycledVessel (vessel)) {
-                GUILayout.Label ("This is a recycled vessel. You can't finish any missions with this vessel!", styleWarning);
+            } else {
+                if (manager.isRecycledVessel (vessel)) {
+                    GUILayout.Label ("This is a recycled vessel. You can't finish any missions with this vessel!", styleWarning);
+                }
             }
 
             GUILayout.EndVertical ();

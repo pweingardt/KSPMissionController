@@ -2,7 +2,7 @@ Mission
 {
     name = Mun X
     description = Bring a manned space craft onto the surface of the Mun and bring him back.
-    reward = 100000
+    reward = 200000
 
     OrbitGoal
     {

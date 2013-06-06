@@ -2,7 +2,7 @@ Mission
 {
     name = Mun II
     description = Mun orbit. Bring a satellite into a stable orbit around Mun, and if possible, bring the probe back to Kerbin.
-    reward = 60000
+    reward = 80000
 
     OrbitGoal
     {
