@@ -68,6 +68,10 @@ namespace MissionController
                     writer.WriteLine("    " + info.Name + " = " + info.GetValue(obj));
                 }
 
+                if(info.FieldType.Equals(typeof(bool))) {
+                    writer.WriteLine("    " + info.Name + " = " + info.GetValue(obj));
+                }
+
                 if (o.GetType().GetInterface("IList") != null) {
                     IList ilist = (IList)o;
                     

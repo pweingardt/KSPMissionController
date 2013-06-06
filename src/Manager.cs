@@ -23,8 +23,10 @@ namespace MissionController
         }
 
         public void launch(int costs) {
-            currentProgram.money -= costs;
-            saveProgram ();
+            if (!SettingsManager.Manager.getSettings ().DisablePlugin) {
+                currentProgram.money -= costs;
+                saveProgram ();
+            }
         }
 
         public void recycleVessel(Vessel vessel, int costs) {

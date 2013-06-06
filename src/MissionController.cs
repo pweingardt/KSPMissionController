@@ -11,7 +11,7 @@ using KSP.IO;
 namespace MissionController
 {
     [KSPAddon(KSPAddon.Startup.EveryScene, true)]
-    public class MissionController : MonoBehaviour
+    public partial class MissionController : MonoBehaviour
     {
         private AssemblyName assemblyName;
         private String versionCode;
@@ -31,12 +31,22 @@ namespace MissionController
             }
         }
 
+        private Settings settings {
+            get {
+                return SettingsManager.Manager.getSettings();
+            }
+        }
+
         private List<MissionGoal> hiddenGoals = new List<MissionGoal> ();
     
         private Rect mainWindowPosition = new Rect (300, 70, 400, 700);
         private Rect testWindowPosition = new Rect (Screen.width / 2 - 150, Screen.height / 2 - 100, 300, 150);
+        private Rect settingsWindowPosition = new Rect (700, 70, 300, 400);
+
         private bool showMainWindow = false;
         private bool showTestVesselWindow = false;
+        private bool showSettingsWindow = false;
+
         private FileBrowser fileBrowser = null;
         private String selectedMissionFile = null;
         private Mission currentMission = null;
@@ -172,6 +182,10 @@ namespace MissionController
             if (showTestVesselWindow) {
                 testWindowPosition = GUILayout.Window (98764, testWindowPosition, drawTestWindow, "Are you sure?");
             }
+
+            if (showSettingsWindow) {
+                settingsWindowPosition = GUILayout.Window (98763, settingsWindowPosition, drawSettingsWindow, "Settings");
+            }
             
             if (fileBrowser != null) {
                 GUI.skin = HighLogic.Skin;
@@ -244,6 +258,10 @@ namespace MissionController
 
             if (currentMission != null) {
                 drawMission ();
+            } else {
+                if (GUILayout.Button ("Configure")) {
+                    showSettingsWindow = !showSettingsWindow;
+                }
             }
             
             GUILayout.EndVertical ();
@@ -320,7 +338,7 @@ namespace MissionController
         /// </summary>
         /// <param name="file">File.</param>
         private void selectMission (String file) {
-            fileBrowser = null;
+            destroyFileBrowser ();
             
             if (file == null) {
                 return;
@@ -430,6 +448,18 @@ namespace MissionController
             fileBrowser.CurrentDirectory = missionFolder;
             fileBrowser.disallowDirectoryChange = true;
             fileBrowser.SelectionPattern = "*.m";
+
+            if (EditorLogic.fetch != null) {
+                EditorLogic.fetch.Lock (true, true, true);
+            }
+        }
+
+        private void destroyFileBrowser() {
+            fileBrowser = null;
+
+            if (EditorLogic.fetch != null) {
+                EditorLogic.fetch.Unlock ();
+            }
         }
 
         private VesselResources resources {
@@ -477,8 +507,9 @@ namespace MissionController
         /// <summary>
         /// I don't think that this method is called at all...
         /// </summary>
-        public void OnDestroy() {
+        ~MissionController() {
             manager.saveProgram ();
+            SettingsManager.Manager.saveSettings ();
         }
 
         private class VesselResources
