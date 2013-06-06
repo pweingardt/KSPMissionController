@@ -150,6 +150,10 @@ namespace MissionController
                 saveProgram();
             }
         }
+
+        public bool isMissionAlreadyFinished(String file) {
+
+        }
         
         public bool isMissionAlreadyFinished(Mission m, Vessel v) {
             if (v == null) {

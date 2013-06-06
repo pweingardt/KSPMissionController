@@ -362,7 +362,11 @@ namespace MissionController
             GUILayout.Label ("Reward: ", styleValueName);
             GUILayout.Label (currentMission.reward + CurrencySuffix, styleValueGreen);
             GUILayout.EndHorizontal ();
-            
+
+            if (currentMission.repeatable) {
+                GUILayout.Label ("Mission is repeatable!", styleCaption);
+            }
+
             if (manager.isMissionAlreadyFinished (currentMission, vessel)) {
                 GUILayout.Label ("Mission already finished!", styleCaption);
             } else {
