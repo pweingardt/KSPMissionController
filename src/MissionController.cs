@@ -280,6 +280,19 @@ namespace MissionController
                 if (GUILayout.Button ("Finish the mission!")) {
                     manager.finishMission (currentMission, vessel);
                 }
+            } else {
+                if (vessel != null && vessel.Landed && !manager.isRecycledVessel (vessel) && vessel.situation != Vessel.Situations.PRELAUNCH &&
+                        !vessel.isEVA) {
+                    VesselResources res = resources;
+                    showCostValue("Recyclable value: ", res.recyclable(), styleCaption);
+                    if (GUILayout.Button ("Recycle this vessel!")) {
+                        manager.recycleVessel (vessel, (int)(res.recyclable()));
+                    }
+                } else {
+                    if (manager.isRecycledVessel (vessel)) {
+                        GUILayout.Label ("This is a recycled vessel. You can't finish any missions with this vessel!", styleWarning);
+                    }
+                }
             }
 //            } else {
 //                GUILayout.Label ("THIS IS A TEST VESSEL!", styleCaption);
@@ -293,18 +306,7 @@ namespace MissionController
                 }
             }
 
-            if (vessel != null && vessel.Landed && !manager.isRecycledVessel (vessel) && vessel.situation != Vessel.Situations.PRELAUNCH &&
-                    !vessel.isEVA) {
-                VesselResources res = resources;
-                showCostValue("Recyclable value: ", res.recyclable(), styleCaption);
-                if (GUILayout.Button ("Recycle this vessel!")) {
-                    manager.recycleVessel (vessel, (int)(res.recyclable()));
-                }
-            } else {
-                if (manager.isRecycledVessel (vessel)) {
-                    GUILayout.Label ("This is a recycled vessel. You can't finish any missions with this vessel!", styleWarning);
-                }
-            }
+
 
             GUILayout.EndVertical ();
             GUI.DragWindow ();
