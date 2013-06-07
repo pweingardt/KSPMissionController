@@ -52,6 +52,10 @@ namespace MissionController
             }
         }
 
+        public MissionPackage loadMissionPackage(String path) {
+            return (MissionPackage) parser.readFile (path);
+        }
+
         public Mission loadMission(String path, Vessel vessel) {
             int count = 1;
             Mission m = (Mission) parser.readFile (path);

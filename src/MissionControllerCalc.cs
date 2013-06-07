@@ -9,54 +9,63 @@ namespace MissionController
     public partial class MissionController
     {
         private void calculateStatus() {
-            status = new Status ();
+            this.status = calculateStatus (currentMission);
+        }
+
+        private Status calculateStatus(Mission mission) {
+            Status s = new Status ();
+            bool selectedMission = (mission == currentMission);
 
             // Fill the mission status fields
-            if (currentMission != null) {
+            if (mission != null) {
 
-                status.requiresAnotherMission = (currentMission.requiresMission.Length != 0 
-                                                 && !manager.isMissionAlreadyFinished (currentMission.requiresMission));
+                s.requiresAnotherMission = (mission.requiresMission.Length != 0 
+                                            && !manager.isMissionAlreadyFinished (mission.requiresMission));
 
-                status.missionAlreadyFinished = manager.isMissionAlreadyFinished (currentMission, vessel);
+                s.missionAlreadyFinished = manager.isMissionAlreadyFinished (mission, vessel);
             }
 
             // Fill the vessel fields, that are not dependant on the current mission
             if (vessel != null) {
-                status.onLaunchPad = (vessel.situation == Vessel.Situations.PRELAUNCH);
-                status.recycledVessel = manager.isRecycledVessel (vessel);
-                status.recyclable = (vessel.Landed && !status.recycledVessel && !status.onLaunchPad && !vessel.isEVA);
-                status.vesselCanFinishMissions = !status.recycledVessel;
+                s.onLaunchPad = (vessel.situation == Vessel.Situations.PRELAUNCH);
+                s.recycledVessel = manager.isRecycledVessel (vessel);
+                s.recyclable = (vessel.Landed && !s.recycledVessel && !s.onLaunchPad && !vessel.isEVA);
+                s.vesselCanFinishMissions = !s.recycledVessel;
             }
 
             // for all other fields we need both: a mission and a vessel
 
-            if (vessel == null || currentMission == null) {
-                return;
+            if (vessel == null || mission == null) {
+                return s;
             }
 
-            status.canFinishMission = status.vesselCanFinishMissions && !status.requiresAnotherMission && !settings.DisablePlugin;
+            s.canFinishMission = s.vesselCanFinishMissions && !s.requiresAnotherMission && !settings.DisablePlugin;
 
             bool orderOk = true;
 
-            foreach (MissionGoal g in currentMission.goals) {
-                status.finishableGoals [g.id] = false;
+            // Only the selected mission is tracked and finishable. A preview Mission is *NOT* finishable.
+
+            foreach (MissionGoal g in mission.goals) {
+                s.finishableGoals [g.id] = false;
                 if (orderOk && g.isDone (vessel)) {
-                    if (g.nonPermanent && status.canFinishMission) {
-                        status.finishableGoals [g.id] = true;
+                    if (g.nonPermanent && s.canFinishMission && !manager.isMissionGoalAlreadyFinished (g, vessel) && selectedMission) {
+                        s.finishableGoals [g.id] = true;
                         manager.finishMissionGoal (g, vessel);
                     }
                 } else {
-                    if (currentMission.inOrder) {
+                    if (mission.inOrder) {
                         orderOk = false;
                     }
                 }
             }
 
-            if (status.canFinishMission) {
-                status.missionIsFinishable = (!manager.isMissionAlreadyFinished(currentMission, vessel) && currentMission.isDone (vessel));
+            if (s.canFinishMission && selectedMission) {
+                s.missionIsFinishable = (!manager.isMissionAlreadyFinished(mission, vessel) && mission.isDone (vessel));
             } else {
-                status.missionIsFinishable = false;
+                s.missionIsFinishable = false;
             }
+
+            return s;
         }
 
         private class Status {

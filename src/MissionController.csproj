@@ -41,9 +41,11 @@
     <Reference Include="System.Core" />
     <Reference Include="Assembly-CSharp">
       <HintPath>..\..\..\..\games\KSP\KSP_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine">
       <HintPath>..\..\..\..\games\KSP\KSP_Data\Managed\UnityEngine.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="MissionLibrary">
       <HintPath>lib\MissionLibrary.dll</HintPath>
@@ -68,6 +70,8 @@
     <Compile Include="Settings.cs" />
     <Compile Include="SettingsGUI.cs" />
     <Compile Include="MissionControllerCalc.cs" />
+    <Compile Include="MissionPackage.cs" />
+    <Compile Include="MissionPackageGUI.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

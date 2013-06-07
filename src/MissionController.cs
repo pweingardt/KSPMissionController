@@ -37,21 +37,27 @@ namespace MissionController
             }
         }
 
-        private Status status = new Status();
+        private Status status = new Status ();
 
         private List<MissionGoal> hiddenGoals = new List<MissionGoal> ();
     
         private Rect mainWindowPosition = new Rect (300, 70, 400, 700);
         private Rect testWindowPosition = new Rect (Screen.width / 2 - 150, Screen.height / 2 - 100, 300, 150);
         private Rect settingsWindowPosition = new Rect (700, 70, 300, 400);
+        private Rect packageWindowPosition = new Rect (50, 50, 800, 700);
 
         private bool showMainWindow = false;
         private bool showTestVesselWindow = false;
         private bool showSettingsWindow = false;
+        private bool showMissionPackageBrowser = false;
 
         private FileBrowser fileBrowser = null;
         private String selectedMissionFile = null;
         private Mission currentMission = null;
+
+        private MissionPackage currentPackage = null;
+        private String selectedMissionPackageFile = null;
+
         private Vector2 scrollPosition = new Vector2 (0, 0);
         private GUIStyle styleCaption;
         private GUIStyle styleText;
@@ -170,8 +176,6 @@ namespace MissionController
                 return;
             }
 
-            calculateStatus ();
-
             loadIcons ();
             loadStyles ();
 
@@ -191,6 +195,10 @@ namespace MissionController
 
             if (showSettingsWindow) {
                 settingsWindowPosition = GUILayout.Window (98763, settingsWindowPosition, drawSettingsWindow, "Settings");
+            }
+
+            if (showMissionPackageBrowser) {
+                packageWindowPosition = GUILayout.Window(98762, packageWindowPosition, drawPackageWindow, currentPackage.name);
             }
             
             if (fileBrowser != null) {
@@ -264,7 +272,7 @@ namespace MissionController
             }
 
             if (currentMission != null) {
-                drawMission ();
+                drawMission (currentMission, status);
             } else {
                 if (GUILayout.Button ("Configure")) {
                     showSettingsWindow = !showSettingsWindow;
@@ -274,8 +282,8 @@ namespace MissionController
             GUILayout.EndVertical ();
             GUILayout.EndScrollView ();
 
-            if (GUILayout.Button ("Select mission")) {
-                createFileBrowser ("Select mission", selectMission);
+            if (GUILayout.Button ("Select mission from package")) {
+                createFileBrowser ("Select mission from package", selectMissionPackage);
             }
 
             if(currentMission != null) {
@@ -307,12 +315,12 @@ namespace MissionController
 //            }
 
             // If this is a randomized mission, we can discard the mission
-            if (currentMission != null && currentMission.randomized) {
-                if (GUILayout.Button ("Discard mission!")) {
-                    manager.discardRandomMission (currentMission);
-                    selectMission (selectedMissionFile);
-                }
-            }
+//            if (currentMission != null && currentMission.randomized) {
+//                if (GUILayout.Button ("Discard mission!")) {
+//                    manager.discardRandomMission (currentMission);
+//                    selectMissionPackage (selectedMissionFile);
+//                }
+//            }
 
             GUILayout.EndVertical ();
             GUI.DragWindow ();
@@ -322,47 +330,48 @@ namespace MissionController
         /// Selects the mission in the file
         /// </summary>
         /// <param name="file">File.</param>
-        private void selectMission (String file) {
+        private void selectMissionPackage (String file) {
             destroyFileBrowser ();
             
             if (file == null) {
                 return;
             }
 
-            selectedMissionFile = file;
-            currentMission = manager.loadMission (file, vessel);
-            hiddenGoals = new List<MissionGoal> ();
+            selectedMissionPackageFile = file;
+            currentPackage = manager.loadMissionPackage (file);
+            showMissionPackageBrowser = (currentPackage != null);
+//            hiddenGoals = new List<MissionGoal> ();
         }
 
         /// <summary>
         /// Draws the mission parameters
         /// </summary>
-        private void drawMission () {
-            GUILayout.Label ("Current Mission: ", styleCaption);
-            GUILayout.Label (currentMission.name, styleText);
+        private void drawMission (Mission mission, Status s) {
+            GUILayout.Label ("Mission: ", styleCaption);
+            GUILayout.Label (mission.name, styleText);
             GUILayout.Label ("Description: ", styleCaption);
-            GUILayout.Label (currentMission.description, styleText);
+            GUILayout.Label (mission.description, styleText);
             
             GUILayout.BeginHorizontal ();
             GUILayout.Label ("Reward: ", styleValueName);
-            GUILayout.Label (currentMission.reward + CurrencySuffix, styleValueGreen);
+            GUILayout.Label (mission.reward + CurrencySuffix, styleValueGreen);
             GUILayout.EndHorizontal ();
 
-            if (currentMission.repeatable) {
+            if (mission.repeatable) {
                 GUILayout.Label ("Mission is repeatable!", styleCaption);
             }
 
-            if (status.requiresAnotherMission) {
-                GUILayout.Label ("This mission requires the mission \"" + currentMission.requiresMission + "\". Finish mission \"" + 
-                                    currentMission.requiresMission + "\" first, before you proceed.", styleWarning);
+            if (s.requiresAnotherMission) {
+                GUILayout.Label ("This mission requires the mission \"" + mission.requiresMission + "\". Finish mission \"" + 
+                                 mission.requiresMission + "\" first, before you proceed.", styleWarning);
             }
 
-            if (status.missionAlreadyFinished) {
+            if (s.missionAlreadyFinished) {
                 GUILayout.Label ("Mission already finished!", styleCaption);
             } else {
-                drawMissionGoals (currentMission);
+                drawMissionGoals (mission, s);
 
-                if(status.missionIsFinishable) {
+                if(s.missionIsFinishable) {
                     GUILayout.Label("All goals accomplished. You can finish the mission now!", styleCaption);
                 }
             }
@@ -372,7 +381,7 @@ namespace MissionController
         /// Draws the mission goals
         /// </summary>
         /// <param name="mission">Mission.</param>
-        private void drawMissionGoals (Mission mission) {
+        private void drawMissionGoals (Mission mission, Status s) {
             int index = 1;
 
             foreach (MissionGoal c in mission.goals) {
@@ -414,7 +423,7 @@ namespace MissionController
                 // finish the 1st mission goal and the you will get the reward for the 2nd mission goal, because you finished it previously
                 // Probably fixed...
                 if (vessel != null) {
-                    if (status.finishableGoals[c.id]) {
+                    if (s.finishableGoals[c.id]) {
                         if (GUILayout.Button ("Hide finished goal")) {
                             hiddenGoals.Add (c);
                         }
@@ -435,7 +444,7 @@ namespace MissionController
             fileBrowser.BrowserType = FileBrowserType.File;
             fileBrowser.CurrentDirectory = missionFolder;
             fileBrowser.disallowDirectoryChange = true;
-            fileBrowser.SelectionPattern = "*.m";
+            fileBrowser.SelectionPattern = "*.mb";
 
             if (EditorLogic.fetch != null) {
                 EditorLogic.fetch.Lock (true, true, true);
