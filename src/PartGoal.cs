@@ -13,6 +13,10 @@ namespace MissionController
         public int partCount = 1;
         public int maxPartCount = -1;
 
+        public PartGoal() {
+            this.throttleDown = false;
+        }
+
         protected override List<Value> values(Vessel vessel) {
             List<Value> values = new List<Value> ();
 
