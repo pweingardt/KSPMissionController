@@ -53,7 +53,7 @@ namespace MissionController
             }
 
             if (status.canFinishMission) {
-                status.missionIsFinishable = currentMission.isDone (vessel);
+                status.missionIsFinishable = (!manager.isMissionAlreadyFinished(currentMission, vessel) && currentMission.isDone (vessel));
             } else {
                 status.missionIsFinishable = false;
             }
