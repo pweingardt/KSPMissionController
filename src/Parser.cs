@@ -119,7 +119,6 @@ namespace MissionController
         }
 
         private object readObject(KSP.IO.TextReader reader, String name) {
-            Dictionary<String, String> values = new Dictionary<string, string> ();
             Type t = Type.GetType (NamespacePrefix + name);
             object obj = Activator.CreateInstance (t);
 
@@ -131,7 +130,6 @@ namespace MissionController
                     string[] parts = n.Split('=');
                     string vname = parts[0].Trim();
                     string value = n.Substring(n.IndexOf('=') + 1).Trim();
-                    values.Add(vname, value);
 
                     setValue(vname, value, obj);
                 } else {
