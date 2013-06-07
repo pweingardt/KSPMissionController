@@ -45,6 +45,9 @@
     <Reference Include="UnityEngine">
       <HintPath>..\..\..\..\games\KSP\KSP_Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
+    <Reference Include="MissionLibrary">
+      <HintPath>lib\MissionLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />

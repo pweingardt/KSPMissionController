@@ -7,7 +7,7 @@ namespace MissionController
     /// <summary>
     /// Manages the missions and the current space program (budget and so on)
     /// </summary>
-    public class Manager
+    public class Manager : IManager
     {
         private Parser parser;
 
@@ -197,6 +197,22 @@ namespace MissionController
                 }
             }
             return false;
+        }
+
+        // The interface implementation for external plugins
+
+        public int getBudget() {
+            return currentProgram.money;
+        }
+
+        public int reward(int value) {
+            currentProgram.money += value;
+            return currentProgram.money;
+        }
+
+        public int costs(int value) {
+            currentProgram.money -= value;
+            return currentProgram.money;
         }
     }
 }
