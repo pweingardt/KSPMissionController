@@ -31,6 +31,12 @@ namespace MissionController
         public double minOrbitalPeriod = 0.0;
         public double maxOrbitalPeriod = 0.0;
 
+        public double minAltitude = 0.0;
+        public double maxAltitude = 0.0;
+
+        public double minSpeedOverGround = 0.0;
+        public double maxSpeedOverGround = 0.0;
+
         public String body = "Kerbin";
 
         protected override List<Value> values(Vessel vessel) {
@@ -105,6 +111,42 @@ namespace MissionController
                 } else {
                     values.Add (new Value ("LAN", String.Format(MathTools.MinMaxValue, minLan, maxLan), 
                                            vessel.orbit.LAN, MathTools.inMinMax (minLan, maxLan, vessel.orbit.LAN)));
+                }
+            }
+
+            if (minAltitude != 0.0) {
+                if (vessel == null) {
+                    values.Add (new Value ("min Altitude", String.Format(MathTools.SingleDoubleValue, minAltitude)));
+                } else {
+                    values.Add (new Value ("min Altitude", String.Format(MathTools.SingleDoubleValue, minAltitude), 
+                                           vessel.orbit.altitude, vessel.orbit.altitude >= minAltitude));
+                }
+            }
+
+            if (maxAltitude != 0.0) {
+                if (vessel == null) {
+                    values.Add (new Value ("max Altitude", String.Format(MathTools.SingleDoubleValue, maxAltitude)));
+                } else {
+                    values.Add (new Value ("max Altitude", String.Format(MathTools.SingleDoubleValue, maxAltitude), 
+                                           vessel.orbit.altitude, vessel.orbit.altitude <= maxAltitude));
+                }
+            }
+
+            if (minSpeedOverGround != 0.0) {
+                if (vessel == null) {
+                    values.Add (new Value ("min speed over ground", String.Format(MathTools.SingleDoubleValue, minSpeedOverGround)));
+                } else {
+                    values.Add (new Value ("min speed over ground", String.Format(MathTools.SingleDoubleValue, minSpeedOverGround), 
+                                           vessel.horizontalSrfSpeed, vessel.horizontalSrfSpeed >= minSpeedOverGround));
+                }
+            }
+
+            if (maxSpeedOverGround != 0.0) {
+                if (vessel == null) {
+                    values.Add (new Value ("max speed over ground", String.Format(MathTools.SingleDoubleValue, maxSpeedOverGround)));
+                } else {
+                    values.Add (new Value ("max speed over ground", String.Format(MathTools.SingleDoubleValue, maxSpeedOverGround), 
+                                           vessel.horizontalSrfSpeed, vessel.horizontalSrfSpeed <= maxSpeedOverGround));
                 }
             }
 

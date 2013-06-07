@@ -17,7 +17,7 @@ Mission fields:
 ## Mission goals
 
 Every vessel has its own mission: You can't finish the 1st mission goal with vessel A
-and then continue to finish the 2nd mission goal with vessel B.
+and then continue to finish the 2nd mission goal with vessel B. Exception: EVAGoals.
 There are currently several mission goals, but they all have these fields in common:
 
 ### Common fields (available in *all* mission goals)
@@ -55,7 +55,10 @@ Fields:
 * maxInclination: maximal inclination (default: 0, ignored)
 * minOrbitalPeriod: minimal orbital period in seconds (use TIME instruction, default: 0, ignored)
 * maxOrbitalPeriod: maximal orbital period in seconds (use TIME instruction, default: 0, ignored)
-
+* minAltitude: minimal altitude for aviation (default: 0, ignored)
+* maxAltitude: maximal altitude for aviation (default: 0, ignored)
+* minSpeedOverGround: minimal horizontal speed (default: 0, ignored)
+* maxSpeedOverGround: maximal horizontal speed (default: 0, ignored)
 
 ### LandingGoal
 
