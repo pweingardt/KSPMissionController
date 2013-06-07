@@ -151,7 +151,7 @@ namespace MissionController
         }
         
         private void onLaunch (EventReport r) {
-            manager.launch (vesselResources.sum());
+            manager.costs (vesselResources.sum());
         }
 
         private Vessel vessel {

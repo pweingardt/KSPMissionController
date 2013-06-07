@@ -22,13 +22,6 @@ namespace MissionController
             loadProgram ();
         }
 
-        public void launch(int costs) {
-            if (!SettingsManager.Manager.getSettings ().DisablePlugin) {
-                currentProgram.money -= costs;
-                saveProgram ();
-            }
-        }
-
         public void recycleVessel(Vessel vessel, int costs) {
             if (!isRecycledVessel (vessel)) {
                 currentProgram.money += costs;
@@ -206,13 +199,15 @@ namespace MissionController
         }
 
         public int reward(int value) {
-            currentProgram.money += value;
+            if (!SettingsManager.Manager.getSettings ().DisablePlugin) {
+                currentProgram.money += value;
+                saveProgram ();
+            }
             return currentProgram.money;
         }
 
         public int costs(int value) {
-            currentProgram.money -= value;
-            return currentProgram.money;
+            return reward (-value);
         }
     }
 }
