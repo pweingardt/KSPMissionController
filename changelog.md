@@ -1,3 +1,11 @@
+# current master branch
+
+* one .sp file for each KSP save, using HighLogic.CurrentGame.Title. To use the old spaceProgram.sp file rename
+    it to `TITLE (Sandbox).sp`, where TITLE is the game title.
+* saves the space program every time the game scene changes. Change it to save the space program only if
+    the game scene is the main menu?
+
+
 # Changelog
 
 version 0.4:

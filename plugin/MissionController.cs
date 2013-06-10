@@ -18,8 +18,6 @@ namespace MissionController
         private DateTime buildDateTime;
         private String mainWindowTitle;
 
-//        private PluginConfiguration cfg = PluginConfiguration.CreateForType<MissionController>();
-
         public static string root = KSPUtil.ApplicationRootPath.Replace ("\\", "/");
         public static string pluginFolder = root + "GameData/MissionController/";
         public static string missionFolder = pluginFolder + "Plugins/PluginData/MissionController";
@@ -129,6 +127,8 @@ namespace MissionController
             GameEvents.onLaunch.Add (this.onLaunch);
             GameEvents.onVesselChange.Add (this.onVesselChange);
             GameEvents.onCrewKilled.Add (this.onCrewKilled);
+            GameEvents.onVesselDestroy.Add(this.onVesselDestroy);
+            GameEvents.onGameSceneLoadRequested.Add (this.onGameSceneLoadRequested);
 
             assemblyName = Assembly.GetExecutingAssembly ().GetName ();
             versionCode = "" + assemblyName.Version.Major + "." + assemblyName.Version.Minor;
@@ -144,12 +144,31 @@ namespace MissionController
             GameEvents.onLaunch.Remove (this.onLaunch);
             GameEvents.onVesselChange.Remove (this.onVesselChange);
             GameEvents.onCrewKilled.Remove (this.onCrewKilled);
+            GameEvents.onGameSceneLoadRequested.Remove (this.onGameSceneLoadRequested);
         }
 
         private void onCrewKilled(EventReport report) {
             // TODO: PUNISHING THE PLAYER FOR KILLING KERBONAUTS
             // Srsly: Manned missions should be more dangerous
             print ("You will pay for your crimes! Killing innocent kerbonauts...");
+        }
+
+        /// <summary>
+        /// Currently we save the space program every time a new game scene is loaded.
+        /// Maybe just save when the requested game scene is the main menu
+        /// </summary>
+        /// <param name="scene">Scene.</param>
+        private void onGameSceneLoadRequested(GameScenes scene) {
+            manager.saveProgram ();
+            manager.loadProgram (HighLogic.CurrentGame.Title);
+        }
+
+        /// <summary>
+        /// We will check if the vessel was on a client controlled mission. If so we will punish the player for destroying the vessel!
+        /// </summary>
+        /// <param name="v">V.</param>
+        private void onVesselDestroy(Vessel v) {
+            print ("Vessel destroyed!");
         }
 
         private void onVesselChange(Vessel v) {
@@ -159,11 +178,19 @@ namespace MissionController
                 currentMission = manager.reloadMission(currentMission, activeVessel);
             }
         }
-        
+
+        /// <summary>
+        /// We have to account the space program for the launch
+        /// </summary>
+        /// <param name="r">The red component.</param>
         private void onLaunch (EventReport r) {
             manager.costs (vesselResources.sum());
         }
 
+        /// <summary>
+        /// Returns the active vessel if there is one, null otherwise
+        /// </summary>
+        /// <value>The active vessel.</value>
         private Vessel activeVessel {
             get {
                 try {
@@ -265,7 +292,7 @@ namespace MissionController
             
             GUILayout.BeginHorizontal ();
             GUILayout.Label ("Current budget: ", styleValueName);
-            GUILayout.Label (manager.budget + CurrencySuffix, (manager.currentProgram.money < 0 ? styleValueRed : styleValueGreen));
+            GUILayout.Label (manager.budget + CurrencySuffix, (manager.budget < 0 ? styleValueRed : styleValueGreen));
             GUILayout.EndHorizontal ();
 
             // Show only when the loaded scene is an editor or a vessel is available and its situation is PRELAUNCH
