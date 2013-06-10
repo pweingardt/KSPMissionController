@@ -38,7 +38,7 @@ namespace MissionController
                 if(vessel == null) {
                     v.Add(new Value("min. resource " + name, minAmount));
                 } else {
-                    v.Add(new Value("min. resource " + name, minAmount, a, a >= maxAmount));
+                    v.Add(new Value("min. resource " + name, minAmount, a, a >= minAmount));
                 }
             }
 
