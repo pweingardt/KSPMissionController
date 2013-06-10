@@ -86,7 +86,7 @@ A mission consists of several (or one) mission goals. Those mission goals can be
 4. a minimal crew count to accomplish the mission
 5. another mission
 
-For more infos about mission goals, see [goals.md](goals.md).
+For more infos about mission goals, see [missions.md](missions.md).
 
 With combinations of these goals you can create a complicated mission, consisting of several mission goals:
 
@@ -149,10 +149,10 @@ With 0.4 you have to use mission packages, read [missions.md](missions.md) for m
 
 ### Contributions
 
-maintainer and main developer: nobody44
-support and ideas: vaughner81
-support and ideas: tek\_604
-ideas: BaphClass
-images: BlazingAngel665
+* maintainer and main developer: nobody44
+* support and ideas: vaughner81
+* support and ideas: tek\_604
+* ideas: BaphClass
+* images: BlazingAngel665
 
 
