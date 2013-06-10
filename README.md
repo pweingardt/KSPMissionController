@@ -28,7 +28,7 @@ goals in the right order to get the reward for the mission.
 
 Let's take a look at the "Sputnik III" mission:
 
-Reward: 14000 + 2000
+Reward: 24000 + 2000
 
 1. reach a stable orbit around kerbin, minimal periapsis: 70km (2000 krones reward)
 2. Land back on Kerbin
@@ -40,7 +40,7 @@ fuel and can't make it back to Kerbin, you will not get the 14k reward. Once you
 
 Let's take another look at the "Mun I" mission:
 
-Reward: 20000 + 5000
+Reward: 40000 + 5000
 
 1. Get into an escape trajectory (a flyby) around Mun. The periapsis needs to
 be between 4km and 6km.
@@ -85,6 +85,8 @@ A mission consists of several (or one) mission goals. Those mission goals can be
 3. special parts on your space craft, that you need to accomplish the mission
 4. a minimal crew count to accomplish the mission
 5. another mission
+
+For more infos about mission goals, see [goals.md](goals.md).
 
 With combinations of these goals you can create a complicated mission, consisting of several mission goals:
 
@@ -143,3 +145,14 @@ Here it is:
     }
 
 Create your missions and share them!
+With 0.4 you have to use mission packages, read [missions.md](missions.md) for more.
+
+### Contributions
+
+maintainer and main developer: nobody44
+support and ideas: vaughner81
+support and ideas: tek\_604
+ideas: BaphClass
+images: BlazingAngel665
+
+
