@@ -10,6 +10,10 @@ namespace MissionController
         private Vector2 previewMissionScrollPosition = new Vector2 ();
         private Mission currentPreviewMission = null;
 
+        /// <summary>
+        /// Draws the mission package browser window
+        /// </summary>
+        /// <param name="id">Identifier.</param>
         private void drawPackageWindow(int id) {
             GUI.skin = HighLogic.Skin;
             GUILayout.BeginHorizontal ();
@@ -18,7 +22,7 @@ namespace MissionController
 
             foreach (Mission m in currentPackage.Missions) {
                 if (GUILayout.Button (m.name)) {
-                    currentPreviewMission = m;
+                    currentPreviewMission = manager.reloadMission(m, activeVessel);
                 }
             }
 
@@ -31,6 +35,7 @@ namespace MissionController
             if (currentPreviewMission == null) {
                 GUILayout.Label (currentPackage.description, styleText);
             } else {
+                // otherwise draw the mission parameters
                 drawMission (currentPreviewMission, calculateStatus (currentPreviewMission));
             }
             GUILayout.EndScrollView ();
@@ -38,7 +43,7 @@ namespace MissionController
             GUILayout.BeginHorizontal ();
             if (currentPreviewMission != null) {
                 if (GUILayout.Button ("Select mission")) {
-
+                    currentMission = currentPreviewMission;
                 }
             }
 

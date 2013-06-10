@@ -14,8 +14,8 @@ namespace MissionController
 
             // If it is an instruction, we assume there is an add(string) method and invoke it
             if (value.StartsWith ("RANDOM") || value.StartsWith ("ADD") || value.StartsWith ("TIME")) {
-                o.GetType ().GetMethod ("add", new Type[] { typeof(String) })
-                    .Invoke (o, new object[] { value });                                                                              
+                o.GetType ().GetMethod ("add", new Type[] { typeof(Instruction) })
+                    .Invoke (o, new object[] { new Instruction(field, value) });                                                                              
             }
 
             if (info.FieldType.Equals (typeof(String))) {

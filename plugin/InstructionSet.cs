@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Reflection;
 using System.Collections;
+using UnityEngine;
 
 namespace MissionController
 {
@@ -12,20 +13,19 @@ namespace MissionController
         /// Regex for random numbers: RANDOM(floating point, floating point)
         /// Works for double fields only!
         /// </summary>
-        private Regex randRegex = new Regex ("^RANDOM\\(\\s*([-+]?[0-9]*\\.?[0-9]+),\\s*([-+]?[0-9]*\\.?[0-9]+)\\)$");
+        private static Regex randRegex = new Regex ("^RANDOM\\(\\s*([-+]?[0-9]*\\.?[0-9]+),\\s*([-+]?[0-9]*\\.?[0-9]+)\\)$");
 
         /// <summary>
         /// Regex for ADD instruction: ADD(fieldName, floating point)
         /// Works for double fields only!
         /// </summary>
-        private Regex addRegex = new Regex ("^ADD\\(\\s*([a-zA-Z_]+),\\s*([-+]?[0-9]*\\.?[0-9]+)\\)$");
+        private static Regex addRegex = new Regex ("^ADD\\(\\s*([a-zA-Z_]+),\\s*([-+]?[0-9]*\\.?[0-9]+)\\)$");
 
         /// <summary>
         /// Regex for TIME value: TIME(5d).
         /// Works for double fields only!
         /// </summary>
-        private Regex timeRegex = new Regex("^TIME\\(\\s*(?:(\\d+)y)?\\s*(?:(\\d+)d)?\\s*(?:(\\d+)h)?\\s*(?:(\\d+)m)?\\s*(?:(\\d+(?:\\.\\d+)?)s)?\\s*\\)$");
-
+        private static Regex timeRegex = new Regex("^TIME\\(\\s*(?:(\\d+)y)?\\s*(?:(\\d+)d)?\\s*(?:(\\d+)h)?\\s*(?:(\\d+)m)?\\s*(?:(\\d+(?:\\.\\d+)?)s)?\\s*\\)$");
 
         private List<Instruction> instructions = new List<Instruction>();
 
@@ -40,10 +40,10 @@ namespace MissionController
         /// </summary>
         /// <returns>The instructions.</returns>
         /// <param name="seed">used seed</param>
-        public void executeInstructions (Random random) {
+        public void executeInstructions (System.Random random) {
             foreach (Instruction i in instructions) {
                 String value = "";
-                FieldInfo info = this.GetType ().GetField (i.field);
+                FieldInfo info = this.GetType ().GetField (i.field, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
 
                 // If the value starts with RANDOM(x, y)
                 // We have to generate a new number
@@ -92,13 +92,13 @@ namespace MissionController
                 }
             }
 
-            foreach (FieldInfo info in this.GetType().GetFields()) {
+            foreach (FieldInfo info in this.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance)) {
                 object obj = info.GetValue (this);
                 if (obj is InstructionSet) {
                     ((InstructionSet)obj).executeInstructions (random);
                 }
 
-                if (obj.GetType ().GetInterface ("IList") != null) {
+                if (obj != null && obj.GetType ().GetInterface ("IList") != null) {
                     IList ilist = (IList)obj;
 
                     foreach(object v in ilist) {

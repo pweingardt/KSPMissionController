@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Collections;
 using System.Text.RegularExpressions;
+using UnityEngine;
 
 namespace MissionController
 {
@@ -83,7 +84,7 @@ namespace MissionController
             try {
                 return readObject (reader);
             } catch (Exception e) {
-                Console.Write(e.Message);
+                Debug.LogError (e.Message);
                 return null;
             } finally {
                 reader.Close ();

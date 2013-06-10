@@ -22,8 +22,8 @@ namespace MissionController
         public double minApA = 0.0;
         public double maxApA = 0.0;
 
-        public double minInc = 0.0;
-        public double maxInc = 0.0;
+        public double minInclination = 0.0;
+        public double maxInclination = 0.0;
 
         public double minLan = 0.0;
         public double maxLan = 0.0;
@@ -95,13 +95,13 @@ namespace MissionController
                 }
             }
             
-            if (minInc != maxInc) {
+            if (minInclination != maxInclination) {
                 if (vessel == null) {
-                    values.Add (new Value ("Inclination", String.Format(MathTools.MinMaxValue, minInc, maxInc)));
+                    values.Add (new Value ("Inclination", String.Format(MathTools.MinMaxValue, minInclination, maxInclination)));
                 } else {
-                    values.Add (new Value ("Inclination", String.Format(MathTools.MinMaxValue, minInc, maxInc), 
+                    values.Add (new Value ("Inclination", String.Format(MathTools.MinMaxValue, minInclination, maxInclination), 
                                            String.Format(MathTools.SingleDoubleValue, vessel.orbit.inclination), 
-                                                      MathTools.inMinMax (minInc, maxInc, vessel.orbit.inclination)));
+                                                      MathTools.inMinMax (minInclination, maxInclination, vessel.orbit.inclination)));
                 }
             }
             

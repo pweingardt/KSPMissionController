@@ -6,7 +6,7 @@ namespace MissionController
     /// <summary>
     /// A mission
     /// </summary>
-    public class Mission
+    public class Mission : InstructionSet
     {
         /// The enum for the mission category
         /// The Flags annotation declares a bitfield

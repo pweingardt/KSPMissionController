@@ -19,17 +19,6 @@ namespace MissionController
         public String id = "";
 
         /// <summary>
-        /// nonPermanent = false makes the mission goal a permanent condition to finish the mission goal.
-        /// Use with caution.
-        /// </summary>
-        public bool nonPermanent = true;
-
-        /// <summary>
-        /// Indicates that the mission goals has been finished once. Don't set this inside a mission file.
-        /// </summary>
-        public bool doneOnce = false;
-
-        /// <summary>
         /// If repeatable = true, this mission goals can be accomplished more than once.
         /// </summary>
         public bool repeatable = false;
@@ -58,6 +47,17 @@ namespace MissionController
         /// Minimal time for this mission goal in seconds.
         /// </summary>
         public double minSeconds = 0.0;
+
+        /// <summary>
+        /// nonPermanent = false makes the mission goal a permanent condition to finish the mission goal.
+        /// Use with caution.
+        /// </summary>
+        public bool nonPermanent = true;
+
+        /// <summary>
+        /// Indicates that the mission goals has been finished once. Don't set this inside a mission file.
+        /// </summary>
+        public bool doneOnce = false;
 
         private double timeStarted = -1.0;
 

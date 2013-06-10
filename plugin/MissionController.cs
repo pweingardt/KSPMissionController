@@ -37,8 +37,6 @@ namespace MissionController
             }
         }
 
-        private Status status = new Status ();
-
         private List<MissionGoal> hiddenGoals = new List<MissionGoal> ();
     
         private Rect mainWindowPosition = new Rect (300, 70, 400, 700);
@@ -52,9 +50,7 @@ namespace MissionController
         private bool showMissionPackageBrowser = false;
 
         private FileBrowser fileBrowser = null;
-        private String selectedMissionFile = null;
         private Mission currentMission = null;
-
         private MissionPackage currentPackage = null;
 
         private Vector2 scrollPosition = new Vector2 (0, 0);
@@ -151,7 +147,7 @@ namespace MissionController
             // If we have a current mission selected, we need to reload it again!
             // If the new vessel is on EVA, we don't reload the mission. No need to.
             if (currentMission != null && !v.isEVA) {
-                currentMission = manager.loadMission (selectedMissionFile, v);
+                currentMission = manager.reloadMission(currentMission, activeVessel);
             }
         }
         
@@ -159,11 +155,15 @@ namespace MissionController
             manager.costs (vesselResources.sum());
         }
 
-        private Vessel vessel {
+        private Vessel activeVessel {
             get {
-                if(HighLogic.LoadedSceneIsFlight) {
-                    return FlightGlobals.ActiveVessel;
-                } else {
+                try {
+                    if(HighLogic.LoadedSceneIsFlight && FlightGlobals.ActiveVessel != null) {
+                        return FlightGlobals.ActiveVessel;
+                    } else {
+                        return null;
+                    }
+                } catch {
                     return null;
                 }
             }
@@ -246,6 +246,8 @@ namespace MissionController
         /// </summary>
         /// <param name="id">Identifier.</param>
         private void drawMainWindow (int id) {
+            Status status = calculateStatus (currentMission);
+
             GUI.skin = HighLogic.Skin;
             GUILayout.BeginVertical ();
             
@@ -291,24 +293,23 @@ namespace MissionController
                 }
             }
 
-
             if(currentMission != null) {
                 if (GUILayout.Button ("Deselect mission")) {
-                    selectedMissionFile = null;
                     currentMission = null;
                 }
             }
 
             if (status.missionIsFinishable) {
                 if (GUILayout.Button ("Finish the mission!")) {
-                    manager.finishMission (currentMission, vessel);
+                    manager.finishMission (currentMission, activeVessel);
                 }
             } else {
+                print ("Mission is not finishable!");
                 if (status.recyclable) {
                     VesselResources res = vesselResources;
                     showCostValue("Recyclable value: ", res.recyclable(), styleCaption);
                     if (GUILayout.Button ("Recycle this vessel!")) {
-                        manager.recycleVessel (vessel, (int)(res.recyclable()));
+                        manager.recycleVessel (activeVessel, (int)(res.recyclable()));
                     }
                 } else {
                     if (status.recycledVessel) {
@@ -380,6 +381,15 @@ namespace MissionController
                     GUILayout.Label("All goals accomplished. You can finish the mission now!", styleCaption);
                 }
             }
+
+            Debug.LogWarning ("canFinishMission: " + s.canFinishMission);
+            Debug.LogWarning ("missionIsFinishable: " + s.missionIsFinishable);
+            Debug.LogWarning ("recycledVessel: " + s.recycledVessel);
+            Debug.LogWarning ("vesselCanFinishMissions: " + s.vesselCanFinishMissions);
+            Debug.LogWarning ("missionAlreadyFinished: " + s.missionAlreadyFinished);
+            Debug.LogWarning ("requiresAnotherMission: " + s.requiresAnotherMission);
+            Debug.LogWarning ("recyclable: " + s.recyclable);
+            Debug.LogWarning ("onLaunchPad: " + s.onLaunchPad);
         }
 
         /// <summary>
@@ -409,7 +419,7 @@ namespace MissionController
                     GUILayout.EndHorizontal ();
                 }
 
-                List<Value> values = c.getValues (vessel);
+                List<Value> values = c.getValues (activeVessel);
 
                 foreach (Value v in values) {
                     GUILayout.BeginHorizontal ();
@@ -427,8 +437,8 @@ namespace MissionController
                 // "finish" the 2nd mission goal, you won't get the reward right away
                 // finish the 1st mission goal and the you will get the reward for the 2nd mission goal, because you finished it previously
                 // Probably fixed...
-                if (vessel != null) {
-                    if (s.finishableGoals[c.id]) {
+                if (activeVessel != null) {
+                    if (s.finishableGoals.ContainsKey(c.id) && s.finishableGoals[c.id]) {
                         if (GUILayout.Button ("Hide finished goal")) {
                             hiddenGoals.Add (c);
                         }
@@ -449,7 +459,7 @@ namespace MissionController
             fileBrowser.BrowserType = FileBrowserType.File;
             fileBrowser.CurrentDirectory = missionFolder;
             fileBrowser.disallowDirectoryChange = true;
-            fileBrowser.SelectionPattern = "*.mb";
+            fileBrowser.SelectionPattern = "*.mpkg";
 
             if (EditorLogic.fetch != null) {
                 EditorLogic.fetch.Lock (true, true, true);

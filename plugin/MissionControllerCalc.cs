@@ -8,34 +8,35 @@ namespace MissionController
     /// </summary>
     public partial class MissionController
     {
-        private void calculateStatus() {
-            this.status = calculateStatus (currentMission);
-        }
-
+        /// <summary>
+        /// Calculates the mission status. Some fields are not set by this method unless the passed mission
+        /// is the currently selected mission1!!
+        /// </summary>
+        /// <returns>The status.</returns>
+        /// <param name="mission">Mission.</param>
         private Status calculateStatus(Mission mission) {
             Status s = new Status ();
             bool selectedMission = (mission == currentMission);
 
             // Fill the mission status fields
             if (mission != null) {
-
                 s.requiresAnotherMission = (mission.requiresMission.Length != 0 
                                             && !manager.isMissionAlreadyFinished (mission.requiresMission));
 
-                s.missionAlreadyFinished = manager.isMissionAlreadyFinished (mission, vessel);
+                s.missionAlreadyFinished = manager.isMissionAlreadyFinished (mission, activeVessel);
             }
 
             // Fill the vessel fields, that are not dependant on the current mission
-            if (vessel != null) {
-                s.onLaunchPad = (vessel.situation == Vessel.Situations.PRELAUNCH);
-                s.recycledVessel = manager.isRecycledVessel (vessel);
-                s.recyclable = (vessel.Landed && !s.recycledVessel && !s.onLaunchPad && !vessel.isEVA);
+            if (activeVessel != null) {
+                s.onLaunchPad = (activeVessel.situation == Vessel.Situations.PRELAUNCH);
+                s.recycledVessel = manager.isRecycledVessel (activeVessel);
+                s.recyclable = (activeVessel.Landed && !s.recycledVessel && !s.onLaunchPad && !activeVessel.isEVA);
                 s.vesselCanFinishMissions = !s.recycledVessel;
             }
 
             // for all other fields we need both: a mission and a vessel
 
-            if (vessel == null || mission == null) {
+            if (activeVessel == null || mission == null) {
                 return s;
             }
 
@@ -47,10 +48,10 @@ namespace MissionController
 
             foreach (MissionGoal g in mission.goals) {
                 s.finishableGoals [g.id] = false;
-                if (orderOk && g.isDone (vessel)) {
-                    if (g.nonPermanent && s.canFinishMission && !manager.isMissionGoalAlreadyFinished (g, vessel) && selectedMission) {
+                if (selectedMission && orderOk && g.isDone (activeVessel)) {
+                    if (g.nonPermanent && s.canFinishMission && !manager.isMissionGoalAlreadyFinished (g, activeVessel)) {
                         s.finishableGoals [g.id] = true;
-                        manager.finishMissionGoal (g, vessel);
+                        manager.finishMissionGoal (g, activeVessel);
                     }
                 } else {
                     if (mission.inOrder) {
@@ -60,7 +61,7 @@ namespace MissionController
             }
 
             if (s.canFinishMission && selectedMission) {
-                s.missionIsFinishable = (!manager.isMissionAlreadyFinished(mission, vessel) && mission.isDone (vessel));
+                s.missionIsFinishable = (!manager.isMissionAlreadyFinished(mission, activeVessel) && mission.isDone (activeVessel));
             } else {
                 s.missionIsFinishable = false;
             }
@@ -93,10 +94,10 @@ namespace MissionController
                 VesselResources res = new VesselResources ();
                 try {
                     List<Part> parts;
-                    if(vessel == null) {
+                    if(activeVessel == null) {
                         parts = EditorLogic.SortedShipList;
                     } else {
-                        parts = vessel.parts;
+                        parts = activeVessel.parts;
                     }
 
                     foreach (Part p in parts) {

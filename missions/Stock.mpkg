@@ -21,8 +21,8 @@ MissionPackage
 
             maxEccentricity = 0.001
 
-            minInc = RANDOM(0, 88)
-            maxInc = ADD(minInc, 0.5)
+            minInclination = RANDOM(0, 88)
+            maxInclination = ADD(minInclination, 0.5)
         }
     }
     Mission
@@ -184,8 +184,8 @@ MissionPackage
 
             maxEccentricity = 0.0001
 
-            minInc = RANDOM(0, 88)
-            maxInc = ADD(minInc, 0.5)
+            minInclination = RANDOM(0, 88)
+            maxInclination = ADD(minInclination, 0.5)
         }
     }
     Mission
@@ -263,8 +263,8 @@ MissionPackage
         OrbitGoal
         {
             body = Kerbin
-            minInc = 85
-            maxInc = 90
+            minInclination = 85
+            maxInclination = 90
 
             minApA = 95000
             maxApA = 105000
@@ -310,8 +310,8 @@ MissionPackage
 
             maxEccentricity = 0.0001
 
-            minInc = RANDOM(0, 178)
-            maxInc = ADD(minInc, 0.25)
+            minInclination = RANDOM(0, 178)
+            maxInclination = ADD(minInclination, 0.25)
 
             minLan = RANDOM(0, 179.4)
             maxLan = ADD(minLan, 0.5)
@@ -333,7 +333,7 @@ MissionPackage
 
             maxEccentricity = 0.0001
 
-            maxInc = 0.02
+            maxInclination = 0.02
 
             minOrbitalPeriod = TIME(5h 59m 55s)
             maxOrbitalPeriod = TIME(6h 5s)
