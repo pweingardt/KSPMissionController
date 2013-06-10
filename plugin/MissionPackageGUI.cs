@@ -10,6 +10,10 @@ namespace MissionController
         private Vector2 previewMissionScrollPosition = new Vector2 ();
         private Mission currentPreviewMission = null;
 
+        private enum SortBy {NAME, REWARD};
+
+        private SortBy currentSort = SortBy.NAME;
+
         /// <summary>
         /// Draws the mission package browser window
         /// </summary>
@@ -18,15 +22,41 @@ namespace MissionController
             GUI.skin = HighLogic.Skin;
             GUILayout.BeginHorizontal ();
 
+            GUILayout.BeginVertical ();
+            String sort = (currentSort == SortBy.NAME ? "Sorted by name" : "Sorted by reward");
+            if (GUILayout.Button (sort, styleButton)) {
+                if (currentSort == SortBy.NAME) {
+                    currentSort = SortBy.REWARD;
+                    currentPackage.Missions.Sort (delegate(Mission x, Mission y) {
+                        return x.reward.CompareTo(y.reward);
+                    });
+                } else if (currentSort == SortBy.REWARD) {
+                    currentSort = SortBy.NAME;
+                    currentPackage.Missions.Sort (delegate(Mission x, Mission y) {
+                        return x.name.CompareTo(y.name);
+                    });
+                }
+            }
             packageScrollPosition = GUILayout.BeginScrollView (packageScrollPosition, GUILayout.Width(300));
 
             foreach (Mission m in currentPackage.Missions) {
-                if (GUILayout.Button (m.name)) {
+                GUIStyle style = styleButton;
+
+                if (m.requiresMission != null && m.requiresMission.Length != 0 && !manager.isMissionAlreadyFinished (m.requiresMission)) {
+                    style = styleRedButton;
+                }
+
+                if (m == currentPreviewMission) {
+                    style = styleGreenButton;
+                }
+
+                if (GUILayout.Button (m.name + ", " + m.reward + CurrencySuffix, style)) {
                     currentPreviewMission = manager.reloadMission(m, activeVessel);
                 }
             }
 
             GUILayout.EndScrollView ();
+            GUILayout.EndVertical ();
 
             GUILayout.BeginVertical ();
             previewMissionScrollPosition = GUILayout.BeginScrollView (previewMissionScrollPosition);

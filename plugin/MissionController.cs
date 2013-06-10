@@ -59,6 +59,7 @@ namespace MissionController
         private GUIStyle styleValueGreen;
         private GUIStyle styleValueRed;
         private GUIStyle styleButton;
+        private GUIStyle styleGreenButton, styleRedButton;
         private GUIStyle styleValueName;
         private GUIStyle styleIcon;
         private GUIStyle styleWarning;
@@ -108,6 +109,14 @@ namespace MissionController
             styleWarning.normal.textColor = Color.red;
             styleWarning.fontStyle = FontStyle.Normal;
             styleWarning.alignment = TextAnchor.MiddleLeft;
+
+            styleGreenButton = new GUIStyle (GUI.skin.button);
+            styleGreenButton.normal.textColor = Color.green;
+            styleGreenButton.alignment = TextAnchor.MiddleCenter;
+
+            styleRedButton = new GUIStyle (GUI.skin.button);
+            styleRedButton.normal.textColor = Color.red;
+            styleRedButton.alignment = TextAnchor.MiddleCenter;
         }
 
         public void toggleWindow () {
@@ -174,11 +183,10 @@ namespace MissionController
                     && !HighLogic.LoadedScene.Equals(GameScenes.SPACECENTER)) {
                 return;
             }
+            GUI.skin = HighLogic.Skin;
 
             loadIcons ();
             loadStyles ();
-
-            GUI.skin = HighLogic.Skin;
 
             if (GUI.Button (new Rect (Screen.width / 6 - 34, Screen.height - 34, 32, 32), menuIcon, styleIcon)) {
                 toggleWindow ();
@@ -346,6 +354,7 @@ namespace MissionController
 
             currentPackage = manager.loadMissionPackage (file);
             showMissionPackageBrowser = (currentPackage != null);
+            currentSort = SortBy.NAME;
 //            hiddenGoals = new List<MissionGoal> ();
         }
 
