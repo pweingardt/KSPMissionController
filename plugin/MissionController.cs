@@ -56,7 +56,6 @@ namespace MissionController
         private Mission currentMission = null;
 
         private MissionPackage currentPackage = null;
-        private String selectedMissionPackageFile = null;
 
         private Vector2 scrollPosition = new Vector2 (0, 0);
         private GUIStyle styleCaption;
@@ -282,9 +281,16 @@ namespace MissionController
             GUILayout.EndVertical ();
             GUILayout.EndScrollView ();
 
-            if (GUILayout.Button ("Select mission from package")) {
+            if (GUILayout.Button ("Select mission package")) {
                 createFileBrowser ("Select mission from package", selectMissionPackage);
             }
+
+            if(currentPackage != null) {
+                if (GUILayout.Button ("Open browser window")) {
+                    showMissionPackageBrowser = true;
+                }
+            }
+
 
             if(currentMission != null) {
                 if (GUILayout.Button ("Deselect mission")) {
@@ -337,7 +343,6 @@ namespace MissionController
                 return;
             }
 
-            selectedMissionPackageFile = file;
             currentPackage = manager.loadMissionPackage (file);
             showMissionPackageBrowser = (currentPackage != null);
 //            hiddenGoals = new List<MissionGoal> ();

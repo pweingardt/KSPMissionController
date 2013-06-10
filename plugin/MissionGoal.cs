@@ -6,7 +6,7 @@ namespace MissionController
     /// <summary>
     /// A single mission goal.
     /// </summary>
-    public abstract class MissionGoal
+    public abstract class MissionGoal : InstructionSet
     {
         /// <summary>
         /// The mission goals description

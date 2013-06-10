@@ -26,10 +26,10 @@ namespace MissionController
 
             GUILayout.BeginVertical ();
             previewMissionScrollPosition = GUILayout.BeginScrollView (previewMissionScrollPosition);
-            // Show the description text if no mission is currently selected inside the browser
+
+            // Show the description text if no mission is currently selected
             if (currentPreviewMission == null) {
                 GUILayout.Label (currentPackage.description, styleText);
-
             } else {
                 drawMission (currentPreviewMission, calculateStatus (currentPreviewMission));
             }

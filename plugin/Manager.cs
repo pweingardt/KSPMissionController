@@ -56,27 +56,60 @@ namespace MissionController
             return (MissionPackage) parser.readFile (path);
         }
 
+        public Mission reloadMission(Mission m, Vessel vessel) {
+            int count = 1;
+
+//            if (m.randomized) {
+//                RandomMission rm = currentProgram.findRandomMission (m);
+//                System.Random random = null;
+//
+//                if (rm != null) {
+//
+//                } else {
+//                    rm = new RandomMission ();
+//                    rm.seed = parser.lastSeed;
+//                    rm.missionName = m.name;
+//            
+//                    // TODO: Do we need to save the current program after this operation?
+//                    // currently: yes
+//                    currentProgram.add (rm);
+//                    saveProgram ();
+//                }
+//            }
+
+            foreach(MissionGoal c in m.goals) {
+                c.id = m.name + "__PART" + (count++);
+                c.repeatable = m.repeatable;
+            }
+
+            if (vessel != null) {
+                prepareMission (m, vessel);
+            }
+
+            return m;
+        }
+
         public Mission loadMission(String path, Vessel vessel) {
             int count = 1;
             Mission m = (Mission) parser.readFile (path);
 
             // If the mission is randomized, we need to reload it again, if it has been already loaded
-            if (m.randomized) {
-                RandomMission rm = currentProgram.findRandomMission(m);
-
-                if (rm != null) {
-                    m = (Mission)parser.readFile (path, rm.seed);
-                } else {
-                    rm = new RandomMission ();
-                    rm.seed = parser.lastSeed;
-                    rm.missionName = m.name;
-
-                    // TODO: Do we need to save the current program after this operation?
-                    // currently: yes
-                    currentProgram.add (rm);
-                    saveProgram ();
-                }
-            }
+//            if (m.randomized) {
+//                RandomMission rm = currentProgram.findRandomMission(m);
+//
+//                if (rm != null) {
+//                    m = (Mission)parser.readFile (path, rm.seed);
+//                } else {
+//                    rm = new RandomMission ();
+//                    rm.seed = parser.lastSeed;
+//                    rm.missionName = m.name;
+//
+//                    // TODO: Do we need to save the current program after this operation?
+//                    // currently: yes
+//                    currentProgram.add (rm);
+//                    saveProgram ();
+//                }
+//            }
 
             foreach(MissionGoal c in m.goals) {
                 c.id = m.name + "__PART" + (count++);

@@ -8,6 +8,16 @@ namespace MissionController
     /// </summary>
     public class Mission
     {
+        /// The enum for the mission category
+        /// The Flags annotation declares a bitfield
+        [Flags]
+        public enum Category {DEFAULT = 1, ORBIT = 2, LANDING = 4, DOCKING = 8, EVA = 16, MINING = 32};
+
+        /// <summary>
+        /// Mission category
+        /// </summary>
+        public Category category = Category.DEFAULT;
+
         /// <summary>
         /// Unique name
         /// </summary>
