@@ -29,3 +29,28 @@ way as before, but the user select the missions in a different way:
     smaller window. Only the currently selected mission can be finished!
 
 
+And now the definition of a mission package (.mpkg file):
+
+    MissionPackage
+    {
+        name = A *small* description of your mission package
+        description = A long description of your missions, with newest changes etc.
+
+        Mission
+        {
+            *normal mission definition*
+        }
+
+        Mission
+        {
+            *normal mission definition*
+        }
+    }
+
+
+Do not worry about the order of your missions. The plugin will sort the missions by name by default,
+but the user can also sort the missions by reward, and later on by category.
+
+I will write a script that converts multiple mission files (old \*.m files) into one mission package
+in order to make maintaining a mission package easier. It is easier to maintain several files instead of one,
+in my opinion.
