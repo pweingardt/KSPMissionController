@@ -22,6 +22,12 @@ namespace MissionController
             loadProgram ();
         }
 
+        /// <summary>
+        /// Recycles the vessel with the passed costs.
+        /// It is added to the recycled vessels list.
+        /// </summary>
+        /// <param name="vessel">Vessel.</param>
+        /// <param name="costs">Costs.</param>
         public void recycleVessel(Vessel vessel, int costs) {
             if (!isRecycledVessel (vessel)) {
                 currentProgram.money += costs;
@@ -43,6 +49,11 @@ namespace MissionController
             }
         }
 
+        /// <summary>
+        /// Discards the passed random mission.
+        /// Removed it from the random missions list
+        /// </summary>
+        /// <param name="m">M.</param>
         public void discardRandomMission(Mission m) {
             if (m.randomized) {
                 RandomMission rm = currentProgram.findRandomMission (m);

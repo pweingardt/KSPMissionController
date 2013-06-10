@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using UnityEngine;
 
 namespace MissionController
 {
@@ -18,8 +19,8 @@ namespace MissionController
                     .Invoke (o, new object[] { new Instruction(field, value) });                                                                              
             }
 
-            if (info.FieldType.Equals (typeof(Enum))) {
-                info.SetValue(o, Enum.Parse (info.GetType(), value));
+            if (info.FieldType.IsEnum) {
+                info.SetValue(o, Enum.Parse (info.FieldType, value));
             }
 
             if (info.FieldType.Equals (typeof(String))) {

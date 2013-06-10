@@ -61,8 +61,8 @@ namespace MissionController
         private GUIStyle styleButton;
         private GUIStyle styleGreenButton, styleRedButton;
         private GUIStyle styleValueName;
-        private GUIStyle styleIcon;
         private GUIStyle styleWarning;
+        private GUIStyle styleIcon;
 
         private void loadIcons () {
             if (menuIcon == null) {
@@ -92,8 +92,8 @@ namespace MissionController
             styleValueRed.normal.textColor = Color.red;
             styleValueRed.fontStyle = FontStyle.Normal;
             styleValueRed.alignment = TextAnchor.MiddleRight;
-            
-            styleButton = new GUIStyle (GUI.skin.button);
+
+            styleButton = new GUIStyle (HighLogic.Skin.button);
             styleButton.normal.textColor = Color.white;
             styleButton.fontStyle = FontStyle.Bold;
             styleButton.alignment = TextAnchor.MiddleCenter;
@@ -103,20 +103,20 @@ namespace MissionController
             styleValueName.fontStyle = FontStyle.Normal;
             styleValueName.alignment = TextAnchor.MiddleLeft;
 
-            styleIcon = new GUIStyle ();
-
             styleWarning = new GUIStyle (GUI.skin.label);
             styleWarning.normal.textColor = Color.red;
             styleWarning.fontStyle = FontStyle.Normal;
             styleWarning.alignment = TextAnchor.MiddleLeft;
 
-            styleGreenButton = new GUIStyle (GUI.skin.button);
+            styleGreenButton = new GUIStyle (HighLogic.Skin.button);
             styleGreenButton.normal.textColor = Color.green;
             styleGreenButton.alignment = TextAnchor.MiddleCenter;
 
-            styleRedButton = new GUIStyle (GUI.skin.button);
+            styleRedButton = new GUIStyle (HighLogic.Skin.button);
             styleRedButton.normal.textColor = Color.red;
             styleRedButton.alignment = TextAnchor.MiddleCenter;
+
+            styleIcon = new GUIStyle ();
         }
 
         public void toggleWindow () {
@@ -183,10 +183,11 @@ namespace MissionController
                     && !HighLogic.LoadedScene.Equals(GameScenes.SPACECENTER)) {
                 return;
             }
-            GUI.skin = HighLogic.Skin;
 
             loadIcons ();
             loadStyles ();
+
+            GUI.skin = HighLogic.Skin;
 
             if (GUI.Button (new Rect (Screen.width / 6 - 34, Screen.height - 34, 32, 32), menuIcon, styleIcon)) {
                 toggleWindow ();
@@ -312,7 +313,6 @@ namespace MissionController
                     manager.finishMission (currentMission, activeVessel);
                 }
             } else {
-                print ("Mission is not finishable!");
                 if (status.recyclable) {
                     VesselResources res = vesselResources;
                     showCostValue("Recyclable value: ", res.recyclable(), styleCaption);
@@ -330,6 +330,7 @@ namespace MissionController
 //            }
 
             // If this is a randomized mission, we can discard the mission
+            // This is currently deactivated in this window. It has moved to the mission package browser
 //            if (currentMission != null && currentMission.randomized) {
 //                if (GUILayout.Button ("Discard mission!")) {
 //                    manager.discardRandomMission (currentMission);
@@ -390,15 +391,6 @@ namespace MissionController
                     GUILayout.Label("All goals accomplished. You can finish the mission now!", styleCaption);
                 }
             }
-
-            Debug.LogWarning ("canFinishMission: " + s.canFinishMission);
-            Debug.LogWarning ("missionIsFinishable: " + s.missionIsFinishable);
-            Debug.LogWarning ("recycledVessel: " + s.recycledVessel);
-            Debug.LogWarning ("vesselCanFinishMissions: " + s.vesselCanFinishMissions);
-            Debug.LogWarning ("missionAlreadyFinished: " + s.missionAlreadyFinished);
-            Debug.LogWarning ("requiresAnotherMission: " + s.requiresAnotherMission);
-            Debug.LogWarning ("recyclable: " + s.recyclable);
-            Debug.LogWarning ("onLaunchPad: " + s.onLaunchPad);
         }
 
         /// <summary>

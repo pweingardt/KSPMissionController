@@ -50,7 +50,7 @@ namespace MissionController
                     style = styleGreenButton;
                 }
 
-                if (GUILayout.Button (m.name + ", " + m.reward + CurrencySuffix, style)) {
+                if (GUILayout.Button (m.name + ", " + m.reward + CurrencySuffix + "\n" + m.category, style)) {
                     currentPreviewMission = manager.reloadMission(m, activeVessel);
                 }
             }
@@ -74,6 +74,11 @@ namespace MissionController
             if (currentPreviewMission != null) {
                 if (GUILayout.Button ("Select mission")) {
                     currentMission = currentPreviewMission;
+                }
+
+                if (currentPreviewMission.randomized && GUILayout.Button ("Discard")) {
+                    manager.discardRandomMission (currentPreviewMission);
+                    currentPreviewMission = manager.reloadMission (currentPreviewMission, activeVessel);
                 }
             }
 
