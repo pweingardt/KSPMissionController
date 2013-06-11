@@ -68,6 +68,7 @@ A mission has several fields
 * repeatable: if true, the mission is repeatable. Requires a different vessel. You can't finish the
     same repeatable mission with the same vessel more than once.
 * inOrder: if true, the mission goals have to be finished in the defined order (default: true)
+* vesselIndependent: if true, it does not matter with which vessel the mission goal has been finished. (default: false)
 
 A mission has one or multiple mission goals. After you have finished the mission, you get the reward.
 
@@ -83,7 +84,9 @@ Currently there are six mission goals:
 3. ResourceGoal to define a required resource
 4. PartGoal to define a required part
 5. EVAGoal to define an EVA
-6. SubMissionGoal to combine multiple goals into one goal.
+6. CrashGoal to define an impact
+7. DockingGoal to define a docking maneuver
+8. SubMissionGoal to combine multiple goals into one goal.
 
 ### Common mission goal fields (available in *all* mission goals)
 
@@ -156,6 +159,8 @@ Fields:
 Defines a mission goal that requires a certain amount of a certain part on your vessel.
 Use it in combination with SubMissionGoal! See [SubMissionGoal](#submission) for more informations.
 
+Overrides default field `throttleDown` to `false`.
+
 Fields:
 
 * partName: name of the part
@@ -165,6 +170,8 @@ Fields:
 ### EVAGoal
 
 Defines an EVA.
+
+Overrides default field `vesselIndependent` to `true`.
 
 Fields:
 
@@ -177,6 +184,23 @@ Usage:
     }
 
 Yes, those brackets *are necessary*!
+
+### CrashGoal
+
+Defines an impact.
+
+Field:
+* body: name of the celestial body
+
+
+### DockingGoal
+
+Defines a successful docking.
+
+Fields:
+
+* no extra fields
+
 
 ### <a id="#submission"></a>SubMissionGoal
 

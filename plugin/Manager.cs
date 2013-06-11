@@ -97,6 +97,9 @@ namespace MissionController
 
                 random = new System.Random (rm.seed);
                 m.executeInstructions (random);
+            } else {
+                // Maybe there are some instructions. We have to execute them!!!
+                m.executeInstructions (new System.Random());
             }
 
             foreach(MissionGoal c in m.goals) {
@@ -175,7 +178,7 @@ namespace MissionController
 
             foreach (GoalStatus con in currentProgram.completedGoals) {
                 // If the mission goal is an EVAGoal, we don't care about the vessel id. Otherwise we do...
-                if(con.id.Equals(c.id) && (con.vesselGuid.Equals (v.id.ToString()) || c is EVAGoal)) {
+                if(con.id.Equals(c.id) && (con.vesselGuid.Equals (v.id.ToString()) || c.vesselIndenpendent)) {
                     return true;
                 }
             }

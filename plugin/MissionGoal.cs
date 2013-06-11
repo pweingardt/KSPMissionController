@@ -59,6 +59,11 @@ namespace MissionController
         /// </summary>
         public bool doneOnce = false;
 
+        /// <summary>
+        /// If true it does not matter with which vessel this goal has been finished.
+        /// </summary>
+        public bool vesselIndenpendent = false;
+
         private double timeStarted = -1.0;
 
         /// <summary>

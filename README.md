@@ -6,8 +6,9 @@ You can even create your own missions with a simple text editor and a small tuto
 
 ### How this works
 
-Once you have an active vessel (the plugin does not work in the editor), in the bottm left part of your screen appears a new icon: "MC"
-for Mission Control. Click on it and it gives you the mission window, that shows your budget and informations about
+In the bottom left corner is a new icon (appears only when you are at the space center, flying a vessel or
+building a rocket or a plane): "MC" for mission controller.
+Click on it and it gives you the mission window, that shows your budget and informations about
 the currently selected mission.
 
 But be careful with your rockets! Once you launch the space craft on the launchpad, it will cost you Kerbin krones (the currency on Kerbin, ₭). Even if you restart the
@@ -20,7 +21,11 @@ and other materials (= mass without fuel). But don't worry, the Kerbal Space Pro
 
 ### How to accomplish a mission
 
-Open the mission window and select the mission you want to accomplish.
+Open the mission package browser window and select the mission package to browse the missions.
+A bigger window opens and you can browse through all missions in that mission package. Once you have decided to finish the selected
+mission, press "select mission" and the mission package browser disappears. The previously selected mission appears in the smaller
+window and you are able to finish the mission now.
+
 Before you launch the space craft, you should read the mission description and all mission goals. Just to be clear
 that you didn't forget something... because you will forget something.
 Then launch your space craft and accomplish the *first* mission goal. Most missions require you to finish the mission
@@ -36,7 +41,8 @@ Reward: 24000 + 2000
 You can't finish the second mission goal before you did not finish the first mission goal. Once you have achieved the
 stable orbit, you get a small reward for reaching this goal (you can hide all finished goals by pressing the button). When you are out of
 fuel and can't make it back to Kerbin, you will not get the 14k reward. Once you *land or splash* back on Kerbin, you get the full
-14k + 2k reward. There are missions, where a splash is not enough. Crashes on the surface, that do not destroy the space craft, are sufficient.
+14k + 2k reward. There are missions, where a splash is not enough. Crashes on the surface, that do not destroy the space craft,
+are sufficient but reduce the recyclable value of the crashed ("landed") vessel.
 
 Let's take another look at the "Mun I" mission:
 

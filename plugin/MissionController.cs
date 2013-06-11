@@ -252,7 +252,7 @@ namespace MissionController
         /// </summary>
         /// <param name="id">Identifier.</param>
         private void drawMainWindow (int id) {
-            Status status = calculateStatus (currentMission);
+            Status status = calculateStatus (currentMission, true);
 
             GUI.skin = HighLogic.Skin;
             GUILayout.BeginVertical ();
@@ -430,11 +430,6 @@ namespace MissionController
                     GUILayout.EndHorizontal ();
                 }
 
-                // Here is a possible bug: the mission goal can be finished in the wrong order:
-                // example: two mission goals
-                // "finish" the 2nd mission goal, you won't get the reward right away
-                // finish the 1st mission goal and the you will get the reward for the 2nd mission goal, because you finished it previously
-                // Probably fixed...
                 if (activeVessel != null) {
                     if (s.finishableGoals.ContainsKey(c.id) && s.finishableGoals[c.id]) {
                         if (GUILayout.Button ("Hide finished goal")) {

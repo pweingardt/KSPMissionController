@@ -15,9 +15,8 @@ namespace MissionController
         /// </summary>
         /// <returns>The status.</returns>
         /// <param name="mission">Mission.</param>
-        private Status calculateStatus(Mission mission) {
+        private Status calculateStatus(Mission mission, bool fullCheck = false) {
             Status s = new Status ();
-            bool selectedMission = (mission == currentMission);
 
             // Fill the mission status fields
             if (mission != null) {
@@ -48,7 +47,7 @@ namespace MissionController
             // Only the selected mission is tracked and finishable. A preview Mission is *NOT* finishable.
 
             // We calculate the events only for the selected mission, because we might need to reset them.
-            if (selectedMission) {
+            if (fullCheck) {
                 if(eventFlags.Has(EventFlags.CRASHED)) {
                     eventFlags = eventFlags.Remove (EventFlags.CRASHED);
                     s.events.isCrashed = true;
@@ -64,9 +63,11 @@ namespace MissionController
 
             foreach (MissionGoal g in mission.goals) {
                 s.finishableGoals [g.id] = false;
-                if (selectedMission && orderOk && g.isDone (activeVessel, s.events)) {
-                    if (g.nonPermanent && s.canFinishMission && !manager.isMissionGoalAlreadyFinished (g, activeVessel)) {
+                if (fullCheck && orderOk && g.isDone (activeVessel, s.events)) {
+                    if (g.nonPermanent && (s.canFinishMission || manager.isMissionGoalAlreadyFinished (g, activeVessel))) {
                         s.finishableGoals [g.id] = true;
+
+                        // Let the manager handle the already finished goals...
                         manager.finishMissionGoal (g, activeVessel, s.events);
                     }
                 } else {
@@ -76,7 +77,7 @@ namespace MissionController
                 }
             }
 
-            if (s.canFinishMission && selectedMission) {
+            if (s.canFinishMission && fullCheck) {
                 s.missionIsFinishable = (!manager.isMissionAlreadyFinished(mission, activeVessel) && mission.isDone (activeVessel, s.events));
             } else {
                 s.missionIsFinishable = false;
