@@ -37,6 +37,9 @@ namespace MissionController
         public double minSpeedOverGround = 0.0;
         public double maxSpeedOverGround = 0.0;
 
+        public double minVerticalSpeed = 0.0;
+        public double maxVerticalSpeed = 0.0;
+
         public String body = "Kerbin";
 
         protected override List<Value> values(Vessel vessel) {
@@ -177,6 +180,24 @@ namespace MissionController
                     values.Add (new Value("Orbital Period", String.Format(MathTools.MinMaxString, 
                                                                           MathTools.formatTime(minOrbitalPeriod), MathTools.formatTime(maxOrbitalPeriod)),
                                           MathTools.formatTime(vessel.orbit.period), MathTools.inMinMax(minOrbitalPeriod, maxOrbitalPeriod, vessel.orbit.period)));
+                }
+            }
+
+            if (minVerticalSpeed != 0.0) { //both min and max Vertical Speed variables are tested in game.  Good Test.
+                if (vessel == null) {
+                    values.Add (new Value ("Min Vertical Speed", String.Format(MathTools.SingleDoubleValue, minVerticalSpeed)));
+                } else {
+                    values.Add (new Value ("Min Vertical Speed", String.Format(MathTools.SingleDoubleValue, minVerticalSpeed), 
+                                           vessel.verticalSpeed, vessel.verticalSpeed >= minVerticalSpeed));
+                }
+            }
+
+            if (maxVerticalSpeed != 0.0) {
+                if (vessel == null) {
+                    values.Add (new Value ("Max Vertical Speed", String.Format(MathTools.SingleDoubleValue, maxVerticalSpeed)));
+                } else {
+                    values.Add (new Value ("Max Vertical Speed", String.Format(MathTools.SingleDoubleValue, maxVerticalSpeed), 
+                                           vessel.verticalSpeed, vessel.verticalSpeed <= maxVerticalSpeed));
                 }
             }
 
