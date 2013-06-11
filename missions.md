@@ -99,6 +99,8 @@ Currently there are six mission goals:
     with the same vessel more than once. (default: false) (do not use this field unless you have to and you know what you are doing)
 * minSeconds: the minimal seconds the vessel needs to meet all requirements for this mission goal to be able to
     finish this mission goal. (default: -1, ignored) Use TIME() instruction to set high values (see below).
+* minTotalMass: the minimal total mass of the vessel, in tons (default: 0, ignored)
+* maxTotalMass: the maximal total mass of the vessel, in tons (default: 0, ignored)
 
 ### OrbitGoal
 

@@ -64,6 +64,12 @@ namespace MissionController
         /// </summary>
         public bool vesselIndenpendent = false;
 
+        /// <summary>
+        /// The maximal and minimal total mass
+        /// </summary>
+        public double minTotalMass = 0.0;
+        public double maxTotalMass = 0.0;
+
         private double timeStarted = -1.0;
 
         /// <summary>
@@ -114,6 +120,26 @@ namespace MissionController
                 } else {
                     vs.Add (new Value ("Crew count", "" + crewCount, "" + vessel.GetCrewCount (),
                                    crewCount <= vessel.GetCrewCount ()));
+                }
+            }
+
+            if (minTotalMass != 0.0) {
+                if (vessel == null) {
+                    vs.Add(new Value("min. total mass", String.Format(MathTools.SingleDoubleValue, minTotalMass)));
+                } else {
+                    vs.Add(new Value("min. total mass", String.Format(MathTools.SingleDoubleValue, minTotalMass),
+                                     String.Format(MathTools.SingleDoubleValue, vessel.GetTotalMass()),
+                                     vessel.GetTotalMass() >= minTotalMass));
+                }
+            }
+
+            if (maxTotalMass != 0.0) {
+                if (vessel == null) {
+                    vs.Add(new Value("max. total mass", String.Format(MathTools.SingleDoubleValue, maxTotalMass)));
+                } else {
+                    vs.Add(new Value("max. total mass", String.Format(MathTools.SingleDoubleValue, maxTotalMass),
+                                     String.Format(MathTools.SingleDoubleValue, vessel.GetTotalMass()),
+                                     vessel.GetTotalMass() <= maxTotalMass));
                 }
             }
 
