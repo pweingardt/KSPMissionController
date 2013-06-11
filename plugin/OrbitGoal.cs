@@ -40,6 +40,9 @@ namespace MissionController
         public double minVerticalSpeed = 0.0;
         public double maxVerticalSpeed = 0.0;
 
+        public double minGForce = 0.0;
+        public double maxGForce = 0.0;
+
         public String body = "Kerbin";
 
         protected override List<Value> values(Vessel vessel) {
@@ -198,6 +201,24 @@ namespace MissionController
                 } else {
                     values.Add (new Value ("Max Vertical Speed", String.Format(MathTools.SingleDoubleValue, maxVerticalSpeed), 
                                            vessel.verticalSpeed, vessel.verticalSpeed <= maxVerticalSpeed));
+                }
+            }
+
+            if (minGForce != 0.0) {
+                if (vessel == null) {
+                    values.Add (new Value ("Min G Force", String.Format(MathTools.SingleDoubleValue, minGForce)));
+                } else {
+                    values.Add (new Value ("Min G Force", String.Format(MathTools.SingleDoubleValue, minGForce), 
+                                           vessel.geeForce, vessel.geeForce >= minGForce));
+                }
+            }
+
+            if (maxGForce != 0.0) {
+                if (vessel == null) {
+                    values.Add (new Value ("Max G Force", String.Format(MathTools.SingleDoubleValue, maxGForce)));
+                } else {
+                    values.Add (new Value ("Max G Force", String.Format(MathTools.SingleDoubleValue, maxGForce), 
+                                           vessel.geeForce, vessel.geeForce <= maxGForce));
                 }
             }
 
