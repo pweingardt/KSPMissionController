@@ -57,8 +57,9 @@ namespace MissionController
 
         /// <summary>
         /// The order in the mission package.
+        /// Set to a very high number so that it is the last mission
         /// </summary>
-        public int packageOrder = 0;
+        public int packageOrder = 1000;
 
         /// <summary>
         /// If this field is not empty, then this mission requires another mission to be finished. If it has not been finished, 

@@ -111,10 +111,12 @@ namespace MissionController
             styleGreenButton = new GUIStyle (HighLogic.Skin.button);
             styleGreenButton.normal.textColor = Color.green;
             styleGreenButton.alignment = TextAnchor.MiddleCenter;
+            styleGreenButton.wordWrap = true;
 
             styleRedButton = new GUIStyle (HighLogic.Skin.button);
             styleRedButton.normal.textColor = Color.red;
             styleRedButton.alignment = TextAnchor.MiddleCenter;
+            styleRedButton.wordWrap = true;
 
             styleIcon = new GUIStyle ();
         }
@@ -342,7 +344,7 @@ namespace MissionController
             currentPackage = manager.loadMissionPackage (file);
             currentPreviewMission = null;
             showMissionPackageBrowser = (currentPackage != null);
-            currentSort = SortBy.NAME;
+            currentSort = (currentPackage.ownOrder ? SortBy.PACKAGE_ORDER : SortBy.NAME);
 //            hiddenGoals = new List<MissionGoal> ();
         }
 

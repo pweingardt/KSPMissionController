@@ -10,7 +10,7 @@ namespace MissionController
         private Vector2 previewMissionScrollPosition = new Vector2 ();
         private Mission currentPreviewMission = null;
 
-        private enum SortBy {NAME, REWARD, PACKAGE_ORDER};
+        public enum SortBy {NAME, REWARD, PACKAGE_ORDER};
 
         private SortBy currentSort = SortBy.NAME;
         private Dictionary<SortBy, String> sortStrings = new Dictionary<SortBy, string>() {
@@ -57,7 +57,7 @@ namespace MissionController
                     style = styleGreenButton;
                 }
 
-                if (GUILayout.Button (m.name + ", " + m.reward + CurrencySuffix + "\n" + m.category, style)) {
+                if (GUILayout.Button (m.name + "\n" + m.reward + CurrencySuffix, style, GUILayout.Width(400))) {
                     currentPreviewMission = manager.reloadMission(m, activeVessel);
                 }
             }

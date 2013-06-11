@@ -1,10 +1,17 @@
-# current master branch
+# version 0.5:
 
-* one .sp file for each KSP save, using HighLogic.CurrentGame.Title. To use the old spaceProgram.sp file rename
-    it to `TITLE (Sandbox).sp`, where TITLE is the game title.
-* saves the space program every time the game scene changes. Change it to save the space program only if
-    the game scene is the main menu?
-
+* implemented DockingGoal
+* added CrashGoal
+* resized mission package browser
+* fixed some bugs with the mission package browser
+* added sort button
+* added new mission goal fields: min/maxTotalMass
+* added new orbit goal fields: min/maxGForce, min/maxVerticalSpeed
+* one .sp file for each KSP save. To use your old spaceProgram.sp file rename
+    it to `TITLE (Sandbox).sp`, where TITLE is the game title, e.g. `KSP (Sandbox).sp`. It is located in
+    `GameData/MissionController/Plugins/PluginData/MissionController/`
+* added the possibility for mission designers to sort their missions with a new field: packageOrder and ownOrder.
+    See documentation on github for more.
 
 # Changelog
 

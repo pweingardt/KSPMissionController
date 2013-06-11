@@ -75,9 +75,16 @@ namespace MissionController
         /// <param name="path">Path.</param>
         public MissionPackage loadMissionPackage(String path) {
             MissionPackage pkg = (MissionPackage) parser.readFile (path);
-            pkg.Missions.Sort (delegate(Mission m1, Mission m2) {
-                return m1.name.CompareTo(m2.name);
-            });
+
+            if (pkg.ownOrder) {
+                pkg.Missions.Sort (delegate(Mission m1, Mission m2) {
+                    return m1.packageOrder.CompareTo(m2.packageOrder);
+                });
+            } else {
+                pkg.Missions.Sort (delegate(Mission m1, Mission m2) {
+                    return m1.name.CompareTo(m2.name);
+                });
+            }
             return pkg;
         }
 
