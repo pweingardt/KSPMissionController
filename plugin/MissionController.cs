@@ -39,7 +39,7 @@ namespace MissionController
     
         private Rect mainWindowPosition = new Rect (300, 70, 400, 700);
         private Rect testWindowPosition = new Rect (Screen.width / 2 - 150, Screen.height / 2 - 100, 300, 150);
-        private Rect settingsWindowPosition = new Rect (700, 70, 300, 400);
+        private Rect settingsWindowPosition = new Rect (700, 70, 300, 250);
         private Rect packageWindowPosition = new Rect (50, 50, 800, 700);
 
         private bool showMainWindow = false;
@@ -283,6 +283,7 @@ namespace MissionController
             } else {
                 if (GUILayout.Button ("Configure")) {
                     showSettingsWindow = !showSettingsWindow;
+                    resetCount = 0;
                 }
             }
             
@@ -351,6 +352,7 @@ namespace MissionController
             }
 
             currentPackage = manager.loadMissionPackage (file);
+            currentPreviewMission = null;
             showMissionPackageBrowser = (currentPackage != null);
             currentSort = SortBy.NAME;
 //            hiddenGoals = new List<MissionGoal> ();
