@@ -73,6 +73,8 @@ namespace MissionController
             GUILayout.BeginHorizontal ();
             if (currentPreviewMission != null) {
                 if (GUILayout.Button ("Select mission")) {
+                    // we also reset the hiddenGoals field
+                    hiddenGoals = new List<MissionGoal> ();
                     currentMission = currentPreviewMission;
                 }
 

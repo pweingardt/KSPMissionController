@@ -24,6 +24,13 @@ namespace MissionController
         }
 
         /// <summary>
+        /// Reset the current space program.
+        /// </summary>
+        public void resetSpaceProgram() {
+            spaceProgram = SpaceProgram.generate ();
+        }
+
+        /// <summary>
         /// Recycles the vessel with the given costs.
         /// It is added to the recycled vessels list.
         /// </summary>
