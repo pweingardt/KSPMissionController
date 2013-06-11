@@ -50,6 +50,29 @@ And now the definition of a mission package (.mpkg file):
 
 Do not worry about the order of your missions. The plugin will sort the missions by name by default,
 but the user can also sort the missions by reward, and later on by category.
+If you want to provide your own mission order, use the ownOrder field:
+
+    MissionPackage
+    {
+        ...
+        ownOrder = true
+        ...
+
+        Mission
+        {
+            ...
+            packageOrder = 1
+            ...
+        }
+
+        Mission
+        {
+            ...
+            packageOrder = 2
+            ...
+        }
+    }
+
 
 I will write a script that converts multiple mission files (old \*.m files) into one mission package
 in order to make maintaining a mission package easier. It is easier to maintain several files instead of one,
@@ -69,6 +92,7 @@ A mission has several fields
     same repeatable mission with the same vessel more than once.
 * inOrder: if true, the mission goals have to be finished in the defined order (default: true)
 * vesselIndependent: if true, it does not matter with which vessel the mission goal has been finished. (default: false)
+* packageOrder: the number of this mission. Used to sort the missions. (default: 0, ignored)
 
 A mission has one or multiple mission goals. After you have finished the mission, you get the reward.
 
@@ -366,5 +390,6 @@ The fileformat for mission packages is restrictive:
 2. no quotation marks like in C or Java
 3. use `{` and `}` seperately, in one line
 4. case sensitive
+5. '#' at the beginning of the line (spaces and tabs don't matter) marks a comment
 
 

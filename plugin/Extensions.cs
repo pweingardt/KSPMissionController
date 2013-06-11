@@ -27,7 +27,12 @@ namespace MissionController
             }    
         }
 
-
+        /// <summary>
+        /// Adds the passed flag
+        /// </summary>
+        /// <param name="type">Type.</param>
+        /// <param name="value">Value.</param>
+        /// <typeparam name="T">The 1st type parameter.</typeparam>
         public static T Add<T>(this System.Enum type, T value) {
             try {
                 return (T)(object)(((int)(object)type | (int)(object)value));
@@ -41,7 +46,12 @@ namespace MissionController
             }    
         }
 
-
+        /// <summary>
+        /// Removed the given flag
+        /// </summary>
+        /// <param name="type">Type.</param>
+        /// <param name="value">Value.</param>
+        /// <typeparam name="T">The 1st type parameter.</typeparam>
         public static T Remove<T>(this System.Enum type, T value) {
             try {
                 return (T)(object)(((int)(object)type & ~(int)(object)value));
@@ -53,6 +63,19 @@ namespace MissionController
                     typeof(T).Name
                     ), ex);
             }  
+        }
+
+        /// <summary>
+        /// Returns the next flag
+        /// </summary>
+        /// <param name="type">Type.</param>
+        /// <typeparam name="T">The 1st type parameter.</typeparam>
+        public static T Next<T>(this T type) {
+            if (!typeof(T).IsEnum) throw new ArgumentException(String.Format("Argumnent {0} is Not an Enum",typeof(T).FullName));
+
+            T[] Arr = (T[])Enum.GetValues(type.GetType());
+            int j = Array.IndexOf<T>(Arr, type) + 1;
+            return (Arr.Length == j) ? Arr[0] : Arr[j];
         }
     }
 }

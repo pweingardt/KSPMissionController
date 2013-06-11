@@ -56,6 +56,11 @@ namespace MissionController
         public bool randomized = false;
 
         /// <summary>
+        /// The order in the mission package.
+        /// </summary>
+        public int packageOrder = 0;
+
+        /// <summary>
         /// If this field is not empty, then this mission requires another mission to be finished. If it has not been finished, 
         /// then this mission can not be finished either.
         /// </summary>

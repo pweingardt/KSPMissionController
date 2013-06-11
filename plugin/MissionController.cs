@@ -40,7 +40,7 @@ namespace MissionController
         private Rect mainWindowPosition = new Rect (300, 70, 400, 700);
         private Rect testWindowPosition = new Rect (Screen.width / 2 - 150, Screen.height / 2 - 100, 300, 150);
         private Rect settingsWindowPosition = new Rect (700, 70, 300, 250);
-        private Rect packageWindowPosition = new Rect (50, 50, 800, 700);
+        private Rect packageWindowPosition = new Rect (50, 50, 1000, 700);
 
         private bool showMainWindow = false;
         private bool showTestVesselWindow = false;

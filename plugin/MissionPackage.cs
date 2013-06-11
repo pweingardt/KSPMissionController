@@ -19,6 +19,11 @@ namespace MissionController
         public String description = "";
 
         /// <summary>
+        /// If true the mission package uses its own order mechanism. Use order for *all* missions
+        /// </summary>
+        public bool ownOrder = false;
+
+        /// <summary>
         /// The missions in this package
         /// </summary>
         private List<Mission> missions = new List<Mission>();
