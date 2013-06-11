@@ -129,6 +129,7 @@ Currently there are six mission goals:
 ### OrbitGoal
 
 Defines a certain orbit around a certain body as mission goal. All fields are optional.
+Should also be used for aviation mission goals.
 
 Fields:
 
@@ -153,6 +154,10 @@ Fields:
 * maxAltitude: maximal altitude for aviation (default: 0, ignored)
 * minSpeedOverGround: minimal horizontal speed (default: 0, ignored)
 * maxSpeedOverGround: maximal horizontal speed (default: 0, ignored)
+* minGForce: minimal G force (default: 0, ignored)
+* maxGForce: maximal G force (default: 0, ignored)
+* minVerticalSpeed: minimal vertical speed (default: 0, ignored)
+* maxVerticalSpeed: maximal vertical speed (default: 0, ignored)
 
 ### LandingGoal
 
