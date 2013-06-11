@@ -7,7 +7,7 @@ namespace MissionController
     {
         private int resetCount = 0;
         private String[] resetStrings = new String[] {"Reset the space program!", "Are you sure?", "Are you *really* sure?",
-            "I don't think you are...", "Ok... fine...", "Last change!"
+            "I don't think you are...", "Ok... fine...", "Last chance!"
         };
 
         private String contributions = "Plugin information and contributions:\nMain developer: nobody44\ndeveloper: vaughner81\nimages: BlazingAngel665\n" +
