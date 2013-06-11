@@ -323,18 +323,6 @@ namespace MissionController
                     }
                 }
             }
-//            } else {
-//                GUILayout.Label ("THIS IS A TEST VESSEL!", styleCaption);
-//            }
-
-            // If this is a randomized mission, we can discard the mission
-            // This is currently deactivated in this window. It has moved to the mission package browser
-//            if (currentMission != null && currentMission.randomized) {
-//                if (GUILayout.Button ("Discard mission!")) {
-//                    manager.discardRandomMission (currentMission);
-//                    selectMissionPackage (selectedMissionFile);
-//                }
-//            }
 
             GUILayout.EndVertical ();
             GUI.DragWindow ();
