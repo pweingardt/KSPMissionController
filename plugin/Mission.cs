@@ -73,13 +73,13 @@ namespace MissionController
         /// </summary>
         /// <returns><c>true</c>, if done was ised, <c>false</c> otherwise.</returns>
         /// <param name="vessel">current vessel</param>
-        public bool isDone(Vessel vessel) {
+        public bool isDone(Vessel vessel, GameEvent events) {
             if (vessel == null) {
                 return false;
             }
 
             foreach (MissionGoal c in goals) {
-                if (!c.isDone (vessel) && !c.optional) {
+                if (!c.isDone (vessel, events) && !c.optional) {
                     return false;
                 }
             }

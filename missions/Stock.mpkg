@@ -6,6 +6,19 @@ MissionPackage
 
     Mission
     {
+        name = CRASH TEST
+        description = We need to crash a lander on Kerbin!
+        reward = 20000
+
+        CrashGoal
+        {
+            body = Kerbin
+        }
+    }
+
+
+    Mission
+    {
         name = ComSat Contract I
         description = We signed a contract to bring a satellite into a very specific orbit.
         repeatable = true

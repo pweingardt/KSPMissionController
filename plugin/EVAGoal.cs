@@ -8,7 +8,7 @@ namespace MissionController
     /// </summary>
     public class EVAGoal : MissionGoal
     {
-        protected override List<Value> values (Vessel v)
+        protected override List<Value> values (Vessel v, GameEvent events)
         {
             List<Value> vs = new List<Value> ();
 

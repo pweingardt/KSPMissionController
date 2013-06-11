@@ -41,7 +41,6 @@
     <Reference Include="System.Core" />
     <Reference Include="MissionLibrary">
       <HintPath>lib\MissionLibrary.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral">
       <Private>False</Private>
@@ -76,6 +75,9 @@
     <Compile Include="InstructionSet.cs" />
     <Compile Include="ReflectionTools.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="CrashGoal.cs" />
+    <Compile Include="GameEvent.cs" />
+    <Compile Include="MissionControllerEvents.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -62,6 +62,8 @@ namespace MissionController
         private GUIStyle styleWarning;
         private GUIStyle styleIcon;
 
+        private EventFlags eventFlags = EventFlags.NONE;
+
         private void loadIcons () {
             if (menuIcon == null) {
                 menuIcon = new Texture2D (30, 30, TextureFormat.ARGB32, false);
@@ -129,6 +131,9 @@ namespace MissionController
             GameEvents.onCrewKilled.Add (this.onCrewKilled);
             GameEvents.onVesselDestroy.Add(this.onVesselDestroy);
             GameEvents.onGameSceneLoadRequested.Add (this.onGameSceneLoadRequested);
+            GameEvents.onCrash.Add (this.onCrash);
+            GameEvents.onCollision.Add (this.onCollision);
+            GameEvents.onPartCouple.Add (this.onPartCouple);
 
             assemblyName = Assembly.GetExecutingAssembly ().GetName ();
             versionCode = "" + assemblyName.Version.Major + "." + assemblyName.Version.Minor;
@@ -144,47 +149,10 @@ namespace MissionController
             GameEvents.onLaunch.Remove (this.onLaunch);
             GameEvents.onVesselChange.Remove (this.onVesselChange);
             GameEvents.onCrewKilled.Remove (this.onCrewKilled);
+            GameEvents.onVesselDestroy.Remove(this.onVesselDestroy);
             GameEvents.onGameSceneLoadRequested.Remove (this.onGameSceneLoadRequested);
-        }
-
-        private void onCrewKilled(EventReport report) {
-            // TODO: PUNISHING THE PLAYER FOR KILLING KERBONAUTS
-            // Srsly: Manned missions should be more dangerous
-            print ("You will pay for your crimes! Killing innocent kerbonauts...");
-        }
-
-        /// <summary>
-        /// Currently we save the space program every time a new game scene is loaded.
-        /// Maybe just save when the requested game scene is the main menu
-        /// </summary>
-        /// <param name="scene">Scene.</param>
-        private void onGameSceneLoadRequested(GameScenes scene) {
-            manager.saveProgram ();
-            manager.loadProgram (HighLogic.CurrentGame.Title);
-        }
-
-        /// <summary>
-        /// We will check if the vessel was on a client controlled mission. If so we will punish the player for destroying the vessel!
-        /// </summary>
-        /// <param name="v">V.</param>
-        private void onVesselDestroy(Vessel v) {
-            print ("Vessel destroyed!");
-        }
-
-        private void onVesselChange(Vessel v) {
-            // If we have a current mission selected, we need to reload it again!
-            // If the new vessel is on EVA, we don't reload the mission. No need to.
-            if (currentMission != null && !v.isEVA) {
-                currentMission = manager.reloadMission(currentMission, activeVessel);
-            }
-        }
-
-        /// <summary>
-        /// We have to account the space program for the launch
-        /// </summary>
-        /// <param name="r">The red component.</param>
-        private void onLaunch (EventReport r) {
-            manager.costs (vesselResources.sum());
+            GameEvents.onCrash.Remove (this.onCrash);
+            GameEvents.onCollision.Remove (this.onCollision);
         }
 
         /// <summary>
@@ -193,6 +161,8 @@ namespace MissionController
         /// <value>The active vessel.</value>
         private Vessel activeVessel {
             get {
+                // We need this try-catch-block, because FlightGlobals.ActiveVessel might throw
+                // an exception
                 try {
                     if(HighLogic.LoadedSceneIsFlight && FlightGlobals.ActiveVessel != null) {
                         return FlightGlobals.ActiveVessel;
@@ -337,7 +307,7 @@ namespace MissionController
 
             if (status.missionIsFinishable) {
                 if (GUILayout.Button ("Finish the mission!")) {
-                    manager.finishMission (currentMission, activeVessel);
+                    manager.finishMission (currentMission, activeVessel, status.events);
                 }
             } else {
                 if (status.recyclable) {
@@ -447,7 +417,7 @@ namespace MissionController
                     GUILayout.EndHorizontal ();
                 }
 
-                List<Value> values = c.getValues (activeVessel);
+                List<Value> values = c.getValues (activeVessel, s.events);
 
                 foreach (Value v in values) {
                     GUILayout.BeginHorizontal ();

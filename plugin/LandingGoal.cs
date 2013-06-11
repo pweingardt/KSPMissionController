@@ -17,7 +17,7 @@ namespace MissionController
         public double minLongitude = 0.0;
         public double maxLongitude = 0.0;
 
-        protected override List<Value> values(Vessel vessel) {
+        protected override List<Value> values(Vessel vessel, GameEvent events) {
 
             List<Value> values = new List<Value> ();
 

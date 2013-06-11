@@ -13,7 +13,7 @@ namespace MissionController
         public double maxAmount = 0.0;
         public double minAmount = 0.0;
 
-        protected override List<Value> values(Vessel vessel) {
+        protected override List<Value> values(Vessel vessel, GameEvent events) {
             List<Value> v = new List<Value> ();
 
             double a = 0;

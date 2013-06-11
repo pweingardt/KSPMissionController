@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace MissionController
 {
@@ -46,12 +47,27 @@ namespace MissionController
 
             // Only the selected mission is tracked and finishable. A preview Mission is *NOT* finishable.
 
+            // We calculate the events only for the selected mission, because we might need to reset them.
+            if (selectedMission) {
+                if(eventFlags.Has(EventFlags.CRASHED)) {
+                    eventFlags = eventFlags.Remove (EventFlags.CRASHED);
+                    s.events.isCrashed = true;
+                }
+
+                if(eventFlags.Has (EventFlags.DOCKED)) {
+                    eventFlags = eventFlags.Remove (EventFlags.DOCKED);
+                    s.events.docked = true;
+                }
+
+                eventFlags = EventFlags.NONE;
+            }
+
             foreach (MissionGoal g in mission.goals) {
                 s.finishableGoals [g.id] = false;
-                if (selectedMission && orderOk && g.isDone (activeVessel)) {
+                if (selectedMission && orderOk && g.isDone (activeVessel, s.events)) {
                     if (g.nonPermanent && s.canFinishMission && !manager.isMissionGoalAlreadyFinished (g, activeVessel)) {
                         s.finishableGoals [g.id] = true;
-                        manager.finishMissionGoal (g, activeVessel);
+                        manager.finishMissionGoal (g, activeVessel, s.events);
                     }
                 } else {
                     if (mission.inOrder) {
@@ -61,11 +77,10 @@ namespace MissionController
             }
 
             if (s.canFinishMission && selectedMission) {
-                s.missionIsFinishable = (!manager.isMissionAlreadyFinished(mission, activeVessel) && mission.isDone (activeVessel));
+                s.missionIsFinishable = (!manager.isMissionAlreadyFinished(mission, activeVessel) && mission.isDone (activeVessel, s.events));
             } else {
                 s.missionIsFinishable = false;
             }
-
             return s;
         }
 
@@ -87,6 +102,8 @@ namespace MissionController
             public bool vesselCanFinishMissions = false;
 
             public bool canFinishMission = false;
+
+            public GameEvent events = new GameEvent();
         }
 
         private VesselResources vesselResources {

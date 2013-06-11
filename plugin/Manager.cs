@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace MissionController
 {
@@ -155,8 +154,8 @@ namespace MissionController
         /// </summary>
         /// <param name="goal">Goal.</param>
         /// <param name="vessel">Vessel.</param>
-        public void finishMissionGoal(MissionGoal goal, Vessel vessel) {
-            if (!isMissionGoalAlreadyFinished (goal, vessel) && goal.nonPermanent && goal.isDone(vessel) &&
+        public void finishMissionGoal(MissionGoal goal, Vessel vessel, GameEvent events) {
+            if (!isMissionGoalAlreadyFinished (goal, vessel) && goal.nonPermanent && goal.isDone(vessel, events) &&
                     !isRecycledVessel(vessel)) {
                 currentProgram.add(new GoalStatus(vessel.id.ToString(), goal.id));
                 currentProgram.money += goal.reward;
@@ -189,14 +188,14 @@ namespace MissionController
         /// </summary>
         /// <param name="m">mission</param>
         /// <param name="vessel">vessel</param>
-        public void finishMission(Mission m, Vessel vessel) {
-            if (!isMissionAlreadyFinished (m, vessel) && !isRecycledVessel(vessel) && m.isDone(vessel)) {
+        public void finishMission(Mission m, Vessel vessel, GameEvent events) {
+            if (!isMissionAlreadyFinished (m, vessel) && !isRecycledVessel(vessel) && m.isDone(vessel, events)) {
                 currentProgram.add(new MissionStatus(m.name, vessel.id.ToString()));
                 currentProgram.money += m.reward;
                 
                 // finish unfinished goals
                 foreach(MissionGoal goal in m.goals) {
-                    finishMissionGoal(goal, vessel);
+                    finishMissionGoal(goal, vessel, events);
                 }
             }
         }

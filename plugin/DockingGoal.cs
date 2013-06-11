@@ -8,15 +8,14 @@ namespace MissionController
     /// </summary>
     public class DockingGoal : MissionGoal
     {
-
-        protected override List<Value> values(Vessel vessel) {
+        protected override List<Value> values(Vessel vessel, GameEvent events) {
             List<Value> values = new List<Value> ();
 
             if (vessel == null) {
-                values.Add (new Value ("Docked", "true"));
+                values.Add (new Value ("Docked", "True"));
             } else {
-                bool docked = (vessel.situation == Vessel.Situations.DOCKED);
-                values.Add (new Value ("Docked", "true", "" + docked, docked));
+                bool docked = (events.docked || this.doneOnce);
+                values.Add (new Value ("Docked", "True", "" + docked, docked));
             }
 
             return values;

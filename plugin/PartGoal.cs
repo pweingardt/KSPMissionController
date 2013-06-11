@@ -17,7 +17,7 @@ namespace MissionController
             this.throttleDown = false;
         }
 
-        protected override List<Value> values(Vessel vessel) {
+        protected override List<Value> values(Vessel vessel, GameEvent events) {
             List<Value> values = new List<Value> ();
 
             int count = 0;

@@ -66,7 +66,7 @@ namespace MissionController
         /// </summary>
         /// <returns><c>true</c>, if mission goal is done, <c>false</c> otherwise.</returns>
         /// <param name="vessel">current vessel</param>
-        public bool isDone (Vessel vessel)
+        public bool isDone (Vessel vessel, GameEvent events)
         {
             if (vessel == null) {
                 return false;
@@ -76,11 +76,11 @@ namespace MissionController
                 return true;
             }
 
-            if(vessel == null || vessel.orbit == null) {
+            if(vessel.orbit == null) {
                 return false;
             }
             
-            List<Value> values = getValues (vessel);
+            List<Value> values = getValues (vessel, events);
             foreach (Value v in values) {
                 if(!v.done) {
                     return false;
@@ -92,7 +92,6 @@ namespace MissionController
             if (nonPermanent) {
                 doneOnce = true;
             }
-            
             return true;
         }
 
@@ -101,8 +100,8 @@ namespace MissionController
         /// </summary>
         /// <returns>The values.</returns>
         /// <param name="vessel">current vessel</param>
-        public List<Value> getValues(Vessel vessel) {
-            List<Value> vs = values (vessel);
+        public List<Value> getValues(Vessel vessel, GameEvent events) {
+            List<Value> vs = values (vessel, events);
 
             if (crewCount != 0) {
                 if(vessel == null) {
@@ -151,7 +150,7 @@ namespace MissionController
         /// Returns an array of necessary values, like orbital parameters.
         /// </summary>
         /// <param name="v">current vessel, might be null when in editor mode or in space center mode!</param>
-        virtual protected List<Value> values(Vessel v) {
+        virtual protected List<Value> values(Vessel v, GameEvent events) {
             return new List<Value> ();
         }
 

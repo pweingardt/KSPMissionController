@@ -19,11 +19,11 @@ namespace MissionController
             subGoals.Add (c);
         }
 
-        protected override List<Value> values(Vessel vessel) {
+        protected override List<Value> values(Vessel vessel, GameEvent events) {
             List<Value> values = new List<Value> ();
 
             foreach (MissionGoal c in subGoals) {
-                values = values.Union(c.getValues(vessel)).ToList();
+                values = values.Union(c.getValues(vessel, events)).ToList();
             }
 
             return values;
