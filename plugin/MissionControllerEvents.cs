@@ -131,6 +131,7 @@ namespace MissionController
                 s.wheelSteerTrim = 0;
                 s.wheelThrottle = 0;
                 s.wheelThrottleTrim = 0;
+                s.NeutralizeAll ();
             }
         }
     }
