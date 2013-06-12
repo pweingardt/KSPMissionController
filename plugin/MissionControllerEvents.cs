@@ -19,10 +19,7 @@ namespace MissionController
         }
 
         /// <summary>
-        /// We will check if the vessel was on a client controlled mission. If so we will punish the player for destroying the vessel!
-        /// Also we check if the vessel was crashing.
-        /// 
-        /// But the vessel destroy events gets called when the game scene changes :/...
+        /// We check if the vessel was crashing. If so, we set the crashed flag
         /// </summary>
         /// <param name="v">V.</param>
         private void onVesselDestroy(Vessel v) {
@@ -30,6 +27,13 @@ namespace MissionController
             if (v.mainBody.GetAltitude (v.CoM) - v.terrainAltitude < 10) {
                 eventFlags = eventFlags.Add (EventFlags.CRASHED);
             }
+
+            // We should remove the onflybywire listener, if there is one
+            try
+            {
+                v.OnFlyByWire -= this.onFlyByWire;
+            }
+            catch { }
         }
 
         /// <summary>
@@ -42,6 +46,17 @@ namespace MissionController
             if (currentMission != null && !v.isEVA) {
                 currentMission = manager.reloadMission (currentMission, activeVessel);
             }
+
+            try
+            {
+                v.OnFlyByWire -= this.onFlyByWire;
+            }
+            catch { }
+            try
+            {
+                v.OnFlyByWire += this.onFlyByWire;
+            }
+            catch { }
         }
 
         /// <summary>
@@ -90,6 +105,33 @@ namespace MissionController
             manager.saveProgram ();
             manager.loadProgram (HighLogic.CurrentGame.Title);
             eventFlags = EventFlags.NONE;
+        }
+
+
+        private void onFlyByWire(FlightCtrlState s) {
+            Status status = calculateStatus(currentMission, false);
+
+            if(status.isClientControlled) {
+                s.fastThrottle = 0;
+                s.gearDown = false;
+                s.gearUp = false;
+                s.headlight = false;
+                s.killRot = false;
+                s.mainThrottle = 0;
+                s.pitch = 0;
+                s.pitchTrim = 0;
+                s.roll = 0;
+                s.rollTrim = 0;
+                s.X = 0;
+                s.Y = 0;
+                s.yaw = 0;
+                s.yawTrim = 0;
+                s.Z = 0;
+                s.wheelSteer = 0;
+                s.wheelSteerTrim = 0;
+                s.wheelThrottle = 0;
+                s.wheelThrottleTrim = 0;
+            }
         }
     }
 }

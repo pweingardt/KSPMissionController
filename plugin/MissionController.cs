@@ -64,6 +64,8 @@ namespace MissionController
 
         private EventFlags eventFlags = EventFlags.NONE;
 
+        private double lastPassiveReward = 0.0;
+
         private void loadIcons () {
             if (menuIcon == null) {
                 menuIcon = new Texture2D (30, 30, TextureFormat.ARGB32, false);
@@ -177,15 +179,72 @@ namespace MissionController
             }
         }
 
+        /// <summary>
+        /// We check for passive missions and client controlled missions every day.
+        /// </summary>
         public void Update() {
             try {
+                if(!isValidScene()) {
+                    return;
+                }
+                // Every game day we check the passive missions and reward the player
+                if((lastPassiveReward == 0.0 || Planetarium.GetUniversalTime() - lastPassiveReward >= 60.0 * 60.0 * 24.0) 
+                        && Planetarium.GetUniversalTime() != 0.0) {
+
+                    lastPassiveReward = Planetarium.GetUniversalTime();
+
+                    // we better make sure that lastPassiveReward is non zero:
+                    if(lastPassiveReward == 0.0) {
+                        lastPassiveReward = 1.0;
+                    }
+
+                    // Now we check the all passive missions, that are currently active
+                    List<MissionStatus> passives = manager.getActivePassiveMissions();
+                    double time = Planetarium.GetUniversalTime();
+                    foreach(MissionStatus s in passives) {
+                        int daysDiff = (int)((time - s.lastPassiveRewardTime) / (60.0 * 60.0 * 24.0));
+                        // If the last time we gave reward is longer than one day ago,
+                        // we reward the player now
+                        if(daysDiff > 0) {
+                            // Now we check if the vessel is still active. If it is not, we will punish the player
+                            // and remove the old mission status
+                            bool found = false;
+                            foreach(ProtoVessel pv in HighLogic.CurrentGame.flightState.protoVessels) {
+                                if(pv.vesselID.ToString().Equals(s.vesselGuid) && pv.vesselType != VesselType.Debris) {
+                                    found = true;
+                                    s.lastPassiveRewardTime = time;
+                                    manager.reward(daysDiff * s.passiveReward);
+                                }
+                            }
+
+                            if(!found) {
+                                manager.removeMission(s);
+                                manager.costs(s.punishment);
+                            }
+                        }
+                    }
+
+                    // After that we check for client controlled missions. If those vessels get destroyed, we will punish the player
+                    passives = manager.getClientControlledMissions();
+                    foreach(MissionStatus s in passives) {
+                        bool found = false;
+                        foreach(ProtoVessel pv in HighLogic.CurrentGame.flightState.protoVessels) {
+                            if(pv.vesselID.ToString().Equals(s.vesselGuid) && pv.vesselType != VesselType.Debris) {
+                                found = true;
+                            }
+                        }
+                        if(!found) {
+                            manager.removeMission(s);
+                            manager.costs(s.punishment);
+                        }
+                    }
+                }
             } catch {
             }
         }
 
         public void OnGUI () {
-            if (!HighLogic.LoadedSceneIsFlight && !HighLogic.LoadedSceneIsEditor
-                    && !HighLogic.LoadedScene.Equals(GameScenes.SPACECENTER)) {
+            if (!isValidScene()) {
                 return;
             }
 
@@ -286,6 +345,12 @@ namespace MissionController
                 showCostValue("Sum:", res.sum(), (res.sum () > manager.budget ? styleValueRed : styleValueGreen));
             }
 
+            if (status.isClientControlled) {
+                GUILayout.Label ("This vessel is controlled by a client. Do not destroy this vessel!", styleWarning);
+                MissionStatus s = manager.getClientControlledMission (activeVessel);
+                GUILayout.Label ("End of life in " + MathTools.formatTime(s.endOfLife - Planetarium.GetUniversalTime()));
+            }
+
             if (currentMission != null) {
                 drawMission (currentMission, status);
             } else {
@@ -367,6 +432,24 @@ namespace MissionController
             GUILayout.Label ("Reward: ", styleValueName);
             GUILayout.Label (mission.reward + CurrencySuffix, styleValueGreen);
             GUILayout.EndHorizontal ();
+
+            if (mission.passiveMission) {
+                GUILayout.BeginHorizontal ();
+                GUILayout.Label ("Reward every day: ", styleValueName);
+                GUILayout.Label (mission.passiveReward + CurrencySuffix, styleValueGreen);
+                GUILayout.EndHorizontal ();
+            }
+
+            if (mission.lifetime != 0.0) {
+                GUILayout.BeginHorizontal ();
+                GUILayout.Label ("Lifetime: ", styleValueName);
+                GUILayout.Label (MathTools.formatTime(mission.lifetime), styleValueGreen);
+                GUILayout.EndHorizontal ();
+            }
+
+            if (mission.clientControlled) {
+                GUILayout.Label ("The client will get the control over this vessel once the mission is finished!", styleWarning);
+            }
 
             if (mission.repeatable) {
                 GUILayout.Label ("Mission is repeatable!", styleCaption);
@@ -465,8 +548,6 @@ namespace MissionController
             }
         }
 
-
-
         private void showCostValue(String name, double value, GUIStyle style) {
             showStringValue (name, String.Format ("{0:0.##}{1}", value, CurrencySuffix), style);
         }
@@ -484,6 +565,14 @@ namespace MissionController
             GUILayout.Label (name, styleValueName);
             GUILayout.Label (value, style);
             GUILayout.EndHorizontal ();
+        }
+
+        private bool isValidScene() {
+            if (HighLogic.LoadedSceneIsFlight || HighLogic.LoadedSceneIsEditor
+                || HighLogic.LoadedScene.Equals(GameScenes.SPACECENTER)) {
+                return true;
+            }
+            return false;
         }
 
         private const String CurrencySuffix = " ₭";

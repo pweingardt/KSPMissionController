@@ -23,7 +23,8 @@ namespace MissionController
                 s.requiresAnotherMission = (mission.requiresMission.Length != 0 
                                             && !manager.isMissionAlreadyFinished (mission.requiresMission));
 
-                s.missionAlreadyFinished = (manager.isMissionAlreadyFinished (mission, activeVessel) || manager.isMissionAlreadyFinished(mission.name));
+                s.missionAlreadyFinished = (manager.isMissionAlreadyFinished (mission, activeVessel) ||
+                                            (!mission.repeatable && manager.isMissionAlreadyFinished(mission.name)));
             }
 
             // Fill the vessel fields, that are not dependant on the current mission
@@ -32,6 +33,7 @@ namespace MissionController
                 s.recycledVessel = manager.isRecycledVessel (activeVessel);
                 s.recyclable = (activeVessel.Landed && !s.recycledVessel && !s.onLaunchPad && !activeVessel.isEVA);
                 s.vesselCanFinishMissions = !s.recycledVessel;
+                s.isClientControlled = manager.isClientControlled (activeVessel);
             }
 
             // for all other fields we need both: a mission and a vessel
@@ -103,6 +105,8 @@ namespace MissionController
             public bool vesselCanFinishMissions = false;
 
             public bool canFinishMission = false;
+
+            public bool isClientControlled = false;
 
             public GameEvent events = new GameEvent();
         }

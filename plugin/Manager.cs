@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace MissionController
 {
@@ -38,7 +39,7 @@ namespace MissionController
         /// <param name="costs">Costs.</param>
         public void recycleVessel(Vessel vessel, int costs) {
             if (!isRecycledVessel (vessel)) {
-                currentProgram.money += costs;
+                reward (costs);
                 RecycledVessel rv = new RecycledVessel ();
                 rv.guid = vessel.id.ToString ();
                 currentProgram.add (rv);
@@ -166,7 +167,7 @@ namespace MissionController
             if (!isMissionGoalAlreadyFinished (goal, vessel) && goal.nonPermanent && goal.isDone(vessel, events) &&
                     !isRecycledVessel(vessel)) {
                 currentProgram.add(new GoalStatus(vessel.id.ToString(), goal.id));
-                currentProgram.money += goal.reward;
+                reward (goal.reward);
             }
         }
 
@@ -198,12 +199,32 @@ namespace MissionController
         /// <param name="vessel">vessel</param>
         public void finishMission(Mission m, Vessel vessel, GameEvent events) {
             if (!isMissionAlreadyFinished (m, vessel) && !isRecycledVessel(vessel) && m.isDone(vessel, events)) {
-                currentProgram.add(new MissionStatus(m.name, vessel.id.ToString()));
-                currentProgram.money += m.reward;
+                MissionStatus status = new MissionStatus (m.name, vessel.id.ToString ());
+
+                if (m.passiveMission) {
+                    status.endOfLife = Planetarium.GetUniversalTime () + m.lifetime;
+                    status.passiveReward = m.passiveReward;
+                    status.lastPassiveRewardTime = Planetarium.GetUniversalTime ();
+                }
+
+                if(m.clientControlled) {
+                    status.endOfLife = Planetarium.GetUniversalTime () + m.lifetime;
+                }
+
+                status.clientControlled = m.clientControlled;
+
+                currentProgram.add(status);
+                reward (m.reward);
                 
                 // finish unfinished goals
                 foreach(MissionGoal goal in m.goals) {
                     finishMissionGoal(goal, vessel, events);
+                }
+
+                // If this mission is randomized, we will discard the mission
+                if (m.randomized) {
+                    discardRandomMission (m);
+                    m = reloadMission (m, vessel);
                 }
             }
         }
@@ -248,6 +269,69 @@ namespace MissionController
         }
 
         /// <summary>
+        /// Gets all passive missions that are currently active. Removes old passive missions
+        /// </summary>
+        /// <returns>The passive missions.</returns>
+        public List<MissionStatus> getActivePassiveMissions() {
+            List<MissionStatus> status = new List<MissionStatus> ();
+            List<MissionStatus> removable = new List<MissionStatus> ();
+            foreach (MissionStatus s in currentProgram.completedMissions) {
+                if(s.endOfLife != 0.0) {
+                    if (s.endOfLife <= Planetarium.GetUniversalTime ()) {
+                        removable.Add (s);
+                    } else {
+                        status.Add (s);
+                    }
+                }
+            }
+
+            // Cleanup old missions
+            // We don't clean up for now. We want to show how long the mission is still active
+            // and if it not active any longer, we will show it.
+            foreach (MissionStatus r in removable) {
+                currentProgram.completedMissions.Remove (r);
+            }
+            return status;
+        }
+
+        public List<MissionStatus> getClientControlledMissions() {
+            List<MissionStatus> status = new List<MissionStatus> ();
+            List<MissionStatus> removable = new List<MissionStatus> ();
+            foreach (MissionStatus s in currentProgram.completedMissions) {
+                if(s.clientControlled) {
+                    if (s.endOfLife <= Planetarium.GetUniversalTime ()) {
+                        removable.Add (s);
+                    } else {
+                        status.Add (s);
+                    }
+                }
+            }
+
+            // Cleanup old missions
+            // We don't clean up for now. We want to show how long the mission is still active
+            // and if it not active any longer, we will show it.
+            foreach (MissionStatus r in removable) {
+                currentProgram.completedMissions.Remove (r);
+            }
+
+            return status;
+        }
+
+        /// <summary>
+        /// Gets the client controlled mission that has been finished with the given vessel
+        /// </summary>
+        /// <returns>The client controlled mission.</returns>
+        /// <param name="vessel">Vessel.</param>
+        public MissionStatus getClientControlledMission(Vessel vessel) {
+            foreach (MissionStatus s in currentProgram.completedMissions) {
+                if(s.clientControlled && s.vesselGuid.Equals(vessel.id.ToString())) {
+                    return s;
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
         /// Returns the currently available budget.
         /// </summary>
         /// <value>The budget.</value>
@@ -271,6 +355,25 @@ namespace MissionController
                 }
             }
             return false;
+        }
+
+        /// <summary>
+        /// Checks if this vessel is controlled by a client.
+        /// </summary>
+        /// <returns><c>true</c>, if vessel is controlled by a client, <c>false</c> otherwise.</returns>
+        /// <param name="vessel">Vessel.</param>
+        public bool isClientControlled(Vessel vessel) {
+            foreach (MissionStatus status in currentProgram.completedMissions) {
+                if (status.clientControlled && status.vesselGuid.Equals (vessel.id.ToString()) &&
+                        status.endOfLife >= Planetarium.GetUniversalTime()) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public void removeMission(MissionStatus s) {
+            currentProgram.completedMissions.Remove (s);
         }
 
         // The interface implementation for external plugins

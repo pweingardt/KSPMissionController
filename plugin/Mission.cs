@@ -61,6 +61,16 @@ namespace MissionController
         /// </summary>
         public int packageOrder = 1000;
 
+        public bool passiveMission = false;
+
+        public int passiveReward = 0;
+
+        public int destroyPunishment = 100000;
+
+        public bool clientControlled = false;
+
+        public double lifetime = 0;
+
         /// <summary>
         /// If this field is not empty, then this mission requires another mission to be finished. If it has not been finished, 
         /// then this mission can not be finished either.

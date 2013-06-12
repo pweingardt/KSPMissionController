@@ -77,6 +77,13 @@ namespace MissionController
         public String vesselGuid;
         public String missionName;
         public bool repeatable;
+
+        public double endOfLife = 0.0;
+        public int passiveReward = 0;
+        public double lastPassiveRewardTime = 0.0;
+        public int punishment = 100000;
+
+        public bool clientControlled = false;
     }
 
     public class RandomMission {
