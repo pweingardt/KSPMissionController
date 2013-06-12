@@ -23,7 +23,7 @@ namespace MissionController
                 s.requiresAnotherMission = (mission.requiresMission.Length != 0 
                                             && !manager.isMissionAlreadyFinished (mission.requiresMission));
 
-                s.missionAlreadyFinished = manager.isMissionAlreadyFinished (mission, activeVessel);
+                s.missionAlreadyFinished = (manager.isMissionAlreadyFinished (mission, activeVessel) || manager.isMissionAlreadyFinished(mission.name));
             }
 
             // Fill the vessel fields, that are not dependant on the current mission

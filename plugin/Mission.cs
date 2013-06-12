@@ -99,6 +99,34 @@ namespace MissionController
         public void add(MissionGoal c) {
             mGoals.Add (c);
         }
+
+
+        public static int SortByReward(Mission x, Mission y) {
+            return x.reward.CompareTo(y.reward);
+        }
+
+        public static int SortByName(Mission x, Mission y) {
+            return x.name.CompareTo(y.name);
+        }
+
+        public static int SortByPackageOrder(Mission x, Mission y) {
+            return x.packageOrder.CompareTo(y.packageOrder);
+        }
+
+        /// <summary>
+        /// Sorts the given missions with the given method
+        /// </summary>
+        /// <param name="missions">Missions.</param>
+        /// <param name="sortBy">Sort by.</param>
+        public static void Sort(List<Mission> missions, SortBy sortBy) {
+            if (sortBy == SortBy.NAME) {
+                missions.Sort (Mission.SortByName);
+            } else if (sortBy == SortBy.REWARD) {
+                missions.Sort (Mission.SortByReward);
+            } else if (sortBy == SortBy.PACKAGE_ORDER) {
+                missions.Sort (Mission.SortByPackageOrder);
+            }
+        }
     }
 }
 

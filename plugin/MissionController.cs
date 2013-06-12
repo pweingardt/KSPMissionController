@@ -177,6 +177,14 @@ namespace MissionController
             }
         }
 
+        public void Update() {
+            try {
+                Debug.LogError ("Vessel size: " + FlightGlobals.Vessels.Count);
+            } catch {
+                Debug.LogError ("Exception !");
+            }
+        }
+
         public void OnGUI () {
             if (!HighLogic.LoadedSceneIsFlight && !HighLogic.LoadedSceneIsEditor
                     && !HighLogic.LoadedScene.Equals(GameScenes.SPACECENTER)) {
@@ -373,12 +381,12 @@ namespace MissionController
 
             if (s.missionAlreadyFinished) {
                 GUILayout.Label ("Mission already finished!", styleCaption);
-            } else {
-                drawMissionGoals (mission, s);
+            } 
 
-                if(s.missionIsFinishable) {
-                    GUILayout.Label("All goals accomplished. You can finish the mission now!", styleCaption);
-                }
+            drawMissionGoals (mission, s);
+
+            if(s.missionIsFinishable) {
+                GUILayout.Label("All goals accomplished. You can finish the mission now!", styleCaption);
             }
         }
 

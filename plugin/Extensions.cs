@@ -43,7 +43,7 @@ namespace MissionController
                     "Could not append value from enumerated type '{0}'.",
                     typeof(T).Name
                     ), ex);
-            }    
+            }
         }
 
         /// <summary>
@@ -70,11 +70,9 @@ namespace MissionController
         /// </summary>
         /// <param name="type">Type.</param>
         /// <typeparam name="T">The 1st type parameter.</typeparam>
-        public static T Next<T>(this T type) {
-            if (!typeof(T).IsEnum) throw new ArgumentException(String.Format("Argumnent {0} is Not an Enum",typeof(T).FullName));
-
-            T[] Arr = (T[])Enum.GetValues(type.GetType());
-            int j = Array.IndexOf<T>(Arr, type) + 1;
+        public static SortBy Next(this SortBy type) {
+            SortBy[] Arr = (SortBy[])Enum.GetValues(type.GetType());
+            int j = Array.IndexOf(Arr, type) + 1;
             return (Arr.Length == j) ? Arr[0] : Arr[j];
         }
     }

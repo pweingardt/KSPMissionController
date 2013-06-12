@@ -10,8 +10,6 @@ namespace MissionController
         private Vector2 previewMissionScrollPosition = new Vector2 ();
         private Mission currentPreviewMission = null;
 
-        public enum SortBy {NAME, REWARD, PACKAGE_ORDER};
-
         private SortBy currentSort = SortBy.NAME;
         private Dictionary<SortBy, String> sortStrings = new Dictionary<SortBy, string>() {
             {SortBy.NAME, "Sorted by name"},
@@ -30,19 +28,7 @@ namespace MissionController
             GUILayout.BeginVertical (GUILayout.Width(450));
             if (GUILayout.Button (sortStrings[currentSort], styleButton)) {
                 nextSort ();
-                if (currentSort == SortBy.NAME) {
-                    currentPackage.Missions.Sort (delegate(Mission x, Mission y) {
-                        return x.name.CompareTo(y.name);
-                    });
-                } else if (currentSort == SortBy.REWARD) {
-                    currentPackage.Missions.Sort (delegate(Mission x, Mission y) {
-                        return x.reward.CompareTo(y.reward);
-                    });
-                } else if (currentSort == SortBy.PACKAGE_ORDER) {
-                    currentPackage.Missions.Sort (delegate(Mission x, Mission y) {
-                        return x.packageOrder.CompareTo(y.packageOrder);
-                    });
-                }
+                Mission.Sort(currentPackage.Missions, currentSort);
             }
             packageScrollPosition = GUILayout.BeginScrollView (packageScrollPosition, GUILayout.Width(450));
 
