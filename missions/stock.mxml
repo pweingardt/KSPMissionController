@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<definition>
+  <name>Stock Mission Package</name>
+  <description>A basic mission package from nobody44.
+
+This package has satellite missions (Sputnik), first manned missions (Vostok) and 
+first Mun missions (Mun). Also this package has four commercial missions: ComSat Contract.
+Those commercial missions are repeatable and guarantee a basic income.</description>
+  <folder>/home/paul/projects/ksp/missioncontroller/missions</folder>
+</definition>

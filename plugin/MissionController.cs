@@ -105,7 +105,7 @@ namespace MissionController
 
             styleWarning = new GUIStyle (GUI.skin.label);
             styleWarning.normal.textColor = Color.red;
-            styleWarning.fontStyle = FontStyle.Normal;
+            styleWarning.fontStyle = FontStyle.Bold;
             styleWarning.alignment = TextAnchor.MiddleLeft;
 
             styleGreenButton = new GUIStyle (HighLogic.Skin.button);
@@ -179,9 +179,7 @@ namespace MissionController
 
         public void Update() {
             try {
-                Debug.LogError ("Vessel size: " + FlightGlobals.Vessels.Count);
             } catch {
-                Debug.LogError ("Exception !");
             }
         }
 
@@ -380,8 +378,8 @@ namespace MissionController
             }
 
             if (s.missionAlreadyFinished) {
-                GUILayout.Label ("Mission already finished!", styleCaption);
-            } 
+                GUILayout.Label ("Mission already finished!", styleWarning);
+            }
 
             drawMissionGoals (mission, s);
 

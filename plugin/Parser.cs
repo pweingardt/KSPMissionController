@@ -117,7 +117,7 @@ namespace MissionController
                 if(n.IndexOf('=') != -1) {
                     string[] parts = n.Split('=');
                     string vname = parts[0].Trim();
-                    string value = n.Substring(n.IndexOf('=') + 1).Trim();
+                    string value = n.Substring(n.IndexOf('=') + 1).Trim().Replace("\\n", "\n");
 
                     ReflectionTools.setValue(vname, value, obj);
                 } else {

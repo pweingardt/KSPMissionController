@@ -8,6 +8,7 @@ Mission
     {
         description = Achieve a suborbital flight around Kerbin.
         reward = 6000
+        crewCount = 1
 
         body = Kerbin
         minApA = 70000
