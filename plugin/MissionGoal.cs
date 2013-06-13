@@ -77,7 +77,7 @@ namespace MissionController
         /// </summary>
         /// <returns><c>true</c>, if mission goal is done, <c>false</c> otherwise.</returns>
         /// <param name="vessel">current vessel</param>
-        public bool isDone (Vessel vessel, GameEvent events)
+        public virtual bool isDone (Vessel vessel, GameEvent events)
         {
             if (vessel == null) {
                 return false;

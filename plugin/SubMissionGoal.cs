@@ -19,6 +19,17 @@ namespace MissionController
             subGoals.Add (c);
         }
 
+        public override bool isDone (Vessel vessel, GameEvent events)
+        {
+            bool value = base.isDone (vessel, events);
+            if (value && nonPermanent) {
+                foreach (MissionGoal g in subGoals) {
+                    g.doneOnce = true;
+                }
+            }
+            return value;
+        }
+
         protected override List<Value> values(Vessel vessel, GameEvent events) {
             List<Value> values = new List<Value> ();
 
