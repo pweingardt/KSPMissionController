@@ -54,7 +54,6 @@ namespace MissionController
                     if(m.category.Has(c)) {
                         GUILayout.Label (iconDictionary[c], GUILayout.MaxWidth (50), GUILayout.MaxHeight (50), GUILayout.ExpandWidth(false),
                                          GUILayout.Width(50), GUILayout.Height(50));
-//                        GUILayout.Button ();
                     }
                 }
                 GUILayout.EndHorizontal ();
@@ -82,7 +81,7 @@ namespace MissionController
                     hiddenGoals = new List<MissionGoal> ();
                     currentMission = currentPreviewMission;
                     currentPreviewMission = null;
-                    showMissionPackageBrowser = false;
+                    hidePackageBrowser ();
                 }
 
                 if (currentPreviewMission.randomized && GUILayout.Button ("Discard")) {
@@ -92,7 +91,7 @@ namespace MissionController
             }
 
             if (GUILayout.Button ("Close")) {
-                showMissionPackageBrowser = false;
+                hidePackageBrowser ();
             }
             GUILayout.EndHorizontal ();
 

@@ -417,7 +417,7 @@ namespace MissionController
 
             if(currentPackage != null) {
                 if (GUILayout.Button ("Open browser window")) {
-                    showMissionPackageBrowser = true;
+                    showPackageBrowser ();
                 }
             }
 
@@ -462,9 +462,10 @@ namespace MissionController
 
             currentPackage = manager.loadMissionPackage (file);
             currentPreviewMission = null;
-            showMissionPackageBrowser = (currentPackage != null);
+            if (currentPackage != null) {
+                showPackageBrowser ();
+            }
             currentSort = (currentPackage.ownOrder ? SortBy.PACKAGE_ORDER : SortBy.NAME);
-//            hiddenGoals = new List<MissionGoal> ();
         }
 
         /// <summary>
@@ -591,6 +592,23 @@ namespace MissionController
         private void destroyFileBrowser() {
             fileBrowser = null;
 
+            if (EditorLogic.fetch != null) {
+                EditorLogic.fetch.Unlock ();
+            }
+        }
+
+        /// <summary>
+        /// Shows the package browser and locks the editor, if there is one.
+        /// </summary>
+        private void showPackageBrowser() {
+            showMissionPackageBrowser = true;
+            if (EditorLogic.fetch != null) {
+                EditorLogic.fetch.Lock (true, true, true);
+            }
+        }
+
+        private void hidePackageBrowser() {
+            showMissionPackageBrowser = false;
             if (EditorLogic.fetch != null) {
                 EditorLogic.fetch.Unlock ();
             }
