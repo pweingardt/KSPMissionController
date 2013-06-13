@@ -346,10 +346,16 @@ namespace MissionController
             }
 
             if (status.isClientControlled) {
-                GUILayout.Label ("This vessel is controlled by a client. Do not destroy this vessel!", styleWarning);
                 MissionStatus s = manager.getClientControlledMission (activeVessel);
+                GUILayout.Label ("This vessel is controlled by a client. Do not destroy this vessel! Fine: " + s.punishment + CurrencySuffix, styleWarning);
+                GUILayout.Label ("End of life in " + MathTools.formatTime(s.endOfLife - Planetarium.GetUniversalTime()));
+            } else if (status.isOnPassiveMission) {
+                MissionStatus s = manager.getPassiveMission (activeVessel);
+                GUILayout.Label ("This vessel is involved in a passive mission. Do not destroy this vessel! Fine: " + s.punishment + CurrencySuffix, styleWarning);
                 GUILayout.Label ("End of life in " + MathTools.formatTime(s.endOfLife - Planetarium.GetUniversalTime()));
             }
+
+            GUILayout.Space (30);
 
             if (currentMission != null) {
                 drawMission (currentMission, status);
@@ -423,6 +429,10 @@ namespace MissionController
         /// Draws the mission parameters
         /// </summary>
         private void drawMission (Mission mission, Status s) {
+            if (s.missionAlreadyFinished) {
+                GUILayout.Label ("Mission already finished!", styleWarning);
+            }
+
             GUILayout.Label ("Mission: ", styleCaption);
             GUILayout.Label (mission.name, styleText);
             GUILayout.Label ("Description: ", styleCaption);
@@ -458,10 +468,6 @@ namespace MissionController
             if (s.requiresAnotherMission) {
                 GUILayout.Label ("This mission requires the mission \"" + mission.requiresMission + "\". Finish mission \"" + 
                                  mission.requiresMission + "\" first, before you proceed.", styleWarning);
-            }
-
-            if (s.missionAlreadyFinished) {
-                GUILayout.Label ("Mission already finished!", styleWarning);
             }
 
             drawMissionGoals (mission, s);

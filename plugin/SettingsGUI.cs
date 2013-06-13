@@ -11,7 +11,7 @@ namespace MissionController
         };
 
         private String contributions = "Plugin information and contributions:\nMain developer: nobody44\ndeveloper: vaughner81\nimages: BlazingAngel665\n" +
-            "ideas: BaphClass\nideas: tek_604";
+            "ideas: BaphClass\nideas: tek_604\nand of course the great community around KSP! You guys are awesome :)!";
 
 
         private void drawSettingsWindow(int id) {

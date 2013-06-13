@@ -34,6 +34,7 @@ namespace MissionController
                 s.recyclable = (activeVessel.Landed && !s.recycledVessel && !s.onLaunchPad && !activeVessel.isEVA);
                 s.vesselCanFinishMissions = !s.recycledVessel;
                 s.isClientControlled = manager.isClientControlled (activeVessel);
+                s.isOnPassiveMission = manager.isOnPassiveMission (activeVessel);
             }
 
             // for all other fields we need both: a mission and a vessel
@@ -107,6 +108,8 @@ namespace MissionController
             public bool canFinishMission = false;
 
             public bool isClientControlled = false;
+
+            public bool isOnPassiveMission = false;
 
             public GameEvent events = new GameEvent();
         }

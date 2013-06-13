@@ -358,7 +358,7 @@ namespace MissionController
         }
 
         /// <summary>
-        /// Checks if this vessel is controlled by a client.
+        /// Checks if the given vessel is controlled by a client.
         /// </summary>
         /// <returns><c>true</c>, if vessel is controlled by a client, <c>false</c> otherwise.</returns>
         /// <param name="vessel">Vessel.</param>
@@ -372,6 +372,34 @@ namespace MissionController
             return false;
         }
 
+        /// <summary>
+        /// Checks if the given vessel in on a passive mission
+        /// </summary>
+        /// <returns><c>true</c>, if on passive mission was ised, <c>false</c> otherwise.</returns>
+        /// <param name="vessel">Vessel.</param>
+        public bool isOnPassiveMission(Vessel vessel) {
+            foreach (MissionStatus status in currentProgram.completedMissions) {
+                if (status.passiveReward != 0 && status.vesselGuid.Equals (vessel.id.ToString()) &&
+                        status.endOfLife >= Planetarium.GetUniversalTime()) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public MissionStatus getPassiveMission(Vessel vessel) {
+            foreach (MissionStatus s in currentProgram.completedMissions) {
+                if(s.passiveReward != 0 && s.vesselGuid.Equals(vessel.id.ToString())) {
+                    return s;
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Removes an mission status
+        /// </summary>
+        /// <param name="s">S.</param>
         public void removeMission(MissionStatus s) {
             currentProgram.completedMissions.Remove (s);
         }
