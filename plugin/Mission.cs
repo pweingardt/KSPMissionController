@@ -61,14 +61,29 @@ namespace MissionController
         /// </summary>
         public int packageOrder = 1000;
 
+        /// <summary>
+        /// If true, then this mission is a passive mission with a lifetime and income gerneration
+        /// </summary>
         public bool passiveMission = false;
 
+        /// <summary>
+        /// The passive reward per day
+        /// </summary>
         public int passiveReward = 0;
 
+        /// <summary>
+        /// The punishment if the user destroyed the vessel
+        /// </summary>
         public int destroyPunishment = 100000;
 
+        /// <summary>
+        /// if true then the vessel that finished this mission is controlled by the client, not by the user
+        /// </summary>
         public bool clientControlled = false;
 
+        /// <summary>
+        /// Lifetime of this mission in secondes. use TIME.
+        /// </summary>
         public double lifetime = 0;
 
         /// <summary>

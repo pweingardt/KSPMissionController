@@ -93,6 +93,14 @@ A mission has several fields
 * inOrder: if true, the mission goals have to be finished in the defined order (default: true)
 * vesselIndependent: if true, it does not matter with which vessel the mission goal has been finished. (default: false)
 * packageOrder: the number of this mission. Used to sort the missions. (default: 0, ignored)
+* passiveMission: if true, this mission is a passive mission that generates income over time (default: false).
+    Use it in combination with `clientControlled = true`, if possible.
+* passiveReward: reward per day (default: 0)
+* clientControlled: if true the client takes over control when the user finishes the mission
+* destroyPunishment: if the vessel is involved in an active mission and the user destroys the vessel, he will
+    be fined (default: 100000)
+* lifetime: lifetime of this mission in seconds, use TIME. (default: 0)
+
 
 A mission has one or multiple mission goals. After you have finished the mission, you get the reward.
 
