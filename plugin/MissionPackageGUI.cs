@@ -81,6 +81,8 @@ namespace MissionController
                     // we also reset the hiddenGoals field
                     hiddenGoals = new List<MissionGoal> ();
                     currentMission = currentPreviewMission;
+                    currentPreviewMission = null;
+                    showMissionPackageBrowser = false;
                 }
 
                 if (currentPreviewMission.randomized && GUILayout.Button ("Discard")) {
