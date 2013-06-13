@@ -1,3 +1,10 @@
+# version 0.6:
+
+* added client controlled missions and passive missions which generate
+    income over time
+* moved icons into a separate folder
+* added mission category icons from blazing angel 665
+
 # version 0.5:
 
 * implemented DockingGoal
