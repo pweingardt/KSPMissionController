@@ -4,6 +4,8 @@ Mission
     description = Bring a manned space craft onto the surface of the Mun and bring him back.
     reward = 200000
 
+    category = LANDING
+
     OrbitGoal
     {
         crewCount = 1

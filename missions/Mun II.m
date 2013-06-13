@@ -4,6 +4,8 @@ Mission
     description = Mun orbit. Bring a satellite into a stable orbit around Mun, and if possible, bring the probe back to Kerbin.
     reward = 80000
 
+    category = ORBIT
+
     OrbitGoal
     {
         description = Minimal periapsis is 4000 meters.

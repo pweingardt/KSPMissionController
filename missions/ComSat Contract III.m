@@ -5,6 +5,11 @@ Mission
     repeatable = true
     reward = 100000
 
+    clientController = true
+    lifetime = TIME(1y)
+
+    category = SATELLITE, ORBIT
+
     OrbitGoal
     {
         body = Kerbin

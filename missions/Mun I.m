@@ -4,6 +4,8 @@ Mission
     description = Mun flyby. Bring a satellite into a close Mun escape trajectory 4-6m above Muns surface. Optional: Bring the probe back to Kerbin, if possible.
     reward = 40000
 
+    category = ORBIT
+
     OrbitGoal
     {
         body = Mun

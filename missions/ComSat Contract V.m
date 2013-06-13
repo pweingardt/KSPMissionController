@@ -12,6 +12,8 @@ Mission
     lifetime = TIME(150d)
     clientControlled = true
 
+    category = SATELLITE, ORBIT
+
     OrbitGoal
     {
         body = Kerbin

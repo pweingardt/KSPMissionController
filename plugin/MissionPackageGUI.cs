@@ -17,6 +17,9 @@ namespace MissionController
             {SortBy.PACKAGE_ORDER, "Sorted by package order"}
         };
 
+        // Is initialized after the icons have been initialized!
+        private Dictionary<Mission.Category, Texture2D> iconDictionary = new Dictionary<Mission.Category, Texture2D>();
+
         /// <summary>
         /// Draws the mission package browser window
         /// </summary>
@@ -25,14 +28,15 @@ namespace MissionController
             GUI.skin = HighLogic.Skin;
             GUILayout.BeginHorizontal ();
 
-            GUILayout.BeginVertical (GUILayout.Width(450));
-            if (GUILayout.Button (sortStrings[currentSort], styleButton)) {
+            GUILayout.BeginVertical (GUILayout.Width(530));
+            if (GUILayout.Button (sortStrings[currentSort], styleButton, GUILayout.Width(500))) {
                 nextSort ();
                 Mission.Sort(currentPackage.Missions, currentSort);
             }
-            packageScrollPosition = GUILayout.BeginScrollView (packageScrollPosition, GUILayout.Width(450));
+            packageScrollPosition = GUILayout.BeginScrollView (packageScrollPosition, GUILayout.Width(500));
 
             foreach (Mission m in currentPackage.Missions) {
+                GUILayout.BeginHorizontal (GUILayout.Width(450));
                 GUIStyle style = styleButton;
 
                 if (m.requiresMission != null && m.requiresMission.Length != 0 && !manager.isMissionAlreadyFinished (m.requiresMission)) {
@@ -43,9 +47,17 @@ namespace MissionController
                     style = styleGreenButton;
                 }
 
-                if (GUILayout.Button (m.name + "\n" + m.reward + CurrencySuffix, style, GUILayout.Width(400))) {
+                if (GUILayout.Button (m.name + "\n" + m.reward + CurrencySuffix, style, GUILayout.Width(350))) {
                     currentPreviewMission = manager.reloadMission(m, activeVessel);
                 }
+                foreach (Mission.Category c in iconDictionary.Keys) {
+                    if(m.category.Has(c)) {
+                        GUILayout.Label (iconDictionary[c], GUILayout.MaxWidth (50), GUILayout.MaxHeight (50), GUILayout.ExpandWidth(false),
+                                         GUILayout.Width(50), GUILayout.Height(50));
+//                        GUILayout.Button ();
+                    }
+                }
+                GUILayout.EndHorizontal ();
             }
 
             GUILayout.EndScrollView ();

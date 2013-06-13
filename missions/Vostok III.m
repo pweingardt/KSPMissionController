@@ -4,6 +4,8 @@ Mission
     description = Bring two manned crafts into a stable circular 80km orbit around Kerbin and dock them.
     reward = 44000
 
+    category = DOCKING
+
     SubMissionGoal
     {
         OrbitGoal

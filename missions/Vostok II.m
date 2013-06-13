@@ -4,6 +4,8 @@ Mission
     description = Bring a manned probe into an orbital flight around Kerbin, execute an EVA for 10 minutes and get back to Kerbin.
     reward = 42000
 
+    category = ORBIT, LANDING
+
     OrbitGoal
     {
         description = Achieve a suborbital flight around Kerbin.

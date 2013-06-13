@@ -4,6 +4,8 @@ Mission
     description = Bring a manned probe into a suborbital flight around Kerbin and bring it back.
     reward = 32000
 
+    category = ORBIT, LANDING
+
     OrbitGoal
     {
         description = Achieve a suborbital flight around Kerbin.

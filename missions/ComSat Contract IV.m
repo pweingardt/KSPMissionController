@@ -1,10 +1,15 @@
 Mission
 {
     name = ComSat Contract IV
-    description = We signed a contract to bring a satellite into a nearly perfect synchronous, equatorial orbit around Kerbin. Their orbit is really odd...
+    description = We signed a contract to bring a satellite into a very specific orbit around Kerbin. Their orbit is really odd...
     repeatable = true
     reward = 200000
     randomized = true
+
+    clientController = true
+    lifetime = TIME(1y)
+
+    category = SATELLITE, ORBIT
 
     OrbitGoal
     {

@@ -6,6 +6,11 @@ Mission
     reward = 60000
     randomized = true
 
+    clientController = true
+    lifetime = TIME(1y)
+
+    category = SATELLITE, ORBIT
+
     OrbitGoal
     {
         body = Kerbin

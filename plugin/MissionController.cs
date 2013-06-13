@@ -21,7 +21,22 @@ namespace MissionController
         public static string root = KSPUtil.ApplicationRootPath.Replace ("\\", "/");
         public static string pluginFolder = root + "GameData/MissionController/";
         public static string missionFolder = pluginFolder + "Plugins/PluginData/MissionController";
-        private Texture2D menuIcon = null;
+
+        private WWW wwwIconMenu = new WWW("file://" + pluginFolder + "icons/FlightSceneButtonT2.png");
+        private WWW wwwIconProbe = new WWW("file://" + pluginFolder + "icons/sputnikmk2.png");
+        private WWW wwwIconImpactor = new WWW("file://" + pluginFolder + "icons/impactormk2.png");
+        private WWW wwwIconLander = new WWW("file://" + pluginFolder + "icons/landermk2.png");
+        private WWW wwwIconOrbit = new WWW("file://" + pluginFolder + "icons/launchmk2.png");
+        private WWW wwwIconDocking = new WWW("file://" + pluginFolder + "icons/rendezvousmk2.png");
+        private WWW wwwIconSatellite = new WWW("file://" + pluginFolder + "icons/Stellitemk2.png");
+
+        private Texture2D iconMenu = null;
+        private Texture2D iconTypeProbe = null;
+        private Texture2D iconTypeImpactor = null;
+        private Texture2D iconTypeLander = null;
+        private Texture2D iconTypeOrbit = null;
+        private Texture2D iconTypeDocking = null;
+        private Texture2D iconTypeSatellite = null;
 
         private Manager manager {
             get {
@@ -67,9 +82,34 @@ namespace MissionController
         private double lastPassiveReward = 0.0;
 
         private void loadIcons () {
-            if (menuIcon == null) {
-                menuIcon = new Texture2D (30, 30, TextureFormat.ARGB32, false);
-                menuIcon.LoadImage (KSP.IO.File.ReadAllBytes<MissionController> ("icon.png"));
+            if (iconMenu == null) {
+                iconMenu = new Texture2D (35, 50, TextureFormat.ARGB32, false);
+                iconTypeProbe = new Texture2D (0, 0, TextureFormat.ARGB32, false);
+                iconTypeImpactor = new Texture2D (0, 0, TextureFormat.ARGB32, false);
+                iconTypeLander = new Texture2D (0, 0, TextureFormat.ARGB32, false);
+                iconTypeOrbit = new Texture2D (0, 0, TextureFormat.ARGB32, false);
+                iconTypeDocking = new Texture2D (0, 0, TextureFormat.ARGB32, false);
+                iconTypeSatellite = new Texture2D (0, 0, TextureFormat.ARGB32, false);
+
+                Debug.LogError ("ROOT: " + root);
+                Debug.LogError ("PLUGIN: " + pluginFolder);
+                Debug.LogError ("MISSIONS: " + missionFolder);
+                Debug.LogError ("FILE PATH: " + wwwIconMenu.url);
+
+                wwwIconMenu.LoadImageIntoTexture(iconMenu);
+                wwwIconDocking.LoadImageIntoTexture(iconTypeDocking);
+                wwwIconOrbit.LoadImageIntoTexture(iconTypeOrbit);
+                wwwIconImpactor.LoadImageIntoTexture(iconTypeImpactor);
+                wwwIconSatellite.LoadImageIntoTexture(iconTypeSatellite);
+                wwwIconLander.LoadImageIntoTexture(iconTypeLander);
+                wwwIconProbe.LoadImageIntoTexture(iconTypeProbe);
+
+                iconDictionary.Add(Mission.Category.DOCKING, iconTypeDocking);
+                iconDictionary.Add(Mission.Category.ORBIT, iconTypeOrbit);
+                iconDictionary.Add(Mission.Category.PROBE, iconTypeProbe);
+                iconDictionary.Add(Mission.Category.LANDING, iconTypeLander);
+                iconDictionary.Add(Mission.Category.SATELLITE, iconTypeSatellite);
+                iconDictionary.Add(Mission.Category.IMPACT, iconTypeImpactor);
             }
         }
         
@@ -147,6 +187,8 @@ namespace MissionController
 
             mainWindowTitle = "Mission Controller " + 
                 versionCode + " (" + buildDateTime.ToShortDateString () + ")";
+
+            loadIcons ();
         }
 
         private void Reset(GameScenes gameScenes) {
@@ -253,7 +295,7 @@ namespace MissionController
 
             GUI.skin = HighLogic.Skin;
 
-            if (GUI.Button (new Rect (Screen.width / 6 - 34, Screen.height - 34, 32, 32), menuIcon, styleIcon)) {
+            if (GUI.Button (new Rect (Screen.width / 6 - 38, Screen.height - 51, 35, 50), iconMenu, styleIcon)) {
                 toggleWindow ();
             }
             

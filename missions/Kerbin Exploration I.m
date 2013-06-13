@@ -4,6 +4,8 @@ Mission
     description = Start a satellite into a circular polar orbit betweend 85° and 90° inclination, 100km above Kerbins surface. Some scientists here want to map Kerbin.
     reward = 30000
 
+    category = ORBIT
+
     OrbitGoal
     {
         body = Kerbin
