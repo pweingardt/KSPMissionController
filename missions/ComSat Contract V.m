@@ -23,7 +23,7 @@ Mission
 
         maxEccentricity = 0.001
 
-        minInc = RANDOM(0, 88)
-        maxInc = ADD(minInc, 0.5)
+        minInclination = RANDOM(0, 88)
+        maxInclination = ADD(minInclination, 0.5)
     }
 }

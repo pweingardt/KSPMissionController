@@ -6,7 +6,7 @@ Mission
     reward = 200000
     randomized = true
 
-    clientController = true
+    clientControlled = true
     lifetime = TIME(1y)
 
     category = SATELLITE, ORBIT
@@ -20,8 +20,8 @@ Mission
 
         maxEccentricity = 0.0001
 
-        minInc = RANDOM(0, 178)
-        maxInc = ADD(minInc, 0.25)
+        minInclination = RANDOM(0, 178)
+        maxInclination = ADD(minInclination, 0.25)
 
         minLan = RANDOM(0, 179.4)
         maxLan = ADD(minLan, 0.5)

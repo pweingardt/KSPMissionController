@@ -5,7 +5,7 @@ Mission
     repeatable = true
     reward = 100000
 
-    clientController = true
+    clientControlled = true
     lifetime = TIME(1y)
 
     category = SATELLITE, ORBIT
@@ -19,7 +19,7 @@ Mission
 
         maxEccentricity = 0.0001
 
-        maxInc = 0.02
+        maxInclination = 0.02
 
         minOrbitalPeriod = TIME(5h 59m 55s)
         maxOrbitalPeriod = TIME(6h 5s)

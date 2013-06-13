@@ -9,8 +9,8 @@ Mission
     OrbitGoal
     {
         body = Kerbin
-        minInc = 85
-        maxInc = 90
+        minInclination = 85
+        maxInclination = 90
 
         minApA = 95000
         maxApA = 105000
