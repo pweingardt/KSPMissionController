@@ -1,3 +1,15 @@
+# version 0.7:
+
+* fixed F2 bug
+* added rewind option to get the latest expenses back. See config window
+* added longitude and latitude for OrbitGoal (used for stationary orbits)
+* fixed absurd longitude values
+* added recycle option for splash downs
+* added more icons, rescaled them in the make.sh script
+* added high precision value representation for eccentricity values
+* added overview for passive missions (only visible when no other mission is currently selected, and only
+    in flight)
+
 # version 0.6:
 
 * added client controlled missions and passive missions which generate
