@@ -31,7 +31,7 @@ namespace MissionController
             if (activeVessel != null) {
                 s.onLaunchPad = (activeVessel.situation == Vessel.Situations.PRELAUNCH);
                 s.recycledVessel = manager.isRecycledVessel (activeVessel);
-                s.recyclable = (activeVessel.Landed && !s.recycledVessel && !s.onLaunchPad && !activeVessel.isEVA);
+                s.recyclable = ((activeVessel.Landed || activeVessel.Splashed) && !s.recycledVessel && !s.onLaunchPad && !activeVessel.isEVA);
                 s.vesselCanFinishMissions = !s.recycledVessel;
                 s.isClientControlled = manager.isClientControlled (activeVessel);
                 s.isOnPassiveMission = manager.isOnPassiveMission (activeVessel);
@@ -195,8 +195,12 @@ namespace MissionController
                 return (int)(construction + liquid () + solid () + mono () + xenon () + other () + oxidizer());
             }
 
-            public int recyclable() {
-                return (int)(0.75 * (construction + other ()) + 0.95 * (liquid () + solid () + mono () + xenon () +  + oxidizer()));
+            public int recyclable(bool landed) {
+                if (landed) {
+                    return (int)(0.85 * (construction + other ()) + 0.95 * (liquid () + solid () + mono () + xenon () + + oxidizer ()));
+                } else {
+                    return (int)(0.65 * (construction + other ()) + 0.95 * (liquid () + solid () + mono () + xenon () + + oxidizer ()));
+                }
             }
         }
     }

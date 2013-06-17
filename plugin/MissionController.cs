@@ -480,9 +480,9 @@ namespace MissionController
             } else {
                 if (status.recyclable) {
                     VesselResources res = vesselResources;
-                    showCostValue("Recyclable value: ", res.recyclable(), styleCaption);
+                    showCostValue("Recyclable value: ", res.recyclable(activeVessel.Landed), styleCaption);
                     if (GUILayout.Button ("Recycle this vessel!")) {
-                        manager.recycleVessel (activeVessel, (int)(res.recyclable()));
+                        manager.recycleVessel (activeVessel, res.recyclable(activeVessel.Landed));
                     }
                 } else {
                     if (status.recycledVessel) {
