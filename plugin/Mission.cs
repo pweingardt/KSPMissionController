@@ -12,7 +12,9 @@ namespace MissionController
         /// The Flags annotation declares a bitfield
         [Flags]
         public enum Category {DEFAULT = 1, ORBIT = 2, LANDING = 4, DOCKING = 8, EVA = 16, MINING = 32,
-            SATELLITE = 64, PROBE = 128, IMPACT = 256};
+            SATELLITE = 64, PROBE = 128, IMPACT = 256, TIME = 512, MANNED = 1024, AVIATION = 2048, SCIENCE = 4096,
+            COMMUNICATION = 8192, ROVER = 16384
+        };
 
         /// <summary>
         /// Mission category

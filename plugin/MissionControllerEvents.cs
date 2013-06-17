@@ -15,6 +15,11 @@ namespace MissionController
         private void onPartCouple(GameEvents.FromToAction<Part, Part> action) {
             if (HighLogic.LoadedSceneIsFlight) {
                 eventFlags = eventFlags.Add (EventFlags.DOCKED);
+                Debug.LogError ("Docked FROM: " + action.from.vessel.vesselName);
+                Debug.LogError ("Docked TO: " + action.to.vessel.vesselName);
+
+                Debug.LogError ("Docked FROM ID: " + action.from.vessel.id.ToString());
+                Debug.LogError ("Docked TO ID: " + action.to.vessel.id.ToString());
             }
         }
 

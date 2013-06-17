@@ -22,13 +22,20 @@ namespace MissionController
         public static string pluginFolder = root + "GameData/MissionController/";
         public static string missionFolder = pluginFolder + "Plugins/PluginData/MissionController";
 
-        private WWW wwwIconMenu = new WWW("file://" + pluginFolder + "icons/FlightSceneButtonT2.png");
+        private WWW wwwIconMenu = new WWW("file://" + pluginFolder + "icons/FlightSceneButtonT4.png");
         private WWW wwwIconProbe = new WWW("file://" + pluginFolder + "icons/sputnikmk2.png");
         private WWW wwwIconImpactor = new WWW("file://" + pluginFolder + "icons/impactormk2.png");
         private WWW wwwIconLander = new WWW("file://" + pluginFolder + "icons/landermk2.png");
         private WWW wwwIconOrbit = new WWW("file://" + pluginFolder + "icons/launchmk2.png");
         private WWW wwwIconDocking = new WWW("file://" + pluginFolder + "icons/rendezvousmk2.png");
         private WWW wwwIconSatellite = new WWW("file://" + pluginFolder + "icons/Stellitemk2.png");
+        private WWW wwwIconEVA = new WWW("file://" + pluginFolder + "icons/EVAing.png");
+        private WWW wwwIconClock = new WWW("file://" + pluginFolder + "icons/clockmk2.png");
+        private WWW wwwIconManned = new WWW("file://" + pluginFolder + "icons/kerbedmk2.png");
+        private WWW wwwIconAviation = new WWW("file://" + pluginFolder + "icons/planemk2.png");
+        private WWW wwwIconScience = new WWW("file://" + pluginFolder + "icons/sciencemk2.png");
+        private WWW wwwIconCommunication = new WWW("file://" + pluginFolder + "icons/sensormk2.png");
+        private WWW wwwIconRover = new WWW("file://" + pluginFolder + "icons/rovermk2.png");
 
         private Texture2D iconMenu = null;
         private Texture2D iconTypeProbe = null;
@@ -37,6 +44,18 @@ namespace MissionController
         private Texture2D iconTypeOrbit = null;
         private Texture2D iconTypeDocking = null;
         private Texture2D iconTypeSatellite = null;
+        private Texture2D iconTypeEVA = null;
+        private Texture2D iconTypeClock = null;
+        private Texture2D iconTypeManned = null;
+        private Texture2D iconTypeAviation = null;
+        private Texture2D iconTypeScience = null;
+        private Texture2D iconTypeCommunication = null;
+        private Texture2D iconTypeRover = null;
+
+        /// <summary>
+        /// True if the UI should be hidden (F2 button)
+        /// </summary>
+        private bool hideAll = false;
 
         private Manager manager {
             get {
@@ -90,11 +109,13 @@ namespace MissionController
                 iconTypeOrbit = new Texture2D (0, 0, TextureFormat.ARGB32, false);
                 iconTypeDocking = new Texture2D (0, 0, TextureFormat.ARGB32, false);
                 iconTypeSatellite = new Texture2D (0, 0, TextureFormat.ARGB32, false);
-
-                Debug.LogError ("ROOT: " + root);
-                Debug.LogError ("PLUGIN: " + pluginFolder);
-                Debug.LogError ("MISSIONS: " + missionFolder);
-                Debug.LogError ("FILE PATH: " + wwwIconMenu.url);
+                iconTypeAviation = new Texture2D (0, 0, TextureFormat.ARGB32, false);
+                iconTypeClock = new Texture2D (0, 0, TextureFormat.ARGB32, false);
+                iconTypeCommunication = new Texture2D (0, 0, TextureFormat.ARGB32, false);
+                iconTypeEVA = new Texture2D (0, 0, TextureFormat.ARGB32, false);
+                iconTypeManned = new Texture2D (0, 0, TextureFormat.ARGB32, false);
+                iconTypeRover = new Texture2D (0, 0, TextureFormat.ARGB32, false);
+                iconTypeScience = new Texture2D (0, 0, TextureFormat.ARGB32, false);
 
                 wwwIconMenu.LoadImageIntoTexture(iconMenu);
                 wwwIconDocking.LoadImageIntoTexture(iconTypeDocking);
@@ -103,13 +124,27 @@ namespace MissionController
                 wwwIconSatellite.LoadImageIntoTexture(iconTypeSatellite);
                 wwwIconLander.LoadImageIntoTexture(iconTypeLander);
                 wwwIconProbe.LoadImageIntoTexture(iconTypeProbe);
+                wwwIconAviation.LoadImageIntoTexture(iconTypeAviation);
+                wwwIconClock.LoadImageIntoTexture(iconTypeClock);
+                wwwIconEVA.LoadImageIntoTexture(iconTypeEVA);
+                wwwIconManned.LoadImageIntoTexture(iconTypeManned);
+                wwwIconRover.LoadImageIntoTexture(iconTypeRover);
+                wwwIconScience.LoadImageIntoTexture(iconTypeScience);
+                wwwIconCommunication.LoadImageIntoTexture(iconTypeCommunication);
 
-                iconDictionary.Add(Mission.Category.DOCKING, iconTypeDocking);
-                iconDictionary.Add(Mission.Category.ORBIT, iconTypeOrbit);
-                iconDictionary.Add(Mission.Category.PROBE, iconTypeProbe);
-                iconDictionary.Add(Mission.Category.LANDING, iconTypeLander);
-                iconDictionary.Add(Mission.Category.SATELLITE, iconTypeSatellite);
-                iconDictionary.Add(Mission.Category.IMPACT, iconTypeImpactor);
+                iconDictionary.Add (Mission.Category.DOCKING, iconTypeDocking);
+                iconDictionary.Add (Mission.Category.ORBIT, iconTypeOrbit);
+                iconDictionary.Add (Mission.Category.PROBE, iconTypeProbe);
+                iconDictionary.Add (Mission.Category.LANDING, iconTypeLander);
+                iconDictionary.Add (Mission.Category.SATELLITE, iconTypeSatellite);
+                iconDictionary.Add (Mission.Category.IMPACT, iconTypeImpactor);
+                iconDictionary.Add (Mission.Category.AVIATION, iconTypeAviation);
+                iconDictionary.Add (Mission.Category.COMMUNICATION, iconTypeCommunication);
+                iconDictionary.Add (Mission.Category.EVA, iconTypeEVA);
+                iconDictionary.Add (Mission.Category.MANNED, iconTypeManned);
+                iconDictionary.Add (Mission.Category.ROVER, iconTypeRover);
+                iconDictionary.Add (Mission.Category.SCIENCE, iconTypeScience);
+                iconDictionary.Add (Mission.Category.TIME, iconTypeClock);
             }
         }
         
@@ -225,6 +260,10 @@ namespace MissionController
         /// We check for passive missions and client controlled missions every day.
         /// </summary>
         public void Update() {
+            if (Input.GetKeyDown (KeyCode.F2)) {
+                hideAll = !hideAll;
+            }
+
             try {
                 if(!isValidScene()) {
                     return;
@@ -294,6 +333,12 @@ namespace MissionController
             loadStyles ();
 
             GUI.skin = HighLogic.Skin;
+
+            calculateStatus (currentMission, true);
+
+            if (hideAll) {
+                return;
+            }
 
             if (GUI.Button (new Rect (Screen.width / 6 - 38, Screen.height - 51, 35, 50), iconMenu, styleIcon)) {
                 toggleWindow ();
@@ -430,6 +475,7 @@ namespace MissionController
             if (status.missionIsFinishable) {
                 if (GUILayout.Button ("Finish the mission!")) {
                     manager.finishMission (currentMission, activeVessel, status.events);
+                    hiddenGoals = new List<MissionGoal> ();
                 }
             } else {
                 if (status.recyclable) {
