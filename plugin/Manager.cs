@@ -18,6 +18,8 @@ namespace MissionController
         private SpaceProgram spaceProgram;
         private String currentTitle;
 
+        private int latestExpenses = 0;
+
         public Manager() {
             currentTitle = "default (Sandbox)";
             parser = new Parser();
@@ -387,6 +389,11 @@ namespace MissionController
             return false;
         }
 
+        /// <summary>
+        /// Gets the passive mission for the given vessel.
+        /// </summary>
+        /// <returns>The passive mission.</returns>
+        /// <param name="vessel">Vessel.</param>
         public MissionStatus getPassiveMission(Vessel vessel) {
             foreach (MissionStatus s in currentProgram.completedMissions) {
                 if(s.passiveReward != 0 && s.vesselGuid.Equals(vessel.id.ToString())) {
@@ -394,6 +401,14 @@ namespace MissionController
                 }
             }
             return null;
+        }
+
+        /// <summary>
+        /// Rewinds the latest expenses.
+        /// </summary>
+        public void rewind() {
+            reward (latestExpenses);
+            latestExpenses = 0;
         }
 
         /// <summary>
@@ -413,6 +428,9 @@ namespace MissionController
         public int reward(int value) {
             if (!SettingsManager.Manager.getSettings ().DisablePlugin) {
                 currentProgram.money += value;
+            }
+            if (value < 0) {
+                latestExpenses = -value;
             }
             return currentProgram.money;
         }

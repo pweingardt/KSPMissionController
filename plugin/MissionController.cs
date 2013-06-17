@@ -95,6 +95,7 @@ namespace MissionController
         private GUIStyle styleValueName;
         private GUIStyle styleWarning;
         private GUIStyle styleIcon;
+        private GUIStyle styleButtonWordWrap;
 
         private EventFlags eventFlags = EventFlags.NONE;
 
@@ -174,6 +175,12 @@ namespace MissionController
             styleButton.normal.textColor = Color.white;
             styleButton.fontStyle = FontStyle.Bold;
             styleButton.alignment = TextAnchor.MiddleCenter;
+
+            styleButtonWordWrap = new GUIStyle (HighLogic.Skin.button);
+            styleButtonWordWrap.normal.textColor = Color.white;
+            styleButtonWordWrap.fontStyle = FontStyle.Bold;
+            styleButtonWordWrap.alignment = TextAnchor.MiddleCenter;
+            styleButtonWordWrap.wordWrap = true;
             
             styleValueName = new GUIStyle (GUI.skin.label);
             styleValueName.normal.textColor = Color.white;
