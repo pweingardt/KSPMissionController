@@ -43,6 +43,15 @@ namespace MissionController
         public double minGForce = 0.0;
         public double maxGForce = 0.0;
 
+        // The latitude and longitude can be used for stationary orbits to specify 
+
+        public double minLatitude = 0.0;
+        public double maxLatitude = 0.0;
+
+        public double minLongitude = 0.0;
+        public double maxLongitude = 0.0;
+
+
         public String body = "Kerbin";
 
         protected override List<Value> values(Vessel vessel, GameEvent events) {
@@ -219,6 +228,25 @@ namespace MissionController
                 } else {
                     values.Add (new Value ("Max G Force", String.Format(MathTools.SingleDoubleValue, maxGForce), 
                                            vessel.geeForce, vessel.geeForce <= maxGForce));
+                }
+            }
+
+            if(minLatitude != maxLatitude) {
+                if(vessel == null) {
+                    values.Add(new Value("Latitude", String.Format(MathTools.MinMaxValue, minLatitude, maxLatitude)));
+                } else {
+                    values.Add(new Value("Latitude", String.Format(MathTools.MinMaxValue, minLatitude, maxLatitude), 
+                                         vessel.latitude, MathTools.inMinMax(minLatitude, maxLatitude, vessel.latitude)));
+                }
+            }
+
+            if(minLongitude != maxLongitude) {
+                if(vessel == null) {
+                    values.Add(new Value("Longitude", String.Format(MathTools.MinMaxValue, minLongitude, maxLongitude)));
+                } else {
+                    values.Add(new Value("Longitude", String.Format(MathTools.MinMaxValue, minLongitude, maxLongitude), 
+                                         MathTools.calculateLongitude(vessel.longitude), 
+                                         MathTools.inMinMax(minLongitude, maxLongitude, MathTools.calculateLongitude(vessel.longitude))));
                 }
             }
 
