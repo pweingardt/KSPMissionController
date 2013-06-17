@@ -43,7 +43,8 @@ namespace MissionController
                     values.Add(new Value("Longitude", String.Format(MathTools.MinMaxValue, minLongitude, maxLongitude)));
                 } else {
                     values.Add(new Value("Longitude", String.Format(MathTools.MinMaxValue, minLongitude, maxLongitude), 
-                                     vessel.longitude, MathTools.inMinMax(minLongitude, maxLongitude, vessel.longitude)));
+                                     MathTools.calculateLongitude(vessel.longitude), 
+                                     MathTools.inMinMax(minLongitude, maxLongitude, MathTools.calculateLongitude(vessel.longitude))));
                 }
             }
 

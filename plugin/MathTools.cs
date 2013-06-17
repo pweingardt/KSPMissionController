@@ -60,6 +60,15 @@ namespace MissionController
             }
         }
 
+        public static double calculateLongitude(double value) {
+            while (value > 180.0) {
+                value -= 360.0;
+            }
+            while (value < -180.0) {
+                value += 360.0;
+            }
+            return value;
+        }
         
         public const String Range = "{0:0.###} (±{1:0.###})";
         public const String SingleDoubleValue = "{0:0.###}";
