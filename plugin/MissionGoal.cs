@@ -205,12 +205,14 @@ namespace MissionController
             this.shouldBe = shouldBe;
         }
 
-        public Value(String name, String shouldBe, double currentlyIs, bool done) :
-            this (name, shouldBe, String.Format(MathTools.SingleDoubleValue, currentlyIs), done) {
+        public Value(String name, String shouldBe, double currentlyIs, bool done, bool highPrecision = false) :
+            this (name, shouldBe, String.Format(highPrecision ? MathTools.HighPrecisionDoubleValue : MathTools.SingleDoubleValue, 
+                                               currentlyIs), done) {
         }
 
-        public Value(String name, double shouldBe, double currentlyIs, bool done) :
-            this (name, String.Format(MathTools.SingleDoubleValue, shouldBe), String.Format(MathTools.SingleDoubleValue, currentlyIs), done) {
+        public Value(String name, double shouldBe, double currentlyIs, bool done, bool highPrecision = false) :
+            this (name, String.Format(highPrecision ? MathTools.HighPrecisionDoubleValue : MathTools.SingleDoubleValue, 
+                                     shouldBe), String.Format(MathTools.SingleDoubleValue, currentlyIs), done) {
         }
 
         public Value(String name, String value) : this(name, value, "", false) {

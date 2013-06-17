@@ -169,17 +169,17 @@ namespace MissionController
                 // If both min < max, then max has not been set at all and ignore the max value
                 if(minEccentricity < maxEccentricity) {
                     if (vessel == null) {
-                        values.Add (new Value ("Eccentricity", String.Format(MathTools.MinMaxValue, minEccentricity, maxEccentricity)));
+                        values.Add (new Value ("Eccentricity", String.Format(MathTools.HighPrecisionMinMaxValue, minEccentricity, maxEccentricity)));
                     } else {
-                        values.Add (new Value ("Eccentricity", String.Format(MathTools.MinMaxValue, minEccentricity, maxEccentricity), 
-                                              vessel.orbit.eccentricity, MathTools.inMinMax(minEccentricity, maxEccentricity, vessel.orbit.eccentricity)));
+                        values.Add (new Value ("Eccentricity", String.Format(MathTools.HighPrecisionMinMaxValue, minEccentricity, maxEccentricity), 
+                                              vessel.orbit.eccentricity, MathTools.inMinMax(minEccentricity, maxEccentricity, vessel.orbit.eccentricity), true));
                     }
                 } else {
                     if (vessel == null) {
-                        values.Add (new Value ("min. Eccentricity", String.Format(MathTools.SingleDoubleValue, minEccentricity)));
+                        values.Add (new Value ("min. Eccentricity", String.Format(MathTools.HighPrecisionDoubleValue, minEccentricity)));
                     } else {
-                        values.Add (new Value ("min. Eccentricity", String.Format(MathTools.SingleDoubleValue, minEccentricity), 
-                                              vessel.orbit.eccentricity, minEccentricity < vessel.orbit.eccentricity));
+                        values.Add (new Value ("min. Eccentricity", String.Format(MathTools.HighPrecisionDoubleValue, minEccentricity), 
+                                              vessel.orbit.eccentricity, minEccentricity < vessel.orbit.eccentricity, true));
                     }
                 }
             }
