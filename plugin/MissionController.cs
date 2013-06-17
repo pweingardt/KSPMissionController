@@ -454,6 +454,8 @@ namespace MissionController
             if (currentMission != null) {
                 drawMission (currentMission, status);
             } else {
+                drawPassiveMissions (manager.getActivePassiveMissions());
+
                 if (GUILayout.Button ("Configure")) {
                     showSettingsWindow = !showSettingsWindow;
                     resetCount = 0;
@@ -483,6 +485,7 @@ namespace MissionController
                 if (GUILayout.Button ("Finish the mission!")) {
                     manager.finishMission (currentMission, activeVessel, status.events);
                     hiddenGoals = new List<MissionGoal> ();
+                    currentMission = null;
                 }
             } else {
                 if (status.recyclable) {
@@ -626,6 +629,35 @@ namespace MissionController
                         }
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Draws the currently active passive missions
+        /// </summary>
+        /// <param name="missions">Missions.</param>
+        private void drawPassiveMissions(List<MissionStatus> missions) {
+            if (missions.Count > 0) {
+                GUILayout.BeginHorizontal ();
+                GUILayout.Label ("Next payment in", styleValueName);
+                GUILayout.Label (MathTools.formatTime(60.0 * 60.0 * 24.0 - (Planetarium.GetUniversalTime() - lastPassiveReward)), styleValueGreen);
+                GUILayout.EndHorizontal ();
+
+                int total = 0;
+                foreach (MissionStatus m in missions) {
+                    GUILayout.BeginHorizontal ();
+                    GUILayout.Label (m.missionName, styleValueName);
+                    GUILayout.Label (m.passiveReward + CurrencySuffix, styleValueGreen);
+                    GUILayout.EndHorizontal ();
+                    total += m.passiveReward;
+                }
+
+                GUILayout.Space (20);
+
+                GUILayout.BeginHorizontal ();
+                GUILayout.Label ("Total", styleValueName);
+                GUILayout.Label (total + CurrencySuffix, styleValueGreen);
+                GUILayout.EndHorizontal ();
             }
         }
         

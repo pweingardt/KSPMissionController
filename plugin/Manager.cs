@@ -277,8 +277,13 @@ namespace MissionController
         public List<MissionStatus> getActivePassiveMissions() {
             List<MissionStatus> status = new List<MissionStatus> ();
             List<MissionStatus> removable = new List<MissionStatus> ();
+
+            if (!HighLogic.LoadedSceneHasPlanetarium) {
+                return status;
+            }
+
             foreach (MissionStatus s in currentProgram.completedMissions) {
-                if(s.endOfLife != 0.0) {
+                if(s.endOfLife != 0.0 && s.passiveReward > 0) {
                     if (s.endOfLife <= Planetarium.GetUniversalTime ()) {
                         removable.Add (s);
                     } else {
@@ -296,9 +301,18 @@ namespace MissionController
             return status;
         }
 
+        /// <summary>
+        /// Gets all client controlled missions
+        /// </summary>
+        /// <returns>The client controlled missions.</returns>
         public List<MissionStatus> getClientControlledMissions() {
             List<MissionStatus> status = new List<MissionStatus> ();
             List<MissionStatus> removable = new List<MissionStatus> ();
+
+            if (!HighLogic.LoadedSceneHasPlanetarium) {
+                return status;
+            }
+
             foreach (MissionStatus s in currentProgram.completedMissions) {
                 if(s.clientControlled) {
                     if (s.endOfLife <= Planetarium.GetUniversalTime ()) {
@@ -365,6 +379,10 @@ namespace MissionController
         /// <returns><c>true</c>, if vessel is controlled by a client, <c>false</c> otherwise.</returns>
         /// <param name="vessel">Vessel.</param>
         public bool isClientControlled(Vessel vessel) {
+            if (!HighLogic.LoadedSceneHasPlanetarium) {
+                return false;
+            }
+
             foreach (MissionStatus status in currentProgram.completedMissions) {
                 if (status.clientControlled && status.vesselGuid.Equals (vessel.id.ToString()) &&
                         status.endOfLife >= Planetarium.GetUniversalTime()) {
