@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using System.Text.RegularExpressions;
 
 namespace MissionController
 {
@@ -24,7 +25,13 @@ namespace MissionController
             GUI.skin = HighLogic.Skin;
             GUILayout.BeginVertical ();
 
-            settings.DisablePlugin = GUILayout.Toggle (settings.DisablePlugin, "Disable plugin. No launch costs");
+            settings.disablePlugin = GUILayout.Toggle (settings.disablePlugin, "Disable plugin. No launch costs");
+
+            GUILayout.Label ("Costs per kerbonaut: ", styleCaption);
+            settings.kerbonautCost = GUILayout.TextField (settings.kerbonautCost);
+            settings.kerbonautCost = Regex.Replace(settings.kerbonautCost, @"[a-zA-Z\\. ]", "");
+
+            GUILayout.Space (30);
 
             GUILayout.Label (contributions, styleText);
 
@@ -44,14 +51,15 @@ namespace MissionController
                 }
             }
 
-            if (GUILayout.Button ("Close Settings", styleButton)) {
+            if (GUILayout.Button ("Save and Close Settings", styleButton)) {
                 showSettingsWindow = false;
+                SettingsManager.Manager.saveSettings ();
             }
 
             GUILayout.EndVertical ();
             GUI.DragWindow ();
 
-            SettingsManager.Manager.saveSettingsIfChanged ();
+
         }
     }
 }

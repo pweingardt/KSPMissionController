@@ -444,7 +444,7 @@ namespace MissionController
         }
 
         public int reward(int value) {
-            if (!SettingsManager.Manager.getSettings ().DisablePlugin) {
+            if (!SettingsManager.Manager.getSettings ().disablePlugin) {
                 currentProgram.money += value;
             }
             if (value < 0) {

@@ -44,7 +44,7 @@ namespace MissionController
                 return s;
             }
 
-            s.canFinishMission = s.vesselCanFinishMissions && !s.requiresAnotherMission && !settings.DisablePlugin;
+            s.canFinishMission = s.vesselCanFinishMissions && !s.requiresAnotherMission && !settings.disablePlugin;
 
             bool orderOk = true;
 
@@ -124,6 +124,7 @@ namespace MissionController
                         parts = EditorLogic.SortedShipList;
                     } else {
                         parts = activeVessel.parts;
+                        res.crewCount = activeVessel.GetCrewCount();
                     }
 
                     foreach (Part p in parts) {
@@ -167,6 +168,7 @@ namespace MissionController
             public double xenonFuel;
             public double construction;
 
+            public int crewCount = 0;
 
             public int liquid() {
                 return (int)liquidFuel * 2;
@@ -192,15 +194,19 @@ namespace MissionController
                 return (int)(oxidizerFuel * 8.54);
             }
 
+            public int crew() {
+                return SettingsManager.Manager.getSettings ().kerbonautCostAsInt * crewCount;
+            }
+
             public int sum() {
-                return (int)(construction + liquid () + solid () + mono () + xenon () + other () + oxidizer());
+                return (int)(construction + liquid () + solid () + mono () + xenon () + other () + oxidizer() + crew ());
             }
 
             public int recyclable(bool landed) {
                 if (landed) {
-                    return (int)(0.85 * (construction + other ()) + 0.95 * (liquid () + solid () + mono () + xenon () + + oxidizer ()));
+                    return (int)(0.85 * (construction + other ()) + 0.95 * (liquid () + solid () + mono () + xenon () + + oxidizer ()) + crew ());
                 } else {
-                    return (int)(0.65 * (construction + other ()) + 0.95 * (liquid () + solid () + mono () + xenon () + + oxidizer ()));
+                    return (int)(0.65 * (construction + other ()) + 0.95 * (liquid () + solid () + mono () + xenon () + + oxidizer ()) + crew ());
                 }
             }
         }

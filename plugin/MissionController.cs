@@ -436,6 +436,7 @@ namespace MissionController
                 showCostValue("Solid fuel costs:", res.solid (), styleValueGreen);
                 showCostValue("Xenon gas costs:", res.xenon (), styleValueGreen);
                 showCostValue("Other resource costs:", res.other (), styleValueGreen);
+                showCostValue("Crew insurance: ", res.crew (), styleValueGreen);
                 showCostValue("Sum:", res.sum(), (res.sum () > manager.budget ? styleValueRed : styleValueGreen));
             }
 

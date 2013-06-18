@@ -3,19 +3,14 @@ using System;
 namespace MissionController
 {
     public class Settings {
-        // Do not access them directly. Use the properties
         public bool disablePlugin = false;
+
+        public String kerbonautCost = "100000";
 
         public bool changed = false;
 
-        public bool DisablePlugin {
-            get { return disablePlugin; }
-            set {
-                if (value != disablePlugin) {
-                    changed = true;
-                    disablePlugin = value;
-                }
-            }
+        public int kerbonautCostAsInt {
+            get { return int.Parse (kerbonautCost); }
         }
     }
 
