@@ -5,7 +5,7 @@ namespace MissionController
     public class Settings {
         public bool disablePlugin = false;
 
-        public String kerbonautCost = "100000";
+        public String kerbonautCost = "0";
 
         public bool changed = false;
 

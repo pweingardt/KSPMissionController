@@ -437,6 +437,7 @@ namespace MissionController
                 showCostValue("Xenon gas costs:", res.xenon (), styleValueGreen);
                 showCostValue("Other resource costs:", res.other (), styleValueGreen);
                 showCostValue("Crew insurance: ", res.crew (), styleValueGreen);
+                showCostValue("Liquid engines: ", res.engine (), styleValueGreen);
                 showCostValue("Sum:", res.sum(), (res.sum () > manager.budget ? styleValueRed : styleValueGreen));
             }
 
@@ -494,6 +495,9 @@ namespace MissionController
                     showCostValue("Recyclable value: ", res.recyclable(activeVessel.Landed), styleCaption);
                     if (GUILayout.Button ("Recycle this vessel!")) {
                         manager.recycleVessel (activeVessel, res.recyclable(activeVessel.Landed));
+                        FlightDriver.TerminateCurrentFlight ();
+                        FlightResultsDialog.showExitControls = true;
+                        FlightResultsDialog.Display ("Vessel has been recycled!");
                     }
                 } else {
                     if (status.recycledVessel) {

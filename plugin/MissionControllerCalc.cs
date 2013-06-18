@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 namespace MissionController
 {
@@ -128,6 +129,13 @@ namespace MissionController
                     }
 
                     foreach (Part p in parts) {
+                        foreach(ModuleEngines e in p.Modules.OfType<ModuleEngines>()) {
+                            if(e.propellants.Where(r => r.name.Equals("SolidFuel")).Count() == 0 &&
+                                    e.propellants.Where(r => r.name.Equals("IntakeAir")).Count() == 0) {
+                                res.engineCost += Math.Pow(e.atmosphereCurve.Evaluate(0) - 200, 2) * e.maxThrust / 1000.0;
+                            }
+                        }
+
                         res.construction += p.partInfo.cost;
 
                         if (p.Resources ["LiquidFuel"] != null) {
@@ -169,29 +177,34 @@ namespace MissionController
             public double construction;
 
             public int crewCount = 0;
+            public double engineCost = 0;
 
             public int liquid() {
-                return (int)liquidFuel * 2;
+                return (int)(liquidFuel * 0.4);
             }
 
             public int mono() {
-                return (int)monoFuel * 15;
+                return (int)(monoFuel * 5);
             }
 
             public int solid() {
-                return (int)solidFuel * 5;
+                return (int)(solidFuel * 0.2);
             }
 
             public int xenon() {
-                return (int)xenonFuel * 20;
+                return (int)(xenonFuel * 10);
             }
 
             public int other() {
-                return (int)mass * 1000;
+                return (int)(mass * 1000);
             }
 
             public int oxidizer() {
-                return (int)(oxidizerFuel * 8.54);
+                return (int)(oxidizerFuel * 2);
+            }
+
+            public int engine() {
+                return (int)(engineCost);
             }
 
             public int crew() {
@@ -199,14 +212,15 @@ namespace MissionController
             }
 
             public int sum() {
-                return (int)(construction + liquid () + solid () + mono () + xenon () + other () + oxidizer() + crew ());
+                return (int)(construction + liquid () + solid () + mono () + xenon () + other () + oxidizer() + crew ()
+                             + engine());
             }
 
             public int recyclable(bool landed) {
                 if (landed) {
-                    return (int)(0.85 * (construction + other ()) + 0.95 * (liquid () + solid () + mono () + xenon () + + oxidizer ()) + crew ());
+                    return (int)(0.85 * (construction + other () + engine()) + 0.95 * (liquid () + solid () + mono () + xenon () + + oxidizer ()) + crew ());
                 } else {
-                    return (int)(0.65 * (construction + other ()) + 0.95 * (liquid () + solid () + mono () + xenon () + + oxidizer ()) + crew ());
+                    return (int)(0.65 * (construction + other () + engine()) + 0.95 * (liquid () + solid () + mono () + xenon () + + oxidizer ()) + crew ());
                 }
             }
         }

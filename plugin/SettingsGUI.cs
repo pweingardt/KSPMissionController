@@ -11,7 +11,7 @@ namespace MissionController
             "I don't think you are...", "Ok... fine...", "Last chance!"
         };
 
-        private int rewindCount = 1;
+        private int rewindCount = 0;
         private String[] rewindStrings = new String[] {"Rewind", "Are you sure?", "So you messed up?", "LOL! And you want to get your latest expenses back?",
             "Well, let me see what I can do...", "Good news and bad news: You should not be running a space program and you will get the latest expenses back ;).",
             "Come on man, take that joke...", "Ok, last chance!"
@@ -27,7 +27,7 @@ namespace MissionController
 
             settings.disablePlugin = GUILayout.Toggle (settings.disablePlugin, "Disable plugin. No launch costs");
 
-            GUILayout.Label ("Costs per kerbonaut: ", styleCaption);
+            GUILayout.Label ("Kerbonaut insurance cost: ", styleCaption);
             settings.kerbonautCost = GUILayout.TextField (settings.kerbonautCost);
             settings.kerbonautCost = Regex.Replace(settings.kerbonautCost, @"[a-zA-Z\\. ]", "");
 
@@ -58,8 +58,6 @@ namespace MissionController
 
             GUILayout.EndVertical ();
             GUI.DragWindow ();
-
-
         }
     }
 }
