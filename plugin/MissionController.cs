@@ -72,12 +72,10 @@ namespace MissionController
         private List<MissionGoal> hiddenGoals = new List<MissionGoal> ();
     
         private Rect mainWindowPosition = new Rect (300, 70, 400, 700);
-        private Rect testWindowPosition = new Rect (Screen.width / 2 - 150, Screen.height / 2 - 100, 300, 150);
         private Rect settingsWindowPosition = new Rect (700, 70, 300, 250);
         private Rect packageWindowPosition = new Rect (50, 50, 1000, 700);
 
         private bool showMainWindow = false;
-        private bool showTestVesselWindow = false;
         private bool showSettingsWindow = false;
         private bool showMissionPackageBrowser = false;
 
@@ -354,10 +352,6 @@ namespace MissionController
             if (showMainWindow) {
                 mainWindowPosition = GUILayout.Window (98765, mainWindowPosition, drawMainWindow, mainWindowTitle);
             }
-            
-            if (showTestVesselWindow) {
-                testWindowPosition = GUILayout.Window (98764, testWindowPosition, drawTestWindow, "Are you sure?");
-            }
 
             if (showSettingsWindow) {
                 settingsWindowPosition = GUILayout.Window (98763, settingsWindowPosition, drawSettingsWindow, "Settings");
@@ -382,29 +376,6 @@ namespace MissionController
                 list.contentOffset = new Vector2 (1, 42.4f);
                 list.fontSize = 10;
             }
-        }
-
-        /// <summary>
-        /// Draws the window, that asks the user if he really wants to mark the active vessel as test vessel.
-        /// </summary>
-        /// <param name="id">Identifier.</param>
-        private void drawTestWindow (int id) {
-            GUI.skin = HighLogic.Skin;
-            
-            GUILayout.BeginVertical ();
-            GUILayout.Label ("Do you want to mark this vessel as test vessel? Test vessels *CAN NOT* finish missions, but cost only half the price!", styleText);
-            
-            GUILayout.BeginHorizontal ();
-            if (GUILayout.Button ("Yes")) {
-                showTestVesselWindow = false;
-//                isTestVessel = true;
-            }
-            if (GUILayout.Button ("NO!!!")) {
-                showTestVesselWindow = false;
-            }
-            GUILayout.EndHorizontal ();
-            GUILayout.EndVertical ();
-            GUI.DragWindow ();
         }
 
         /// <summary>
@@ -459,7 +430,7 @@ namespace MissionController
                 drawPassiveMissions (manager.getActivePassiveMissions());
 
                 if (GUILayout.Button ("Configure")) {
-                    showSettingsWindow = !showSettingsWindow;
+                    settingsWindow (!showSettingsWindow);
                     resetCount = 0;
                 }
             }
@@ -473,7 +444,7 @@ namespace MissionController
 
             if(currentPackage != null) {
                 if (GUILayout.Button ("Open browser window")) {
-                    showPackageBrowser ();
+                    packageWindow (true);
                 }
             }
 
@@ -520,7 +491,7 @@ namespace MissionController
             currentPackage = manager.loadMissionPackage (file);
             currentPreviewMission = null;
             if (currentPackage != null) {
-                showPackageBrowser ();
+                packageWindow (true);
             }
             currentSort = (currentPackage.ownOrder ? SortBy.PACKAGE_ORDER : SortBy.NAME);
         }
@@ -684,19 +655,34 @@ namespace MissionController
         }
 
         /// <summary>
-        /// Shows the package browser and locks the editor, if there is one.
+        /// Sets the visibility of the settings window
         /// </summary>
-        private void showPackageBrowser() {
-            showMissionPackageBrowser = true;
-            if (EditorLogic.fetch != null) {
-                EditorLogic.fetch.Lock (true, true, true);
-            }
+        /// <param name="visibility">If set to <c>true</c> visibility.</param>
+        private void settingsWindow(bool visibility) {
+            showSettingsWindow = visibility;
+            lockOrUnlockEditor (visibility);
         }
 
-        private void hidePackageBrowser() {
-            showMissionPackageBrowser = false;
+        /// <summary>
+        /// Sets the visibility of the package browser
+        /// </summary>
+        /// <param name="visibility">If set to <c>true</c> visibility.</param>
+        private void packageWindow(bool visibility) {
+            showMissionPackageBrowser = visibility;
+            lockOrUnlockEditor (visibility);
+        }
+
+        /// <summary>
+        /// Locks or unlocks the editor, if it is available
+        /// </summary>
+        /// <param name="visiblity">If set to <c>true</c> visiblity.</param>
+        private void lockOrUnlockEditor(bool visiblity) {
             if (EditorLogic.fetch != null) {
-                EditorLogic.fetch.Unlock ();
+                if (visiblity) {
+                    EditorLogic.fetch.Lock (true, true, true);
+                } else {
+                    EditorLogic.fetch.Unlock ();
+                }
             }
         }
 

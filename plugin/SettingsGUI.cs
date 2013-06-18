@@ -59,7 +59,7 @@ namespace MissionController
             }
 
             if (GUILayout.Button ("Save and Close Settings", styleButton)) {
-                showSettingsWindow = false;
+                settingsWindow (false);
                 Difficulty.init (settings.difficulty);
                 SettingsManager.Manager.saveSettings ();
             }

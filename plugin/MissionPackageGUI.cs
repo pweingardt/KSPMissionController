@@ -81,7 +81,7 @@ namespace MissionController
                     hiddenGoals = new List<MissionGoal> ();
                     currentMission = currentPreviewMission;
                     currentPreviewMission = null;
-                    hidePackageBrowser ();
+                    packageWindow (false);
                 }
 
                 if (currentPreviewMission.randomized && GUILayout.Button ("Discard")) {
@@ -91,7 +91,7 @@ namespace MissionController
             }
 
             if (GUILayout.Button ("Close")) {
-                hidePackageBrowser ();
+                packageWindow (false);
             }
             GUILayout.EndHorizontal ();
 
