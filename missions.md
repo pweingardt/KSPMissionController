@@ -102,9 +102,24 @@ A mission has several fields
 * lifetime: lifetime of this mission in seconds, use TIME. (default: 0)
 * category: a list of categories (please *do not* use more than two categories at the same time for one mission)
 
-Possible categories and their corresponding icons:
+Possible categories and their corresponding ideas:
 
-* ORBIT: \centerline{\includegraphics[height=2in]{https://github.com/pweingardt/KSPMissionController/blob/master/images/launchmk2.png}}
+* ORBIT: orbit goal
+* PROBE: a simple probe
+* IMPACT: crash goal
+* LANDING: landing goal
+* DOCKING: docking goal
+* SATELLITE: a complex satellite
+* MINING: mining mission (no icon yet)
+* EVA: eva goal
+* TIME: mission goals with minSeconds
+* SCIENCE: science missions
+* AVIATION: aviation missions
+* MANNED: manned missions
+* ROVER: a rover mission
+* COMMUNICATION: communication mission (no icon yet)
+
+Combine two categories with a coma: MANNED, ROVER.
 
 
 A mission has one or multiple mission goals. After you have finished the mission, you get the reward.
