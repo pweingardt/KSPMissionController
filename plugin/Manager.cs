@@ -40,12 +40,7 @@ namespace MissionController
         /// <param name="vessel">Vessel.</param>
         /// <param name="costs">Costs.</param>
         public void recycleVessel(Vessel vessel, int costs) {
-            if (!isRecycledVessel (vessel)) {
-                reward (costs);
-                RecycledVessel rv = new RecycledVessel ();
-                rv.guid = vessel.id.ToString ();
-                currentProgram.add (rv);
-            }
+            reward (costs);
         }
 
         public void loadProgram(String title) {
@@ -166,8 +161,7 @@ namespace MissionController
         /// <param name="goal">Goal.</param>
         /// <param name="vessel">Vessel.</param>
         public void finishMissionGoal(MissionGoal goal, Vessel vessel, GameEvent events) {
-            if (!isMissionGoalAlreadyFinished (goal, vessel) && goal.nonPermanent && goal.isDone(vessel, events) &&
-                    !isRecycledVessel(vessel)) {
+            if (!isMissionGoalAlreadyFinished (goal, vessel) && goal.nonPermanent && goal.isDone(vessel, events)) {
                 currentProgram.add(new GoalStatus(vessel.id.ToString(), goal.id));
                 reward (goal.reward);
             }
@@ -200,7 +194,7 @@ namespace MissionController
         /// <param name="m">mission</param>
         /// <param name="vessel">vessel</param>
         public void finishMission(Mission m, Vessel vessel, GameEvent events) {
-            if (!isMissionAlreadyFinished (m, vessel) && !isRecycledVessel(vessel) && m.isDone(vessel, events)) {
+            if (!isMissionAlreadyFinished (m, vessel) && m.isDone(vessel, events)) {
                 MissionStatus status = new MissionStatus (m.name, vessel.id.ToString ());
 
                 if (m.passiveMission) {
@@ -353,24 +347,6 @@ namespace MissionController
         /// <value>The budget.</value>
         public int budget {
             get { return currentProgram.money; }
-        }
-
-        /// <summary>
-        /// Checks if the given vessel has been recycled previously. 
-        /// </summary>
-        /// <returns><c>true</c>, if vessel has been recycled, <c>false</c> otherwise.</returns>
-        /// <param name="vessel">vessel</param>
-        public bool isRecycledVessel(Vessel vessel) {
-            if (vessel == null) {
-                return false;
-            }
-
-            foreach (RecycledVessel rv in currentProgram.recycledVessels) {
-                if (rv.guid.Equals (vessel.id.ToString())) {
-                    return true;
-                }
-            }
-            return false;
         }
 
         /// <summary>

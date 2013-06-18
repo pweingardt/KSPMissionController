@@ -493,15 +493,11 @@ namespace MissionController
                 if (status.recyclable) {
                     VesselResources res = vesselResources;
                     showCostValue("Recyclable value: ", res.recyclable(activeVessel.Landed), styleCaption);
-                    if (GUILayout.Button ("Recycle this vessel!")) {
+                    if (GUILayout.Button ("Recycle and end flight!")) {
                         manager.recycleVessel (activeVessel, res.recyclable(activeVessel.Landed));
                         FlightDriver.TerminateCurrentFlight ();
                         FlightResultsDialog.showExitControls = true;
                         FlightResultsDialog.Display ("Vessel has been recycled!");
-                    }
-                } else {
-                    if (status.recycledVessel) {
-                        GUILayout.Label ("This is a recycled vessel. You can't finish any missions with this vessel!", styleWarning);
                     }
                 }
             }
