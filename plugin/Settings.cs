@@ -9,6 +9,8 @@ namespace MissionController
 
         public bool changed = false;
 
+        public int difficulty = 1;
+
         public int kerbonautCostAsInt {
             get { return int.Parse (kerbonautCost); }
         }

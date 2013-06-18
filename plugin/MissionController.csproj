@@ -79,6 +79,7 @@
     <Compile Include="GameEvent.cs" />
     <Compile Include="MissionControllerEvents.cs" />
     <Compile Include="Enums.cs" />
+    <Compile Include="Difficulty.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

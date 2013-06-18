@@ -177,31 +177,31 @@ namespace MissionController
             public double engineCost = 0;
 
             public int liquid() {
-                return (int)(liquidFuel * 0.4);
+                return (int)(liquidFuel * Difficulty.LiquidFuel);
             }
 
             public int mono() {
-                return (int)(monoFuel * 5);
+                return (int)(monoFuel * Difficulty.MonoPropellant);
             }
 
             public int solid() {
-                return (int)(solidFuel * 0.2);
+                return (int)(solidFuel * Difficulty.SolidFuel);
             }
 
             public int xenon() {
-                return (int)(xenonFuel * 10);
+                return (int)(xenonFuel * Difficulty.Xenon);
             }
 
-            public int other() {
-                return (int)(mass * 1000);
+            public int materials() {
+                return (int)(mass * Difficulty.Mass);
             }
 
             public int oxidizer() {
-                return (int)(oxidizerFuel * 2);
+                return (int)(oxidizerFuel * Difficulty.Oxidizer);
             }
 
             public int engine() {
-                return (int)(engineCost);
+                return (int)(engineCost * Difficulty.LiquidEngines);
             }
 
             public int crew() {
@@ -209,15 +209,15 @@ namespace MissionController
             }
 
             public int sum() {
-                return (int)(construction + liquid () + solid () + mono () + xenon () + other () + oxidizer() + crew ()
+                return (int)(construction + liquid () + solid () + mono () + xenon () + materials () + oxidizer() + crew ()
                              + engine());
             }
 
             public int recyclable(bool landed) {
                 if (landed) {
-                    return (int)(0.85 * (construction + other () + engine()) + 0.95 * (liquid () + solid () + mono () + xenon () + + oxidizer ()) + crew ());
+                    return (int)(0.85 * (construction + materials () + engine()) + 0.95 * (liquid () + solid () + mono () + xenon () + + oxidizer ()) + crew ());
                 } else {
-                    return (int)(0.65 * (construction + other () + engine()) + 0.95 * (liquid () + solid () + mono () + xenon () + + oxidizer ()) + crew ());
+                    return (int)(0.65 * (construction + materials () + engine()) + 0.95 * (liquid () + solid () + mono () + xenon () + + oxidizer ()) + crew ());
                 }
             }
         }

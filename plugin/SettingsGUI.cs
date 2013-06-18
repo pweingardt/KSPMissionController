@@ -4,6 +4,9 @@ using System.Text.RegularExpressions;
 
 namespace MissionController
 {
+    /// <summary>
+    /// Responsible for the settings window
+    /// </summary>
     public partial class MissionController
     {
         private int resetCount = 0;
@@ -20,6 +23,7 @@ namespace MissionController
         private String contributions = "Plugin information and contributions:\nMain developer: nobody44\ndeveloper: vaughner81\nimages: BlazingAngel665\n" +
             "ideas: BaphClass\nideas: tek_604\nand of course the great community around KSP! You guys are awesome :)!";
 
+        private String[] difficulties = new String[] { "easy", "medium", "hard" };
 
         private void drawSettingsWindow(int id) {
             GUI.skin = HighLogic.Skin;
@@ -30,6 +34,9 @@ namespace MissionController
             GUILayout.Label ("Kerbonaut insurance cost: ", styleCaption);
             settings.kerbonautCost = GUILayout.TextField (settings.kerbonautCost);
             settings.kerbonautCost = Regex.Replace(settings.kerbonautCost, @"[a-zA-Z\\. ]", "");
+
+            GUILayout.Label ("Difficulty: ", styleCaption);
+            settings.difficulty = GUILayout.SelectionGrid (settings.difficulty, difficulties, 3);
 
             GUILayout.Space (30);
 
@@ -53,6 +60,7 @@ namespace MissionController
 
             if (GUILayout.Button ("Save and Close Settings", styleButton)) {
                 showSettingsWindow = false;
+                Difficulty.init (settings.difficulty);
                 SettingsManager.Manager.saveSettings ();
             }
 
