@@ -100,6 +100,11 @@ A mission has several fields
 * destroyPunishment: if the vessel is involved in an active mission and the user destroys the vessel, he will
     be fined (default: 100000)
 * lifetime: lifetime of this mission in seconds, use TIME. (default: 0)
+* category: a list of categories (please *do not* use more than two categories at the same time for one mission)
+
+Possible categories and their corresponding icons:
+
+* ORBIT: \centerline{\includegraphics[height=2in]{https://github.com/pweingardt/KSPMissionController/blob/master/images/launchmk2.png}}
 
 
 A mission has one or multiple mission goals. After you have finished the mission, you get the reward.
