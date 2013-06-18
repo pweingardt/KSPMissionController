@@ -31,7 +31,8 @@ namespace MissionController
             if (activeVessel != null) {
                 s.onLaunchPad = (activeVessel.situation == Vessel.Situations.PRELAUNCH);
                 s.recycledVessel = manager.isRecycledVessel (activeVessel);
-                s.recyclable = ((activeVessel.Landed || activeVessel.Splashed) && !s.recycledVessel && !s.onLaunchPad && !activeVessel.isEVA);
+                s.recyclable = ((activeVessel.Landed || activeVessel.Splashed) && !s.recycledVessel && !s.onLaunchPad && !activeVessel.isEVA && 
+                                activeVessel.orbit.referenceBody.name.Equals("Kerbin"));
                 s.vesselCanFinishMissions = !s.recycledVessel;
                 s.isClientControlled = manager.isClientControlled (activeVessel);
                 s.isOnPassiveMission = manager.isOnPassiveMission (activeVessel);
