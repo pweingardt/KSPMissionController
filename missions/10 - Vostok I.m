@@ -26,4 +26,9 @@ Mission
             partCount = 3
         }
     }
+
+    LandingGoal
+    {
+        body = Kerbin
+    }
 }

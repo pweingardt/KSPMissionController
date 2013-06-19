@@ -69,7 +69,10 @@ namespace MissionController
         /// </summary>
         /// <param name="r">The red component.</param>
         private void onLaunch (EventReport r) {
-            manager.costs (vesselResources.sum());
+            if (activeVessel != null && activeVessel.situation == Vessel.Situations.PRELAUNCH) {
+                Debug.LogError ("Launching vessel!");
+                manager.costs (vesselResources.sum());
+            }
         }
 
         /// <summary>
