@@ -1,3 +1,12 @@
+# version 0.8:
+
+* added kerbonaut insurance costs which is configurable in the settings gui. The users gets those expenses back when he landed on Kerbin and recycles the manned vessel.
+* added three difficulities, which define the costs for vessels
+* fixed recycle option on distant planets
+* fixed recycle option: ends the flight now
+* reworked stock mission package
+
+
 # version 0.7:
 
 * fixed F2 bug
