@@ -144,9 +144,6 @@ namespace MissionController
                     str = str.Trim();
                 }
             }
-            if(str != null) {
-                str = str.Trim();
-            }
             return str;
         }
     }

@@ -16,7 +16,7 @@ namespace MissionController
 
 
         public static readonly double[] medium = new double[] {
-            0.4, 5, 0.2, 10, 1000, 2, 1
+            0.4, 5, 1.5, 10, 1000, 2, 1
         };
 
         public static readonly double[] easy;

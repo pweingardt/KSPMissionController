@@ -561,7 +561,11 @@ namespace MissionController
                     continue;
                 }
 
-                GUILayout.Label ((index++) + ". Mission goal: " + c.getType () + (c.optional ? " (optional)" : ""), styleCaption);
+                if (c is SubMissionGoal) {
+                    GUILayout.Label ((index++) + ". Mission goal: " + (c.optional ? " (optional)" : ""), styleCaption);
+                } else {
+                    GUILayout.Label ((index++) + ". Mission goal: " + c.getType () + (c.optional ? " (optional)" : ""), styleCaption);
+                }
                 
                 if (c.description.Length != 0) {
                     GUILayout.Label ("Description: ", styleCaption);

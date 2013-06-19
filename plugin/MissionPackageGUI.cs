@@ -50,10 +50,16 @@ namespace MissionController
                 if (GUILayout.Button (m.name + "\n" + m.reward + CurrencySuffix, style, GUILayout.Width(350))) {
                     currentPreviewMission = manager.reloadMission(m, activeVessel);
                 }
-                foreach (Mission.Category c in iconDictionary.Keys) {
-                    if(m.category.Has(c)) {
-                        GUILayout.Label (iconDictionary[c], GUILayout.MaxWidth (50), GUILayout.MaxHeight (50), GUILayout.ExpandWidth(false),
-                                         GUILayout.Width(50), GUILayout.Height(50));
+
+                if (manager.isMissionAlreadyFinished (m, activeVessel)) {
+//                    GUILayout.Label(iconMissionFinished, GUILayout.MaxWidth (50), GUILayout.MaxHeight (50), GUILayout.ExpandWidth(false),
+//                                    GUILayout.Width(50), GUILayout.Height(50));
+                } else {
+                    foreach (Mission.Category c in iconDictionary.Keys) {
+                        if(m.category.Has(c)) {
+                            GUILayout.Label (iconDictionary[c], GUILayout.MaxWidth (50), GUILayout.MaxHeight (50), GUILayout.ExpandWidth(false),
+                                             GUILayout.Width(50), GUILayout.Height(50));
+                        }
                     }
                 }
                 GUILayout.EndHorizontal ();

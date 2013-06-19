@@ -106,7 +106,7 @@ namespace MissionController
                     values.Add (new Value ("max. Apoapsis", String.Format(MathTools.SingleDoubleValue, maxApA)));
                 } else {
                     values.Add (new Value ("max. Apoapsis", String.Format(MathTools.SingleDoubleValue, maxApA), 
-                                           vessel.orbit.ApA, vessel.orbit.ApA <= maxApA));
+                                           vessel.orbit.ApA, vessel.orbit.ApA <= maxApA && vessel.orbit.ApA > 0));
                 }
             }
             
