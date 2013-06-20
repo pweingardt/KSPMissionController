@@ -341,7 +341,7 @@ namespace MissionController
             if(drawLandingArea) {
                 CelestialBody kerbin = FlightGlobals.Bodies.Find (b => b.bodyName.Equals("Kerbin"));
                 if (kerbin != null) {
-                    GLUtils.drawLandingArea (kerbin, 80, 90, -170.0, 170.0, new Color(1.0f, 0.0f, 0.0f, 0.5f));
+//                    GLUtils.drawLandingArea (kerbin, 80, 90, -170.0, 170.0, new Color(1.0f, 0.0f, 0.0f, 0.5f));
                 }
             }
 
@@ -412,15 +412,14 @@ namespace MissionController
             // Show only when the loaded scene is an editor or a vessel is available and its situation is PRELAUNCH
             if (HighLogic.LoadedSceneIsEditor || status.onLaunchPad) {
                 VesselResources res = vesselResources;
-                showCostValue("Construction costs:", res.construction, styleValueGreen);
                 showCostValue("Liquid fuel costs:", res.liquid (), styleValueGreen);
                 showCostValue("Oxidizer costs:", res.oxidizer (), styleValueGreen);
                 showCostValue("Monopropellant costs:", res.mono (), styleValueGreen);
                 showCostValue("Solid fuel costs:", res.solid (), styleValueGreen);
                 showCostValue("Xenon gas costs:", res.xenon (), styleValueGreen);
-                showCostValue("Other resource costs:", res.materials (), styleValueGreen);
-                showCostValue("Crew insurance: ", res.crew (), styleValueGreen);
                 showCostValue("Liquid engines: ", res.engine (), styleValueGreen);
+                showCostValue("Crew insurance: ", res.crew (), styleValueGreen);
+                showCostValue("Other resource costs:", res.materials (), styleValueGreen);
                 showCostValue("Sum:", res.sum(), (res.sum () > manager.budget ? styleValueRed : styleValueGreen));
             }
 

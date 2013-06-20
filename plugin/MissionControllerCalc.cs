@@ -133,7 +133,7 @@ namespace MissionController
                             }
                         }
 
-                        res.construction += p.partInfo.cost;
+//                        res.construction += p.partInfo.cost;
 
                         if (p.Resources ["LiquidFuel"] != null) {
                             res.liquidFuel += p.Resources ["LiquidFuel"].amount;
@@ -171,7 +171,6 @@ namespace MissionController
             public double monoFuel;
             public double mass;
             public double xenonFuel;
-            public double construction;
 
             public int crewCount = 0;
             public double engineCost = 0;
@@ -209,15 +208,15 @@ namespace MissionController
             }
 
             public int sum() {
-                return (int)(construction + liquid () + solid () + mono () + xenon () + materials () + oxidizer() + crew ()
+                return (int)(liquid () + solid () + mono () + xenon () + materials () + oxidizer() + crew ()
                              + engine());
             }
 
             public int recyclable(bool landed) {
                 if (landed) {
-                    return (int)(0.85 * (construction + materials () + engine()) + 0.95 * (liquid () + solid () + mono () + xenon () + + oxidizer ()) + crew ());
+                    return (int)(0.85 * (materials () + engine()) + 0.95 * (liquid () + solid () + mono () + xenon () + + oxidizer ()) + crew ());
                 } else {
-                    return (int)(0.65 * (construction + materials () + engine()) + 0.95 * (liquid () + solid () + mono () + xenon () + + oxidizer ()) + crew ());
+                    return (int)(0.65 * (materials () + engine()) + 0.95 * (liquid () + solid () + mono () + xenon () + + oxidizer ()) + crew ());
                 }
             }
         }

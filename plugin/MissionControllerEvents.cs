@@ -75,6 +75,7 @@ namespace MissionController
             if (activeVessel != null && activeVessel.situation == Vessel.Situations.PRELAUNCH) {
                 Debug.LogError ("Launching vessel!");
                 manager.costs (vesselResources.sum());
+                recycled = false;
             }
         }
 
@@ -118,7 +119,10 @@ namespace MissionController
             eventFlags = EventFlags.NONE;
         }
 
-
+        /// <summary>
+        /// If the mission is on a client controlled mission, we disable every incoming input
+        /// </summary>
+        /// <param name="s">S.</param>
         private void onFlyByWire(FlightCtrlState s) {
             Status status = calculateStatus(currentMission, false, activeVessel);
 
