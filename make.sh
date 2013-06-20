@@ -14,7 +14,8 @@ mono $MISSIONMANAGER missions/stock.mxml $FOLDER/Plugins/PluginData/MissionContr
 
 for img in $(ls images/*.png); do
     base=$(basename "$img" ".png")
-    convert $img -resize 70x70 $FOLDER/icons/$base.png
+    #convert $img -resize 70x70 $FOLDER/icons/$base.png
+    cp $img $FOLDER/icons/$base.png
 done
 
 cp plugin/bin/MissionController.dll plugin/bin/MissionLibrary.dll $FOLDER/Plugins
