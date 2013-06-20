@@ -281,6 +281,7 @@ namespace MissionController
                 if(!isValidScene()) {
                     return;
                 }
+
                 // Every game day we check the passive missions and reward the player
                 if((lastPassiveReward == 0.0 || Planetarium.GetUniversalTime() - lastPassiveReward >= 60.0 * 60.0 * 24.0) 
                         && Planetarium.GetUniversalTime() != 0.0) {
@@ -302,16 +303,14 @@ namespace MissionController
                         if(daysDiff > 0) {
                             // Now we check if the vessel is still active. If it is not, we will punish the player
                             // and remove the old mission status
-                            bool found = false;
-                            foreach(ProtoVessel pv in HighLogic.CurrentGame.flightState.protoVessels) {
-                                if(pv.vesselID.ToString().Equals(s.vesselGuid) && pv.vesselType != VesselType.Debris) {
-                                    found = true;
-                                    s.lastPassiveRewardTime = time;
-                                    manager.reward(daysDiff * s.passiveReward);
-                                }
-                            }
 
-                            if(!found) {
+                            ProtoVessel pv = HighLogic.CurrentGame.flightState.protoVessels
+                                .Find(p => p.vesselID.ToString().Equals(s.vesselGuid) && p.vesselType != VesselType.Debris);
+
+                            if(pv != null) {
+                                s.lastPassiveRewardTime = time;
+                                manager.reward(daysDiff * s.passiveReward);
+                            } else {
                                 manager.removeMission(s);
                                 manager.costs(s.punishment);
                             }
@@ -321,13 +320,10 @@ namespace MissionController
                     // After that we check for client controlled missions. If those vessels get destroyed, we will punish the player
                     passives = manager.getClientControlledMissions();
                     foreach(MissionStatus s in passives) {
-                        bool found = false;
-                        foreach(ProtoVessel pv in HighLogic.CurrentGame.flightState.protoVessels) {
-                            if(pv.vesselID.ToString().Equals(s.vesselGuid) && pv.vesselType != VesselType.Debris) {
-                                found = true;
-                            }
-                        }
-                        if(!found) {
+                        ProtoVessel pv = HighLogic.CurrentGame.flightState.protoVessels
+                            .Find(p => p.vesselType != VesselType.Debris && p.vesselID.ToString().Equals(s.vesselGuid));
+
+                        if(pv == null) {
                             manager.removeMission(s);
                             manager.costs(s.punishment);
                         }
@@ -354,7 +350,8 @@ namespace MissionController
 
             GUI.skin = HighLogic.Skin;
 
-            calculateStatus (currentMission, true);
+            // We need to calculate the status in case the windows are not visible
+            calculateStatus (currentMission, true, activeVessel);
 
             if (hideAll) {
                 return;
@@ -399,7 +396,7 @@ namespace MissionController
         /// </summary>
         /// <param name="id">Identifier.</param>
         private void drawMainWindow (int id) {
-            Status status = calculateStatus (currentMission, true);
+            Status status = calculateStatus (currentMission, true, activeVessel);
 
             GUI.skin = HighLogic.Skin;
             GUILayout.BeginVertical ();
@@ -488,6 +485,7 @@ namespace MissionController
                         FlightDriver.TerminateCurrentFlight ();
                         FlightResultsDialog.showExitControls = true;
                         FlightResultsDialog.Display ("Vessel has been recycled!");
+                        recycled = true;
                     }
                 }
             }

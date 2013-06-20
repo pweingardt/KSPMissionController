@@ -36,10 +36,11 @@ namespace MissionController
             packageScrollPosition = GUILayout.BeginScrollView (packageScrollPosition, GUILayout.Width(500));
 
             foreach (Mission m in currentPackage.Missions) {
+                Status s = calculateStatus (m, false, null);
                 GUILayout.BeginHorizontal (GUILayout.Width(450));
                 GUIStyle style = styleButton;
 
-                if (m.requiresMission != null && m.requiresMission.Length != 0 && !manager.isMissionAlreadyFinished (m.requiresMission)) {
+                if (s.requiresAnotherMission) {
                     style = styleRedButton;
                 }
 
@@ -51,7 +52,7 @@ namespace MissionController
                     currentPreviewMission = manager.reloadMission(m, activeVessel);
                 }
 
-                if (manager.isMissionAlreadyFinished (m, activeVessel)) {
+                if (s.missionAlreadyFinished) {
                     GUILayout.Label(iconFinished, GUILayout.MaxWidth (50), GUILayout.MaxHeight (50), GUILayout.ExpandWidth(false),
                                     GUILayout.Width(50), GUILayout.Height(50));
                 } else {
@@ -76,7 +77,7 @@ namespace MissionController
                 GUILayout.Label (currentPackage.description, styleText);
             } else {
                 // otherwise draw the mission parameters
-                drawMission (currentPreviewMission, calculateStatus (currentPreviewMission));
+                drawMission (currentPreviewMission, calculateStatus (currentPreviewMission, false, activeVessel));
             }
             GUILayout.EndScrollView ();
 

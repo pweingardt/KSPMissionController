@@ -120,7 +120,7 @@ namespace MissionController
 
 
         private void onFlyByWire(FlightCtrlState s) {
-            Status status = calculateStatus(currentMission, false);
+            Status status = calculateStatus(currentMission, false, activeVessel);
 
             if(status.isClientControlled) {
                 s.fastThrottle = 0;

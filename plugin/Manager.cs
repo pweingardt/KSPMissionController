@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 namespace MissionController
 {
@@ -270,28 +271,29 @@ namespace MissionController
         /// <returns>The passive missions.</returns>
         public List<MissionStatus> getActivePassiveMissions() {
             List<MissionStatus> status = new List<MissionStatus> ();
-            List<MissionStatus> removable = new List<MissionStatus> ();
+//            List<MissionStatus> removable = new List<MissionStatus> ();
 
             if (!HighLogic.LoadedSceneHasPlanetarium) {
                 return status;
             }
 
-            foreach (MissionStatus s in currentProgram.completedMissions) {
-                if(s.endOfLife != 0.0 && s.passiveReward > 0) {
+            foreach (MissionStatus s in currentProgram.completedMissions.Where(s => s.endOfLife != 0.0 && s.passiveReward > 0)) {
+//                if(s.endOfLife != 0.0 && s.passiveReward > 0) {
                     if (s.endOfLife <= Planetarium.GetUniversalTime ()) {
-                        removable.Add (s);
+                        s.endOfLife = 0.0;
+                        s.passiveReward = 0;
                     } else {
                         status.Add (s);
                     }
-                }
+//                }
             }
 
             // Cleanup old missions
             // We don't clean up for now. We want to show how long the mission is still active
             // and if it not active any longer, we will show it.
-            foreach (MissionStatus r in removable) {
-                currentProgram.completedMissions.Remove (r);
-            }
+//            foreach (MissionStatus r in removable) {
+//                currentProgram.completedMissions.Remove (r);
+//            }
             return status;
         }
 
@@ -301,28 +303,28 @@ namespace MissionController
         /// <returns>The client controlled missions.</returns>
         public List<MissionStatus> getClientControlledMissions() {
             List<MissionStatus> status = new List<MissionStatus> ();
-            List<MissionStatus> removable = new List<MissionStatus> ();
+//            List<MissionStatus> removable = new List<MissionStatus> ();
 
             if (!HighLogic.LoadedSceneHasPlanetarium) {
                 return status;
             }
 
-            foreach (MissionStatus s in currentProgram.completedMissions) {
-                if(s.clientControlled) {
+            foreach (MissionStatus s in currentProgram.completedMissions.Where(s => s.clientControlled)) {
+//                if(s.clientControlled) {
                     if (s.endOfLife <= Planetarium.GetUniversalTime ()) {
-                        removable.Add (s);
+                        s.clientControlled = false;
                     } else {
                         status.Add (s);
                     }
-                }
+//                }
             }
 
             // Cleanup old missions
             // We don't clean up for now. We want to show how long the mission is still active
             // and if it not active any longer, we will show it.
-            foreach (MissionStatus r in removable) {
-                currentProgram.completedMissions.Remove (r);
-            }
+//            foreach (MissionStatus r in removable) {
+//                currentProgram.completedMissions.Remove (r);
+//            }
 
             return status;
         }

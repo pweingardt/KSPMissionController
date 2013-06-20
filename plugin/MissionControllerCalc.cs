@@ -16,7 +16,7 @@ namespace MissionController
         /// </summary>
         /// <returns>The status.</returns>
         /// <param name="mission">Mission.</param>
-        private Status calculateStatus(Mission mission, bool fullCheck = false) {
+        private Status calculateStatus(Mission mission, bool fullCheck = false, Vessel vessel = null) {
             Status s = new Status ();
 
             // Fill the mission status fields
@@ -24,23 +24,23 @@ namespace MissionController
                 s.requiresAnotherMission = (mission.requiresMission.Length != 0 
                                             && !manager.isMissionAlreadyFinished (mission.requiresMission));
 
-                s.missionAlreadyFinished = (manager.isMissionAlreadyFinished (mission, activeVessel) ||
+                s.missionAlreadyFinished = (manager.isMissionAlreadyFinished (mission, vessel) ||
                                             (!mission.repeatable && manager.isMissionAlreadyFinished(mission.name)));
             }
 
             // Fill the vessel fields, that are not dependant on the current mission
-            if (activeVessel != null) {
-                s.onLaunchPad = (activeVessel.situation == Vessel.Situations.PRELAUNCH);
-                s.recyclable = ((activeVessel.Landed || activeVessel.Splashed) && !s.onLaunchPad && !activeVessel.isEVA && 
-                                activeVessel.orbit.referenceBody.name.Equals("Kerbin") && !recycled);
+            if (vessel != null) {
+                s.onLaunchPad = (vessel.situation == Vessel.Situations.PRELAUNCH);
+                s.recyclable = ((vessel.Landed || vessel.Splashed) && !s.onLaunchPad && !vessel.isEVA && 
+                                vessel.orbit.referenceBody.name.Equals("Kerbin") && !recycled);
                 s.vesselCanFinishMissions = true;
-                s.isClientControlled = manager.isClientControlled (activeVessel);
-                s.isOnPassiveMission = manager.isOnPassiveMission (activeVessel);
+                s.isClientControlled = manager.isClientControlled (vessel);
+                s.isOnPassiveMission = manager.isOnPassiveMission (vessel);
             }
 
             // for all other fields we need both: a mission and a vessel
 
-            if (activeVessel == null || mission == null) {
+            if (vessel == null || mission == null) {
                 return s;
             }
 
@@ -67,12 +67,12 @@ namespace MissionController
 
             foreach (MissionGoal g in mission.goals) {
                 s.finishableGoals [g.id] = false;
-                if (fullCheck && orderOk && g.isDone (activeVessel, s.events)) {
-                    if (g.nonPermanent && (s.canFinishMission || manager.isMissionGoalAlreadyFinished (g, activeVessel))) {
+                if (fullCheck && orderOk && g.isDone (vessel, s.events)) {
+                    if (g.nonPermanent && (s.canFinishMission || manager.isMissionGoalAlreadyFinished (g, vessel))) {
                         s.finishableGoals [g.id] = true;
 
                         // Let the manager handle the already finished goals...
-                        manager.finishMissionGoal (g, activeVessel, s.events);
+                        manager.finishMissionGoal (g, vessel, s.events);
                     }
                 } else {
                     if (mission.inOrder) {
@@ -82,7 +82,7 @@ namespace MissionController
             }
 
             if (s.canFinishMission && fullCheck) {
-                s.missionIsFinishable = (!manager.isMissionAlreadyFinished(mission, activeVessel) && mission.isDone (activeVessel, s.events));
+                s.missionIsFinishable = (!manager.isMissionAlreadyFinished(mission, vessel) && mission.isDone (vessel, s.events));
             } else {
                 s.missionIsFinishable = false;
             }
