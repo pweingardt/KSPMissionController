@@ -42,6 +42,7 @@ namespace MissionController
                 settings = new Settings();
             }
             settings.changed = false;
+            Difficulty.init (settings.difficulty);
         }
 
         public void saveSettings() {
