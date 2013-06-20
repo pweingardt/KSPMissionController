@@ -13,7 +13,7 @@ Mission
 
     category = SATELLITE
 
-    packageOrder = 100
+    packageOrder = 103
 
     OrbitGoal
     {
