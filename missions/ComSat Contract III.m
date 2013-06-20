@@ -1,9 +1,10 @@
 Mission
 {
     name = ComSat Contract III
-    description = We signed a contract to bring a satellite into a nearly perfect synchronous, equatorial orbit around Kerbin.
+    description = We signed a contract to bring a satellite into a very specific orbit around Kerbin. Their orbit is really odd...
     repeatable = true
-    reward = 55000
+    reward = 80000
+    randomized = true
 
     requiresMission = Kerbolo I
 
@@ -19,14 +20,15 @@ Mission
         nonPermanent = false
         body = Kerbin
 
-        minApA = 2866750
-        maxApA = 2870750
+        minApA = RANDOM(1000000, 2000000)
+        maxApA = ADD(minApA, 10000)
 
         maxEccentricity = 0.0001
 
-        maxInclination = 0.02
+        minInclination = RANDOM(0, 178)
+        maxInclination = ADD(minInclination, 0.25)
 
-        minOrbitalPeriod = TIME(5h 59m 55s)
-        maxOrbitalPeriod = TIME(6h 5s)
+        minLan = RANDOM(0, 179.4)
+        maxLan = ADD(minLan, 0.5)
     }
 }
