@@ -94,6 +94,12 @@ namespace MissionController
         /// </summary>
         public String requiresMission = "";
 
+        /// <summary>
+        /// If true, then the repeatable mission (repeatable must be true), then this mission is repeatable with the same vessel.
+        /// This field is ignored, when the mission is not client controlled of passive!
+        /// </summary>
+        public bool repeatableSameVessel = false;
+
         public List<MissionGoal> goals { get { return mGoals; } }
 
         public override string ToString ()

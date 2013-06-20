@@ -101,6 +101,8 @@ A mission has several fields
     be fined (default: 100000)
 * lifetime: lifetime of this mission in seconds, use TIME. (default: 0)
 * category: a list of categories (please *do not* use more than two categories at the same time for one mission)
+* repeatableSameVessel: if true, then this mission can be finished more than once with the same vessel. Only possible
+    for clientControlled or passive missions. (default: false)
 
 Possible categories and their corresponding ideas:
 

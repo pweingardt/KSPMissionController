@@ -77,6 +77,7 @@ namespace MissionController
         public String vesselGuid;
         public String missionName;
         public bool repeatable;
+        public bool repeatableSameVessel = false;
 
         public double endOfLife = 0.0;
         public int passiveReward = 0;
