@@ -357,7 +357,7 @@ namespace MissionController
                 return;
             }
 
-            if (GUI.Button (new Rect (Screen.width / 6 - 38, Screen.height - 42, 45, 40), iconMenu, styleIcon)) {
+            if (GUI.Button (new Rect (Screen.width / 6 - 44, Screen.height - 38, 45, 40), iconMenu, styleIcon)) {
                 toggleWindow ();
             }
             

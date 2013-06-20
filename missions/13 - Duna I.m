@@ -1,16 +1,17 @@
 Mission
 {
     name = Duna I
-    description = We have discovered a new planet. We call it Duna. It is red and we don't know why. Our scientists think it is red because of the rust on the surface. But I think it is because of chili sauce. Just like in our Minmus mission, you are now officialy ordered to crash into Duna. Watch out for moons. If possible, bring the probe into a polar orbit first. Don't forget the instruments! We need long range communication dishes on the probe!
+    description = We have discovered a new planet. We call it Duna. It is red and we don't know why. Our scientists think it is red because of the rust on the surface. But I think it is because of chili sauce. Just like in our last missions, you are now officialy ordered to bring a probe near Duna. We don't care what you do there, just get there! Watch out for moons. If possible, bring the probe into a polar orbit. Don't forget the instruments! We need long range communication dishes on the probe! If you can manage it, crash into Duna...
 
-    reward = 100000
-    category = PROBE, IMPACT
+    reward = 75000
+    category = ORBIT, PROBE
 
     requiresMission = Kerbolo II
     packageOrder = 13
 
     OrbitGoal
     {
+        body = Duna
         description = Bring the probe into a high polar orbit around Duna.
         reward = 15000
         optional = true
@@ -24,9 +25,9 @@ Mission
 
     SubMissionGoal
     {
-        description = Crash on Duna. We do not care where on how... But take some instruments with you, we don't know if Duna has an atmosphere.
+        description = Bring the probe near Duna. We do not care where or how... But take some instruments with you, we don't know if Duna has an atmosphere. And just fly through the atmosphere if there is one. And take some pictures!
 
-        CrashGoal
+        OrbitGoal
         {
             body = Duna
         }
@@ -60,5 +61,11 @@ Mission
             partName = sensorThermometer
             partCount = 1
         }
+    }
+
+    CrashGoal
+    {
+        optional = true
+        body = Duna
     }
 }
