@@ -52,6 +52,8 @@ namespace MissionController
                 currentMission = manager.reloadMission (currentMission, activeVessel);
             }
 
+            recycled = false;
+
             try
             {
                 v.OnFlyByWire -= this.onFlyByWire;

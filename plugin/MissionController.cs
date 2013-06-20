@@ -3,6 +3,7 @@ using UnityEngine;
 using MissionController;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Linq;
 using KSP.IO;
 
 /// <summary>
@@ -13,6 +14,9 @@ namespace MissionController
 //    [KSPAddon(KSPAddon.Startup.EveryScene, true)]
     public partial class MissionController : MonoBehaviour
     {
+        public bool recycled = false;
+        private bool drawLandingArea = false;
+
         private AssemblyName assemblyName;
         private String versionCode;
         private DateTime buildDateTime;
@@ -22,6 +26,7 @@ namespace MissionController
         public static string pluginFolder = root + "GameData/MissionController/";
         public static string missionFolder = pluginFolder + "Plugins/PluginData/MissionController";
 
+        private WWW wwwIconFinished = new WWW("file://" + pluginFolder + "icons/flightavailible.png");
         private WWW wwwIconMenu = new WWW("file://" + pluginFolder + "icons/FlightSceneButtonT4.png");
         private WWW wwwIconProbe = new WWW("file://" + pluginFolder + "icons/sputnikmk2.png");
         private WWW wwwIconImpactor = new WWW("file://" + pluginFolder + "icons/impactormk2.png");
@@ -37,6 +42,7 @@ namespace MissionController
         private WWW wwwIconCommunication = new WWW("file://" + pluginFolder + "icons/sensormk2.png");
         private WWW wwwIconRover = new WWW("file://" + pluginFolder + "icons/rovermk2.png");
 
+        private Texture2D iconFinished = null;
         private Texture2D iconMenu = null;
         private Texture2D iconTypeProbe = null;
         private Texture2D iconTypeImpactor = null;
@@ -102,6 +108,7 @@ namespace MissionController
         private void loadIcons () {
             if (iconMenu == null) {
                 iconMenu = new Texture2D (35, 50, TextureFormat.ARGB32, false);
+                iconFinished = new Texture2D (0, 0, TextureFormat.ARGB32, false);
                 iconTypeProbe = new Texture2D (0, 0, TextureFormat.ARGB32, false);
                 iconTypeImpactor = new Texture2D (0, 0, TextureFormat.ARGB32, false);
                 iconTypeLander = new Texture2D (0, 0, TextureFormat.ARGB32, false);
@@ -116,6 +123,7 @@ namespace MissionController
                 iconTypeRover = new Texture2D (0, 0, TextureFormat.ARGB32, false);
                 iconTypeScience = new Texture2D (0, 0, TextureFormat.ARGB32, false);
 
+                wwwIconFinished.LoadImageIntoTexture(iconFinished);
                 wwwIconMenu.LoadImageIntoTexture(iconMenu);
                 wwwIconDocking.LoadImageIntoTexture(iconTypeDocking);
                 wwwIconOrbit.LoadImageIntoTexture(iconTypeOrbit);
@@ -334,6 +342,13 @@ namespace MissionController
                 return;
             }
 
+            if(drawLandingArea) {
+                CelestialBody kerbin = FlightGlobals.Bodies.Find (b => b.bodyName.Equals("Kerbin"));
+                if (kerbin != null) {
+                    GLUtils.drawLandingArea (kerbin, 80, 90, -170.0, 170.0, new Color(1.0f, 0.0f, 0.0f, 0.5f));
+                }
+            }
+
             loadIcons ();
             loadStyles ();
 
@@ -434,6 +449,10 @@ namespace MissionController
                     resetCount = 0;
                 }
             }
+
+//            if (GUILayout.Button ("Draw landing area!", styleButton)) {
+//                drawLandingArea = !drawLandingArea;
+//            }
             
             GUILayout.EndVertical ();
             GUILayout.EndScrollView ();

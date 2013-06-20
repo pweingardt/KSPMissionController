@@ -52,8 +52,8 @@ namespace MissionController
                 }
 
                 if (manager.isMissionAlreadyFinished (m, activeVessel)) {
-//                    GUILayout.Label(iconMissionFinished, GUILayout.MaxWidth (50), GUILayout.MaxHeight (50), GUILayout.ExpandWidth(false),
-//                                    GUILayout.Width(50), GUILayout.Height(50));
+                    GUILayout.Label(iconFinished, GUILayout.MaxWidth (50), GUILayout.MaxHeight (50), GUILayout.ExpandWidth(false),
+                                    GUILayout.Width(50), GUILayout.Height(50));
                 } else {
                     foreach (Mission.Category c in iconDictionary.Keys) {
                         if(m.category.Has(c)) {

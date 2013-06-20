@@ -20,8 +20,12 @@ namespace MissionController
             "Come on man, take that joke...", "Ok, last chance!"
         };
 
-        private String contributions = "Plugin information and contributions:\nMain developer: nobody44\ndeveloper: vaughner81\nimages: BlazingAngel665\n" +
-            "ideas: BaphClass\nideas: tek_604\nand of course the great community around KSP! You guys are awesome :)!";
+        private String contributions = "Contributions:\nMain developer: nobody44\ndeveloper: vaughner81\n" +
+            "images: bac9\n" +
+            "old images: BlazingAngel665\n" +
+            "ideas: BaphClass\n" +
+            "ideas: tek_604\n" +
+            "and of course the great community around KSP! You guys are awesome :)!";
 
         private String[] difficulties = new String[] { "easy", "medium", "hard" };
 
