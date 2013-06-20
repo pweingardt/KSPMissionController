@@ -1,3 +1,11 @@
+# version 0.9:
+
+* fixed difficulty reset after restarting the game
+* new icons from bac9
+* added new mission field: repeatableSameVessel for client controlled and passive missions
+* reworked costs (no construction costs because they are too different for different addons)
+* new Duna mission
+
 # version 0.8:
 
 * added kerbonaut insurance costs which is configurable in the settings gui. The users gets those expenses back when he landed on Kerbin and recycles the manned vessel.

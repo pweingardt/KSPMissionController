@@ -248,7 +248,9 @@ Yes, those brackets *are necessary*!
 
 ### CrashGoal
 
-Defines an impact.
+Defines an impact. Don't use it inside a SubMissionGoal with Parts, because the parts might get destroyed
+before the plugin checks for the crash. Use a suborbital OrbitGoal in combination with PartGoals (inside a
+SubMissionGoal) and after that a CrashGoal.
 
 Field:
 * body: name of the celestial body
