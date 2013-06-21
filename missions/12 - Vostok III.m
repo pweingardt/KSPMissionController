@@ -3,7 +3,7 @@ Mission
     name = Vostok III
     description = If we want to explore other planets we need to know how to rendezvous and how to dock. That is what our scientists say, but I don't trust them! But orders are orders and I just gave you one! Bring two manned space crafts into orbit and dock them together!
 
-    reward = 95000
+    reward = 195000
     category = ORBIT, MANNED
 
     requiresMission = Vostok II

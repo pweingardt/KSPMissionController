@@ -3,7 +3,7 @@ Mission
     name = Sputnik IV
     description = You have been around the Mun, but now it is time to explore Kerbin itself. We have been to the northpole, but we didn't see it from space. Bring a probe with some instruments into a circular polar orbit and leave it there for at least 2 hours.
 
-    reward = 25000
+    reward = 45000
     category = ORBIT, PROBE
 
     requiresMission = Mun I

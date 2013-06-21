@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace MissionController
 {
@@ -27,7 +28,17 @@ namespace MissionController
             "ideas: tek_604\n" +
             "and of course the great community around KSP! You guys are awesome :)!";
 
+#if DEBUG
+        private String dLiquid = "0.7", 
+            dMono = "15", 
+            dSolid = "8", 
+            dXenon = "20", 
+            dMass = "3500",            
+            dOxidizer = "6", 
+            dEngine = "1.5";            
+#else
         private String[] difficulties = new String[] { "easy", "medium", "hard" };
+#endif
 
         private void drawSettingsWindow(int id) {
             GUI.skin = HighLogic.Skin;
@@ -37,10 +48,35 @@ namespace MissionController
 
             GUILayout.Label ("Kerbonaut insurance cost: ", styleCaption);
             settings.kerbonautCost = GUILayout.TextField (settings.kerbonautCost);
-            settings.kerbonautCost = Regex.Replace(settings.kerbonautCost, @"[a-zA-Z\\. ]", "");
+            settings.kerbonautCost = Regex.Replace(settings.kerbonautCost, @"[^0-9]", "");
 
+#if DEBUG
+            GUILayout.Label ("Liquid Fuel: ", styleCaption);
+            dLiquid = GUILayout.TextField (dLiquid);
+            GUILayout.Label ("Mono Fuel: ", styleCaption);
+            dMono = GUILayout.TextField (dMono);
+            GUILayout.Label ("Solid Fuel: ", styleCaption);
+            dSolid = GUILayout.TextField (dSolid);
+            GUILayout.Label ("Xenon Fuel: ", styleCaption);
+            dXenon = GUILayout.TextField (dXenon);
+            GUILayout.Label ("Mass: ", styleCaption);
+            dMass = GUILayout.TextField (dMass);
+            GUILayout.Label ("Liquid Engine: ", styleCaption);
+            dEngine = GUILayout.TextField (dEngine);
+            GUILayout.Label ("dOxizier: ", styleCaption);
+            dOxidizer = GUILayout.TextField (dOxidizer);
+
+            dLiquid = Regex.Replace (dLiquid, "[^0-9\\.]", "");
+            dMono = Regex.Replace (dMono, "[^0-9\\.]", "");
+            dSolid = Regex.Replace (dSolid, "[^0-9\\.]", "");
+            dXenon = Regex.Replace (dXenon, "[^0-9\\.]", "");
+            dMass = Regex.Replace (dMass, "[^0-9\\.]", "");
+            dEngine = Regex.Replace (dEngine, "[^0-9\\.]", "");
+            dOxidizer = Regex.Replace (dOxidizer, "[^0-9\\.]", "");
+#else
             GUILayout.Label ("Difficulty: ", styleCaption);
             settings.difficulty = GUILayout.SelectionGrid (settings.difficulty, difficulties, 3);
+#endif
 
             GUILayout.Space (30);
 
@@ -64,7 +100,14 @@ namespace MissionController
 
             if (GUILayout.Button ("Save and Close Settings", styleButton)) {
                 settingsWindow (false);
-                Difficulty.init (settings.difficulty);
+
+#if DEBUG
+                Difficulty.init (double.Parse(dLiquid), double.Parse (dMono), double.Parse (dSolid), double.Parse (dXenon),
+                                 double.Parse (dMass), double.Parse (dOxidizer), double.Parse (dEngine));
+#else
+                Difficulty.init (settings.difficulty);               
+#endif
+
                 SettingsManager.Manager.saveSettings ();
             }
 

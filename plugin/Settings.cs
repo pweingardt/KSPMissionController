@@ -49,12 +49,6 @@ namespace MissionController
             settings.changed = false;
             parser.writeObject (settings, "settings.cfg");
         }
-
-        public void saveSettingsIfChanged() {
-            if (settings.changed) {
-                saveSettings ();
-            }
-        }
     }
 }
 

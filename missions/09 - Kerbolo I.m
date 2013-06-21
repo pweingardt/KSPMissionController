@@ -3,7 +3,7 @@ Mission
     name = Kerbolo I
     description = Our next step is to leave Kerbins sphere of influence. Our scientists do not know what will happen out there. They don't expect magic though. Take some instruments with you.
 
-    reward = 45000
+    reward = 95000
     category = ORBIT, PROBE
 
     requiresMission = Sputnik IV

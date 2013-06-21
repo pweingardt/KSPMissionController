@@ -237,6 +237,8 @@ namespace MissionController
                 versionCode + " (" + buildDateTime.ToShortDateString () + ")";
 
             loadIcons ();
+
+            Debug.LogError("Using factors: " + String.Join(", ", Difficulty.Factors.Select(p => p.ToString()).ToArray()));
         }
 
         private void Reset(GameScenes gameScenes) {

@@ -3,7 +3,7 @@ Mission
     name = Vostok II
     description = After our first suborbital flight we need to explore the effects of long-term space flights on kerbonauts. Stay at least 6 hours in an orbital flight around Kerbin.
 
-    reward = 75000
+    reward = 95000
     category = ORBIT, MANNED
 
     requiresMission = Vostok I

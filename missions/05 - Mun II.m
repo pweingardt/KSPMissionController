@@ -2,7 +2,7 @@ Mission
 {
     name = Mun II
     description = We decided to land on the Mun. With a small probe, relax. Just land it. Somehow...
-    reward = 70000
+    reward = 85000
     category = LANDING
 
     requiresMission = Mun I
