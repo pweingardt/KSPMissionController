@@ -29,13 +29,13 @@ namespace MissionController
             "and of course the great community around KSP! You guys are awesome :)!";
 
 #if DEBUG
-        private String dLiquid = "0.7", 
-            dMono = "15", 
-            dSolid = "8", 
-            dXenon = "20", 
-            dMass = "3500",            
-            dOxidizer = "6", 
-            dEngine = "1.5";            
+        private String dLiquid = "0.7",
+            dMono = "3",
+            dSolid = "5",
+            dXenon = "10",
+            dMass = "3500",
+            dOxidizer = "6",
+            dEngine = "1.5";
 #else
         private String[] difficulties = new String[] { "easy", "medium", "hard" };
 #endif

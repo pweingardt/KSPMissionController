@@ -3,7 +3,7 @@ Mission
     name = Duna I
     description = We have discovered a new planet. We call it Duna. It is red and we don't know why. Our scientists think it is red because of the rust on the surface. But I think it is because of chili sauce. Just like in our last missions, you are now officialy ordered to bring a probe near Duna. We don't care what you do there, just get there! Watch out for moons. If possible, bring the probe into a polar orbit. Don't forget the instruments! We need long range communication dishes on the probe! If you can manage it, crash into Duna...
 
-    reward = 75000
+    reward = 150000
     category = ORBIT, PROBE
 
     requiresMission = Kerbolo II

@@ -3,7 +3,7 @@ Mission
     name = ComSat Contract I
     description = We signed a contract to bring a satellite into a very specific orbit.
     repeatable = true
-    reward = 40000
+    reward = 65000
     randomized = true
 
     requiresMission = Kerbolo I

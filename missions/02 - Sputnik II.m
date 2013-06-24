@@ -3,7 +3,7 @@ Mission
     name = Sputnik II
     description = Our scientists say that some weird things happend in our last missions. They didn't like it. They think that the radiation outside the atmosphere is higher than they expected, and guess what you are doing now? You will build a rocket that is able to reach a stable low orbit around Kerbin in order to explore the radiation outside the atmosphere for at least 4 hours. Don't forget to record the data and bring the probe back!
 
-    reward = 35000
+    reward = 55000
     category = ORBIT, PROBE
 
     requiresMission = Sputnik I

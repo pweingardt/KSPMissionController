@@ -3,7 +3,7 @@ Mission
     name = ComSat Contract III
     description = We signed a contract to bring a satellite into a very specific orbit around Kerbin. Their orbit is really odd...
     repeatable = true
-    reward = 80000
+    reward = 95000
     randomized = true
 
     requiresMission = Kerbolo I

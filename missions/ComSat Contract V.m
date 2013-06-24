@@ -4,7 +4,7 @@ Mission
     description = We signed a contract to bring a satellite into a nearly perfect synchronous, equatorial orbit around Kerbin. They also specified the position of the satellite above the ground.
     repeatable = true
     repeatableSameVessel = false
-    reward = 100000
+    reward = 110000
     randomized = true
 
     requiresMission = Kerbolo I

@@ -3,7 +3,7 @@ Mission
     name = Sputnik III
     description = The scientists are happy now, well done. They think that our first probe has been damaged and the radiation sensors were broken. Everything is fine now. Our next goal is to get outside Kerbins magnetic field. Reach a stable orbit somewhere there. No need to bring the probe back...
 
-    reward = 40000
+    reward = 60000
     category = ORBIT, PROBE
 
     requiresMission = Sputnik II

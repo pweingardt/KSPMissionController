@@ -3,7 +3,7 @@ Mission
     name = ComSat Contract II
     description = We signed a contract to bring a satellite into a semi synchronous orbit around Kerbin.
     repeatable = true
-    reward = 45000
+    reward = 80000
     randomized = true
 
     requiresMission = Kerbolo I

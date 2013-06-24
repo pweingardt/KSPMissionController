@@ -3,7 +3,7 @@ Mission
     name = Sputnik I
     description = Our scientists decided to explore space. For some reason they elected you as our head rocket engineer. We need to build a rocket in order to explore Kerbins atmosphere. Build a rocket that is able to leave the atmosphere and bring the probe with the data back to Kerbins surface.
 
-    reward = 25000
+    reward = 50000
     category = ORBIT, PROBE
 
     packageOrder = 1
