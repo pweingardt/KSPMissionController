@@ -428,17 +428,24 @@ namespace MissionController
             return currentProgram.money;
         }
 
-        public int reward(int value) {
-            if (!SettingsManager.Manager.getSettings ().disablePlugin) {
-                currentProgram.money += value;
+        public int reward(int value)
+        {
+            if (!SettingsManager.Manager.getSettings ().disablePlugin) 
+            {
+                if (manager.budget < 0)
+                    currentProgram.money += (value * 75 / 100);
+                else
+                    currentProgram.money += value;
             }
-            if (value < 0) {
+            if (value < 0) 
+            {
                 latestExpenses = -value;
             }
             return currentProgram.money;
         }
 
-        public int costs(int value) {
+        public int costs(int value) 
+        {
             return reward (-value);
         }
     }

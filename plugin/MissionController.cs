@@ -77,8 +77,8 @@ namespace MissionController
 
         private List<MissionGoal> hiddenGoals = new List<MissionGoal> ();
     
-        private Rect mainWindowPosition = new Rect (300, 70, 400, 700);
-        private Rect settingsWindowPosition = new Rect (700, 70, 300, 250);
+        private Rect mainWindowPosition = new Rect (300, 70, 300, 600);
+        private Rect settingsWindowPosition = new Rect (700, 70, 250, 250);
         private Rect packageWindowPosition = new Rect (50, 50, 1000, 700);
 
         private bool showMainWindow = false;
@@ -93,7 +93,10 @@ namespace MissionController
         private GUIStyle styleCaption;
         private GUIStyle styleText;
         private GUIStyle styleValueGreen;
+        private GUIStyle styleValueGreenBold;
+        private GUIStyle styleValueYellow;
         private GUIStyle styleValueRed;
+        private GUIStyle styleValueRedBold;
         private GUIStyle styleButton;
         private GUIStyle styleGreenButton, styleRedButton;
         private GUIStyle styleValueName;
@@ -171,11 +174,26 @@ namespace MissionController
             styleValueGreen.normal.textColor = Color.green;
             styleValueGreen.fontStyle = FontStyle.Normal;
             styleValueGreen.alignment = TextAnchor.MiddleRight;
+
+            styleValueGreenBold = new GUIStyle(GUI.skin.label);
+            styleValueGreenBold.normal.textColor = Color.green;
+            styleValueGreenBold.fontStyle = FontStyle.Bold;
+            styleValueGreenBold.alignment = TextAnchor.MiddleLeft;
+
+            styleValueYellow = new GUIStyle(GUI.skin.label);
+            styleValueYellow.normal.textColor = Color.yellow;
+            styleValueYellow.fontStyle = FontStyle.Bold;
+            styleValueYellow.alignment = TextAnchor.MiddleRight;
             
             styleValueRed = new GUIStyle (GUI.skin.label);
             styleValueRed.normal.textColor = Color.red;
             styleValueRed.fontStyle = FontStyle.Normal;
             styleValueRed.alignment = TextAnchor.MiddleRight;
+
+            styleValueRedBold = new GUIStyle(GUI.skin.label);
+            styleValueRedBold.normal.textColor = Color.red;
+            styleValueRedBold.fontStyle = FontStyle.Bold;
+            styleValueRedBold.alignment = TextAnchor.MiddleRight;
 
             styleButton = new GUIStyle (HighLogic.Skin.button);
             styleButton.normal.textColor = Color.white;
@@ -233,7 +251,7 @@ namespace MissionController
                 TimeSpan.TicksPerDay * assemblyName.Version.Build + // days since 1 January 2000
                 TimeSpan.TicksPerSecond * 2 * assemblyName.Version.Revision));
 
-            mainWindowTitle = "Mission Controller " + 
+            mainWindowTitle = "Mission Controller Extended " + 
                 versionCode + " (" + buildDateTime.ToShortDateString () + ")";
 
             loadIcons ();
@@ -340,9 +358,11 @@ namespace MissionController
                 return;
             }
 
-            if(drawLandingArea) {
+            if(drawLandingArea) 
+            {
                 CelestialBody kerbin = FlightGlobals.Bodies.Find (b => b.bodyName.Equals("Kerbin"));
-                if (kerbin != null) {
+                if (kerbin != null)
+                {
 //                    GLUtils.drawLandingArea (kerbin, 80, 90, -170.0, 170.0, new Color(1.0f, 0.0f, 0.0f, 0.5f));
                 }
             }
@@ -359,7 +379,7 @@ namespace MissionController
                 return;
             }
 
-            if (GUI.Button (new Rect (Screen.width / 6 - 44, Screen.height - 38, 45, 40), iconMenu, styleIcon)) {
+            if (GUI.Button (new Rect (Screen.width / 3 - 44, Screen.height - 38, 45, 40), iconMenu, styleIcon)) { //3-15
                 toggleWindow ();
             }
             
@@ -397,6 +417,9 @@ namespace MissionController
         /// Do not use currentMission.isDone or missionGoal.isDone(), use status instead!!!
         /// </summary>
         /// <param name="id">Identifier.</param>
+        
+        
+   
         private void drawMainWindow (int id) {
             Status status = calculateStatus (currentMission, true, activeVessel);
 
@@ -407,29 +430,72 @@ namespace MissionController
             GUILayout.BeginVertical ();
             
             GUILayout.BeginHorizontal ();
-            GUILayout.Label ("Current budget: ", styleValueName);
-            GUILayout.Label (manager.budget + CurrencySuffix, (manager.budget < 0 ? styleValueRed : styleValueGreen));
+            GUILayout.Label ("Current budget: ", styleValueYellow);
+            GUILayout.Label (manager.budget + CurrencySuffix, (manager.budget < 0 ? styleValueRedBold : styleValueGreenBold));
             GUILayout.EndHorizontal ();
-
+            // Edits malkuth shows the modes that you have the plugin set to from settings .13 added the Borrowing Money mission deduction of %25
+            if (settings.disablePlugin == true)
+                {
+                GUILayout.Label("WARNING PLUGIN IS DISABLED ", styleValueYellow);
+                }
+            if (settings.difficulty == 0)
+                {
+                GUILayout.Label("In Test Flight Mode ", styleValueYellow);
+                }
+            if (settings.difficulty == 1)
+                {
+                GUILayout.Label("In Flight Mode ", styleValueGreen);
+                }
+            if (manager.budget < 0)
+                {
+                    GUILayout.Label("Your Budget Has Fallen Below 0, Your're Borrowing Money. Mission Payouts Deducted 25% ", styleWarning);
+                }
             // Show only when the loaded scene is an editor or a vessel is available and its situation is PRELAUNCH
-            if (HighLogic.LoadedSceneIsEditor || status.onLaunchPad) {
+                if (HighLogic.LoadedSceneIsEditor || status.onLaunchPad)
+                {
                 VesselResources res = vesselResources;
-                showCostValue("Liquid fuel costs:", res.liquid (), styleValueGreen);
-                showCostValue("Oxidizer costs:", res.oxidizer (), styleValueGreen);
-                showCostValue("Monopropellant costs:", res.mono (), styleValueGreen);
-                showCostValue("Solid fuel costs:", res.solid (), styleValueGreen);
-                showCostValue("Xenon gas costs:", res.xenon (), styleValueGreen);
-                showCostValue("Liquid engines: ", res.engine (), styleValueGreen);
-                showCostValue("Crew insurance: ", res.crew (), styleValueGreen);
-                showCostValue("Other resource costs:", res.materials (), styleValueGreen);
-                showCostValue("Sum:", res.sum(), (res.sum () > manager.budget ? styleValueRed : styleValueGreen));
+                
+                    // .11 Edited malkuth shows only when in Testing Mode.  Plan to add things like Delta V stats and other Helpful testing info
+                    if (settings.difficulty == 0)
+                    {
+                        GUILayout.Label("In Flight Test Mode, Missions Dont Work and Cost Reduced to 3%", styleCaption);
+                        showCostValue("Flight Testing Cost:", res.dry(), (res.dry() > manager.budget ? styleValueRed : styleValueGreen));
+                        showCostValue("Test Crew Cost (return in Recycle if survived): ", res.crew(), styleValueGreen);
+                    }
+                else
+                    {
+                        // .11 Edited malkuth shows only when in flight mode. New Edit for .12 values only show if Price is above 0.. Little GUI cleanup that I think works better. .12 Edit Added Oxegen and Modular Fuel Cost
+                        GUILayout.Label("Flight Mode Selected, Vessel launch Full Price. Missions Available ", styleCaption);
+                        if (res.pod() > (0)) { showCostValue("Command Sections:", res.pod(), styleValueGreen); }
+                        showCostValue("Crew insurance (Launch Pad Only): ", res.crew(), styleValueGreen);
+                        if (res.ctrl() > (0)) { showCostValue("Control Surfaces:", res.ctrl(), styleValueGreen); }
+                        if (res.util() > (0)) { showCostValue("Utility Parts:", res.util(), styleValueGreen); }
+                        if (res.sci() > (0)) {showCostValue("Science Parts:", res.sci(), styleValueGreen);}
+                        if (res.engine() > (0)) { showCostValue("Engines And Cooling: ", res.engine(), styleValueGreen); }
+                        if (res.tank() > (0)) {showCostValue("Fuel Tank Cost: ", res.tank(), styleValueGreen);}
+                        if (res.oxylife() > (0)) { showCostValue("Oxygen Life Support: ", res.oxylife(), styleValueGreen); }
+                        if (res.LiquidOxy() > (0)) { showCostValue("LiquidOxygen fuel costs:", res.LiquidOxy(), styleValueGreen); }
+                        if (res.LiquidH() > (0)) { showCostValue("LiquidH2O:", res.LiquidH(), styleValueGreen); }
+                        if (res.liquid() > (0)) {showCostValue("Liquid fuel costs:", res.liquid(), styleValueGreen);}
+                        if (res.oxidizer() > (0)) { showCostValue("Oxidizer costs:", res.oxidizer(), styleValueGreen); }
+                        if (res.mono() > (0)) { showCostValue("Monopropellant costs:", res.mono(), styleValueGreen); }
+                        if (res.solid() > (0)) { showCostValue("Solid fuel costs:", res.solid(), styleValueGreen); }
+                        if (res.xenon() > (0)) { showCostValue("Xenon gas costs:", res.xenon(), styleValueGreen); }
+                        if (res.materials() > (0)) { showCostValue("Construction Cost:", res.materials(), styleValueGreen); }
+                        if (res.wet() > (0)) { showCostValue("(Total Cost Of Fuels):", res.wet(), styleCaption); }
+                        if (res.dry() > (0)) { showCostValue("(Total Cost Of Parts):", res.dry(), styleCaption); }
+                        showCostValue("Total Cost Of Vessel With All:", res.sum(), (res.sum() > manager.budget ? styleValueRedBold : styleValueYellow));
+                    }
             }
 
-            if (status.isClientControlled) {
+                
+            if (status.isClientControlled)
+            {
                 MissionStatus s = manager.getClientControlledMission (activeVessel);
                 GUILayout.Label ("This vessel is controlled by a client. Do not destroy this vessel! Fine: " + s.punishment + CurrencySuffix, styleWarning);
                 GUILayout.Label ("End of life in " + MathTools.formatTime(s.endOfLife - Planetarium.GetUniversalTime()));
-            } else if (status.isOnPassiveMission) {
+            } else if (status.isOnPassiveMission) 
+            {
                 MissionStatus s = manager.getPassiveMission (activeVessel);
                 GUILayout.Label ("This vessel is involved in a passive mission. Do not destroy this vessel! Fine: " + s.punishment + CurrencySuffix, styleWarning);
                 GUILayout.Label ("End of life in " + MathTools.formatTime(s.endOfLife - Planetarium.GetUniversalTime()));
@@ -477,15 +543,20 @@ namespace MissionController
                     hiddenGoals = new List<MissionGoal> ();
                     currentMission = null;
                 }
-            } else {
-                if (status.recyclable) {
+                // Edited Malkuth1974 With Help Of Frement Made a New Class File Located in the NameSpace TestingAndExperiment.cs called TerminateCurrentFlight() Simulate the Old Version And Save Kerbals.. 
+            }
+            else
+            {
+                if (status.recyclable)
+                {
                     VesselResources res = vesselResources;
                     showCostValue("Recyclable value: ", res.recyclable(activeVessel.Landed), styleCaption);
-                    if (GUILayout.Button ("Recycle and end flight!")) {
-                        manager.recycleVessel (activeVessel, res.recyclable(activeVessel.Landed));
-                        FlightDriver.TerminateCurrentFlight ();
+                    if (GUILayout.Button("Recycle Vessel"))
+                    {
+                        manager.recycleVessel(activeVessel, res.recyclable(activeVessel.Landed));
+                        TestingAndExperiment.TerminateCurrentFlight();
                         FlightResultsDialog.showExitControls = true;
-                        FlightResultsDialog.Display ("Vessel has been recycled!");
+                        FlightResultsDialog.Display("Vessel has been recycled! Go To Tracking Station To Recover The Vessel.");
                         recycled = true;
                     }
                 }
@@ -522,26 +593,26 @@ namespace MissionController
                 GUILayout.Label ("Mission already finished!", styleWarning);
             }
 
-            GUILayout.Label ("Mission: ", styleCaption);
+            GUILayout.Label ("Mission: ", styleValueGreenBold);
             GUILayout.Label (mission.name, styleText);
             GUILayout.Label ("Description: ", styleCaption);
             GUILayout.Label (mission.description, styleText);
             
             GUILayout.BeginHorizontal ();
-            GUILayout.Label ("Reward: ", styleValueName);
-            GUILayout.Label (mission.reward + CurrencySuffix, styleValueGreen);
+            GUILayout.Label ("Reward: ", styleValueGreenBold);
+            GUILayout.Label (mission.reward + CurrencySuffix, styleValueYellow);
             GUILayout.EndHorizontal ();
 
             if (mission.passiveMission) {
                 GUILayout.BeginHorizontal ();
-                GUILayout.Label ("Reward every day: ", styleValueName);
+                GUILayout.Label("Reward every day: ", styleValueYellow);
                 GUILayout.Label (mission.passiveReward + CurrencySuffix, styleValueGreen);
                 GUILayout.EndHorizontal ();
             }
 
             if (mission.lifetime != 0.0) {
                 GUILayout.BeginHorizontal ();
-                GUILayout.Label ("Lifetime: ", styleValueName);
+                GUILayout.Label("Lifetime: ", styleValueYellow);
                 GUILayout.Label (MathTools.formatTime(mission.lifetime), styleValueGreen);
                 GUILayout.EndHorizontal ();
             }
@@ -562,7 +633,17 @@ namespace MissionController
             drawMissionGoals (mission, s);
 
             if(s.missionIsFinishable) {
-                GUILayout.Label("All goals accomplished. You can finish the mission now!", styleCaption);
+                if (manager.budget < 0)
+                {
+                    GUILayout.Label("All goals accomplished. You can finish the mission now! Deducted 25% for Your Loan!", styleCaption);
+                    showCostValue("Total Mission Payout - 25%:", currentMission.reward * 75 / 100, styleValueGreen);
+                }
+
+                else
+                {
+                    GUILayout.Label("All goals accomplished. you can finish the mission now!", styleCaption);
+                    showCostValue("Total Mission Payout:", currentMission.reward, styleValueGreen);
+                }
             }
         }
 
@@ -580,9 +661,9 @@ namespace MissionController
                 }
 
                 if (c is SubMissionGoal) {
-                    GUILayout.Label ((index++) + ". Mission goal: " + (c.optional ? " (optional)" : ""), styleCaption);
+                    GUILayout.Label ((index++) + ". Mission goal: " + (c.optional ? " (optional)" : ""), styleValueGreenBold);
                 } else {
-                    GUILayout.Label ((index++) + ". Mission goal: " + c.getType () + (c.optional ? " (optional)" : ""), styleCaption);
+                    GUILayout.Label ((index++) + ". Mission goal: " + c.getType () + (c.optional ? " (optional)" : ""), styleValueGreenBold);
                 }
                 
                 if (c.description.Length != 0) {
@@ -592,8 +673,8 @@ namespace MissionController
                 
                 if (c.nonPermanent && c.reward != 0) {
                     GUILayout.BeginHorizontal ();
-                    GUILayout.Label ("Reward:", styleValueName);
-                    GUILayout.Label (c.reward + CurrencySuffix, styleValueGreen);
+                    GUILayout.Label ("Reward:", styleValueGreenBold);
+                    GUILayout.Label (c.reward + CurrencySuffix, styleValueYellow);
                     GUILayout.EndHorizontal ();
                 }
 

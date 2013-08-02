@@ -2,7 +2,8 @@ using System;
 
 namespace MissionController
 {
-    public class Settings {
+    public class Settings 
+    {
         public bool disablePlugin = false;
 
         public String kerbonautCost = "0";
@@ -11,41 +12,57 @@ namespace MissionController
 
         public int difficulty = 1;
 
-        public int kerbonautCostAsInt {
-            get { return int.Parse (kerbonautCost); }
+        public int kerbonautCostAsInt 
+        {
+            get 
+            { 
+                return int.Parse (kerbonautCost); 
+            }
         }
     }
 
-    public class SettingsManager {
+    public class SettingsManager 
+    {
 
         private static SettingsManager manager = new SettingsManager();
 
-        public static SettingsManager Manager { get { return manager; } }
+        public static SettingsManager Manager 
+        { 
+            get
+            { return manager; } 
+        }
 
         private Settings settings = new Settings();
 
-        public Settings getSettings() {
+        public Settings getSettings()
+        {
             return manager.settings;
         }
 
         private Parser parser;
 
-        private SettingsManager() {
+        private SettingsManager()
+        {
             parser = new Parser();
             loadSettings ();
         }
 
-        public void loadSettings() {
-            try {
+        public void loadSettings() 
+        {
+            try 
+            {
                 settings = (Settings) parser.readFile ("settings.cfg");
-            } catch {
+            } 
+            catch 
+            {
                 settings = new Settings();
             }
             settings.changed = false;
             Difficulty.init (settings.difficulty);
         }
 
-        public void saveSettings() {
+        public void saveSettings()
+        {
             settings.changed = false;
             parser.writeObject (settings, "settings.cfg");
         }

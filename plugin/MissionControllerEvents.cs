@@ -72,11 +72,20 @@ namespace MissionController
         /// <param name="r">The red component.</param>
         private void onLaunch (EventReport r) {
             // Apparently this event is even fired when we stage in orbit...
-            if (activeVessel != null && activeVessel.situation == Vessel.Situations.PRELAUNCH) {
-                Debug.LogError ("Launching vessel!");
-                manager.costs (vesselResources.sum());
-                recycled = false;
-            }
+            // Malkuth Edit To match the actual cost of launch with Visual Cost in Display.. (almost missed this one opps)
+            if (activeVessel != null && activeVessel.situation == Vessel.Situations.PRELAUNCH)
+                if (settings.difficulty == 0)
+                {
+                    Debug.LogError("Launching Test vessel!");
+                    manager.costs(vesselResources.dry() + vesselResources.crew());
+                    recycled = false;
+                }
+                else
+                {
+                    Debug.LogError("Launching vessel!");
+                    manager.costs(vesselResources.sum());
+                    recycled = false;
+                }
         }
 
         /// <summary>
