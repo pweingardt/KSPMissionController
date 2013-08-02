@@ -6,18 +6,18 @@ New In.13 Bank Loans:  Now if you go into the red with mission controller the ba
 
 Good Luck Pilot.  Malkuth…
 
-.13 Changes
+###.13 Changes
 1.    Bank Loans.. Go into the Red and the bank will charge you .25% from your mission payouts until your back in the Green
 2.	Many UI changes.  Been adjusting the Colors to help you more focus on what’s going on in the UI screen.
 3.	You can now see the total Cost Of Fuels.. And Total Cost Of Parts Before the Total Cost Of Vessel.  To help you decide on fuel vs part cost more easy.
 4.	Now when your mission ends you will see a total amount paid for the mission.  Also if you’re In the Red you will see the total amount paid after the bank takes its 25% from your Mission payout.
 
-.12 Changes
+###.12 Changes
 1.	Added support for Iron Cross Mod Oxygen Cost
 2.	Added support for Modular fuel Tanks cost.. IE LiquidO2 and LiquidH2
 3.	Some More UI changes.. Now resources will not show up until the have a value more the 0 in the Cost List.  Some things were left in to fill the area though.  Like cost and construction and insurance always show.
 
-.11 Changes 
+###.11 Changes 
 
 1. Made Mission Controller work in .21
 2. Got rid of the old difficulties options
