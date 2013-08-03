@@ -1,6 +1,6 @@
 ### New In Version Mission Controller Extended
 
-#New in .14 Auto Recycle.. 
+# New in .14 Auto Recycle.. 
 
 Place some Parachutes on those spent stages.. And autorecycle will try to recycle the vessel for you
 
@@ -11,7 +11,7 @@ Changes In .14:  More updates Yay.  This time From NathanKell Thank him! he did 
 2.	Added a comma for those big numbers.. IE MAX AP MINPE and other mission goal numbers now should read with a comma.. And also prices in the MC window.
 3.	All Mission Times in My Mission Packs have been edited to more reasonable times… I think the largest one is now only 4 hours. Which is only minutes in time acceleration.
 4.	Part names from Description Now Show Up in The Mission Goals.. Before it was Part .cfg file names.. This should help you with what part it is you actually need.  ##For Mission Editors## you still need to use the Part .cfg name! Don’t forget to replace Underscore with a period (Example Part_Coolname_Awsome.. Will be written like this in mission Part.Coolname.Awsome))
-###5.	Last Update and what we would like you guys to test out for us.  The Auto Recycle of Spent Stages has been implemented.  These are some of the rules for this new AutoRecycle.
+5.	Last Update and what we would like you guys to test out for us.  The Auto Recycle of Spent Stages has been implemented.  These are some of the rules for this new AutoRecycle.
 A.	Notes on auto-recycling: This is a test Version Of AutoRecycle. 
 B.	You need 70 drag per ton (approx .15 parachute mass per ton, more if using drogues)
 C.	You only get 60% of dry cost (and nothing else) back. Crew is still dead, for example.
