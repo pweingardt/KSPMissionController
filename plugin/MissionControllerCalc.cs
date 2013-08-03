@@ -159,6 +159,20 @@ namespace MissionController
                     foreach (Part p in parts)
                     {
                         double mult = 1.0;
+                        // LAUNCH CLAMP HACK
+                        bool isClamp = false;
+                        foreach (LaunchClamp e in p.Modules.OfType<LaunchClamp>())
+                        {
+                            //print("part " + p.name + " is launch clamp");
+                            isClamp = true;
+                        }
+                        if (isClamp)
+                        {
+                            mult = 1.0;
+                            res.mass += p.mass;
+                            continue;
+                        }
+
                         foreach (ModuleEngines e in p.Modules.OfType<ModuleEngines>())
                         {
                             if (e.propellants.Where(r => r.name.Equals("SolidFuel")).Count() == 0)
@@ -387,6 +401,7 @@ namespace MissionController
                             }
                             res.podCost += (p.CrewCapacity) * 25000;
                         }
+
                         res.mass += p.mass * mult;
 
                     }
