@@ -28,17 +28,23 @@ namespace MissionController
                     }
                 }
             }
+            // NK get part title
+            string ptitle = partName;
+            foreach (AvailablePart p in PartLoader.Instance.parts)
+                if (p.name.Equals(partName))
+                    ptitle = p.title;
+
             if(maxPartCount == -1) {
                 if (vessel == null) {
-                    values.Add (new Value ("Part", partCount + "x " + partName));
+                    values.Add (new Value ("Part", partCount + "x " + ptitle));
                 } else {
-                    values.Add (new Value ("Part", partCount + "x " + partName, "" + count, count >= partCount));
+                    values.Add (new Value ("Part", partCount + "x " + ptitle, "" + count, count >= partCount));
                 }
             } else {
                 if (vessel == null) {
-                    values.Add (new Value ("max part", maxPartCount + "x " + partName));
+                    values.Add (new Value ("max part", maxPartCount + "x " + ptitle));
                 } else {
-                    values.Add (new Value ("max part", maxPartCount + "x " + partName, "" + count, count <= maxPartCount));
+                    values.Add (new Value ("max part", maxPartCount + "x " + ptitle, "" + count, count <= maxPartCount));
                 }
             }
 

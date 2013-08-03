@@ -71,8 +71,9 @@ namespace MissionController
         }
         
         public const String Range = "{0:0.###} (±{1:0.###})";
-        public const String SingleDoubleValue = "{0:0.###}";
-        public const String MinMaxValue = "{0:0.###} - {1:0.###}";
+        // NK edit formatting
+        public const String SingleDoubleValue = "{0:n0}";
+        public const String MinMaxValue = "{0:n0} - {1:n0}";
         public const String MinMaxString = "{0} - {1}";
         public const String HighPrecisionDoubleValue = "{0:0.########}";
         public const String HighPrecisionMinMaxValue = "{0:0.########} - {1:0.########}";
