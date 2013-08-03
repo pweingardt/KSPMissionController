@@ -15,7 +15,7 @@
     <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>False</Optimize>
-    <OutputPath>..\..\..\..\..\..\kerbal\Kerbal Space Program\GameData\MissionController\Plugins\</OutputPath>
+    <OutputPath>bin\</OutputPath>
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -30,7 +30,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>True</Optimize>
-    <OutputPath>..\..\..\..\..\..\..\..\kerbal\Kerbal Space Program\GameData\MissionController\Plugins\</OutputPath>
+    <OutputPath>..\..\..\..\..\..\Games\KSP_win\GameData\MissionController\Plugins\</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
@@ -38,7 +38,7 @@
   <ItemGroup>
     <Reference Include="Assembly-CSharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Kerbal Space Program\KSP_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Games\KSP_win\KSP_Data\Managed\Assembly-CSharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -48,12 +48,16 @@
       <HintPath>lib\MissionLibrary.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Kerbal Space Program\KSP_Data\Managed\UnityEngine.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Games\KSP_win\KSP_Data\Managed\UnityEngine.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="MissionControllerCalc.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PartCost.cs" />
     <Compile Include="SpaceProgram.cs" />
     <Compile Include="Mission.cs" />
     <Compile Include="MathTools.cs" />
@@ -70,7 +74,6 @@
     <Compile Include="EVAGoal.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="SettingsGUI.cs" />
-    <Compile Include="MissionControllerCalc.cs" />
     <Compile Include="MissionPackage.cs" />
     <Compile Include="MissionPackageGUI.cs" />
     <Compile Include="InstructionSet.cs" />

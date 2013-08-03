@@ -1,0 +1,45 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C# Express 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MissionControllerExt", "plugin\MissionControllerExt.csproj", "{A753EA09-ADEB-4DDC-9BCB-2451964A0420}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MissionLibrary", "library\MissionLibrary.csproj", "{A8A3E6A0-7F97-4DD0-800C-8B5563697B4F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A753EA09-ADEB-4DDC-9BCB-2451964A0420}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A753EA09-ADEB-4DDC-9BCB-2451964A0420}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A753EA09-ADEB-4DDC-9BCB-2451964A0420}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A753EA09-ADEB-4DDC-9BCB-2451964A0420}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8A3E6A0-7F97-4DD0-800C-8B5563697B4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8A3E6A0-7F97-4DD0-800C-8B5563697B4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8A3E6A0-7F97-4DD0-800C-8B5563697B4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8A3E6A0-7F97-4DD0-800C-8B5563697B4F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = plugin\MissionController.csproj
+		Policies = $0
+		$0.TextStylePolicy = $1
+		$1.inheritsSet = null
+		$1.scope = text/x-csharp
+		$0.CSharpFormattingPolicy = $2
+		$2.ElseIfNewLinePlacement = SameLine
+		$2.AfterDelegateDeclarationParameterComma = True
+		$2.inheritsSet = Mono
+		$2.inheritsScope = text/x-csharp
+		$2.scope = text/x-csharp
+		$0.TextStylePolicy = $3
+		$3.FileWidth = 120
+		$3.inheritsSet = VisualStudio
+		$3.inheritsScope = text/plain
+		$3.scope = text/plain
+		outputpath = plugin\bin
+	EndGlobalSection
+EndGlobal
