@@ -1,6 +1,8 @@
 ### New In Version Mission Controller Extended
 
-New in .14 Auto Recycle.. Place some Parachutes on those spent stages.. And autorecycle will try to recycle the vessel for you
+#New in .14 Auto Recycle.. 
+
+Place some Parachutes on those spent stages.. And autorecycle will try to recycle the vessel for you
 
 
 Changes In .14:  More updates Yay.  This time From NathanKell Thank him! he did some pretty neat things in this version.
