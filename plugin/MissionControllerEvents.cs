@@ -1,5 +1,8 @@
 using System;
 using UnityEngine;
+// for recycling
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MissionController
 {
@@ -39,6 +42,58 @@ namespace MissionController
                 v.OnFlyByWire -= this.onFlyByWire;
             }
             catch { }
+
+            // NK recycle
+            if (!HighLogic.LoadedSceneIsEditor && activeVessel != v && (v.situation == Vessel.Situations.FLYING || v.situation == Vessel.Situations.SUB_ORBITAL) && v.mainBody.GetAltitude(v.CoM) < 26000 && v.orbit.referenceBody.bodyName.Equals("Kerbin"))
+            {
+                print("*MC* Vessel " + v.name + " destroyed. Alt " + v.mainBody.GetAltitude(v.CoM) + ", body " + v.orbit.referenceBody.bodyName + ", sit = " + v.situation);
+                double mass = 0;
+                double pdrag = 0.0;
+                int cost = 0;
+                double AUTORECYCLE_COST_MULT = 0.6;
+                // need 70 drag per ton of vessel for 6m/s at 500m.
+                const double PARACHUTE_DRAG_PER_TON = 70.0;
+                try
+                {
+                    // if loaded
+                    /*foreach (Part p in v.Parts)
+                    {
+                        print("Has part " + p.name);
+                        foreach (ModuleParachute m in p.Modules.OfType<ModuleParachute>())
+                        {
+                            pdrag += p.mass * m.fullyDeployedDrag;
+                            print("Drag now " + pdrag);
+                        }
+                    }
+                    mass = v.GetTotalMass();
+                    if (mass * PARACHUTE_DRAG_PER_TON <= pdrag)
+                    {
+                        print("*MC* Recycling vessel: enough parachutes! Val: " + vesselResources.dry());
+                        //manager.recycleVessel(v, res.dry());
+                    }*/
+                    foreach (ProtoPartSnapshot p in v.protoVessel.protoPartSnapshots)
+                    {
+                        print("Has part " + p.partName + ", mass " + p.mass + ", cost " + p.partRef.partInfo.cost);
+                        mass += p.mass;
+                        cost += p.partRef.partInfo.cost;
+                        foreach(ProtoPartModuleSnapshot m in p.modules)
+                        {
+                            if (m.moduleName.Equals("ModuleParachute"))
+                            {
+                                ModuleParachute mp = (ModuleParachute)m.moduleRef;
+                                pdrag += p.mass * mp.fullyDeployedDrag;
+                                print("Drag now " + pdrag);
+                            }
+                        }
+                    }
+                    if (mass * PARACHUTE_DRAG_PER_TON <= pdrag)
+                    {
+                        print("*MC* Recycling vessel: enough parachutes! Val: " + cost);
+                        manager.recycleVessel(v, (int)((double)cost * AUTORECYCLE_COST_MULT));
+                    }
+                }
+                catch { }
+            }
         }
 
         /// <summary>
@@ -74,6 +129,7 @@ namespace MissionController
             // Apparently this event is even fired when we stage in orbit...
             // Malkuth Edit To match the actual cost of launch with Visual Cost in Display.. (almost missed this one opps)
             if (activeVessel != null && activeVessel.situation == Vessel.Situations.PRELAUNCH)
+            {
                 if (settings.difficulty == 0)
                 {
                     Debug.LogError("Launching Test vessel!");
@@ -86,6 +142,7 @@ namespace MissionController
                     manager.costs(vesselResources.sum());
                     recycled = false;
                 }
+            }
         }
 
         /// <summary>
