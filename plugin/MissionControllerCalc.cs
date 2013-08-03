@@ -158,47 +158,66 @@ namespace MissionController
 
                     foreach (Part p in parts)
                     {
-                        double mult = 1.0;
-                        // LAUNCH CLAMP HACK
-                        bool isClamp = false;
-                        foreach (LaunchClamp e in p.Modules.OfType<LaunchClamp>())
+                        int cst = p.partInfo.cost;
+                        if (p.partInfo.category.Equals(PartCategories.Propulsion))
                         {
-                            //print("part " + p.name + " is launch clamp");
-                            isClamp = true;
-                        }
-                        if (isClamp)
-                        {
-                            mult = 1.0;
-                            res.mass += p.mass;
-                            continue;
-                        }
-
-                        foreach (ModuleEngines e in p.Modules.OfType<ModuleEngines>())
-                        {
-                            if (e.propellants.Where(r => r.name.Equals("SolidFuel")).Count() == 0)
+                            bool isEngine = false;
+                            foreach (ModuleEngines e in p.Modules.OfType<ModuleEngines>())
                             {
-                                double cst = Math.Pow((e.atmosphereCurve.Evaluate(0) * 0.8 + e.atmosphereCurve.Evaluate(1) * 0.2) - 200, 2) * e.maxThrust / 1000.0;
-                                foreach (ModuleGimbal g in p.Modules.OfType<ModuleGimbal>())
-                                {
-                                    cst *= 1.0 + g.gimbalRange * 0.2;
-                                }
-                                if (e.propellants.Where(r => r.name.Equals("IntakeAir")).Count() != 0 || e.propellants.Where(r => r.name.Equals("KIntakeAir")).Count() != 0)
-                                {
-                                    cst *= 0.05;
-                                }
-                                cst = cst * Math.Pow(cst / p.mass / 4000, 0.25);
-                                if (e.atmosphereCurve.Evaluate(0) > 600 && e.propellants.Where(r => r.name.Equals("XenonGas")).Count() == 0)
-                                    cst *= 4; // special HACK handling for NTR
-                                res.engineCost += 500 + cst;
-                                mult *= 0.1;
+                                res.engineCost += cst;
+                                isEngine = true;
                             }
+                            if (!isEngine)
+                                res.tankCost += cst;
                         }
 
-                        //                        res.construction += p.partInfo.cost;
+
+                        // PODS
+                        bool isPod = false;
+                        if (p.partInfo.category.Equals(PartCategories.Pods))
+                        {
+                            res.podCost += cst;
+                        }
+
+                        // PROPULSION - taken care of above: engines, LF, SF, MP.
+
+                        // CONTROL
+                        if (p.partInfo.category.Equals(PartCategories.Control))
+                        {
+                            res.controlCost += cst;
+                        }
+
+                        // STRUCTURAL
+                        if (p.partInfo.category.Equals(PartCategories.Structural))
+                        {
+                            res.structCost += cst;
+                        }
+                        // STRUCTURAL
+                        if (p.partInfo.category.Equals(PartCategories.Aero))
+                        {
+                            res.aeroCost += cst;
+                        }
+                        
+
+
+                        // UTILITY
+                        if (p.partInfo.category.Equals(PartCategories.Utility))
+                        {
+                            //print("part " + p.name + " is utility");
+                            res.utilCost += cst;
+                        }
+
+                        // SCIENCE
+                        if (p.partInfo.category.Equals(PartCategories.Science))
+                        {
+                            //print("part " + p.name + " is science");
+                            res.sciCost += cst;
+                        }
+
+                        // EXPENDABLE RESOURCES
                         double lf = 0.0;
                         double ox = 0.0;
                         bool doOnce = false;
-                        // NK add tank efficiency mult - DISABLED
                         if (p.Resources["LiquidFuel"] != null)
                         {
                             lf = p.Resources["LiquidFuel"].amount;
@@ -208,201 +227,56 @@ namespace MissionController
                         if (p.Resources["SolidFuel"] != null)
                         {
                             res.solidFuel += p.Resources["SolidFuel"].amount;
-                            //mult *= (p.Resources["SolidFuel"].amount / p.mass / 866); // normalized for RT-10
                         }
 
                         if (p.Resources["MonoPropellant"] != null)
                         {
                             res.monoFuel += p.Resources["MonoPropellant"].amount;
-                            res.tankCost += p.Resources["MonoPropellant"].amount / p.mass / 666 * p.Resources["MonoPropellant"].amount * 0.1; // normalized for R25
+                            //res.tankCost += cst;
+
                         }
 
                         if (p.Resources["Oxidizer"] != null)
                         {
                             ox = p.Resources["Oxidizer"].amount;
-                            res.oxidizerFuel += ox;
+                            //res.oxidizerFuel += ox;
                         }
-                        
+
                         // edit in .12 to add support for iron cross mod -- malkuth .12 Also Added Support for Modular Fuel Mod Check Difficulty for Multipliers
                         if (p.Resources["Oxygen"] != null)
                         {
                             res.oxygen += p.Resources["Oxygen"].amount;
+                            //res.tankCost += cst;
                         }
                         if (p.Resources["LiquidOxygen"] != null)
                         {
                             res.LiquidOxygen += p.Resources["LiquidOxygen"].amount;
+                            //res.tankCost += cst;
                         }
                         if (p.Resources["LiquidH2"] != null)
                         {
                             res.LiquidH2 += p.Resources["LiquidH2"].amount;
+                            //res.tankCost += cst;
                         }
-                        if (lf + ox > 0)
+                        /*if (lf + ox > 0)
                         {
-                            res.tankCost += Math.Pow((lf + ox) / p.mass / 1600, 2) * (lf + ox) * 0.1; // normalized for FL-T800 
-                        }
+                            res.tankCost += cst;
+                        }*/
 
                         if (p.Resources["XenonGas"] != null)
                         {
                             res.xenonFuel += p.Resources["XenonGas"].amount;
-                            res.tankCost += p.Resources["XenonGas"].amount / p.mass / 5833 * p.Resources["XenonGas"].amount * 0.25; // normalized for R25
+                            //res.tankCost += cst;
                         }
 
                         // NK add category detection, module detection, etc
                         // also DRE support
                         if (p.Resources["AblativeShielding"] != null)
                         {
-                            res.podCost += p.Resources["AblativeShielding"].amount * 50;
+                            res.podCost += p.Resources["AblativeShielding"].amount * 2;
+                            // NOTE: we are NOT including part cost here, since that was derived from amount of abl shielding!
                         }
-
-                        // PODS
-                        bool isPod = false;
-                        if (p.partInfo.category.Equals(PartCategories.Pods))
-                        {
-                            mult *= 2;
-                            //print("part " + p.name + " is a pod");
-                        }
-                        doOnce = false;
-                        foreach (ModuleCommand e in p.Modules.OfType<ModuleCommand>())
-                        {
-                            if (doOnce)
-                                continue;
-                            if (!p.partInfo.name.Contains("RemoteTech")) // HACK for RC antenna
-                            {
-                                res.podCost += (p.mass - p.CrewCapacity / 4.0) * 10 * 3500;
-                                if (p.CrewCapacity > 0)
-                                    res.podCost += p.CrewCapacity * Math.Sqrt(p.CrewCapacity / p.mass / 0.8) * 7500;
-                                else
-                                    res.podCost += 750 / p.mass;
-                                //print("part " + p.name + " has cmd");
-                                isPod = true;
-                            }
-                            doOnce = true;
-                        }
-
-                        // PROPULSION - taken care of above: engines, LF, SF, MP.
-
-                        // CONTROL
-                        if (p.partInfo.category.Equals(PartCategories.Control))
-                        {
-                            //print("part " + p.name + " is ctrl");
-                            bool hasRCS = false;
-                            foreach (ModuleRCS r in p.Modules.OfType<ModuleRCS>())
-                            {
-                                hasRCS = true;
-                                //print("part " + p.name + " has rcs");
-                                res.controlCost += Math.Pow(r.atmosphereCurve.Evaluate(0) - 200, 2) * r.thrusterPower;
-                            }
-                            if (!hasRCS)
-                            {
-                                res.controlCost += p.mass * 40000;
-                                if (p.partInfo.moduleInfo.Equals("AdvSASModule"))
-                                    res.controlCost += p.mass * 40000;
-                            }
-                        }
-
-                        // STRUCTURAL
-                        if (p.partInfo.category.Equals(PartCategories.Structural))
-                        {
-                            //print("part " + p.name + " is structural");
-                            mult *= 0.1;
-                        }
-                        foreach (ModuleAnchoredDecoupler e in p.Modules.OfType<ModuleAnchoredDecoupler>())
-                        {
-                            //print("part " + p.name + " is decoupler");
-                            mult *= 1.5;
-                        }
-                        foreach (ModuleDecouple e in p.Modules.OfType<ModuleDecouple>())
-                        {
-                            //print("part " + p.name + " is decoupler");
-                            mult *= 1.5;
-                        }
-                        // better would be check force
-
-                        // AERODYNAMIC
-                        // leave as stock: 3500/ton. Yes, this is bad for nosecones vs adapters
-                        if (p.partInfo.moduleInfo.Equals("ControlSurface"))
-                        {
-                            //print("part " + p.name + " is controlsurface");
-                            mult *= 2.0; // control surfaces are a bit more expensive
-                        }
-
-
-                        // UTILITY
-                        if (p.partInfo.category.Equals(PartCategories.Utility))
-                        {
-                            //print("part " + p.name + " is utility");
-                            mult *= 2;
-                        }
-                        foreach (ModuleDockingNode e in p.Modules.OfType<ModuleDockingNode>())
-                        {
-                            //print("part " + p.name + " has docking port");
-                            res.utilCost += Math.Sqrt(p.mass) * 5000;
-                        }
-                        foreach (ModuleLandingGear e in p.Modules.OfType<ModuleLandingGear>())
-                        {
-                            //print("part " + p.name + " has gear");
-                            mult *= 0.1;
-                            res.utilCost += p.mass * 3500 * 0.5;
-                        }
-                        /*if (p.partInfo.moduleInfo.Equals("HLandingLeg"))
-                        {
-                            mult *= 0.1;
-                        }*/
-                        // and wheels can stay as they are, too.
-
-                        foreach (ModuleDeployableSolarPanel s in p.Modules.OfType<ModuleDeployableSolarPanel>())
-                        {
-                            //print("part " + p.name + " is solar panel");
-                            // mult is fine for mass; change cost
-                            double panelmult = 1.0;
-                            if (s.sunTracking)
-                                panelmult = 3.0;
-                            res.utilCost += (s.chargeRate * 1200) * panelmult; // *s.chargeRate / p.mass / 150; // baseline = OX-STAT, so need high mult for tracking
-                        }
-                        // for generators and electric charge, check efficiency
-                        if (p.Resources["ElectricCharge"] != null)
-                        {
-                            //print("part " + p.name + " has electric charge");
-                            res.utilCost += p.Resources["ElectricCharge"].amount * 12 * (p.Resources["ElectricCharge"].amount / p.mass / 20000); //baseline = Z-100
-                        }
-                        foreach (ModuleGenerator g in p.Modules.OfType<ModuleGenerator>())
-                        {
-                            //print("part " + p.name + " is generator");
-                            if (g.inputList.Count <= 0) // from nothing
-                            {
-                                foreach (ModuleGenerator.GeneratorResource gr in g.outputList)
-                                {
-                                    if (gr.name.Equals("ElectricCharge"))
-                                        res.utilCost += 10000 + gr.rate * 5000 * gr.rate / p.mass / 9.375;
-                                }
-                            }
-                        }
-
-
-
-
-                        // SCIENCE
-                        if (p.partInfo.category.Equals(PartCategories.Science))
-                        {
-                            //print("part " + p.name + " is science");
-                            //mult *= 10;
-                            res.sciCost += p.mass * 300000;
-                            foreach (ModuleEnviroSensor e in p.Modules.OfType<ModuleEnviroSensor>())
-                                res.sciCost += 1000; // fixed cost for now
-                            //But for other science (Keth, RemoteTech) it's mass only alas.
-                        }
-
-                        if (p.CrewCapacity > 0)
-                        {
-                            if (!isPod)
-                            {
-                                //print("part " + p.name + " has crew (and no cmd)");
-                                mult = 2.0; // reset for struct, util
-                            }
-                            res.podCost += (p.CrewCapacity) * 25000;
-                        }
-
-                        res.mass += p.mass * mult;
+                        //res.mass += p.mass * mult;
 
                     }
                 }
@@ -413,7 +287,7 @@ namespace MissionController
             }
         }
         // edited .11 add some new values.. .12 edit by malkuth to add support for Iron Cross Mod and Modular fuel tanks
-        const double costmultiplier = 0.1;
+        const double costmultiplier = 1.0;
 
         private class VesselResources
         {
@@ -421,7 +295,7 @@ namespace MissionController
             public double oxidizerFuel;
             public double solidFuel;
             public double monoFuel;
-            public double mass;
+            //public double mass;
             public double xenonFuel;
             public double oxygen;
             public double LiquidOxygen;
@@ -434,74 +308,79 @@ namespace MissionController
             public double controlCost = 0;
             public double utilCost = 0;
             public double sciCost = 0;
+            public double aeroCost = 0;
+            public double structCost = 0;
 
             public int pod()
             {
-                return (int)(costmultiplier * podCost * Difficulty.Xenon * 0.1); // since Xenon = 10
+                return (int)(costmultiplier * podCost);
             }
             public int tank()
             {
-                return (int)(costmultiplier * tankCost * Difficulty.Xenon * 0.1); // since Xenon = 10
+                return (int)(costmultiplier * tankCost);
+            }
+            public int engine()
+            {
+                return (int)(costmultiplier * engineCost);
             }
             public int ctrl()
             {
-                return (int)(costmultiplier * controlCost * Difficulty.Xenon * 0.1); // since Xenon = 10
+                return (int)(costmultiplier * controlCost);
             }
             public int util()
             {
-                return (int)(costmultiplier * utilCost * Difficulty.Xenon * 0.1); // since Xenon = 10
+                return (int)(costmultiplier * utilCost);
             }
             public int sci()
             {
-                return (int)(costmultiplier * sciCost * Difficulty.Xenon * 0.1); // since Xenon = 10
+                return (int)(costmultiplier * sciCost);
             }
-
-
-            public int materials()
+            public int stru()
             {
-                return (int)(costmultiplier * 2 * mass * Difficulty.Mass);
+                return (int)(costmultiplier * structCost);
             }
+            public int aero()
+            {
+                return (int)(costmultiplier * aeroCost);
+            }
+
+
             public int oxylife()
             {
-                return (int)(costmultiplier * 10 * oxygen * Difficulty.LiquidFuel);
+                return (int)(costmultiplier * oxygen * Difficulty.LiquidFuel);
             }
             public int LiquidOxy()
             {
-                return (int)(costmultiplier * 10 * LiquidOxygen * Difficulty.LiquidOxygen);
+                return (int)(costmultiplier * LiquidOxygen * Difficulty.LiquidOxygen);
             }
             public int LiquidH()
             {
-                return (int)(costmultiplier * 10 * LiquidH2 * Difficulty.LiquidH2);
+                return (int)(costmultiplier * LiquidH2 * Difficulty.LiquidH2);
             }
 
             public int liquid()
             {
-                return (int)(costmultiplier * 10 * liquidFuel * Difficulty.LiquidFuel);
+                return (int)(costmultiplier * liquidFuel * Difficulty.LiquidFuel);
             }
 
             public int mono()
             {
-                return (int)(costmultiplier * 10 * monoFuel * Difficulty.MonoPropellant);
+                return (int)(costmultiplier * monoFuel * Difficulty.MonoPropellant);
             }
 
             public int solid()
             {
-                return (int)(costmultiplier * 10 * solidFuel * Difficulty.SolidFuel);
+                return (int)(costmultiplier * solidFuel * Difficulty.SolidFuel);
             }
 
             public int xenon()
             {
-                return (int)(costmultiplier * 10 * xenonFuel * Difficulty.Xenon);
+                return (int)(costmultiplier * xenonFuel * Difficulty.Xenon);
             }
 
             public int oxidizer()
             {
-                return (int)(costmultiplier * 10 * oxidizerFuel * Difficulty.Oxidizer);
-            }
-
-            public int engine()
-            {
-                return (int)(costmultiplier * 4 * engineCost * Difficulty.LiquidEngines);
+                return (int)(costmultiplier * oxidizerFuel * Difficulty.Oxidizer);
             }
 
             public int crew()
@@ -511,7 +390,7 @@ namespace MissionController
 
             public int dry()
             {
-                return pod() + tank() + engine() + ctrl() + util() + sci() + materials();
+                return pod() + tank() + engine() + ctrl() + util() + sci() + stru() + aero();
             }
             public int wet()
             {

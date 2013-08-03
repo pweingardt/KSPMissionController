@@ -110,6 +110,8 @@ namespace MissionController
 
         private void loadIcons () {
             if (iconMenu == null) {
+
+
                 iconMenu = new Texture2D (35, 50, TextureFormat.ARGB32, false);
                 iconFinished = new Texture2D (0, 0, TextureFormat.ARGB32, false);
                 iconTypeProbe = new Texture2D (0, 0, TextureFormat.ARGB32, false);
@@ -352,10 +354,31 @@ namespace MissionController
             } catch {
             }
         }
-
+        bool partsCostCorrected = false; // NK for setting part costs on load
         public void OnGUI () {
             if (!isValidScene()) {
                 return;
+            }
+            // NK
+            if (!partsCostCorrected)
+            {
+                partsCostCorrected = true;
+                print("*MC* Calculating part costs!");
+                foreach (AvailablePart ap in PartLoader.LoadedPartsList)
+                {
+                    try
+                    {
+                        int cst = PartCost.cost(ap);
+                        print("For part " + ap.name + ", cost = " + cst);
+                        ap.cost = cst;
+                        //ap.partPrefab.partInfo.cost = cst;
+                    }
+                    catch
+                    {
+                    }
+                }
+                EditorPartList.Instance.Refresh();
+                
             }
 
             if(drawLandingArea) 
@@ -468,7 +491,7 @@ namespace MissionController
                         GUILayout.Label("Flight Mode Selected, Vessel launch Full Price. Missions Available ", styleCaption);
                         if (res.pod() > (0)) { showCostValue("Command Sections:", res.pod(), styleValueGreen); }
                         showCostValue("Crew insurance (Launch Pad Only): ", res.crew(), styleValueGreen);
-                        if (res.ctrl() > (0)) { showCostValue("Control Surfaces:", res.ctrl(), styleValueGreen); }
+                        if (res.ctrl() > (0)) { showCostValue("Avionics and Control:", res.ctrl(), styleValueGreen); } // NOT control surfaces. Those are AERO parts. These are SAS etc
                         if (res.util() > (0)) { showCostValue("Utility Parts:", res.util(), styleValueGreen); }
                         if (res.sci() > (0)) {showCostValue("Science Parts:", res.sci(), styleValueGreen);}
                         if (res.engine() > (0)) { showCostValue("Engines And Cooling: ", res.engine(), styleValueGreen); }
@@ -481,7 +504,8 @@ namespace MissionController
                         if (res.mono() > (0)) { showCostValue("Monopropellant costs:", res.mono(), styleValueGreen); }
                         if (res.solid() > (0)) { showCostValue("Solid fuel costs:", res.solid(), styleValueGreen); }
                         if (res.xenon() > (0)) { showCostValue("Xenon gas costs:", res.xenon(), styleValueGreen); }
-                        if (res.materials() > (0)) { showCostValue("Construction Cost:", res.materials(), styleValueGreen); }
+                        if (res.stru() > (0)) { showCostValue("Structural Cost:", res.stru(), styleValueGreen); }
+                        if (res.aero() > (0)) { showCostValue("Aerodynamic Cost:", res.aero(), styleValueGreen); }
                         if (res.wet() > (0)) { showCostValue("(Total Cost Of Fuels):", res.wet(), styleCaption); }
                         if (res.dry() > (0)) { showCostValue("(Total Cost Of Parts):", res.dry(), styleCaption); }
                         showCostValue("Total Cost Of Vessel With All:", res.sum(), (res.sum() > manager.budget ? styleValueRedBold : styleValueYellow));
