@@ -814,15 +814,15 @@ namespace MissionController
         }
 
         private void showCostValue(String name, double value, GUIStyle style) {
-            showStringValue (name, String.Format ("{0:0.##}{1}", value, CurrencySuffix), style);
+            showStringValue (name, String.Format ("{0:n0.##}{1}", value, CurrencySuffix), style);
         }
 
         private void showDoubleValue(String name, double value, GUIStyle style) {
-            showStringValue (name, String.Format ("{0:0.##}", value), style);
+            showStringValue (name, String.Format ("{0:n0.##}", value), style);
         }
 
         private void showIntValue(String name, int value, GUIStyle style) {
-            showStringValue (name, String.Format ("{0}", value), style);
+            showStringValue (name, String.Format ("{n0}", value), style);
         }
 
         private void showStringValue(String name, String value, GUIStyle style) {
