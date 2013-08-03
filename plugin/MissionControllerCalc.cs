@@ -164,8 +164,11 @@ namespace MissionController
                             bool isEngine = false;
                             foreach (ModuleEngines e in p.Modules.OfType<ModuleEngines>())
                             {
-                                res.engineCost += cst;
-                                isEngine = true;
+                                if (e.propellants.Where(r => r.name.Equals("SolidFuel")).Count() == 0)
+                                {
+                                    res.engineCost += cst;
+                                    isEngine = true;
+                                }
                             }
                             if (!isEngine)
                                 res.tankCost += cst;
@@ -173,7 +176,6 @@ namespace MissionController
 
 
                         // PODS
-                        bool isPod = false;
                         if (p.partInfo.category.Equals(PartCategories.Pods))
                         {
                             res.podCost += cst;
@@ -217,7 +219,6 @@ namespace MissionController
                         // EXPENDABLE RESOURCES
                         double lf = 0.0;
                         double ox = 0.0;
-                        bool doOnce = false;
                         if (p.Resources["LiquidFuel"] != null)
                         {
                             lf = p.Resources["LiquidFuel"].amount;
@@ -239,7 +240,7 @@ namespace MissionController
                         if (p.Resources["Oxidizer"] != null)
                         {
                             ox = p.Resources["Oxidizer"].amount;
-                            //res.oxidizerFuel += ox;
+                            res.oxidizerFuel += ox;
                         }
 
                         // edit in .12 to add support for iron cross mod -- malkuth .12 Also Added Support for Modular Fuel Mod Check Difficulty for Multipliers

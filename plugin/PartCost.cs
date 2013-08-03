@@ -79,13 +79,14 @@ namespace MissionController
                 if (lf + ox > 0)
                 {
                     mult = 0.1;
-                    pcst += Math.Pow((lf + ox) / p.mass / 1600, 2) * (lf + ox) * 0.25; // normalized for FL-T800 
+                    pcst += Math.Pow((lf + ox) / p.mass / 1600, 2) * (lf + ox) * 0.025; // normalized for FL-T800 
                 }
 
                 if (p.Resources["SolidFuel"] != null)
                 {
                     //res.solidFuel += p.Resources["SolidFuel"].maxAmount;
                     //mult *= (p.Resources["SolidFuel"].amount / p.mass / 866); // normalized for RT-10
+                    mult = 0.25;
                 }
 
                 if (p.Resources["MonoPropellant"] != null)
@@ -99,7 +100,7 @@ namespace MissionController
                 {
                     mult = 0.1;
                     //res.xenonFuel += p.Resources["XenonGas"].amount;
-                    pcst += p.Resources["XenonGas"].maxAmount / p.mass / 5833 * p.Resources["XenonGas"].maxAmount * 1.0; // normalized for R25
+                    pcst += p.Resources["XenonGas"].maxAmount / p.mass / 5833 * p.Resources["XenonGas"].maxAmount * 0.25; // normalized for R25
                 }
 
                 // NK add category detection, module detection, etc
