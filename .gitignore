@@ -1,5 +1,8 @@
 plugin/bin
+plugin/obj
 library/bin
+library/obj
+*.cache
 *.swp
 missions/Stock.mpkg
 
