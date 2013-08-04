@@ -1,5 +1,23 @@
 ### New In Version Mission Controller Extended
 
+# New in .14 Auto Recycle.. 
+
+Place some Parachutes on those spent stages.. And autorecycle will try to recycle the vessel for you
+
+
+Changes In .14:  More updates Yay.  This time From NathanKell Thank him! he did some pretty neat things in this version.
+
+1.    Cost in VAB Displays are now in Line with MC.  Pretty big change now is that you can see exactly how much that part is going to cost you in the parts description.  MC Brings all part cost to its formula and rewrites them to The Description of that part.
+2.	Added a comma for those big numbers.. IE MAX AP MINPE and other mission goal numbers now should read with a comma.. And also prices in the MC window.
+3.	All Mission Times in My Mission Packs have been edited to more reasonable times… I think the largest one is now only 4 hours. Which is only minutes in time acceleration.
+4.	Part names from Description Now Show Up in The Mission Goals.. Before it was Part .cfg file names.. This should help you with what part it is you actually need.  ##For Mission Editors## you still need to use the Part .cfg name! Don’t forget to replace Underscore with a period (Example Part_Coolname_Awsome.. Will be written like this in mission Part.Coolname.Awsome))
+5.	Last Update and what we would like you guys to test out for us.  The Auto Recycle of Spent Stages has been implemented.  These are some of the rules for this new AutoRecycle.
+A.	Notes on auto-recycling: This is a test Version Of AutoRecycle. 
+B.	You need 70 drag per ton (approx .15 parachute mass per ton, more if using drogues)
+C.	You only get 60% of dry cost (and nothing else) back. Crew is still dead, for example.
+
+
+
 New In.13 Bank Loans:  Now if you go into the red with mission controller the bank will be happy to lend you the money you need to continue your space program.  But it will cost you interest.  At 25% of Your Mission Payouts until you pay off the loan and get back into the Green.
 
 .11 Test Flight:  now you can test your flights instead of just turning the plugin off.. At a cost of 3% of Dry cost… including Kerbal Cost if you have test pilots...If you have insurance cost at a price higher then 0. When you return you can recycle what’s left of your test craft… And get your insurance cost back… 
