@@ -278,7 +278,7 @@ namespace MissionController
                             // NOTE: we are NOT including part cost here, since that was derived from amount of abl shielding!
                         }
                         //res.mass += p.mass * mult;
-
+                        
                     }
                 }
                 catch

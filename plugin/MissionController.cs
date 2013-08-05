@@ -482,7 +482,7 @@ namespace MissionController
                     if (settings.difficulty == 0)
                     {
                         GUILayout.Label("In Flight Test Mode, Missions Dont Work and Cost Reduced to 3%", styleCaption);
-                        showCostValue("Flight Testing Cost:", res.dry(), (res.dry() > manager.budget ? styleValueRed : styleValueGreen));
+                        showCostValue("Flight Testing Cost:",res.dry() * 3 / 100, (res.dry() * 3 / 100 > manager.budget ? styleValueRed : styleValueGreen));
                         showCostValue("Test Crew Cost (return in Recycle if survived): ", res.crew(), styleValueGreen);
                     }
                 else
