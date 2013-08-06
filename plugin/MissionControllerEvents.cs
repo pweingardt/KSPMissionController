@@ -35,7 +35,8 @@ namespace MissionController
         private void onRecovered(ProtoVessel pv)
         {
             VesselResources res = new VesselResources(pv.vesselRef);
-            print("*MC* Craft " + pv.vesselName + " recovered for " + res.recyclable(pv.situation.Equals(Vessel.Situations.LANDED)));
+            //print("*MC* Craft " + pv.vesselName + " recovered for " + res.recyclable(pv.situation.Equals(Vessel.Situations.LANDED)));
+            manager.recycleVessel(pv.vesselRef, res.recyclable(pv.situation.Equals(Vessel.Situations.LANDED)));
         }
 
         /// <summary>
@@ -44,7 +45,7 @@ namespace MissionController
         /// <param name="mo">the target</param>
         private void onTargeted(MapObject mo)
         {
-            if (mo.type.Equals(MapObject.MapObjectType.VESSEL) && HighLogic.LoadedScene.Equals(GameScenes.TRACKSTATION))
+            if (HighLogic.LoadedScene.Equals(GameScenes.TRACKSTATION) && mo.type.Equals(MapObject.MapObjectType.VESSEL))
             {
                 //pVessel = new ProtoVessel(mo.vessel); //  HACK: should find the right one.
                 pVessel = mo.vessel.protoVessel;
