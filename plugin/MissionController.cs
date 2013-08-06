@@ -80,10 +80,12 @@ namespace MissionController
         private Rect mainWindowPosition = new Rect (300, 70, 300, 600);
         private Rect settingsWindowPosition = new Rect (700, 70, 250, 250);
         private Rect packageWindowPosition = new Rect (50, 50, 1000, 700);
+        private Rect financeWindowPosition = new Rect(700, 70, 250, 250);
 
         private bool showMainWindow = false;
         private bool showSettingsWindow = false;
         private bool showMissionPackageBrowser = false;
+        private bool showFinanceWindow = false;
 
         private FileBrowser fileBrowser = null;
         private Mission currentMission = null;
@@ -417,6 +419,11 @@ namespace MissionController
             if (showMissionPackageBrowser) {
                 packageWindowPosition = GUILayout.Window(98762, packageWindowPosition, drawPackageWindow, currentPackage.name);
             }
+
+            if (showFinanceWindow)
+            {
+                financeWindowPosition = GUILayout.Window(98761, financeWindowPosition, drawFinaceWindow, "Finance Window");
+            }
             
             if (fileBrowser != null) {
                 GUI.skin = HighLogic.Skin;
@@ -527,13 +534,22 @@ namespace MissionController
 
             GUILayout.Space (30);
 
-            if (currentMission != null) {
+            if (currentMission != null) 
+            {
                 drawMission (currentMission, status);
-            } else {
-                drawPassiveMissions (manager.getActivePassiveMissions());
+            }
+            else 
+            {
+                
 
-                if (GUILayout.Button ("Configure")) {
+                if (GUILayout.Button ("Configure")) 
+                {
                     settingsWindow (!showSettingsWindow);
+                    resetCount = 0;
+                }
+                if (GUILayout.Button("Financing"))
+                {
+                    financeWindow(!showFinanceWindow);
                     resetCount = 0;
                 }
             }
@@ -731,34 +747,7 @@ namespace MissionController
             }
         }
 
-        /// <summary>
-        /// Draws the currently active passive missions
-        /// </summary>
-        /// <param name="missions">Missions.</param>
-        private void drawPassiveMissions(List<MissionStatus> missions) {
-            if (missions.Count > 0) {
-                GUILayout.BeginHorizontal ();
-                GUILayout.Label ("Next payment in", styleValueName);
-                GUILayout.Label (MathTools.formatTime(60.0 * 60.0 * 24.0 - (Planetarium.GetUniversalTime() - lastPassiveReward)), styleValueGreen);
-                GUILayout.EndHorizontal ();
-
-                int total = 0;
-                foreach (MissionStatus m in missions) {
-                    GUILayout.BeginHorizontal ();
-                    GUILayout.Label (m.missionName, styleValueName);
-                    GUILayout.Label (m.passiveReward + CurrencySuffix, styleValueGreen);
-                    GUILayout.EndHorizontal ();
-                    total += m.passiveReward;
-                }
-
-                GUILayout.Space (20);
-
-                GUILayout.BeginHorizontal ();
-                GUILayout.Label ("Total", styleValueName);
-                GUILayout.Label (total + CurrencySuffix, styleValueGreen);
-                GUILayout.EndHorizontal ();
-            }
-        }
+        
         
         // Create the file browser
         private void createFileBrowser (string title, FileBrowser.FinishedCallback callback) {
@@ -773,10 +762,12 @@ namespace MissionController
             }
         }
 
-        private void destroyFileBrowser() {
+        private void destroyFileBrowser()
+        {
             fileBrowser = null;
 
-            if (EditorLogic.fetch != null) {
+            if (EditorLogic.fetch != null) 
+            {
                 EditorLogic.fetch.Unlock ();
             }
         }
@@ -785,16 +776,28 @@ namespace MissionController
         /// Sets the visibility of the settings window
         /// </summary>
         /// <param name="visibility">If set to <c>true</c> visibility.</param>
-        private void settingsWindow(bool visibility) {
+        private void settingsWindow(bool visibility) 
+        {
             showSettingsWindow = visibility;
             lockOrUnlockEditor (visibility);
+        }
+
+        /// <summary>
+        /// Sets the visibility of the Finace Window
+        /// </summary>
+        /// <param name="visibility">If set to <c>true</c> visibility.</param>
+        private void financeWindow(bool visibility)
+        {
+            showFinanceWindow = visibility;
+            lockOrUnlockEditor(visibility);
         }
 
         /// <summary>
         /// Sets the visibility of the package browser
         /// </summary>
         /// <param name="visibility">If set to <c>true</c> visibility.</param>
-        private void packageWindow(bool visibility) {
+        private void packageWindow(bool visibility)
+        {
             showMissionPackageBrowser = visibility;
             lockOrUnlockEditor (visibility);
         }
