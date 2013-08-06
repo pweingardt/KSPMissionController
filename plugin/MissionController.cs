@@ -248,6 +248,8 @@ namespace MissionController
             GameEvents.onCrash.Add (this.onCrash);
             GameEvents.onCollision.Add (this.onCollision);
             GameEvents.onPartCouple.Add (this.onPartCouple);
+            GameEvents.onVesselRecovered.Add(this.onRecovered);
+            GameEvents.onPlanetariumTargetChanged.Add(this.onTargeted);
 
             assemblyName = Assembly.GetExecutingAssembly ().GetName ();
             versionCode = "" + assemblyName.Version.Major + "." + assemblyName.Version.Minor;
@@ -292,6 +294,8 @@ namespace MissionController
                 }
             }
         }
+
+        private ProtoVessel pVessel; // NK for new recyce on recover
 
         /// <summary>
         /// We check for passive missions and client controlled missions every day.
@@ -587,17 +591,24 @@ namespace MissionController
             }
             else
             {
-                if (status.recyclable)
+                // NK recycle from tracking station
+                //if (status.recyclable)
+                if(!HighLogic.LoadedScene.Equals(GameScenes.TRACKSTATION))
+                    pVessel = null;
+                else if(pVessel != null)
                 {
-                    VesselResources res = vesselResources;
-                    showCostValue("Recyclable value: ", res.recyclable(activeVessel.Landed), styleCaption);
-                    if (GUILayout.Button("Recycle Vessel"))
+                    if(pVessel.situation.Equals(Vessel.Situations.LANDED) || pVessel.situation.Equals(Vessel.Situations.SPLASHED))
+                    {
+                        VesselResources res = new VesselResources(pVessel.vesselRef);
+                        showCostValue("Recyclable value: ", res.recyclable(pVessel.situation.Equals(Vessel.Situations.LANDED)), styleCaption);
+                        /*if (GUILayout.Button("Recycle Vessel"))
                     {
                         manager.recycleVessel(activeVessel, res.recyclable(activeVessel.Landed));
                         TestingAndExperiment.TerminateCurrentFlight();
                         FlightResultsDialog.showExitControls = true;
                         FlightResultsDialog.Display("Vessel has been recycled! Go To Tracking Station To Recover The Vessel.");
                         recycled = true;
+                        }*/
                     }
                 }
             }
@@ -837,7 +848,9 @@ namespace MissionController
 
         private bool isValidScene() {
             if (HighLogic.LoadedSceneIsFlight || HighLogic.LoadedSceneIsEditor
-                || HighLogic.LoadedScene.Equals(GameScenes.SPACECENTER)) {
+                || HighLogic.LoadedScene.Equals(GameScenes.SPACECENTER)
+                || HighLogic.LoadedScene.Equals(GameScenes.TRACKSTATION)
+                ) {
                 return true;
             }
             return false;

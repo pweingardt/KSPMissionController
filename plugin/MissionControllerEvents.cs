@@ -26,6 +26,35 @@ namespace MissionController
             }
         }
 
+        // NK move recycle functionality to recovery
+        
+        /// <summary>
+        /// Recycle vessel whenever recovered
+        /// </summary>
+        /// <param name="pv">the vessel</param>
+        private void onRecovered(ProtoVessel pv)
+        {
+            VesselResources res = new VesselResources(pv.vesselRef);
+            print("*MC* Craft " + pv.vesselName + " recovered for " + res.recyclable(pv.situation.Equals(Vessel.Situations.LANDED)));
+        }
+
+        /// <summary>
+        /// update pvessel when target changes
+        /// </summary>
+        /// <param name="mo">the target</param>
+        private void onTargeted(MapObject mo)
+        {
+            if (mo.type.Equals(MapObject.MapObjectType.VESSEL) && HighLogic.LoadedScene.Equals(GameScenes.TRACKSTATION))
+            {
+                //pVessel = new ProtoVessel(mo.vessel); //  HACK: should find the right one.
+                pVessel = mo.vessel.protoVessel;
+                VesselResources res = new VesselResources(mo.vessel);
+            }
+        }
+
+
+
+
         /// <summary>
         /// We check if the vessel was crashing. If so, we set the crashed flag
         /// </summary>
@@ -44,7 +73,7 @@ namespace MissionController
             catch { }
 
             // NK recycle
-            if (!HighLogic.LoadedSceneIsEditor && activeVessel != v && (v.situation == Vessel.Situations.FLYING || v.situation == Vessel.Situations.SUB_ORBITAL) && v.mainBody.GetAltitude(v.CoM) < 26000 && v.orbit.referenceBody.bodyName.Equals("Kerbin"))
+            if (!HighLogic.LoadedSceneIsEditor && activeVessel != v && (v.situation == Vessel.Situations.FLYING || v.situation == Vessel.Situations.SUB_ORBITAL) && v.mainBody.GetAltitude(v.CoM) <= 25000 && !v.isEVA && v.orbit.referenceBody.bodyName.Equals("Kerbin"))
             {
                 print("*MC* Vessel " + v.name + " destroyed. Alt " + v.mainBody.GetAltitude(v.CoM) + ", body " + v.orbit.referenceBody.bodyName + ", sit = " + v.situation);
                 double mass = 0;

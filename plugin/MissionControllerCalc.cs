@@ -134,159 +134,38 @@ namespace MissionController
         {
             get
             {
-                VesselResources res = new VesselResources();
                 try
                 {
-                    res.crewCount = 0;
-                    res.engineCost = 0;
-                    res.podCost = 0;
-                    res.tankCost = 0;
-                    res.controlCost = 0;
-                    res.utilCost = 0;
-                    res.sciCost = 0;
-
-                    List<Part> parts;
                     if (activeVessel == null)
                     {
-                        parts = EditorLogic.SortedShipList;
-                    }
-                    else
-                    {
-                        parts = activeVessel.parts;
-                        res.crewCount = activeVessel.GetCrewCount();
-                    }
-
-                    foreach (Part p in parts)
-                    {
-                        int cst = p.partInfo.cost;
-                        if (p.partInfo.category.Equals(PartCategories.Propulsion))
+                        if (pVessel == null)
+                            return new VesselResources(null);
+                        else
                         {
-                            bool isEngine = false;
-                            foreach (ModuleEngines e in p.Modules.OfType<ModuleEngines>())
+                            if (pVessel.vesselRef != null)
                             {
-                                if (e.propellants.Where(r => r.name.Equals("SolidFuel")).Count() == 0)
-                                {
-                                    res.engineCost += cst;
-                                    isEngine = true;
-                                }
+                                return new VesselResources(pVessel.vesselRef);
                             }
-                            if (!isEngine)
-                                res.tankCost += cst;
+                            else
+                            {
+                                print("*MC* Protovessel has no vessel ref!");
+                                return new VesselResources(null);
+                            }
                         }
-
-
-                        // PODS
-                        if (p.partInfo.category.Equals(PartCategories.Pods))
-                        {
-                            res.podCost += cst;
-                        }
-
-                        // PROPULSION - taken care of above: engines, LF, SF, MP.
-
-                        // CONTROL
-                        if (p.partInfo.category.Equals(PartCategories.Control))
-                        {
-                            res.controlCost += cst;
-                        }
-
-                        // STRUCTURAL
-                        if (p.partInfo.category.Equals(PartCategories.Structural))
-                        {
-                            res.structCost += cst;
-                        }
-                        // STRUCTURAL
-                        if (p.partInfo.category.Equals(PartCategories.Aero))
-                        {
-                            res.aeroCost += cst;
-                        }
-                        
-
-
-                        // UTILITY
-                        if (p.partInfo.category.Equals(PartCategories.Utility))
-                        {
-                            //print("part " + p.name + " is utility");
-                            res.utilCost += cst;
-                        }
-
-                        // SCIENCE
-                        if (p.partInfo.category.Equals(PartCategories.Science))
-                        {
-                            //print("part " + p.name + " is science");
-                            res.sciCost += cst;
-                        }
-
-                        // EXPENDABLE RESOURCES
-                        double lf = 0.0;
-                        double ox = 0.0;
-                        if (p.Resources["LiquidFuel"] != null)
-                        {
-                            lf = p.Resources["LiquidFuel"].amount;
-                            res.liquidFuel += lf;
-                        }
-
-                        if (p.Resources["SolidFuel"] != null)
-                        {
-                            res.solidFuel += p.Resources["SolidFuel"].amount;
-                        }
-
-                        if (p.Resources["MonoPropellant"] != null)
-                        {
-                            res.monoFuel += p.Resources["MonoPropellant"].amount;
-                            //res.tankCost += cst;
-
-                        }
-
-                        if (p.Resources["Oxidizer"] != null)
-                        {
-                            ox = p.Resources["Oxidizer"].amount;
-                            res.oxidizerFuel += ox;
-                        }
-
-                        // edit in .12 to add support for iron cross mod -- malkuth .12 Also Added Support for Modular Fuel Mod Check Difficulty for Multipliers
-                        if (p.Resources["Oxygen"] != null)
-                        {
-                            res.oxygen += p.Resources["Oxygen"].amount;
-                            //res.tankCost += cst;
-                        }
-                        if (p.Resources["LiquidOxygen"] != null)
-                        {
-                            res.LiquidOxygen += p.Resources["LiquidOxygen"].amount;
-                            //res.tankCost += cst;
-                        }
-                        if (p.Resources["LiquidH2"] != null)
-                        {
-                            res.LiquidH2 += p.Resources["LiquidH2"].amount;
-                            //res.tankCost += cst;
-                        }
-                        /*if (lf + ox > 0)
-                        {
-                            res.tankCost += cst;
-                        }*/
-
-                        if (p.Resources["XenonGas"] != null)
-                        {
-                            res.xenonFuel += p.Resources["XenonGas"].amount;
-                            //res.tankCost += cst;
-                        }
-
-                        // NK add category detection, module detection, etc
-                        // also DRE support
-                        if (p.Resources["AblativeShielding"] != null)
-                        {
-                            res.podCost += p.Resources["AblativeShielding"].amount * 2;
-                            // NOTE: we are NOT including part cost here, since that was derived from amount of abl shielding!
-                        }
-                        //res.mass += p.mass * mult;
-                        
                     }
+                    else // Editor
+                    {
+                        return new VesselResources(null);
+                    }
+
                 }
                 catch
                 {
                 }
-                return res;
+                return new VesselResources(null);
             }
         }
+
         // edited .11 add some new values.. .12 edit by malkuth to add support for Iron Cross Mod and Modular fuel tanks
         const double costmultiplier = 1.0;
 
@@ -311,6 +190,235 @@ namespace MissionController
             public double sciCost = 0;
             public double aeroCost = 0;
             public double structCost = 0;
+
+            public VesselResources(Vessel v = null)
+            {
+                try
+                {
+                    crewCount = 0;
+                    engineCost = 0;
+                    podCost = 0;
+                    tankCost = 0;
+                    controlCost = 0;
+                    utilCost = 0;
+                    sciCost = 0;
+
+                    List<Part> parts;
+                    bool usesnapshots = false;
+                    if (v == null)
+                        parts = EditorLogic.SortedShipList;
+                    else
+                    {
+                        parts = v.parts;
+                        //print("*MC* Costing vessel " + v.vesselName);
+                        if (v.loaded)
+                            crewCount = v.GetCrewCount();
+                        else
+                        {
+                            crewCount = v.protoVessel.protoPartSnapshots.Sum(pps => pps.protoModuleCrew.Count);
+                            usesnapshots = true;
+                        }
+                        //print("Has " + crewCount + " crew");
+                    }
+
+                    if (!usesnapshots)
+                    {
+                        foreach (Part p in parts)
+                        {
+                            int cst = p.partInfo.cost;
+                            //print("part " + p.name + " has cost " + cst);
+                            if (p.partInfo.category.Equals(PartCategories.Propulsion))
+                            {
+                                bool isEngine = false;
+                                foreach (ModuleEngines e in p.Modules.OfType<ModuleEngines>())
+                                {
+                                    if (e.propellants.Where(r => r.name.Equals("SolidFuel")).Count() == 0)
+                                    {
+                                        engineCost += cst;
+                                        isEngine = true;
+                                    }
+                                }
+                                if (!isEngine)
+                                    tankCost += cst;
+                            }
+
+
+                            // PODS
+                            if (p.partInfo.category.Equals(PartCategories.Pods))
+                            {
+                                podCost += cst;
+                            }
+
+                            // PROPULSION - taken care of above: engines, LF, SF, MP.
+
+                            // CONTROL
+                            if (p.partInfo.category.Equals(PartCategories.Control))
+                            {
+                                controlCost += cst;
+                            }
+
+                            // STRUCTURAL
+                            if (p.partInfo.category.Equals(PartCategories.Structural))
+                            {
+                                structCost += cst;
+                            }
+                            // STRUCTURAL
+                            if (p.partInfo.category.Equals(PartCategories.Aero))
+                            {
+                                aeroCost += cst;
+                            }
+
+
+
+                            // UTILITY
+                            if (p.partInfo.category.Equals(PartCategories.Utility))
+                            {
+                                //print("part " + p.name + " is utility");
+                                utilCost += cst;
+                            }
+
+                            // SCIENCE
+                            if (p.partInfo.category.Equals(PartCategories.Science))
+                            {
+                                //print("part " + p.name + " is science");
+                                sciCost += cst;
+                            }
+
+                            // EXPENDABLE RESOURCES
+                            double lf = 0.0;
+                            double ox = 0.0;
+                            if (p.Resources["LiquidFuel"] != null)
+                            {
+                                lf = p.Resources["LiquidFuel"].amount;
+                                liquidFuel += lf;
+                            }
+
+                            if (p.Resources["SolidFuel"] != null)
+                            {
+                                solidFuel += p.Resources["SolidFuel"].amount;
+                            }
+
+                            if (p.Resources["MonoPropellant"] != null)
+                            {
+                                monoFuel += p.Resources["MonoPropellant"].amount;
+                                //tankCost += cst;
+
+                            }
+
+                            if (p.Resources["Oxidizer"] != null)
+                            {
+                                ox = p.Resources["Oxidizer"].amount;
+                                oxidizerFuel += ox;
+                            }
+
+                            // edit in .12 to add support for iron cross mod -- malkuth .12 Also Added Support for Modular Fuel Mod Check Difficulty for Multipliers
+                            if (p.Resources["Oxygen"] != null)
+                            {
+                                oxygen += p.Resources["Oxygen"].amount;
+                                //tankCost += cst;
+                            }
+                            if (p.Resources["LiquidOxygen"] != null)
+                            {
+                                LiquidOxygen += p.Resources["LiquidOxygen"].amount;
+                                //tankCost += cst;
+                            }
+                            if (p.Resources["LiquidH2"] != null)
+                            {
+                                LiquidH2 += p.Resources["LiquidH2"].amount;
+                                //tankCost += cst;
+                            }
+                            /*if (lf + ox > 0)
+                            {
+                                tankCost += cst;
+                            }*/
+
+                            if (p.Resources["XenonGas"] != null)
+                            {
+                                xenonFuel += p.Resources["XenonGas"].amount;
+                                //tankCost += cst;
+                            }
+
+                            // NK add category detection, module detection, etc
+                            // also DRE support
+                            if (p.Resources["AblativeShielding"] != null)
+                            {
+                                podCost += p.Resources["AblativeShielding"].amount * 2;
+                                // NOTE: we are NOT including part cost here, since that was derived from amount of abl shielding!
+                            }
+                            //mass += p.mass * mult;
+
+                        }
+                    }
+                    else
+                    {
+                        foreach (ProtoPartSnapshot p in v.protoVessel.protoPartSnapshots)
+                        {
+                            int cst = p.partInfo.cost;
+                            //print("part " + p.partName + " has cost " + cst);
+                            podCost += cst;
+                            /*if (p.partInfo.category.Equals(PartCategories.Propulsion))
+                            {
+                                bool isEngine = false;
+                                foreach (ModuleEngines e in p.partRef.Modules.OfType<ModuleEngines>())
+                                {
+                                    if (e.propellants.Where(r => r.name.Equals("SolidFuel")).Count() == 0)
+                                    {
+                                        engineCost += cst;
+                                        isEngine = true;
+                                    }
+                                }
+                                if (!isEngine)
+                                    tankCost += cst;
+                            }
+
+
+                            // PODS
+                            if (p.partInfo.category.Equals(PartCategories.Pods))
+                            {
+                                podCost += cst;
+                            }
+
+                            // PROPULSION - taken care of above: engines, LF, SF, MP.
+
+                            // CONTROL
+                            if (p.partInfo.category.Equals(PartCategories.Control))
+                            {
+                                controlCost += cst;
+                            }
+
+                            // STRUCTURAL
+                            if (p.partInfo.category.Equals(PartCategories.Structural))
+                            {
+                                structCost += cst;
+                            }
+                            // STRUCTURAL
+                            if (p.partInfo.category.Equals(PartCategories.Aero))
+                            {
+                                aeroCost += cst;
+                            }
+
+
+
+                            // UTILITY
+                            if (p.partInfo.category.Equals(PartCategories.Utility))
+                            {
+                                //print("part " + p.name + " is utility");
+                                utilCost += cst;
+                            }
+
+                            // SCIENCE
+                            if (p.partInfo.category.Equals(PartCategories.Science))
+                            {
+                                //print("part " + p.name + " is science");
+                                sciCost += cst;
+                            }*/
+                        }
+                    }
+                }
+                catch
+                {
+                }
+            }
 
             public int pod()
             {
@@ -407,11 +515,11 @@ namespace MissionController
             {
                 if (landed)
                 {
-                    return (int)(0.85 * dry() + 0.95 * wet() + crew());
+                    return (int)(0.85 * dry() + crew());
                 }
                 else
                 {
-                    return (int)(0.65 * dry() + 0.95 * wet() + crew());
+                    return (int)(0.65 * dry() + crew());
                 }
             }
         }
