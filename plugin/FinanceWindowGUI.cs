@@ -1,10 +1,8 @@
 ﻿using System;
 using UnityEngine;
-using MissionController;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Linq;
-using KSP.IO;
+
 namespace MissionController
 {
     /// <summary>
