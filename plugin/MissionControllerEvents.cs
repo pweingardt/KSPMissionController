@@ -156,7 +156,7 @@ namespace MissionController
                 if (settings.difficulty == 0)
                 {
                     Debug.LogError("Launching Test vessel!");
-                    manager.costs((vesselResources.dry() + vesselResources.crew()) * 3 / 100);
+                    manager.costs((vesselResources.dry()) * 6 / 100);
                     recycled = false;
                 }
                 else

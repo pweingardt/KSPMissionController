@@ -527,9 +527,8 @@ namespace MissionController
                     // .11 Edited malkuth shows only when in Testing Mode.  Plan to add things like Delta V stats and other Helpful testing info
                     if (settings.difficulty == 0)
                     {
-                        GUILayout.Label("In Flight Test Mode, Missions Dont Work and Cost Reduced to 3%", styleCaption);
-                        showCostValue("Flight Testing Cost:",res.dry() * 3 / 100, (res.dry() * 3 / 100 > manager.budget ? styleValueRed : styleValueGreen));
-                        showCostValue("Test Crew Cost (return in Recycle if survived): ", res.crew(), styleValueGreen);
+                        GUILayout.Label("Flight Test Mode, No Missions, Cost Reduced 6%", styleCaption);
+                        showCostValue("Flight Testing Cost:",res.dry() * 6 / 100, (res.dry() * 6 / 100 > manager.budget ? styleValueRed : styleValueGreen)); 
                     }
                 else
                     {

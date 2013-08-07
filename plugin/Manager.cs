@@ -16,7 +16,7 @@ namespace MissionController
 
         public static Manager instance {get { return manager; } }
 
-        //public static Settings settings = SettingsManager.Manager.getSettings();
+        public static Settings settings = SettingsManager.Manager.getSettings();
 
         private SpaceProgram spaceProgram;
         private String currentTitle;

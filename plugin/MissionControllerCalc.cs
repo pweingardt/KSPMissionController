@@ -48,7 +48,7 @@ namespace MissionController
                 return s;
             }
             // edited malkuth to add that setting must be set to flight mode to save missons!!
-            s.canFinishMission = s.vesselCanFinishMissions && !s.requiresAnotherMission && !settings.disablePlugin && settings.difficulty == 1;
+            s.canFinishMission = s.vesselCanFinishMissions && !s.requiresAnotherMission && !settings.disablePlugin && (settings.difficulty == 1 || settings.difficulty == 2);
 
             bool orderOk = true;
 
