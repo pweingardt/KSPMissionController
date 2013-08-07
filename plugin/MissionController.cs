@@ -528,7 +528,7 @@ namespace MissionController
                     if (settings.difficulty == 0)
                     {
                         GUILayout.Label("Flight Test Mode, No Missions, Cost Reduced 6%", styleCaption);
-                        showCostValue("Flight Testing Cost:",res.dry() * 6 / 100, (res.dry() * 6 / 100 > manager.budget ? styleValueRed : styleValueGreen)); 
+                        showCostValue("Flight Testing Cost:", res.dry() * 6 / 100, (res.dry() * 6 / 100 > manager.budget ? styleValueRedBold : styleValueYellow)); 
                     }
                 else
                     {
@@ -671,7 +671,10 @@ namespace MissionController
             
             GUILayout.BeginHorizontal ();
             GUILayout.Label ("Reward: ", styleValueGreenBold);
-            GUILayout.Label (mission.reward + CurrencySuffix, styleValueYellow);
+            if (settings.difficulty == 1)
+            { GUILayout.Label(mission.reward + CurrencySuffix, styleValueYellow); }
+            if (settings.difficulty == 2)
+            { GUILayout.Label(mission.reward * 60 / 100 + CurrencySuffix, styleValueYellow); }
             GUILayout.EndHorizontal ();
 
             if (mission.passiveMission) {
@@ -704,16 +707,32 @@ namespace MissionController
             drawMissionGoals (mission, s);
 
             if(s.missionIsFinishable) {
-                if (manager.budget < 0)
+                if (manager.budget < 0 || settings.difficulty == 2 && manager.budget < 0)
                 {
-                    GUILayout.Label("All goals accomplished. You can finish the mission now! Deducted 25% for Your Loan!", styleCaption);
-                    showCostValue("Total Mission Payout - 25%:", currentMission.reward * 75 / 100, styleValueGreen);
+                    if (settings.difficulty == 2 && manager.budget < 0)
+                    {
+                        GUILayout.Label("All Goals accomplished. Finish The Mission. Your have bank Loans At 25% and Hard Mode On at 40% Total of 65% reduction");
+                        showCostValue("Total Mission Payout - 65%:", currentMission.reward * 35 / 100, styleValueGreen);
+                    }
+                    if (manager.budget < 0)
+                    {
+                         GUILayout.Label("All goals accomplished. You can finish the mission now! Deducted 25% for Your Loan!", styleCaption);
+                         showCostValue("Total Mission Payout - 25%:", currentMission.reward * 75 / 100, styleValueGreen);
+                    }
                 }
 
-                else
+                if (settings.difficulty == 1 || settings.difficulty == 2)
                 {
-                    GUILayout.Label("All goals accomplished. you can finish the mission now!", styleCaption);
-                    showCostValue("Total Mission Payout:", currentMission.reward, styleValueGreen);
+                    if (settings.difficulty == 1)
+                    {
+                        GUILayout.Label("All goals accomplished. you can finish the mission now!", styleCaption);
+                        showCostValue("Total Mission Payout:", currentMission.reward, styleValueGreen);
+                    }
+                    if (settings.difficulty == 2)
+                    {
+                        GUILayout.Label("All goals accomplished. you can finish the mission now: HardCore Mode 40 % Reduction!", styleCaption);
+                        showCostValue("Total Mission Payout: - 40%", currentMission.reward * 60 / 100, styleValueGreen);
+                    }
                 }
             }
         }

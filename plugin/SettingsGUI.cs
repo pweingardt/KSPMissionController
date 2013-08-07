@@ -43,7 +43,7 @@ namespace MissionController
             dEngine = "1.5";
 #else
         // edited malkuth changed stats and got rid of most of the difficutly parts.. Still some parts exist for hard mode in settings.
-        private String[] difficulties = new String[] { "Flight Testing", "Normal Flight Mode",};
+        private String[] difficulties = new String[] { "Flight Testing", "Normal Flight Mode","HardCoreMode"};
 #endif
 
         private void drawSettingsWindow(int id)
@@ -83,10 +83,10 @@ namespace MissionController
 #else
             // Edited Malkuth add captions for info on how modes work
             GUILayout.Label("Chose Your Game Modes", styleValueGreenBold);
-            settings.difficulty = GUILayout.SelectionGrid(settings.difficulty, difficulties, 2);
+            settings.difficulty = GUILayout.SelectionGrid(settings.difficulty, difficulties, 3);
             GUILayout.Label("Flight Test Mode Is 3% Cost To Test Craft No Missions", styleValueGreenBold);
             GUILayout.Label("Launch Mode is Regular Gameplay Full Cost And Missions", styleValueGreenBold);
-            //GUILayout.Label("HardCore Mode Is 40% Reduction in Mission Payouts", styleValueGreenBold);
+            GUILayout.Label("HardCore Mode Is 40% Reduction in Mission Payouts", styleValueGreenBold);
             
 #endif
 

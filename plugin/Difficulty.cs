@@ -14,7 +14,7 @@ namespace MissionController
             for (int i = 0; i < medium.Length; ++i) 
             {
                 easy[i] = 1.0 * medium[i];
-                hard [i] = 1.5 * medium [i];
+                hard [i] = 1.0 * medium [i];
             }
         }
 

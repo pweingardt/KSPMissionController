@@ -429,21 +429,32 @@ namespace MissionController
         public int getBudget() {
             return currentProgram.money;
         }
-
+        // Malkuth Edit This is where the program does the checks for Bank Loans and Difficulties for it chanrges gives the correct amounts for payouts
         public int reward(int value)
         {
-            if (!SettingsManager.Manager.getSettings ().disablePlugin) 
-            {
-                if (manager.budget < 0)
-                 currentProgram.money += (value * 75 / 100); 
-                else
-                 currentProgram.money += value;   
-            }
-            if (value < 0) 
-            {
-                latestExpenses = -value;
-            }
-            return currentProgram.money;
+            if (!SettingsManager.Manager.getSettings().disablePlugin)
+            
+                if (manager.budget < 0 || manager.budget < 0 && settings.difficulty == 2)
+                {        
+                    if (manager.budget < 0 && settings.difficulty == 2)
+                    { currentProgram.money += (value * 35 / 100); }
+                    if (manager.budget < 0)
+                    { currentProgram.money += (value * 75 / 100); }
+                }
+
+                if (settings.difficulty == 1 || settings.difficulty == 2)
+                {
+                    if (settings.difficulty == 1)
+                    { currentProgram.money += value; }
+                    if (settings.difficulty == 2)
+                    { currentProgram.money += (value * 60 / 100); }
+                }
+                if (value < 0)
+                {
+                    latestExpenses = -value;
+                }
+                return currentProgram.money;
+            
         }
 
         public int costs(int value) 
