@@ -34,9 +34,16 @@ namespace MissionController
         /// <param name="pv">the vessel</param>
         private void onRecovered(ProtoVessel pv)
         {
-            VesselResources res = new VesselResources(pv.vesselRef);
-            //print("*MC* Craft " + pv.vesselName + " recovered for " + res.recyclable(pv.situation.Equals(Vessel.Situations.LANDED)));
-            manager.recycleVessel(pv.vesselRef, res.recyclable(pv.situation.Equals(Vessel.Situations.LANDED)));
+            if (pv.situation.Equals(Vessel.Situations.LANDED) || pv.situation.Equals(Vessel.Situations.SPLASHED))
+            {
+                VesselResources res = new VesselResources(pv.vesselRef);
+                recycledName = pv.vesselName;
+                recycledCost = res.recyclable(pv.situation.Equals(Vessel.Situations.LANDED));
+                print("*MC* Craft " + recycledName + " recovered for " + recycledCost);
+                showRecycleWindow = true;
+                manager.recycleVessel(pv.vesselRef, recycledCost);
+            }
+            pVessel = null;
         }
 
         /// <summary>
@@ -49,7 +56,6 @@ namespace MissionController
             {
                 //pVessel = new ProtoVessel(mo.vessel); //  HACK: should find the right one.
                 pVessel = mo.vessel.protoVessel;
-                VesselResources res = new VesselResources(mo.vessel);
             }
         }
 
@@ -85,22 +91,6 @@ namespace MissionController
                 const double PARACHUTE_DRAG_PER_TON = 70.0;
                 try
                 {
-                    // if loaded
-                    /*foreach (Part p in v.Parts)
-                    {
-                        print("Has part " + p.name);
-                        foreach (ModuleParachute m in p.Modules.OfType<ModuleParachute>())
-                        {
-                            pdrag += p.mass * m.fullyDeployedDrag;
-                            print("Drag now " + pdrag);
-                        }
-                    }
-                    mass = v.GetTotalMass();
-                    if (mass * PARACHUTE_DRAG_PER_TON <= pdrag)
-                    {
-                        print("*MC* Recycling vessel: enough parachutes! Val: " + vesselResources.dry());
-                        //manager.recycleVessel(v, res.dry());
-                    }*/
                     foreach (ProtoPartSnapshot p in v.protoVessel.protoPartSnapshots)
                     {
                         print("Has part " + p.partName + ", mass " + p.mass + ", cost " + p.partRef.partInfo.cost);
@@ -118,8 +108,11 @@ namespace MissionController
                     }
                     if (mass * PARACHUTE_DRAG_PER_TON <= pdrag)
                     {
-                        print("*MC* Recycling vessel: enough parachutes! Val: " + cost);
-                        manager.recycleVessel(v, (int)((double)cost * AUTORECYCLE_COST_MULT));
+                        recycledName = v.name;
+                        recycledCost = (int)((double)cost * AUTORECYCLE_COST_MULT);
+                        print("*MC* Recycling vessel: enough parachutes! Val: " + cost + " * " + AUTORECYCLE_COST_MULT + " = " + recycledCost);
+                        showRecycleWindow = true;
+                        manager.recycleVessel(v, recycledCost);
                     }
                 }
                 catch { }
@@ -213,6 +206,7 @@ namespace MissionController
             manager.saveProgram ();
             manager.loadProgram (HighLogic.CurrentGame.Title);
             eventFlags = EventFlags.NONE;
+            pVessel = null;
         }
 
         /// <summary>

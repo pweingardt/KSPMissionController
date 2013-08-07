@@ -86,6 +86,9 @@ namespace MissionController
         private bool showSettingsWindow = false;
         private bool showMissionPackageBrowser = false;
         private bool showFinanceWindow = false;
+        private bool showRecycleWindow = false;
+        public string recycledName = "";
+        public int recycledCost = 0;
 
         private FileBrowser fileBrowser = null;
         private Mission currentMission = null;
@@ -273,6 +276,8 @@ namespace MissionController
             GameEvents.onGameSceneLoadRequested.Remove (this.onGameSceneLoadRequested);
             GameEvents.onCrash.Remove (this.onCrash);
             GameEvents.onCollision.Remove (this.onCollision);
+            GameEvents.onVesselRecovered.Remove(this.onRecovered);
+            GameEvents.onPlanetariumTargetChanged.Remove(this.onTargeted);
         }
 
         /// <summary>
@@ -363,11 +368,13 @@ namespace MissionController
         bool partsCostCorrected = false; // NK for setting part costs on load
         public void OnGUI () {
             if (!isValidScene()) {
+                pVessel = null;
                 return;
             }
             // NK
             if (!partsCostCorrected)
             {
+                pVessel = null;
                 partsCostCorrected = true;
                 print("*MC* Calculating part costs!");
                 foreach (AvailablePart ap in PartLoader.LoadedPartsList)
@@ -428,6 +435,11 @@ namespace MissionController
             {
                 financeWindowPosition = GUILayout.Window(98761, financeWindowPosition, drawFinaceWindow, "Finance Window");
             }
+
+            if (showRecycleWindow)
+            {
+                GUILayout.Window(98766, new Rect(Screen.width / 2 - 200, Screen.height /2 - 100, 400, 100), drawRecycleWindow, "Recycle Window");
+            }
             
             if (fileBrowser != null) {
                 GUI.skin = HighLogic.Skin;
@@ -444,6 +456,24 @@ namespace MissionController
                 list.contentOffset = new Vector2 (1, 42.4f);
                 list.fontSize = 10;
             }
+        }
+
+        private void drawRecycleWindow(int id)
+        {
+            GUI.skin = HighLogic.Skin;
+            GUILayout.BeginVertical();
+
+            showCostValue("Vessel " + recycledName + " recyled: ", recycledCost, styleCaption);
+
+
+
+            if (GUILayout.Button("OK", styleButtonWordWrap))
+            {
+                showRecycleWindow = false;
+            }
+
+            GUILayout.EndVertical();
+            GUI.DragWindow();
         }
 
         /// <summary>
@@ -589,27 +619,14 @@ namespace MissionController
                 }
                 // Edited Malkuth1974 With Help Of Frement Made a New Class File Located in the NameSpace TestingAndExperiment.cs called TerminateCurrentFlight() Simulate the Old Version And Save Kerbals.. 
             }
-            else
+            // NK recycle from tracking station
+            if(HighLogic.LoadedScene.Equals(GameScenes.TRACKSTATION) && pVessel != null) // last check shouldn't be needed, but seems to be.
             {
-                // NK recycle from tracking station
-                //if (status.recyclable)
-                if(!HighLogic.LoadedScene.Equals(GameScenes.TRACKSTATION))
-                    pVessel = null;
-                else if(pVessel != null)
+                //print("*MC* In TS, pVessel not null");
+                if(pVessel.situation.Equals(Vessel.Situations.LANDED) || pVessel.situation.Equals(Vessel.Situations.SPLASHED))
                 {
-                    if(pVessel.situation.Equals(Vessel.Situations.LANDED) || pVessel.situation.Equals(Vessel.Situations.SPLASHED))
-                    {
-                        VesselResources res = new VesselResources(pVessel.vesselRef);
-                        showCostValue("Recyclable value: ", res.recyclable(pVessel.situation.Equals(Vessel.Situations.LANDED)), styleCaption);
-                        /*if (GUILayout.Button("Recycle Vessel"))
-                    {
-                        manager.recycleVessel(activeVessel, res.recyclable(activeVessel.Landed));
-                        TestingAndExperiment.TerminateCurrentFlight();
-                        FlightResultsDialog.showExitControls = true;
-                        FlightResultsDialog.Display("Vessel has been recycled! Go To Tracking Station To Recover The Vessel.");
-                        recycled = true;
-                        }*/
-                    }
+                    VesselResources res = new VesselResources(pVessel.vesselRef);
+                    showCostValue("Recyclable value: ", res.recyclable(pVessel.situation.Equals(Vessel.Situations.LANDED)), styleCaption);
                 }
             }
 
