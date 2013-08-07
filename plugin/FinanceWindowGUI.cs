@@ -13,17 +13,26 @@ namespace MissionController
         private void drawFinaceWindow(int id)
         {
             GUI.skin = HighLogic.Skin;
-
-            GUILayout.BeginHorizontal();
-            GUILayout.Label("Current budget: ", styleValueYellow);
-            GUILayout.Label(manager.budget + CurrencySuffix, (manager.budget < 0 ? styleValueRedBold : styleValueGreenBold));
-            GUILayout.EndHorizontal();
-            
             GUILayout.BeginVertical();
 
+            if (manager.budget < 0)
+            {
+            GUILayout.Label("Your In Red And Borrowing Money At Current Interest", styleWarning);
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Current Bank Loan: ", styleValueGreen);
+            GUILayout.Label(manager.budget + CurrencySuffix, styleValueYellow);
+            GUILayout.EndHorizontal();
+            GUILayout.BeginHorizontal();
+            GUILayout.Label(" Current Interest Rate: ", styleValueGreen);
+            GUILayout.Label("15%", styleValueYellow);
+            GUILayout.EndHorizontal();
+             }
             GUILayout.Label("Current Passive Mission Payouts", styleValueGreenBold);
-           
+
+            scrollPosition2 = GUILayout.BeginScrollView(scrollPosition);
             drawPassiveMissions(manager.getActivePassiveMissions());
+            GUILayout.Space(30);
+            GUILayout.EndScrollView();
 
             GUILayout.Space(30);
 

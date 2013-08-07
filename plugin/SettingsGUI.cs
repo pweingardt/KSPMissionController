@@ -82,10 +82,11 @@ namespace MissionController
             dOxidizer = Regex.Replace (dOxidizer, "[^0-9\\.]", "");
 #else
             // Edited Malkuth add captions for info on how modes work
-            GUILayout.Label("Game Modes: ", styleValueGreenBold);
+            GUILayout.Label("Chose Your Game Modes", styleValueGreenBold);
             settings.difficulty = GUILayout.SelectionGrid(settings.difficulty, difficulties, 2);
             GUILayout.Label("Flight Test Mode Is 3% Cost To Test Craft No Missions", styleValueGreenBold);
             GUILayout.Label("Launch Mode is Regular Gameplay Full Cost And Missions", styleValueGreenBold);
+            //GUILayout.Label("HardCore Mode Is 40% Reduction in Mission Payouts", styleValueGreenBold);
             
 #endif
 

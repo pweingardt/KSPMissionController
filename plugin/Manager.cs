@@ -16,6 +16,8 @@ namespace MissionController
 
         public static Manager instance {get { return manager; } }
 
+        //public static Settings settings = SettingsManager.Manager.getSettings();
+
         private SpaceProgram spaceProgram;
         private String currentTitle;
 
@@ -433,9 +435,9 @@ namespace MissionController
             if (!SettingsManager.Manager.getSettings ().disablePlugin) 
             {
                 if (manager.budget < 0)
-                    currentProgram.money += (value * 75 / 100);
+                 currentProgram.money += (value * 75 / 100); 
                 else
-                    currentProgram.money += value;
+                 currentProgram.money += value;   
             }
             if (value < 0) 
             {
