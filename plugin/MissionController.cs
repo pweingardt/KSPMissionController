@@ -77,7 +77,7 @@ namespace MissionController
 
         private List<MissionGoal> hiddenGoals = new List<MissionGoal> ();
     
-        private Rect mainWindowPosition = new Rect (300, 70, 300, 600);
+        private Rect mainWindowPosition = new Rect (300, 70, 300, 690);
         private Rect settingsWindowPosition = new Rect (700, 70, 250, 250);
         private Rect packageWindowPosition = new Rect (50, 50, 1000, 700);
         private Rect financeWindowPosition = new Rect(700, 70, 250, 250);
@@ -95,6 +95,7 @@ namespace MissionController
         private MissionPackage currentPackage = null;
 
         private Vector2 scrollPosition = new Vector2 (0, 0);
+        private Vector2 scrollPosition2 = new Vector2(0, 0);
         private GUIStyle styleCaption;
         private GUIStyle styleText;
         private GUIStyle styleValueGreen;
@@ -488,34 +489,38 @@ namespace MissionController
             Status status = calculateStatus (currentMission, true, activeVessel);
 
             GUI.skin = HighLogic.Skin;
-            GUILayout.BeginVertical ();
+            GUILayout.BeginVertical();
             
-            scrollPosition = GUILayout.BeginScrollView (scrollPosition);
-            GUILayout.BeginVertical ();
-            
-            GUILayout.BeginHorizontal ();
+            GUILayout.BeginHorizontal();
             GUILayout.Label ("Current budget: ", styleValueYellow);
             GUILayout.Label (manager.budget + CurrencySuffix, (manager.budget < 0 ? styleValueRedBold : styleValueGreenBold));
-            GUILayout.EndHorizontal ();
+            GUILayout.EndHorizontal();
             // Edits malkuth shows the modes that you have the plugin set to from settings .13 added the Borrowing Money mission deduction of %25
             if (settings.disablePlugin == true)
                 {
-                GUILayout.Label("WARNING PLUGIN IS DISABLED ", styleValueYellow);
+                GUILayout.Label("PLUGIN IS DISABLED ", styleValueYellow);
                 }
             if (settings.difficulty == 0)
                 {
-                GUILayout.Label("In Test Flight Mode ", styleValueYellow);
+                GUILayout.Label("Test Flight Mode ", styleValueYellow);
                 }
             if (settings.difficulty == 1)
                 {
-                GUILayout.Label("In Flight Mode ", styleValueGreen);
+                GUILayout.Label("Flight Mode ", styleValueGreen);
                 }
             if (manager.budget < 0)
                 {
-                    GUILayout.Label("Your Budget Has Fallen Below 0, Your're Borrowing Money. Mission Payouts Deducted 25% ", styleWarning);
+                    GUILayout.Label("In Red, Borrowing Money", styleWarning);
+                }
+            if (settings.difficulty == 2)
+                {
+                GUILayout.Label("HardCore Mode", styleValueRed);
                 }
             // Show only when the loaded scene is an editor or a vessel is available and its situation is PRELAUNCH
-                if (HighLogic.LoadedSceneIsEditor || status.onLaunchPad)
+
+            scrollPosition = GUILayout.BeginScrollView(scrollPosition);
+            
+            if (HighLogic.LoadedSceneIsEditor || status.onLaunchPad)
                 {
                 VesselResources res = vesselResources;
                 
@@ -566,44 +571,43 @@ namespace MissionController
                 GUILayout.Label ("End of life in " + MathTools.formatTime(s.endOfLife - Planetarium.GetUniversalTime()));
             }
 
-            GUILayout.Space (30);
+            ;
 
             if (currentMission != null) 
             {
                 drawMission (currentMission, status);
             }
-            else 
-            {
+             
+            
                 
+                GUILayout.Space(30);
+                GUILayout.EndScrollView();
 
-                if (GUILayout.Button ("Configure")) 
-                {
-                    settingsWindow (!showSettingsWindow);
+             if (GUILayout.Button("Configure"))
+                    {
+                    settingsWindow(!showSettingsWindow);
                     resetCount = 0;
-                }
-                if (GUILayout.Button("Financing"))
-                {
+                     }
+             if (GUILayout.Button("Financing"))
+                    {
                     financeWindow(!showFinanceWindow);
                     resetCount = 0;
-                }
-            }
+                     }
+            
 
 //            if (GUILayout.Button ("Draw landing area!", styleButton)) {
 //                drawLandingArea = !drawLandingArea;
 //            }
-            
-            GUILayout.EndVertical ();
-            GUILayout.EndScrollView ();
 
             if (GUILayout.Button ("Select mission package")) {
                 createFileBrowser ("Select mission from package", selectMissionPackage);
-            }
+                }
 
             if(currentPackage != null) {
                 if (GUILayout.Button ("Open browser window")) {
                     packageWindow (true);
                 }
-            }
+             }
 
             if(currentMission != null) {
                 if (GUILayout.Button ("Deselect mission")) {
@@ -630,8 +634,8 @@ namespace MissionController
                 }
             }
 
-            GUILayout.EndVertical ();
-            GUI.DragWindow ();
+            GUILayout.EndVertical();
+            GUI.DragWindow(); 
         }
 
         /// <summary>
@@ -715,6 +719,7 @@ namespace MissionController
             }
         }
 
+        
         /// <summary>
         /// Draws the mission goals
         /// </summary>
@@ -775,7 +780,7 @@ namespace MissionController
             }
         }
 
-        
+       
         
         // Create the file browser
         private void createFileBrowser (string title, FileBrowser.FinishedCallback callback) {
@@ -844,6 +849,7 @@ namespace MissionController
             }
         }
 
+        
         private void showCostValue(String name, double value, GUIStyle style) {
             showStringValue (name, String.Format ("{0:n0}{1}", value, CurrencySuffix), style);
         }

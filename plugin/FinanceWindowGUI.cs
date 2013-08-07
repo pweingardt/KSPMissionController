@@ -24,7 +24,7 @@ namespace MissionController
             GUILayout.EndHorizontal();
             GUILayout.BeginHorizontal();
             GUILayout.Label(" Current Interest Rate: ", styleValueGreen);
-            GUILayout.Label("15%", styleValueYellow);
+            GUILayout.Label("25%", styleValueYellow);
             GUILayout.EndHorizontal();
              }
             GUILayout.Label("Current Passive Mission Payouts", styleValueGreenBold);
