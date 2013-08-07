@@ -1,48 +1,4 @@
-### New In Version Mission Controller Extended
-
-# New in .14 Auto Recycle.. 
-
-Place some Parachutes on those spent stages.. And autorecycle will try to recycle the vessel for you
-
-
-Changes In .14:  More updates Yay.  This time From NathanKell Thank him! he did some pretty neat things in this version.
-
-1.    Cost in VAB Displays are now in Line with MC.  Pretty big change now is that you can see exactly how much that part is going to cost you in the parts description.  MC Brings all part cost to its formula and rewrites them to The Description of that part.
-2.	Added a comma for those big numbers.. IE MAX AP MINPE and other mission goal numbers now should read with a comma.. And also prices in the MC window.
-3.	All Mission Times in My Mission Packs have been edited to more reasonable times… I think the largest one is now only 4 hours. Which is only minutes in time acceleration.
-4.	Part names from Description Now Show Up in The Mission Goals.. Before it was Part .cfg file names.. This should help you with what part it is you actually need.  ##For Mission Editors## you still need to use the Part .cfg name! Don’t forget to replace Underscore with a period (Example Part_Coolname_Awsome.. Will be written like this in mission Part.Coolname.Awsome))
-5.	Last Update and what we would like you guys to test out for us.  The Auto Recycle of Spent Stages has been implemented.  These are some of the rules for this new AutoRecycle.
-A.	Notes on auto-recycling: This is a test Version Of AutoRecycle. 
-B.	You need 70 drag per ton (approx .15 parachute mass per ton, more if using drogues)
-C.	You only get 60% of dry cost (and nothing else) back. Crew is still dead, for example.
-
-
-
-New In.13 Bank Loans:  Now if you go into the red with mission controller the bank will be happy to lend you the money you need to continue your space program.  But it will cost you interest.  At 25% of Your Mission Payouts until you pay off the loan and get back into the Green.
-
-.11 Test Flight:  now you can test your flights instead of just turning the plugin off.. At a cost of 3% of Dry cost… including Kerbal Cost if you have test pilots...If you have insurance cost at a price higher then 0. When you return you can recycle what’s left of your test craft… And get your insurance cost back… 
-
-Good Luck Pilot.  Malkuth…
-
-###.13 Changes
-1.    Bank Loans.. Go into the Red and the bank will charge you .25% from your mission payouts until your back in the Green
-2.	Many UI changes.  Been adjusting the Colors to help you more focus on what’s going on in the UI screen.
-3.	You can now see the total Cost Of Fuels.. And Total Cost Of Parts Before the Total Cost Of Vessel.  To help you decide on fuel vs part cost more easy.
-4.	Now when your mission ends you will see a total amount paid for the mission.  Also if you’re In the Red you will see the total amount paid after the bank takes its 25% from your Mission payout.
-
-###.12 Changes
-1.	Added support for Iron Cross Mod Oxygen Cost
-2.	Added support for Modular fuel Tanks cost.. IE LiquidO2 and LiquidH2
-3.	Some More UI changes.. Now resources will not show up until the have a value more the 0 in the Cost List.  Some things were left in to fill the area though.  Like cost and construction and insurance always show.
-
-###.11 Changes 
-
-1. Made Mission Controller work in .21
-2. Got rid of the old difficulties options
-3. Added 2 new modes.. Test Flight Mode and Flight Mode
-4. Edited the Cost of Vessels to take into account Types... IE command, utility,engines,tanks, etc. 
-5. Shrunk the UI to make it a little more visual friendly on your screen 
-6. Other UI Changes to tell you what mode your in.[/CODE]
+### Mission Controller Extended
 
 Please Read Important Mission Controller Extended is the Continuation of the Mission Controller 
 
