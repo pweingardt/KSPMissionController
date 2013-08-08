@@ -533,7 +533,7 @@ namespace MissionController
                     // .11 Edited malkuth shows only when in Testing Mode.  Plan to add things like Delta V stats and other Helpful testing info
                     if (settings.difficulty == 0)
                     {
-                        GUILayout.Label("Flight Test Mode, No Missions, Cost Reduced 6%", styleCaption);
+                        GUILayout.Label("Flight Test Mode, No Missions, Cost Reduced to 6%", styleCaption);
                         showCostValue("Flight Testing Cost:", res.dry() * 6 / 100, (res.dry() * 6 / 100 > manager.budget ? styleValueRedBold : styleValueYellow)); 
                     }
                 else
@@ -713,21 +713,20 @@ namespace MissionController
             drawMissionGoals (mission, s);
 
             if(s.missionIsFinishable) {
-                if (manager.budget < 0 || settings.difficulty == 2 && manager.budget < 0)
+                if (manager.budget < 0)
                 {
-                    if (settings.difficulty == 2 && manager.budget < 0)
+                    if (settings.difficulty == 1)
                     {
-                        GUILayout.Label("All Goals accomplished. Finish The Mission. Your have bank Loans At 25% and Hard Mode On at 40% Total of 65% reduction");
-                        showCostValue("Total Mission Payout - 65%:", currentMission.reward * 35 / 100, styleValueGreen);
-                    }
-                    if (manager.budget < 0)
+                        GUILayout.Label("All goals accomplished. You can finish the mission now! Deducted 25% for loans!", styleCaption);
+                        showCostValue("Total Mission Payout:", currentMission.reward * 75 / 100, styleValueGreen);
+                    } 
+                    if (settings.difficulty == 2)
                     {
-                         GUILayout.Label("All goals accomplished. You can finish the mission now! Deducted 25% for Your Loan!", styleCaption);
-                         showCostValue("Total Mission Payout - 25%:", currentMission.reward * 75 / 100, styleValueGreen);
+                        GUILayout.Label("All Goals accomplished. Finish The Mission. Deducted 25% for loans and 40% for HardCore mode"); // .75 * .6 = .45
+                        showCostValue("Total Mission Payout:", currentMission.reward * 45 / 100, styleValueGreen);
                     }
                 }
-
-                if (settings.difficulty == 1 || settings.difficulty == 2)
+                else
                 {
                     if (settings.difficulty == 1)
                     {
@@ -737,7 +736,7 @@ namespace MissionController
                     if (settings.difficulty == 2)
                     {
                         GUILayout.Label("All goals accomplished. you can finish the mission now: HardCore Mode 40 % Reduction!", styleCaption);
-                        showCostValue("Total Mission Payout: - 40%", currentMission.reward * 60 / 100, styleValueGreen);
+                        showCostValue("Total Mission Payout:", currentMission.reward * 60 / 100, styleValueGreen);
                     }
                 }
             }

@@ -433,28 +433,20 @@ namespace MissionController
         public int reward(int value)
         {
             if (!SettingsManager.Manager.getSettings().disablePlugin)
-            
-                if (manager.budget < 0 || manager.budget < 0 && settings.difficulty == 2)
-                {        
-                    if (manager.budget < 0 && settings.difficulty == 2)
-                    { currentProgram.money += (value * 35 / 100); }
+            {
+                if(value > 0) // is a reward, not a cost
+                {
+                    double mult = 1.0;
                     if (manager.budget < 0)
-                    { currentProgram.money += (value * 75 / 100); }
-                }
-
-                if (settings.difficulty == 1 || settings.difficulty == 2)
-                {
-                    if (settings.difficulty == 1)
-                    { currentProgram.money += value; }
+                        mult *= 0.75;
                     if (settings.difficulty == 2)
-                    { currentProgram.money += (value * 60 / 100); }
+                        mult *= 0.6;
+                    value = (int)((double)value * mult);
                 }
-                if (value < 0)
-                {
-                    latestExpenses = -value;
-                }
-                return currentProgram.money;
-            
+                latestExpenses = -value;
+                currentProgram.money += value;
+            }
+            return currentProgram.money;
         }
 
         public int costs(int value) 
