@@ -11,6 +11,7 @@ namespace MissionController
     /// </summary>
     public partial class MissionController
     {
+        private bool canRecycle = true;
         /// <summary>
         /// This event is fired when two vessels dock.
         /// </summary>
@@ -27,6 +28,12 @@ namespace MissionController
         }
 
         // NK move recycle functionality to recovery
+
+        private void onCreate(Vessel v)
+        {
+            // for now, just reenable recycling. It's so you don't recycle on return to spaceport or revert.
+            canRecycle = true;
+        }
         
         /// <summary>
         /// Recycle vessel whenever recovered
@@ -34,7 +41,7 @@ namespace MissionController
         /// <param name="pv">the vessel</param>
         private void onRecovered(ProtoVessel pv)
         {
-            if (pv.situation.Equals(Vessel.Situations.LANDED) || pv.situation.Equals(Vessel.Situations.SPLASHED))
+            if ((HighLogic.LoadedScene.Equals(GameScenes.TRACKSTATION)) && pv.situation.Equals(Vessel.Situations.LANDED) || pv.situation.Equals(Vessel.Situations.SPLASHED))
             {
                 VesselResources res = new VesselResources(pv.vesselRef);
                 recycledName = pv.vesselName;
@@ -68,8 +75,54 @@ namespace MissionController
         /// <param name="v">V.</param>
         private void onVesselDestroy(Vessel v) {
             // If it has been destroyed under 10 meters above surface, it probably crashed
-            if (v.mainBody.GetAltitude (v.CoM) - v.terrainAltitude < 10) {
-                eventFlags = eventFlags.Add (EventFlags.CRASHED);
+            if (v.mainBody.GetAltitude(v.CoM) - (v.terrainAltitude < 0 ? 0 : v.terrainAltitude) < 10)
+            {
+                eventFlags = eventFlags.Add(EventFlags.CRASHED);
+            }
+            // NK recycle
+            else
+            {
+                try { print("*MC* Vessel " + v.name + " destroyed. Alt " + v.mainBody.GetAltitude(v.CoM) + ", body " + v.orbit.referenceBody.bodyName + ", sit = " + v.situation); }
+                catch { }
+                if (!HighLogic.LoadedSceneIsEditor && canRecycle && activeVessel != v && !v.isEVA // canRecycle is false iff load requested and haven't returned to flight yet.
+                    && v.name.Contains("(Unloaded)") // check make sure it's because we're unloading it
+                    && (v.situation == Vessel.Situations.FLYING || v.situation == Vessel.Situations.SUB_ORBITAL) && v.mainBody.GetAltitude(v.CoM) <= 25000 && v.orbit.referenceBody.bodyName.Equals("Kerbin"))
+                {
+                    print("*MC* Checking " + v.name);
+                    double mass = 0;
+                    double pdrag = 0.0;
+                    int cost = 0;
+                    double AUTORECYCLE_COST_MULT = 0.6;
+                    // need 70 drag per ton of vessel for 6m/s at 500m.
+                    const double PARACHUTE_DRAG_PER_TON = 70.0;
+                    try
+                    {
+                        foreach (ProtoPartSnapshot p in v.protoVessel.protoPartSnapshots)
+                        {
+                            print("Has part " + p.partName + ", mass " + p.mass + ", cost " + p.partRef.partInfo.cost);
+                            mass += p.mass;
+                            cost += p.partRef.partInfo.cost;
+                            foreach (ProtoPartModuleSnapshot m in p.modules)
+                            {
+                                if (m.moduleName.Equals("ModuleParachute"))
+                                {
+                                    ModuleParachute mp = (ModuleParachute)m.moduleRef;
+                                    pdrag += p.mass * mp.fullyDeployedDrag;
+                                    print("Drag now " + pdrag);
+                                }
+                            }
+                        }
+                        if (mass * PARACHUTE_DRAG_PER_TON <= pdrag)
+                        {
+                            recycledName = v.name;
+                            recycledCost = (int)((double)cost * AUTORECYCLE_COST_MULT);
+                            print("*MC* Recycling vessel: enough parachutes! Val: " + cost + " * " + AUTORECYCLE_COST_MULT + " = " + recycledCost);
+                            showRecycleWindow = true;
+                            manager.recycleVessel(v, recycledCost);
+                        }
+                    }
+                    catch { }
+                }
             }
 
             // We should remove the onflybywire listener, if there is one
@@ -78,45 +131,6 @@ namespace MissionController
                 v.OnFlyByWire -= this.onFlyByWire;
             }
             catch { }
-
-            // NK recycle
-            if (!HighLogic.LoadedSceneIsEditor && activeVessel != v && (v.situation == Vessel.Situations.FLYING || v.situation == Vessel.Situations.SUB_ORBITAL) && v.mainBody.GetAltitude(v.CoM) <= 25000 && !v.isEVA && v.orbit.referenceBody.bodyName.Equals("Kerbin"))
-            {
-                print("*MC* Vessel " + v.name + " destroyed. Alt " + v.mainBody.GetAltitude(v.CoM) + ", body " + v.orbit.referenceBody.bodyName + ", sit = " + v.situation);
-                double mass = 0;
-                double pdrag = 0.0;
-                int cost = 0;
-                double AUTORECYCLE_COST_MULT = 0.6;
-                // need 70 drag per ton of vessel for 6m/s at 500m.
-                const double PARACHUTE_DRAG_PER_TON = 70.0;
-                try
-                {
-                    foreach (ProtoPartSnapshot p in v.protoVessel.protoPartSnapshots)
-                    {
-                        print("Has part " + p.partName + ", mass " + p.mass + ", cost " + p.partRef.partInfo.cost);
-                        mass += p.mass;
-                        cost += p.partRef.partInfo.cost;
-                        foreach(ProtoPartModuleSnapshot m in p.modules)
-                        {
-                            if (m.moduleName.Equals("ModuleParachute"))
-                            {
-                                ModuleParachute mp = (ModuleParachute)m.moduleRef;
-                                pdrag += p.mass * mp.fullyDeployedDrag;
-                                print("Drag now " + pdrag);
-                            }
-                        }
-                    }
-                    if (mass * PARACHUTE_DRAG_PER_TON <= pdrag)
-                    {
-                        recycledName = v.name;
-                        recycledCost = (int)((double)cost * AUTORECYCLE_COST_MULT);
-                        print("*MC* Recycling vessel: enough parachutes! Val: " + cost + " * " + AUTORECYCLE_COST_MULT + " = " + recycledCost);
-                        showRecycleWindow = true;
-                        manager.recycleVessel(v, recycledCost);
-                    }
-                }
-                catch { }
-            }
         }
 
         /// <summary>
@@ -207,6 +221,7 @@ namespace MissionController
             manager.loadProgram (HighLogic.CurrentGame.Title);
             eventFlags = EventFlags.NONE;
             pVessel = null;
+            canRecycle = false; // fix for recycle on load scene/revert
         }
 
         /// <summary>

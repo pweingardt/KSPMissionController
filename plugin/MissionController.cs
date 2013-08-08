@@ -254,6 +254,7 @@ namespace MissionController
             GameEvents.onPartCouple.Add (this.onPartCouple);
             GameEvents.onVesselRecovered.Add(this.onRecovered);
             GameEvents.onPlanetariumTargetChanged.Add(this.onTargeted);
+            GameEvents.onVesselCreate.Add(this.onCreate);
 
             assemblyName = Assembly.GetExecutingAssembly ().GetName ();
             versionCode = "" + assemblyName.Version.Major + "." + assemblyName.Version.Minor;
@@ -279,6 +280,7 @@ namespace MissionController
             GameEvents.onCollision.Remove (this.onCollision);
             GameEvents.onVesselRecovered.Remove(this.onRecovered);
             GameEvents.onPlanetariumTargetChanged.Remove(this.onTargeted);
+            GameEvents.onVesselCreate.Remove(this.onCreate);
         }
 
         /// <summary>
@@ -372,6 +374,10 @@ namespace MissionController
                 pVessel = null;
                 return;
             }
+            /*if (HighLogic.LoadedScene.Equals(GameScenes.MAINMENU) || HighLogic.LoadedScene.Equals(GameScenes.SPACECENTER) || HighLogic.LoadedScene.Equals(GameScenes.EDITOR)
+                || HighLogic.LoadedScene.Equals(GameScenes.SPH) || HighLogic.LoadedScene.Equals(GameScenes.TRACKSTATION))*/
+            if(!HighLogic.LoadedSceneIsFlight)
+                canRecycle = true; // reenable once exit flight
             // NK
             if (!partsCostCorrected)
             {
