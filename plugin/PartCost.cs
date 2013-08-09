@@ -128,7 +128,7 @@ namespace MissionController
                         if (p.CrewCapacity > 0)
                             pcst += p.CrewCapacity * Math.Sqrt(p.CrewCapacity / p.mass / 0.8) * 750;
                         else
-                            pcst += 75 / p.mass;
+                            pcst += 75 / (p.mass < 0.02 ? 0.02 : p.mass);
                         //print("part " + p.name + " has cmd");
                         isPod = true;
                     }
