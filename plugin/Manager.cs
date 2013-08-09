@@ -23,6 +23,11 @@ namespace MissionController
 
         private int latestExpenses = 0;
 
+        public void resetLatest()
+        {
+            latestExpenses = 0;
+        }
+
         public Manager() {
             currentTitle = "default (Sandbox)";
             parser = new Parser();

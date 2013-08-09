@@ -374,8 +374,10 @@ namespace MissionController
                 pVessel = null;
                 return;
             }
-            /*if (HighLogic.LoadedScene.Equals(GameScenes.MAINMENU) || HighLogic.LoadedScene.Equals(GameScenes.SPACECENTER) || HighLogic.LoadedScene.Equals(GameScenes.EDITOR)
-                || HighLogic.LoadedScene.Equals(GameScenes.SPH) || HighLogic.LoadedScene.Equals(GameScenes.TRACKSTATION))*/
+            if (HighLogic.LoadedScene.Equals(GameScenes.MAINMENU) || HighLogic.LoadedScene.Equals(GameScenes.SPACECENTER) || HighLogic.LoadedScene.Equals(GameScenes.EDITOR)
+                || HighLogic.LoadedScene.Equals(GameScenes.SPH) || HighLogic.LoadedScene.Equals(GameScenes.TRACKSTATION))
+                manager.resetLatest();
+
             if(!HighLogic.LoadedSceneIsFlight)
                 canRecycle = true; // reenable once exit flight
             // NK
