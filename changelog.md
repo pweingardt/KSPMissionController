@@ -1,3 +1,24 @@
+#Changes In .17
+
+1. Hardcore Mode added. Its back.. Hard Mode for Mission controller. But instead of Making Parts more expensive Hardcore mode Reduces mission payouts by 40%
+2. More Auto Recycle fixes.  You now get little messages that tells you how much you received and what was just Recycled. Same rules apply for Auto Recycle.. 
+(a) falls below 25km above Kerbin and is therefore destroyed by the game but
+(b) has 70 drag per ton (0.14t of stock parachute per ton of dry vessel mass)
+then it will be recycled at 0.60 * sum(cost of parts in it). Note that a Mk16 parachute, which masses 0.1t and has drag coefficient of 500, yields 50 drag (0.1 * 500); the stock drogue yields less because its Cd is lower.
+NOTE: Kerbals will NOT be recovered this way! This is only for spent stages, etc. You MUST ride down manually any craft containing crew or they will be lost.
+3. Recycle-on-recover. The traditional way of recycling is gone and we're now using stock KSP recover functionality. When you go to the tracking station and select a vessel, the amount for which you can recycle it will appear in the MC main window. When you click recover, it will be recycled. Here you will get 0.85 * part cost if it is landed, and 0.65 if it is splashed down (landed on water).
+4. Some more UI changes And added messages about what’s going on in the editor.
+
+
+#Changes in .16
+1. Finally Think I fixed all the bugs that the Auto Recycle Introduced to Test Flight Mode.. Now Test Flight Mode Should charge you the correct amount of money.
+2. Fixed.. Also Fixed Auto Recycle working in Test Flight Mode.  You can no longer recycle vessels while in test flight mode.. The New System.. Or the old system
+3. As a result of no more recycle in Test Flight mode. The Insurance Cost charge has been removed from test flight mode (without recycle you would never get this cost back)
+4. New Window Introduced.  Starting to introduce a new window called the Finance Window.  Right now it holds your bank loans when you go in the red.  And a new.. But old Option called Passive Mission. Passive missions have been around for some time now.. But not many mission designers use the option.. A passive mission will pay you per day for (Place amount of Time) until that time runs out.  The finance window is now the major holder of this information.  Check the Civilian Space Program File to see how to do passive missions.
+5. New missions introduced to the Civilian space Pack. Passive mission.  Many of the missions in the pack were converted to Passive missions. And I also Added 3 brand new missions for you to try out that use the passive mission option.
+6. My continued pursuit of making the UI look better.. Some more changes I’m sure you might notice.. 
+
+
 #.13 Changes
 1.    Bank Loans.. Go into the Red and the bank will charge you .25% from your mission payouts until your back in the Green
 2.	Many UI changes.  Been adjusting the Colors to help you more focus on what’s going on in the UI screen.
