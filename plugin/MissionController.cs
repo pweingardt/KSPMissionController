@@ -631,7 +631,7 @@ namespace MissionController
                 // Edited Malkuth1974 With Help Of Frement Made a New Class File Located in the NameSpace TestingAndExperiment.cs called TerminateCurrentFlight() Simulate the Old Version And Save Kerbals.. 
             }
             // NK recycle from tracking station
-            if(HighLogic.LoadedScene.Equals(GameScenes.TRACKSTATION) && pVessel != null) // last check shouldn't be needed, but seems to be.
+            if(HighLogic.LoadedScene.Equals(GameScenes.TRACKSTATION) && pVessel != null && !(settings.difficulty == 0)) // last check shouldn't be needed, but seems to be.
             {
                 //print("*MC* In TS, pVessel not null");
                 if(pVessel.situation.Equals(Vessel.Situations.LANDED) || pVessel.situation.Equals(Vessel.Situations.SPLASHED))
