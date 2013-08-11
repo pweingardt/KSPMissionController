@@ -94,8 +94,7 @@ namespace MissionController
         private Mission currentMission = null;
         private MissionPackage currentPackage = null;
 
-        private Vector2 scrollPosition = new Vector2 (0, 0);
-        private Vector2 scrollPosition2 = new Vector2(0, 0);
+        private Vector2 scrollPosition = new Vector2 (0, 0);        
         private GUIStyle styleCaption;
         private GUIStyle styleText;
         private GUIStyle styleValueGreen;

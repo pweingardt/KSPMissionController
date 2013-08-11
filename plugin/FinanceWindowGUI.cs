@@ -10,6 +10,7 @@ namespace MissionController
     /// </summary>
     public partial class MissionController
     {
+        private Vector2 scrollPosition2 = new Vector2(0, 0);
         private void drawFinaceWindow(int id)
         {
             GUI.skin = HighLogic.Skin;
@@ -27,12 +28,14 @@ namespace MissionController
             GUILayout.Label("25%", styleValueYellow);
             GUILayout.EndHorizontal();
              }
-            GUILayout.Label("Current Passive Mission Payouts", styleValueGreenBold);
 
-            scrollPosition2 = GUILayout.BeginScrollView(scrollPosition);
+
+            scrollPosition2 = GUILayout.BeginScrollView (scrollPosition2, GUILayout.Width(250));
+            GUILayout.Label("Current Passive Mission Payouts", styleValueGreenBold);
             drawPassiveMissions(manager.getActivePassiveMissions());
-            GUILayout.Space(30);
             GUILayout.EndScrollView();
+            
+
 
             GUILayout.Space(30);
 
