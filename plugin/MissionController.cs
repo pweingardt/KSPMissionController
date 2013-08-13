@@ -529,7 +529,7 @@ namespace MissionController
             
             if (HighLogic.LoadedSceneIsEditor || status.onLaunchPad)
                 {
-                VesselResources res = vesselResources;
+                VesselResources res = new VesselResources(activeVessel);
                 
                     // .11 Edited malkuth shows only when in Testing Mode.  Plan to add things like Delta V stats and other Helpful testing info
                     if (settings.difficulty == 0)

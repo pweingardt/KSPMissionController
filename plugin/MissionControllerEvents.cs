@@ -168,16 +168,17 @@ namespace MissionController
             // Malkuth Edit To match the actual cost of launch with Visual Cost in Display.. (almost missed this one opps)
             if (activeVessel != null && activeVessel.situation == Vessel.Situations.PRELAUNCH)
             {
-                if (!(settings.difficulty == 0))
+                VesselResources res = new VesselResources(activeVessel);
+                if (settings.difficulty != 0)
                 {
                     Debug.LogError("Launching vessel!");
-                    manager.costs(vesselResources.sum());
+                    manager.costs(res.sum());
                     recycled = false; 
                 }
                 else
                 {
                     Debug.LogError("Launching Test vessel!");
-                    manager.costs((vesselResources.dry()) * 6 / 100);
+                    manager.costs((res.dry()) * 6 / 100);
                     recycled = false;
                 }
             }
