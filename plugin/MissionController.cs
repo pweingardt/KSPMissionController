@@ -536,14 +536,13 @@ namespace MissionController
                     {
                         GUILayout.Label("Flight Test Mode, No Missions, Cost Reduced to 6%", styleCaption);
                         showCostValue("Flight Testing Cost:", res.dry() * 6 / 100, (res.dry() * 6 / 100 > manager.budget ? styleValueRedBold : styleValueYellow));
-                        showCostValue("Crew insurance (Launch Pad Only): ", res.crew(), styleValueGreen);
                     }
                     else
                     {
                         // .11 Edited malkuth shows only when in flight mode. New Edit for .12 values only show if Price is above 0.. Little GUI cleanup that I think works better. .12 Edit Added Oxegen and Modular Fuel Cost
                         GUILayout.Label("Flight Mode Selected, Vessel launch Full Price. Missions Available ", styleCaption);
                         if (res.pod() > (0)) { showCostValue("Command Sections:", res.pod(), styleValueGreen); }
-                        showCostValue("Crew insurance (Launch Pad Only): ", vesselResources.crew(), styleValueGreen);
+                        showCostValue("Crew insurance (Launch Pad Only): ", res.crew(), styleValueGreen);
                         if (res.ctrl() > (0)) { showCostValue("Avionics and Control:", res.ctrl(), styleValueGreen); } // NOT control surfaces. Those are AERO parts. These are SAS etc
                         if (res.util() > (0)) { showCostValue("Utility Parts:", res.util(), styleValueGreen); }
                         if (res.sci() > (0)) {showCostValue("Science Parts:", res.sci(), styleValueGreen);}
