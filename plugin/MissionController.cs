@@ -594,12 +594,14 @@ namespace MissionController
                     settingsWindow(!showSettingsWindow);
                     resetCount = 0;
                      }
-             if (GUILayout.Button("Financing") && !HighLogic.LoadedSceneIsEditor)
-                    {
-                    financeWindow(!showFinanceWindow);
-                    resetCount = 0;
-                     }
-            
+             if (!HighLogic.LoadedSceneIsEditor)
+             {
+                 if (GUILayout.Button("Financing"))
+                 {
+                     financeWindow(!showFinanceWindow);
+                     resetCount = 0;
+                 }
+             }
 
 //            if (GUILayout.Button ("Draw landing area!", styleButton)) {
 //                drawLandingArea = !drawLandingArea;
