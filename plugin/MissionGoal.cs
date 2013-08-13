@@ -206,19 +206,21 @@ namespace MissionController
         }
 
         public Value(String name, String shouldBe, double currentlyIs, bool done, bool highPrecision = false) :
-            this (name, shouldBe, String.Format(highPrecision ? MathTools.HighPrecisionDoubleValue : MathTools.SingleDoubleValue, 
+            this(name, shouldBe, String.Format(highPrecision ? MathTools.HighPrecisionDoubleValue : MathTools.SingleRoundedValue, 
                                                currentlyIs), done) {
         }
 
         public Value(String name, double shouldBe, double currentlyIs, bool done, bool highPrecision = false) :
-            this (name, String.Format(highPrecision ? MathTools.HighPrecisionDoubleValue : MathTools.SingleDoubleValue, 
+            this(name, String.Format(highPrecision ? MathTools.HighPrecisionDoubleValue : MathTools.SingleRoundedValue, 
                                      shouldBe), String.Format(MathTools.SingleDoubleValue, currentlyIs), done) {
         }
 
         public Value(String name, String value) : this(name, value, "", false) {
         }
 
-        public Value(String name, double value) : this(name, String.Format(MathTools.SingleDoubleValue, value), "", false) {
+        public Value(String name, double value)
+            : this(name, String.Format(MathTools.SingleRoundedValue, value), "", false)
+        {
         }
 
         public String name;
