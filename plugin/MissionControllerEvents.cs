@@ -41,8 +41,7 @@ namespace MissionController
         /// <param name="pv">the vessel</param>
         private void onRecovered(ProtoVessel pv)
         {
-            if ((HighLogic.LoadedScene.Equals(GameScenes.TRACKSTATION)) && pv.situation.Equals(Vessel.Situations.LANDED)
-                && !(settings.difficulty == 0) || pv.situation.Equals(Vessel.Situations.SPLASHED))
+            if ((HighLogic.LoadedScene.Equals(GameScenes.TRACKSTATION)) && !(settings.difficulty == 0) && pv.situation.Equals(Vessel.Situations.LANDED) || pv.situation.Equals(Vessel.Situations.SPLASHED))
             {
                 VesselResources res = new VesselResources(pv.vesselRef);
                 recycledName = pv.vesselName;
