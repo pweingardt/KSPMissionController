@@ -76,36 +76,36 @@ namespace MissionController
             
             if (minPeA != 0.0) {
                 if (vessel == null) {
-                    values.Add (new Value ("min. Periapsis", String.Format(MathTools.SingleDoubleValue, minPeA)));
+                    values.Add(new Value("min. Periapsis", String.Format(MathTools.SingleRoundedValue, minPeA)));
                 } else {
-                    values.Add (new Value ("min. Periapsis", String.Format(MathTools.SingleDoubleValue, minPeA), 
+                    values.Add(new Value("min. Periapsis", String.Format(MathTools.SingleRoundedValue, minPeA), 
                                           vessel.orbit.PeA, vessel.orbit.PeA >= minPeA));
                 }
             }
             
             if (minApA != 0.0) {
                 if (vessel == null) {
-                    values.Add (new Value ("min. Apoapsis", String.Format(MathTools.SingleDoubleValue, minApA)));
+                    values.Add(new Value("min. Apoapsis", String.Format(MathTools.SingleRoundedValue, minApA)));
                 } else {
-                    values.Add (new Value ("min. Apoapsis", String.Format(MathTools.SingleDoubleValue, minApA), 
+                    values.Add(new Value("min. Apoapsis", String.Format(MathTools.SingleRoundedValue, minApA), 
                                           vessel.orbit.ApA, vessel.orbit.ApA >= minApA));
                 }
             }
             
             if (maxPeA != 0.0) {
                 if (vessel == null) {
-                    values.Add (new Value ("max. Periapsis", String.Format(MathTools.SingleDoubleValue, maxPeA)));
+                    values.Add(new Value("max. Periapsis", String.Format(MathTools.SingleRoundedValue, maxPeA)));
                 } else {
-                    values.Add (new Value ("max. Periapsis", String.Format(MathTools.SingleDoubleValue, maxPeA), 
+                    values.Add(new Value("max. Periapsis", String.Format(MathTools.SingleRoundedValue, maxPeA), 
                                            vessel.orbit.PeA, vessel.orbit.PeA <= maxPeA));
                 }
             }
             
             if (maxApA != 0.0 ) {
                 if (vessel == null) {
-                    values.Add (new Value ("max. Apoapsis", String.Format(MathTools.SingleDoubleValue, maxApA)));
+                    values.Add(new Value("max. Apoapsis", String.Format(MathTools.SingleRoundedValue, maxApA)));
                 } else {
-                    values.Add (new Value ("max. Apoapsis", String.Format(MathTools.SingleDoubleValue, maxApA), 
+                    values.Add(new Value("max. Apoapsis", String.Format(MathTools.SingleRoundedValue, maxApA), 
                                            vessel.orbit.ApA, vessel.orbit.ApA <= maxApA && 
                                             (vessel.orbit.ApA * maxApA > 0))); //either both values are positive, or both are negative
                 }
@@ -132,18 +132,18 @@ namespace MissionController
 
             if (minAltitude != 0.0) {
                 if (vessel == null) {
-                    values.Add (new Value ("min Altitude", String.Format(MathTools.SingleDoubleValue, minAltitude)));
+                    values.Add(new Value("min Altitude", String.Format(MathTools.SingleRoundedValue, minAltitude)));
                 } else {
-                    values.Add (new Value ("min Altitude", String.Format(MathTools.SingleDoubleValue, minAltitude), 
+                    values.Add(new Value("min Altitude", String.Format(MathTools.SingleRoundedValue, minAltitude), 
                                            vessel.orbit.altitude, vessel.orbit.altitude >= minAltitude));
                 }
             }
 
             if (maxAltitude != 0.0) {
                 if (vessel == null) {
-                    values.Add (new Value ("max Altitude", String.Format(MathTools.SingleDoubleValue, maxAltitude)));
+                    values.Add(new Value("max Altitude", String.Format(MathTools.SingleRoundedValue, maxAltitude)));
                 } else {
-                    values.Add (new Value ("max Altitude", String.Format(MathTools.SingleDoubleValue, maxAltitude), 
+                    values.Add(new Value("max Altitude", String.Format(MathTools.SingleRoundedValue, maxAltitude), 
                                            vessel.orbit.altitude, vessel.orbit.altitude <= maxAltitude));
                 }
             }
