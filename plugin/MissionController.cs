@@ -529,8 +529,8 @@ namespace MissionController
             
             if (HighLogic.LoadedSceneIsEditor || status.onLaunchPad)
                 {
-                VesselResources res = new VesselResources(activeVessel);
-                
+                    VesselResources res = new VesselResources(activeVessel);
+
                     // .11 Edited malkuth shows only when in Testing Mode.  Plan to add things like Delta V stats and other Helpful testing info
                     if (settings.difficulty == 0)
                     {
@@ -538,7 +538,7 @@ namespace MissionController
                         showCostValue("Flight Testing Cost:", res.dry() * 6 / 100, (res.dry() * 6 / 100 > manager.budget ? styleValueRedBold : styleValueYellow));
                         showCostValue("Crew insurance (Launch Pad Only): ", res.crew(), styleValueGreen);
                     }
-                else
+                    else
                     {
                         // .11 Edited malkuth shows only when in flight mode. New Edit for .12 values only show if Price is above 0.. Little GUI cleanup that I think works better. .12 Edit Added Oxegen and Modular Fuel Cost
                         GUILayout.Label("Flight Mode Selected, Vessel launch Full Price. Missions Available ", styleCaption);
@@ -631,7 +631,7 @@ namespace MissionController
                 // Edited Malkuth1974 With Help Of Frement Made a New Class File Located in the NameSpace TestingAndExperiment.cs called TerminateCurrentFlight() Simulate the Old Version And Save Kerbals.. 
             }
             // NK recycle from tracking station
-            if(HighLogic.LoadedScene.Equals(GameScenes.TRACKSTATION) && pVessel != null && !(settings.difficulty == 0)) // last check shouldn't be needed, but seems to be.
+            if(HighLogic.LoadedScene.Equals(GameScenes.TRACKSTATION) && pVessel != null && settings.difficulty != 0)
             {
                 //print("*MC* In TS, pVessel not null");
                 if(pVessel.situation.Equals(Vessel.Situations.LANDED) || pVessel.situation.Equals(Vessel.Situations.SPLASHED))
