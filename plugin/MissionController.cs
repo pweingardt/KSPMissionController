@@ -255,14 +255,14 @@ namespace MissionController
             GameEvents.onPlanetariumTargetChanged.Add(this.onTargeted);
             GameEvents.onVesselCreate.Add(this.onCreate);
 
-            assemblyName = Assembly.GetExecutingAssembly ().GetName ();
+            assemblyName = Assembly.GetExecutingAssembly().GetName();
             versionCode = "" + assemblyName.Version.Major + "." + assemblyName.Version.Minor;
             buildDateTime = new DateTime(2000, 1, 1).Add(new TimeSpan(
                 TimeSpan.TicksPerDay * assemblyName.Version.Build + // days since 1 January 2000
                 TimeSpan.TicksPerSecond * 2 * assemblyName.Version.Revision));
 
-            mainWindowTitle = "Mission Controller Extended " + 
-                versionCode + " (" + buildDateTime.ToShortDateString () + ")";
+            mainWindowTitle = "Mission Controller Extended " +
+                versionCode + " (" + buildDateTime.ToShortDateString() + ")";
 
             loadIcons ();
 
@@ -594,7 +594,7 @@ namespace MissionController
                     settingsWindow(!showSettingsWindow);
                     resetCount = 0;
                      }
-             if (GUILayout.Button("Financing"))
+             if (GUILayout.Button("Financing") && !HighLogic.LoadedSceneIsEditor)
                     {
                     financeWindow(!showFinanceWindow);
                     resetCount = 0;

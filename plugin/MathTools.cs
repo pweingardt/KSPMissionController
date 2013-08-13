@@ -34,23 +34,23 @@ namespace MissionController
             List<String> parts = new List<String> ();
 
             if (y > 0) {
-                parts.Add (String.Format("{0:00}y", y));
+                parts.Add (String.Format("{0:00},year", y));
             }
 
             if (d > 0) {
-                parts.Add (String.Format("{0:00}d", d));
+                parts.Add (String.Format("{0:00},days", d));
             }
 
             if (h > 0) {
-                parts.Add (String.Format("{0:00}h", h));
+                parts.Add (String.Format("{0:00},hours", h));
             }
 
             if (m > 0) {
-                parts.Add (String.Format("{0:00}m", m));
+                parts.Add (String.Format("{0:00},minutes", m));
             }
 
             if (seconds > 0) {
-                parts.Add (String.Format("{0:00}s", seconds));
+                parts.Add (String.Format("{0:00},seconds", seconds));
             }
 
             if (parts.Count > 0) {
