@@ -189,6 +189,16 @@ Fields:
 * minVerticalSpeed: minimal vertical speed (default: 0, ignored)
 * maxVerticalSpeed: maximal vertical speed (default: 0, ignored)
 
+### LaunchGoal
+
+Defines a launch location as a mission goal.
+
+Fields:
+
+* launchZone: celestial body or named location (default: launch pad)
+** Current named locations supported: launch pad, runway
+** Celestial bodies are also supported (eg. Kerbin).
+
 ### LandingGoal
 
 Defines a landing on a certain celestial body as mission goal.
