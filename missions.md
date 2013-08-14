@@ -193,6 +193,8 @@ Fields:
 
 Defines a launch location as a mission goal.
 
+Overrides default field `throttleDown` to `false`.
+
 Fields:
 
 * launchZone: celestial body or named location (default: launch pad)
