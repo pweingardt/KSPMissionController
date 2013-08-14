@@ -13,7 +13,13 @@ namespace MissionController
             return v * (1.0 - precision);
         }
 
+        public static double abs(double v) {
+            return v > 0 ? v : -v;
+        }
+
         public static bool inRange(double r, double precision, double value) {
+            // Should this really be: return abs(value - r) < precision;
+            // I don't know where this is used, so I cannot test it properly.
             return value <= max(r, precision) &&  value >= min(r, precision);
         }
 
