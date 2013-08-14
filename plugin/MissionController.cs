@@ -81,12 +81,14 @@ namespace MissionController
         private Rect settingsWindowPosition = new Rect (700, 70, 250, 250);
         private Rect packageWindowPosition = new Rect (50, 50, 1000, 700);
         private Rect financeWindowPosition = new Rect(700, 70, 250, 250);
+        private Rect kerbalnautswinpostion = new Rect(800, 70, 500, 600);
 
         private bool showMainWindow = false;
         private bool showSettingsWindow = false;
         private bool showMissionPackageBrowser = false;
         private bool showFinanceWindow = false;
         private bool showRecycleWindow = false;
+        private bool showkerbalwindow = false;
         public string recycledName = "";
         public int recycledCost = 0;
 
@@ -448,6 +450,11 @@ namespace MissionController
             {
                 GUILayout.Window(98766, new Rect(Screen.width / 2 - 200, Screen.height /2 - 100, 400, 100), drawRecycleWindow, "Recycle Window");
             }
+
+            if (showkerbalwindow)
+            {
+                kerbalnautswinpostion = GUILayout.Window(98760, kerbalnautswinpostion, drawKerbalnautWindow, "Kerbalnaut Window");
+            }
             
             if (fileBrowser != null) {
                 GUI.skin = HighLogic.Skin;
@@ -602,6 +609,12 @@ namespace MissionController
                      resetCount = 0;
                  }
              }
+             //if (GUILayout.Button("KerbalNauts"))
+             //{
+             //    kerbalNautsWindow(!showkerbalwindow);
+             //    resetCount = 0;
+            // }
+                
 
 //            if (GUILayout.Button ("Draw landing area!", styleButton)) {
 //                drawLandingArea = !drawLandingArea;
@@ -848,6 +861,15 @@ namespace MissionController
         private void financeWindow(bool visibility)
         {
             showFinanceWindow = visibility;
+            lockOrUnlockEditor(visibility);
+        }
+        /// <summary>
+        /// Sets The Visibility of the KerbalNauts Recruitment Window
+        /// </summary>
+        /// <param name="visibility"></param>
+        private void kerbalNautsWindow(bool visibility)
+        {
+            showkerbalwindow = visibility;
             lockOrUnlockEditor(visibility);
         }
 
