@@ -1,3 +1,13 @@
+#Changes In .18.1
+1. Fixed Kerbal Insurance not being Charged on launch. (thanks Nathan)
+2. Fixed Some Decimal Issues and Rounded off the Orbits. (orbits Only)
+3. Fixed the Civilian Space Program Missions Governments Contracts. Medium, heavy.  Passive Missions should now show up.
+4. Increased the Payouts in a few of the Civilian Space Program Missions including the Government Ones.
+
+#Changes in .18
+1. Fixed the Recover and Recycle while in Testing Mode.. Should be all better now.. Now in Testing mode you can't Recover Recycle a whole vessel.. (can't recycle at all)
+
+
 #Changes In .17
 
 1. Hardcore Mode added. Its back.. Hard Mode for Mission controller. But instead of Making Parts more expensive Hardcore mode Reduces mission payouts by 40%
