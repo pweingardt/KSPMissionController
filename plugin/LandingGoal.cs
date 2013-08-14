@@ -34,7 +34,7 @@ namespace MissionController
                     values.Add(new Value("Latitude", String.Format(MathTools.MinMaxValue, minLatitude, maxLatitude)));
                 } else {
                     values.Add(new Value("Latitude", String.Format(MathTools.MinMaxValue, minLatitude, maxLatitude), 
-                                     vessel.latitude, MathTools.inMinMax(minLatitude, maxLatitude, vessel.latitude)));
+                                     String.Format(MathTools.SingleDoubleValue, vessel.latitude), MathTools.inMinMax(minLatitude, maxLatitude, vessel.latitude)));
                 }
             }
 
@@ -43,7 +43,7 @@ namespace MissionController
                     values.Add(new Value("Longitude", String.Format(MathTools.MinMaxValue, minLongitude, maxLongitude)));
                 } else {
                     values.Add(new Value("Longitude", String.Format(MathTools.MinMaxValue, minLongitude, maxLongitude), 
-                                     MathTools.calculateLongitude(vessel.longitude), 
+                                     String.Format(MathTools.SingleDoubleValue, MathTools.calculateLongitude(vessel.longitude)), 
                                      MathTools.inMinMax(minLongitude, maxLongitude, MathTools.calculateLongitude(vessel.longitude))));
                 }
             }
