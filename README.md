@@ -1,3 +1,68 @@
+##Loans Bank Loans:
+
+Now if you go into the red with mission controller the bank will be happy to lend you the money you need to 
+continue your space program. But it will cost you interest. At 25% of Your Mission Payouts until you pay off 
+the loan and get back into the Green.
+
+##Budgets And Financing:
+
+The mod takes care of your budget.. Subtracting Cost of vessels for you.. And putting
+the payments from missions back into your Budget. Can You keep it in the green?
+
+Vessel Cost and Mission Payouts: Design your vessels like normal.. But now when you launch you will be charged
+for it.. Each vessel cost you Crones. You start the Game with 50,000 Crones.. Can you spread this money enough to get your budding Space Program off the ground? If you can't don't worry.. You can go into the red... and mission controller will let you borrow money.. But how far do you go before you decide you can't handle it? Only time will tell.
+
+
+##Flight Testing Mode:
+
+Why should testing your Crafts be free? Is it free in the real world? What about Test Pilots do they really die?
+The answer is yes.. New In Mission Controller Extended is the Testing Mode... Now you can set the Mod to Flight 
+Testing Mode and you will be charged to test those craft.... Based on the cost of the actual vessel.. But don't
+worry its not the full cost.. Its based on 3% of the original Craft.. So ya its cheap.. But how many test do you 
+need anyway? They can add up so beware.
+
+In both Normal Flight Mode and Testing mode if you lose Kerbalnauts or Test Pilots you can suffer a Insurance
+cost.. All insurance cost are charged as the flight takes off.. And if the Victoms surive the blast... I mean 
+test the cost will be returned to you... And of course you can choose to set this cost to what you like.. The 
+default is 0... But I suggest a nice round number like 55,000.. Its what I use in my youtube series.
+
+##Recover And Recycle Your Vessels: 
+
+Totally Changed in .16 and .17. Gone is the old way of Recycling your vessel.. 
+Now you can go into Tracking Station and use the Recover button to Recover AND Recycle your vessels. Here you will 
+get 0.85 * part cost if it is landed, and 0.65 if it is splashed down (landed on water).
+
+##Auto Recycle:
+
+recycles your spent stages. This is how it works.
+(a) falls below 25km above Kerbin and is therefore destroyed by the game but
+(b) has 70 drag per ton (0.14t of stock parachute per ton of dry vessel mass)
+then it will be recycled at 0.60 * sum(cost of parts in it). Note that a Mk16 
+parachute, which masses 0.1t and has drag coefficient of 500, yields 50 drag (0.1 * 500); the stock 
+drogue yields less because its Cd is lower.
+NOTE: Kerbals will NOT be recovered this way! This is only for spent stages, etc. You MUST ride down 
+manually any craft containing crew or they will be lost.
+
+##Disable Plugin:
+
+Feel a little down today and don't want to be charged anything. Want to turn off the Plugin.. 
+Well the option to turn off the plugin is in the settings.. And nothing will be charged.. And 
+no missions can be completed.. But essentially the mod does not exist in this mode.
+
+##Missions:
+
+Everything from Orbits, to landing on other moons or planets to Docking with other 
+crafts are available to you in the missions!!.. Have some knowledge in coding? Make your own missions 
+with easy to edit .cfg files!! (future plan might be an actual mission editor everyone can use) And with 
+my added missions bringing you two new packs.. The missions grow even more.. 2 Story Based missions fashioned 
+in the kerbal style we are use too. These missions are designed to work along with your Sandbox mode.. Like to
+make your own vessels and do what you want.. But in the scope of Mission Controllers budget? Well the 2 added 
+Packs are made to pay you out enough to move you along in Mission Controller.. And fund your own missions....
+
+##mod support: 
+
+Support for Prices For the Mods IonCross Oxygen Cost.. And Modular Fuel Tanks Fuel Cost
+
 ### Mission Controller Extended
 
 Please Read Important Mission Controller Extended is the Continuation of the Mission Controller 
