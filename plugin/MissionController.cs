@@ -284,6 +284,7 @@ namespace MissionController
             GameEvents.onVesselCreate.Remove(this.onCreate);
         }
 
+        
         /// <summary>
         /// Returns the active vessel if there is one, null otherwise
         /// </summary>
@@ -489,6 +490,28 @@ namespace MissionController
 
             GUILayout.EndVertical();
             GUI.DragWindow();
+        }
+        
+        /// <summary>
+        /// Doesnt Work yet Stumped
+        /// </summary>
+        /// <param name="node"></param>
+        public void OnSave (ConfigNode node)
+        {
+            PluginConfiguration config = PluginConfiguration.CreateForType<MissionController>();
+            config.SetValue("MainWindow", mainWindowPosition);
+            config.save();
+        }
+        
+        /// <summary>
+        /// Doesn't work Yet Stumped
+        /// </summary>
+        /// <param name="node"></param>
+        public void OnLoad (ConfigNode node)
+        {
+            PluginConfiguration config = PluginConfiguration.CreateForType<MissionController>();
+            config.load();
+            mainWindowPosition = config.GetValue<Rect>("MainWindow");
         }
 
         /// <summary>

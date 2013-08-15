@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace MissionController
+namespace MissionController 
 {
     /// <summary>
     /// This Draws the Window For KerbalNauts Recruitment Screen
