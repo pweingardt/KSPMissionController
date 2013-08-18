@@ -1,7 +1,7 @@
 Mission
 {
     name = Vostok I
-    description = It is time. It is time to send our first Kerbonaut into space. We started a new policy: Before you launch a manned vessel you pay a certain amount of krones for each kerbonaut on the vessel. Don't panic, you will get those krones back once the kerbonauts land safely on Kerbin. And keep in mind, that you should bring them back.
+    description = Since your successful landing on Mun, training has begun to prepare skilled Kerbal astronaunts to man spacecraft. It has been determined that we are now prepared to attempt such a manned mission. Your missions will have an increased cost in krones for astronauts to cover their insurance; a successful return to the surface will return this significant cost to your budget.
 
     reward = 95000
     category = ORBIT, MANNED
@@ -11,7 +11,7 @@ Mission
 
     SubMissionGoal
     {
-        description = Bring the manned probe into a suborbital flight around Kerbin. Reach at least 70km altitude.
+        description = Bring a manned probe into a suborbital flight around Kerbin. Reach an altitude of at least 70km.
         crewCount = 1
 
         OrbitGoal

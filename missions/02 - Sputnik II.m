@@ -1,7 +1,7 @@
 Mission
 {
     name = Sputnik II
-    description = Our scientists say that some weird things happend in our last missions. They didn't like it. They think that the radiation outside the atmosphere is higher than they expected, and guess what you are doing now? You will build a rocket that is able to reach a stable low orbit around Kerbin in order to explore the radiation outside the atmosphere for at least 4 hours. Don't forget to record the data and bring the probe back!
+    description = Our scientists have reviewed the last mission's data and have discovered some unexpected anomalies. Radiation levels outside the atmosphere are significantly higher than expected, and they've requested a second mission in order to further explore the radiation levels outside of Kerbal's atmosphere. Modify your previous probe in order to maintain a stable orbit around Kerbin for at least 4 hours before returning to the surface with all sensors and the new data.
 
     reward = 55000
     category = ORBIT, PROBE
@@ -11,7 +11,7 @@ Mission
 
     SubMissionGoal
     {
-        description = Reach a stable orbit around Kerbin. You will need 3 Communotron 16, 1 accelerometer, 1 gravimeter, 1 thermometer and 1 barometer. Stay inside Kerbins magnetic field...
+        description = Achieve a stable orbit around Kerbin. You will need 3 Communotron 16, 1 accelerometer, 1 gravimeter, 1 thermometer and 1 barometer. Stay inside Kerbins magnetic field to avoid corrupted readings.
 
         minSeconds = TIME(4h)
 

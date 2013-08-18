@@ -1,7 +1,7 @@
 Mission
 {
     name = Vostok II
-    description = After our first suborbital flight we need to explore the effects of long-term space flights on kerbonauts. Stay at least 6 hours in an orbital flight around Kerbin.
+    description = The manned suborbital flight was a fantastic success, but our physicians require more data on the effects of long-term space flights on Kerbal physiology. Launch a second mission, this time achieving a stable orbit for at least 6 hours before returning safely to the surface.
 
     reward = 100000
     category = ORBIT, MANNED

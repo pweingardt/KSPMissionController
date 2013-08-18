@@ -1,7 +1,7 @@
 Mission
 {
     name = Sputnik I
-    description = Our scientists decided to explore space. For some reason they elected you as our head rocket engineer. We need to build a rocket in order to explore Kerbins atmosphere. Build a rocket that is able to leave the atmosphere and bring the probe with the data back to Kerbins surface.
+    description = A new government initiative has provided Kerbin scientists a chance to explore space, and we've elected you as our lead engineer. Before we can do anything more complex, we'll need to collect some data on Kerbin's upper atmosphere. Construct a rocket that is able to leave the atmosphere, collect readings, and return to the surface of Kerbin with the sensors intact so we can collect their recorded data.
 
     reward = 50000
     category = ORBIT, PROBE
@@ -10,7 +10,7 @@ Mission
 
     SubMissionGoal
     {
-        description = Reach at least 70km above ground and record the atmospheric data. You will need 3 Communotron 16, 1 accelerometer, 1 gravimeter, 1 thermometer and 1 barometer.
+        description = Reach an altitude of at least 70km and record the required atmospheric data. You will need 3 Communotron 16, 1 accelerometer, 1 gravimeter, 1 thermometer and 1 barometer.
 
         OrbitGoal
         {

@@ -1,7 +1,7 @@
 Mission
 {
     name = Duna I
-    description = We have discovered a new planet. We call it Duna. It is red and we don't know why. Our scientists think it is red because of the rust on the surface. But I think it is because of chili sauce. Just like in our last missions, you are now officialy ordered to bring a probe near Duna. We don't care what you do there, just get there! Watch out for moons. If possible, bring the probe into a polar orbit. Don't forget the instruments! We need long range communication dishes on the probe! If you can manage it, crash into Duna...
+    description = Remote observation has given us a view of the planet Duna for centuries, but we only now have the capability of actually reaching it. We'd like to send an initial probe to Duna with a full sensor package and a long range communications dish. Optional secondary missions will provide an extra bonus: achieving a high polar orbit around the planet, and crashing the probe into the surface to provide us with surface composition data.
 
     reward = 150000
     category = ORBIT, PROBE
@@ -25,7 +25,7 @@ Mission
 
     SubMissionGoal
     {
-        description = Bring the probe near Duna. We do not care where or how... But take some instruments with you, we don't know if Duna has an atmosphere. And just fly through the atmosphere if there is one. And take some pictures!
+        description = Bring the probe into any orbit around Duna.
 
         OrbitGoal
         {
