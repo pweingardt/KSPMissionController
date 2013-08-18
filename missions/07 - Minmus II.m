@@ -1,7 +1,7 @@
 Mission
 {
     name = Minmus II
-    description = So our scientists are still not sure what Minmus actually is. Land on it, take some samples and analyze them on the ground.
+    description = The Minmus impact probe explosion looked spectacular but proved to be of unexpectedly little scientific value. Send another unmanned probe, this time landing safely on the surface so our instrumentation can perform local analysis. No return trip is required.
 
     reward = 95000
     category = LANDING

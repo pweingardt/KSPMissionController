@@ -1,7 +1,7 @@
 Mission
 {
     name = Sputnik III
-    description = The scientists are happy now, well done. They think that our first probe has been damaged and the radiation sensors were broken. Everything is fine now. Our next goal is to get outside Kerbins magnetic field. Reach a stable orbit somewhere there. No need to bring the probe back...
+    description = The data from your second mission has been analyzed and the readings were within the expected range. Additional research on the original craft suggests that its radiation sensors were faulty. We now have sufficient data to authorize a third mission, this time to deliver a permanent satellite to a higher orbert beyond the range of Kerbin's magnetic field.
 
     reward = 60000
     category = ORBIT, PROBE
@@ -11,7 +11,7 @@ Mission
 
     SubMissionGoal
     {
-        description = Reach a stable orbit around Kerbin outsides its magnetic field. You will need 3 Communotron 16.
+        description = Achieve a stable orbit around Kerbin outside of its magnetic field. You will need 3 Communotron 16.
 
         OrbitGoal
         {

@@ -1,7 +1,7 @@
 Mission
 {
     name = Mun I
-    description = They say you should get comfortable with unmanned missions before we decide to bring a kerbal into space. We always wondere what is on the other side of the Mun, but because it is tidally locked, we need a probe. We want you to build a rocket that is able to reach a stable orbit around Mun. It does not have an atmosphere, no need to build a rocket with sensors on it. Bring the probe back by the way... you need to exercise orbital maneuvers before we trust you enough with manned missions.
+    description = The government is satisfied with your missions thus far, but requires more sensor data on other astronomical objects nearby. Construct a rocket that is able to reach the Mun, maintain a stable orbit, and then return to the surface of Kerbin intact. Since this mission is of a general exploratory nature and to verify our theories on orbital transfers, only a basic set of sensors are required.
 
     reward = 80000
     category = ORBIT
@@ -15,6 +15,12 @@ Mission
 
         minPeA = 10000
         maxApA = 900000
+    }
+
+    PartGoal
+    {
+        partName = longAntenna
+        partCount = 3
     }
 
     LandingGoal

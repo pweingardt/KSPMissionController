@@ -1,7 +1,7 @@
 Mission
 {
     name = Minmus I
-    description = We always see that little thing in our sky, but actually we have no clue what it is. Some think it is a huge marshmallow, some think it is just toothpaste. We need to know those kind of things if we want to explore space! Build a rocket that is able to crash on Minmus. Yes, crash. We can determine the density of Minmus once you crash there and this should settle the discussion.
+    description = Our top scientists are satisfied with our Mun missions and have requested a mission to Kerbal's second orbiting body: Minmus. Its smaller size and higher orbit limits the amount of data we have about its composition, so this mission will require you to crash a rocket into its surface to collect data on its composition and density. (Yes, crash. Observations from Kerbal will allow us to capture the required data remotely.)
 
     reward = 80000
     category = IMPACT

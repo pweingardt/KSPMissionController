@@ -1,7 +1,7 @@
 Mission
 {
     name = Sputnik IV
-    description = You have been around the Mun, but now it is time to explore Kerbin itself. We have been to the northpole, but we didn't see it from space. Bring a probe with some instruments into a circular polar orbit and leave it there for at least 2 hours.
+    description = A special mission has been requested by a climate research facility on Kerbin. Limited data is available on the north pole of Kerbin itself, but a space-based probe would provide us a unique opportunity to fully map and analyze its topology. Construct such a probe and place it into a circular polar orbit, maintaining stability for at least 2 hours in order to capture sufficient data.
 
     reward = 65000
     category = ORBIT, PROBE
@@ -11,7 +11,7 @@ Mission
 
     SubMissionGoal
     {
-        description = Bring the probe into a high circular polar orbit around Kerbin.
+        description = Bring a sensor package into a high circular polar orbit around Kerbin.
 
         OrbitGoal
         {

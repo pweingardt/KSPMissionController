@@ -1,7 +1,7 @@
 Mission
 {
     name = Vostok III
-    description = If we want to explore other planets we need to know how to rendezvous and how to dock. That is what our scientists say, but I don't trust them! But orders are orders and I just gave you one! Bring two manned space crafts into orbit and dock them together!
+    description = Interplanetary exploration will require sophisticated docking expertise. Before we attempt such docking procedures in the depths of space, we require a test mission for our astronauts to practice a docking procedure in a standard circular orbit around Kerbal. Simply bring two manned craft together and dock them successfully, and then bring the craft safely back to the surface of the planet.
 
     reward = 195000
     category = ORBIT, MANNED
@@ -11,7 +11,7 @@ Mission
 
     SubMissionGoal
     {
-        description = Bring two manned probes into orbit and dock them. We suggest a circular orbit.
+        description = Bring two manned probes into orbit and dock them.
         crewCount = 1
 
         OrbitGoal
