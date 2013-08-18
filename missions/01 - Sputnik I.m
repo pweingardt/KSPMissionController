@@ -1,7 +1,7 @@
 Mission
 {
     name = Sputnik I
-    description = Limited government funding has provided Kerbin scientists a chance to explore space, and for some reason, they elected you as our lead engineer. Before we can do anything more complex, we'll need to collect some new data on Kerbin's atmosphere. Construct a rocket that is able to leave the atmosphere, collect readings, and return to the surface of Kerbin intact so we can collect its data.
+    description = A new government initiative has provided Kerbin scientists a chance to explore space, and we've elected you as our lead engineer. Before we can do anything more complex, we'll need to collect some data on Kerbin's upper atmosphere. Construct a rocket that is able to leave the atmosphere, collect readings, and return to the surface of Kerbin with the sensors intact so we can collect their recorded data.
 
     reward = 50000
     category = ORBIT, PROBE
