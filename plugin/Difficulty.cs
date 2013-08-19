@@ -19,7 +19,7 @@ namespace MissionController
         }
 
         public static readonly double[] medium = new double[] 
-        { 0.7, 3, 5, 10, 3500, 6, 1.5, 10, 3 };
+        { 0.7, 3, 5, 10, 3500, 6, 1.5, 10, 3, 5000 };
         
 
         public static readonly double[] easy;
@@ -102,6 +102,13 @@ namespace MissionController
             get
             {
                 return factors[8];
+            }
+        }
+        public static double KerbalNaut
+        {
+            get
+            {
+                return factors[9];
             }
         }
 
