@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<definition>
-  <name>Stock Mission Package</name>
-  <description>A basic mission package from nobody44.
-
-This package has satellite missions, some Mun and Minmus missions.</description>
-  <folder>/home/paul/projects/ksp/missioncontroller/missions</folder>
-  <ownOrder>True</ownOrder>
-</definition>
