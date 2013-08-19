@@ -1,7 +1,7 @@
 Mission
 {
     name = Kerbolo I
-    description = Our scientists are now confident in their understanding of Kerbin and its moons. Our next step is to leave Kerbin's sphere of influence. Our scientists are uncertain what conditions this probe will encounter; take a full sensor package with you. Data will be transmitted back to Kerbal ground stations directly so a return to the plan will not be required.
+    description = Our scientists are now confident in their understanding of Kerbin and its moons. Our next step is to leave Kerbin's sphere of influence. Our scientists are uncertain what conditions this probe will encounter; take a full sensor package with you. Data will be transmitted back to Kerbal ground stations directly so a return to the planet will not be required.
 
     reward = 85000
     category = ORBIT, PROBE

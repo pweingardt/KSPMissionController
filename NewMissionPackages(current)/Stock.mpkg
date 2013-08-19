@@ -9,7 +9,7 @@ MissionPackage
     Mission
     {
         name = Sputnik I
-        description = Our scientists decided to explore space. For some reason they elected you as our head rocket engineer. We need to build a rocket in order to explore Kerbins atmosphere. Build a rocket that is able to leave the atmosphere and bring the probe with the data back to Kerbins surface.
+        description = A new government initiative has provided Kerbin scientists a chance to explore space, and we've elected you as our lead engineer. Before we can do anything more complex, we'll need to collect some data on Kerbin's upper atmosphere.\n\nConstruct a rocket that is able to leave the atmosphere, collect readings, and return to the surface of Kerbin with the sensors intact so we can collect their recorded data.
     
         reward = 50000
         category = ORBIT, PROBE
@@ -18,7 +18,7 @@ MissionPackage
     
         SubMissionGoal
         {
-            description = Reach at least 70km above ground and record the atmospheric data. You will need 3 Communotron 16, 1 accelerometer, 1 gravimeter, 1 thermometer and 1 barometer.
+            description = Reach an altitude of at least 70km and record the required atmospheric data. You will need 3 Communotron 16s, 1 accelerometer, 1 gravimeter, 1 thermometer and 1 barometer.
     
             OrbitGoal
             {
@@ -68,7 +68,7 @@ MissionPackage
     Mission
     {
         name = Sputnik II
-        description = Our scientists say that some weird things happend in our last missions. They didn't like it. They think that the radiation outside the atmosphere is higher than they expected, and guess what you are doing now? You will build a rocket that is able to reach a stable low orbit around Kerbin in order to explore the radiation outside the atmosphere for at least 4 hours. Don't forget to record the data and bring the probe back!
+        description = Our scientists have reviewed the last mission's data and have discovered some unexpected anomalies. Radiation levels outside the atmosphere are significantly higher than expected, and they've requested a second mission in order to further explore the radiation levels outside of Kerbal's atmosphere.\n\nModify your previous probe in order to maintain a stable orbit around Kerbin for at least 4 hours before returning to the surface with all sensors and the new data.
     
         reward = 55000
         category = ORBIT, PROBE
@@ -78,7 +78,7 @@ MissionPackage
     
         SubMissionGoal
         {
-            description = Reach a stable orbit around Kerbin. You will need 3 Communotron 16, 1 accelerometer, 1 gravimeter, 1 thermometer and 1 barometer. Stay inside Kerbins magnetic field...
+            description = Achieve a stable orbit around Kerbin. You will need 3 Communotron 16s, 1 accelerometer, 1 gravimeter, 1 thermometer and 1 barometer. Stay inside Kerbins magnetic field to avoid corrupted readings.
     
             minSeconds = TIME(4h)
     
@@ -131,7 +131,7 @@ MissionPackage
     Mission
     {
         name = Sputnik III
-        description = The scientists are happy now, well done. They think that our first probe has been damaged and the radiation sensors were broken. Everything is fine now. Our next goal is to get outside Kerbins magnetic field. Reach a stable orbit somewhere there. No need to bring the probe back...
+        description = The data from your second mission has been analyzed and the readings were within the expected range. Additional research on the original craft suggests that its radiation sensors were faulty. We now have sufficient data to authorize a third mission, this time to deliver a permanent satellite to a higher orbert beyond the range of Kerbin's magnetic field.
     
         reward = 60000
         category = ORBIT, PROBE
@@ -141,7 +141,7 @@ MissionPackage
     
         SubMissionGoal
         {
-            description = Reach a stable orbit around Kerbin outsides its magnetic field. You will need 3 Communotron 16.
+        description = Achieve a stable orbit around Kerbin outside of its magnetic field. You will need 3 Communotron 16s.
     
             OrbitGoal
             {
@@ -163,7 +163,7 @@ MissionPackage
     Mission
     {
         name = Mun I
-        description = They say you should get comfortable with unmanned missions before we decide to bring a kerbal into space. We always wondere what is on the other side of the Mun, but because it is tidally locked, we need a probe. We want you to build a rocket that is able to reach a stable orbit around Mun. It does not have an atmosphere, no need to build a rocket with sensors on it. Bring the probe back by the way... you need to exercise orbital maneuvers before we trust you enough with manned missions.
+        description = The government is satisfied with your missions thus far, but requires more sensor data on other astronomical objects nearby.\n\nConstruct a rocket that is able to reach the Mun, maintain a stable orbit, and then return to the surface of Kerbin intact.\n\nSince this mission is of a general exploratory nature and to verify our theories on orbital transfers, only a basic set of sensors are required.
     
         reward = 80000
         category = ORBIT
@@ -190,7 +190,7 @@ MissionPackage
     Mission
     {
         name = Mun II
-        description = We decided to land on the Mun. With a small probe, relax. Just land it. Somehow...
+        description = Your last mission to the Mun was a fantastic success, so we're sending another- this time to land on the surface. This will be a one-way trip with no return voyage required.
         reward = 85000
         category = LANDING
     
@@ -208,7 +208,7 @@ MissionPackage
     Mission
     {
         name = Minmus I
-        description = We always see that little thing in our sky, but actually we have no clue what it is. Some think it is a huge marshmallow, some think it is just toothpaste. We need to know those kind of things if we want to explore space! Build a rocket that is able to crash on Minmus. Yes, crash. We can determine the density of Minmus once you crash there and this should settle the discussion.
+        description = Our top scientists are satisfied with our Mun missions and have requested a mission to Kerbal's second orbiting body: Minmus. Its smaller size and higher orbit limits the amount of data we have about its composition, so this mission will require you to crash a rocket into its surface to collect data on its composition and density. (Yes, crash. Observations from Kerbal will allow us to capture the required data remotely.)
     
         reward = 80000
         category = IMPACT
@@ -227,7 +227,7 @@ MissionPackage
     Mission
     {
         name = Minmus II
-        description = So our scientists are still not sure what Minmus actually is. Land on it, take some samples and analyze them on the ground.
+        description = The Minmus impact probe explosion looked spectacular but proved to be of unexpectedly little scientific value. Send another unmanned probe, this time landing safely on the surface so our instrumentation can perform local analysis. No return trip is required.
     
         reward = 95000
         category = LANDING
@@ -246,7 +246,7 @@ MissionPackage
     Mission
     {
         name = Sputnik IV
-        description = You have been around the Mun, but now it is time to explore Kerbin itself. We have been to the northpole, but we didn't see it from space. Bring a probe with some instruments into a circular polar orbit and leave it there for at least 2 hours.
+        description = A special mission has been requested by a climate research facility on Kerbin. Limited data is available on the north pole of Kerbin itself, but a space-based probe would provide us a unique opportunity to fully map and analyze its topology.\n\nConstruct such a probe and place it into a circular polar orbit, maintaining stability for at least 2 hours in order to capture sufficient data.
     
         reward = 65000
         category = ORBIT, PROBE
@@ -256,7 +256,7 @@ MissionPackage
     
         SubMissionGoal
         {
-            description = Bring the probe into a high circular polar orbit around Kerbin.
+            description = Bring a sensor package into a high circular polar orbit around Kerbin.
     
             OrbitGoal
             {
@@ -307,7 +307,7 @@ MissionPackage
     Mission
     {
         name = Kerbolo I
-        description = Our next step is to leave Kerbins sphere of influence. Our scientists do not know what will happen out there. They don't expect magic though. Take some instruments with you.
+        description = Our scientists are now confident in their understanding of Kerbin and its moons. Our next step is to leave Kerbin's sphere of influence. Our scientists are uncertain what conditions this probe will encounter; take a full sensor package with you. Data will be transmitted back to Kerbal ground stations directly, so a return to the planet will not be required.
     
         reward = 85000
         category = ORBIT, PROBE
@@ -317,7 +317,7 @@ MissionPackage
     
         SubMissionGoal
         {
-            description = Bring the probe into an escape trajectory out of Kerbins sphere of influence.
+            description = Bring the probe into an escape trajectory out of Kerbin's sphere of influence.
     
             OrbitGoal
             {
@@ -363,7 +363,7 @@ MissionPackage
     Mission
     {
         name = Kerbolo II
-        description = We sent our first probe out of Kerbins atmosphere. Some scientists suggest a mission to discover other so called solar systems. They think the stars we see in the sky are just like Kerbol, but much further away. They are crazy, but we should try it. Build a space craft that is able to leave Kerbols sphere of influence.
+        description = A second, similar mission has been planned to explore beyond Kerbin. This time you will also go beyond the orbit of Kerbol, escaping the gravitational force of the sun and launching toward interstellar space.
     
         reward = 60000
         category = ORBIT, PROBE
@@ -373,7 +373,7 @@ MissionPackage
     
         SubMissionGoal
         {
-            description = Bring the probe into an escape trajectory out of Kerbols sphere of influence.
+            description = Bring the probe into an escape trajectory out of Kerbol's sphere of influence.
     
             OrbitGoal
             {
@@ -419,7 +419,7 @@ MissionPackage
     Mission
     {
         name = Vostok I
-        description = It is time. It is time to send our first Kerbonaut into space. We started a new policy: Before you launch a manned vessel you pay a certain amount of krones for each kerbonaut on the vessel. Don't panic, you will get those krones back once the kerbonauts land safely on Kerbin. And keep in mind, that you should bring them back.
+        description = Since your successful landing on Mun, training has begun to prepare skilled Kerbal astronaunts to man spacecraft. It has been determined that we are now prepared to attempt such a manned mission. Your missions will have an increased cost in krones for astronauts to cover their insurance; a successful return to the surface will return this significant cost to your budget.
     
         reward = 95000
         category = ORBIT, MANNED
@@ -429,7 +429,7 @@ MissionPackage
     
         SubMissionGoal
         {
-            description = Bring the manned probe into a suborbital flight around Kerbin. Reach at least 70km altitude.
+            description = Bring a manned probe into a suborbital flight around Kerbin. Reach an altitude of at least 70km.
             crewCount = 1
     
             OrbitGoal
@@ -456,7 +456,7 @@ MissionPackage
     Mission
     {
         name = Vostok II
-        description = After our first suborbital flight we need to explore the effects of long-term space flights on kerbonauts. Stay at least 6 hours in an orbital flight around Kerbin.
+        description = The manned suborbital flight was a fantastic success, but our physicians require more data on the effects of long-term space flights on Kerbal physiology. Launch a second mission, this time achieving a stable orbit for at least 6 hours before returning safely to the surface.
     
         reward = 100000
         category = ORBIT, MANNED
@@ -501,7 +501,7 @@ MissionPackage
     Mission
     {
         name = Vostok III
-        description = If we want to explore other planets we need to know how to rendezvous and how to dock. That is what our scientists say, but I don't trust them! But orders are orders and I just gave you one! Bring two manned space crafts into orbit and dock them together!
+        description = Interplanetary exploration will require sophisticated docking expertise. Before we attempt such docking procedures in the depths of space, we require a test mission for our astronauts to practice a docking procedure in a standard circular orbit around Kerbal.\n\nSimply bring two manned craft together and dock them successfully, and then bring the craft safely back to the surface of the planet.
     
         reward = 195000
         category = ORBIT, MANNED
@@ -511,7 +511,7 @@ MissionPackage
     
         SubMissionGoal
         {
-            description = Bring two manned probes into orbit and dock them. We suggest a circular orbit.
+            description = Bring two manned probes into orbit and dock them.
             crewCount = 1
     
             OrbitGoal
@@ -543,7 +543,7 @@ MissionPackage
     Mission
     {
         name = Duna I
-        description = We have discovered a new planet. We call it Duna. It is red and we don't know why. Our scientists think it is red because of the rust on the surface. But I think it is because of chili sauce. Just like in our last missions, you are now officialy ordered to bring a probe near Duna. We don't care what you do there, just get there! Watch out for moons. If possible, bring the probe into a polar orbit. Don't forget the instruments! We need long range communication dishes on the probe! If you can manage it, crash into Duna...
+        description = Remote observation has given us a view of the planet Duna for centuries, but we only now have the capability of actually reaching it. We'd like to send an initial probe to Duna with a full sensor package and a long range communications dish. Optional secondary missions will provide an extra bonus: achieving a high polar orbit around the planet, and crashing the probe into the surface to provide us with surface composition data.
     
         reward = 150000
         category = ORBIT, PROBE
@@ -567,7 +567,7 @@ MissionPackage
     
         SubMissionGoal
         {
-            description = Bring the probe near Duna. We do not care where or how... But take some instruments with you, we don't know if Duna has an atmosphere. And just fly through the atmosphere if there is one. And take some pictures!
+            description = Bring the probe into any orbit around Duna.
     
             OrbitGoal
             {
