@@ -1,0 +1,633 @@
+#		This is The New Mission Pack Based on the Story Based Missions Commercialization of space.. From Malkuths Civilian Space Program General Mission Pack.
+
+MissionPackage
+{
+	name = Malkuths Commercialization Of Space Mission Package
+	description = This is the Expansion Pack to the Missions Set Of The Commercialization of Space.     FIRST: I highly suggest you have insurance cost for your kerbals on in the Mission Controller. I have mine set to 55,000 per kerbal.  That means every time I launch a kerbal into space it cost me 55,000 per kerbal in insurance.. Once those kerbals come back to Kerbin and land safely you get all the money back. If they die it cost you 55,000.  Best way to simulate training cost right now in Mission Controller.  The missions payout plenty of money.. So don't be afraid add some challenge to your game today!  This mission pack introduces you to the Idea of a Hotel in space.   The last Part of the pack Introduces the Manned Missions to Duna, And has a huge payout to boot.  One of the biggest so far in the Packs.. Of course it comes at a price.. A long journey and costly vessel.  So let’s get going!  Good Luck and I hope you enjoy the pack.. As Always if you notice any bug or problems send me a PM I usually fix them up within the day. :)  Oh And One Last thing.  You can't start this pack without finishing the Missions Commercialization Of Space From the Original Civilian Space Program Pack. :)	
+	Mission
+    {
+    name = 01 - The Start Of A Great Friendship.
+    description = After You Finished Your First Commercial Flight Of Kerbal X Space Travel Agency The Grand Tour From The First Pack You can Do this mission.  Welcome back, our investor is back.. And he is a secretive as ever.   He would like us to start a new program.. A much more daring program then the last one!  But first we need to practice some practical applications.. He simply would like us to dock in space with another ship.. Does not matter what ship we use.  He just needs to know that we are capable of actually doing this. 
+    reward = 250000
+    category = MANNED, DOCKING
+	inOrder = true
+	destroyPunishment = 100000
+#	requiresMission = 21 - Kerbal X Space Travel Agency The Grand Tour Package
+	
+		SubMissionGoal
+		{
+		
+		description = In This Mission you Must Dock With A Ship and Stay Docked For 1 days Time Over Kerbin.  You  must have a Clamp-O-Tron Docking Port and 2 Communotron 16.
+		
+			OrbitGoal
+			{
+			body = Kerbin
+			minPeA = 90000
+			crewCount = 2
+			}
+
+			PartGoal
+			{
+			partName = dockingPort2
+			partCount = 1
+			}
+			
+			PartGoal
+			{
+			partName = longAntenna
+			partCount = 2
+			}
+		}
+		
+		DockingGoal
+		{
+		}
+		
+		LandingGoal
+		{
+		body = Kerbin
+		crewCount = 2
+		}
+	}
+
+	Mission
+    {
+    name = 02 - A Home In Space
+	description = Well Our Investor is happy. You did a good job last mission, he wanted me to tell you that.  The investor now wants us to build a Hotel In Space, without the cockroaches of course. You know those pesky little bugs that seem to never die. I have a theory that they are actually an alien race that has spread across the universe to take it over. But I get mocked for my ideas, so sad. Anyway this is basically a space station that Houses civilian’s over Kerbin.  And today you will design and launch the first part of that Hotel.    
+	reward = 420000
+    category = ORBIT
+	inOrder = true
+	destroyPunishment = 150000
+	requiresMission = 01 - The Start Of A Great Friendship.
+	
+		SubMissionGoal
+		{
+		
+		description = The First Part of the Station has to be the Hub of the station. It must contain the housing Units and be able to hold 12 Kerbals.  So 3 HitchHicker Cabins should do the trick.  Also The Investor says we need an Observation deck so 1 Cupola.  Keep In Mind This is only 1 part of the Hotel.. So plan for other Modules to be added.
+		
+			OrbitGoal
+			{
+			body = Kerbin
+			minPeA = 200000
+			}
+			
+			PartGoal
+			{
+			partName = crewCabin
+			partCount = 3
+			}
+	   
+			PartGoal
+			{
+			partName = cupola
+			partCount = 1
+			}
+			
+			ResourceGoal
+			{
+			name = ElectricCharge
+			minAmount = 1500
+			}
+		}
+	}
+	
+	Mission
+    {
+    name = 03 - A Home In Space 2
+	description = With The First Stage of the Mission Complete its time To launch the 2nd stage, But First Listen to this. The scanners On The Station have detected life. Of course me and you know who they are.. Those little roaches have managed to sneak onto the Station and are finally going to start their invasion plans.  I know it.  But I was ready for this. I installed an anti-roach flame thrower inside the main modules. Things got a little toasty. But I got em.  Repair crews will have to repaint the inside of the Pods. But I stopped the end of the world. Anyway Back to the 2nd stage.  This is the Main Power Housing of the Hotel.  Not Only does this need to have power generation. But it also must contain enough fuel to help fuel up our Ships.  Those are the only requirements for this mission.  So we will keep it up to you how to build the rest of it.  (remember this is going to be a working hotel. If you keep the part count small then it’s easier to fly around and dock with)    
+	reward = 450000
+    category = ORBIT, DOCKING 
+	inOrder = true
+	destroyPunishment = 150000
+	requiresMission = 02 - A Home In Space
+	
+		SubMissionGoal
+		{
+		
+		description = This is easy enough. The power Unit must hold at least 1000 Solid Fuel and Have enough power to run the Hotel. Including the Charging areas.. So solar Panels or whatever our scientist might have cooked up.
+		
+			OrbitGoal
+			{
+			body = Kerbin
+			minPeA = 200000
+			}
+			
+			ResourceGoal
+			{
+			name = ElectricCharge
+			minAmount = 1500
+			}
+			
+			ResourceGoal
+			{
+			name = LiquidFuel 
+			minAmount =600
+			}
+		}
+		
+		DockingGoal
+		{
+		}	
+	}
+	
+	Mission
+    {
+    name = 04 - A Home In Space 3
+    description = The Self Made Trillionare that is funding This Venture.. was  not happy about the Flame Thrower thing!! You know the guy we have no idea what his name is.. But since there is only 1 guy on Kerbin that has a trillion Bucks Me and You Both Know who he really is! Don't tell him we know.  You do know who I’m talking about right?  Ohh, It does not matter, I'm expecting a counter attack from the roaches any day. They are watching me. Now The Mission, The Investor says that this Hotel In Space Needs a Docking Port. Enough To house 4 Ships. And 1 Utility Vessel.  So let’s Get to Work. But This section also needs to House the Emergency Escape Pods. So good luck trying to figure out that one. Because of the nature of the escape pods. The Customers would like us to use a specific part, So pay attention.    
+	reward = 450000
+    category = ORBIT, DOCKING 
+	inOrder = true
+	destroyPunishment = 150000
+	requiresMission = 03 - A Home In Space 2
+	
+		SubMissionGoal
+		{
+		
+		description = Ok This is a big order.  You Must have 4 Clamp-O-Tron, 1 Clamp-O-Tron Jr, and 12 Mk 1 Lander Cans (for Escape Pods)  And yes they have to work... Set them up for the can escape the station and enter Kerbin.  Its possible if you think about it. :) Good Luck, and lets get this hotel Built!!
+		
+			OrbitGoal
+			{
+			body = Kerbin
+			minPeA = 200000
+			}
+			
+			PartGoal
+			{
+			partName = dockingPort2
+			partCount = 4
+			}
+			
+			PartGoal
+			{
+			partName = dockingPort3
+			partCount = 1
+			}
+			
+			PartGoal
+			{
+			partName = landerCabinSmall
+			partCount = 12
+			}
+		}
+	}
+	
+	Mission
+    {
+    name = 05 - Setting Up For Business day.
+	description = At this point the investor has what he wants for a station in orbit.  Now your job is to construct a vessel that can deliver at least 8 Kerbals into the station. Ahem I mean Hotel. The Kerbol stops in speech and looks around real jittery like he is holding a remote control button in his hand. it has a blue light on it. " The roaches have finally made their move on me, they are coming after me.. They will not take me alive!! You see this Remote. I have installed the same Anti Roach Flame thrower system I installed on the station into this office building. If they make a move I’m going to toast them to shreds. The only side effect is that we all get toasted too. But it’s for the best" He looks around some more and places the remote in his pocket. Ok I think were safe for now. Now about the current mission, There is a total of 3 Pods and 1 Cupola on the station you should be able to hold total of 13 kerbals.  When the hotel finally opens you will have room for 8 guest and 2 Staff and 1 pilot.  When you’re finished with this mission 2 new missions will open up.  A Delivery Of Staff Mission.  And a delivery of Guest Mission.  The staff mission is repeatable but does not pay out that much.. But you must have staff on the Hotel.  The money maker is the Guest mission.  Good Luck.    
+	reward = 500000
+    category = MANNED, DOCKING
+	inOrder = true
+	destroyPunishment = 200000
+	requiresMission = 04 - A Home In Space 3
+	
+
+		SubMissionGoal
+		{
+		
+		description = Today you must Construct a new Ship that can cheaply deliver at least 8 kerbals to the Hotel. But you need a pilot also. So its actually 9 kerbals.  So good luck This test flight will run for 1 days time.  That means you must stay docked with the Hotel for 1 day.  Good Luck.
+			
+			OrbitGoal
+			{
+			body = Kerbin
+			minPeA = 200000
+			crewCount = 9
+			}
+			
+			
+		}
+		
+			DockingGoal
+			{			
+			}
+			
+			LandingGoal
+			{
+			body = Kerbin
+			crewCount = 9	
+			}
+	  
+	} 
+	
+	Mission
+    {
+    name = 06 - Maids in Space.. A true story
+	description = You Look around for you old friend the Roach Man but don't see him anywhere.  A older Kerbal Gentleman comes up to you and introduces himself as the new Liaison between yourself and the Investor. Hello Sir, I will be your new Life Line Between yourself and The Investor. Your last Liaison had an unfortunate accident on his way to KerbalCon (You notice a small movement under the kerbals coat).  Very tragic loss. But the show must go on.. Today is opening day, and our first trip to the Hotel is under way. This is a special trip.  You must deliver 2 Staff members to the station.  They will help the future guess keep comfortable and make sure they don't have any unfortunate accidents.  Insurance cost are high. If we lose the ship.. Or anything is destroyed in these missions insurance rate will be devastating to us.. And to your own program.  They are high paying jobs we are about to commit ourselves too. But make sure you’re ready for it.     
+	reward = 375000
+    category = MANNED, DOCKING
+	inOrder = true
+	destroyPunishment = 300000
+    requiresMission = 05 - Setting Up For Business day.
+	repeatable = true
+	
+		SubMissionGoal
+		{
+		
+		description = This is a low paying job.  These are not paying customers.. They are staff... Please don't kill them.  Deliver The Staff to the Station and stay docked for 1 day.. You can keep the Vessel docked if you wish..  Once you return though you have to bring the staff back.. Keep 2 staff on the Hotel at all times!  That is why we have 4 docking ports... 
+			
+			OrbitGoal
+			{
+			body = Kerbin
+			minPeA = 200000
+			crewCount = 2
+			}
+			
+			
+			
+			
+			
+		}
+		DockingGoal
+			{			
+			}
+		
+		LandingGoal
+			{
+			body = Kerbin
+			reward = 100000
+			crewCount = 2
+			}
+	}
+	
+	Mission
+    {
+    name = 07 - Open For Business Sorta.... Maybe
+    description = Welcome Back Sir, so good to see you.  Well today is the day that we send Civilians to our new Hotel in the sky. (a commotion is abrupt on the other side of hanger, you hear yelling and screaming)  emmm, emmm never mind that sir we must take off this minute and get the passengers into the SHIP!! Please sir, Get the food into space... I mean the civilians into space.. (A large Metal Bang Sounds off in the next room) Sir, Please get the ship into space.. La.... You see a Kerbal come out of a corner office.. He is yelling at you to come here! GET OVER HERE! You look back at the Gentleman in front of you But he is Nowhere to be seen. You Finally recognize the kerbal yelling at you. It’s your old friend The Roach Man. He Yells at you, Are you ok?  We have to move before they launch the ship, I have already locked the passengers in The Bathroom. The SHIP! It’s been infested with Elite Super Cockroaches. The invasion has begun! But I have planned for this. I pretended to be dead for they could make there move. But I Filled the Space Vessel with a Super Kerbal Raid Chemical called Smosh Em. We need to get to the launch desk and push the button. If we kill this elite Team of Roaches it will set the race back a million years! I have done the math’s, It’s true, Hurry run!  (2 Hours Later)  That was close. I'm so glad we stopped the roaches from taking over kerbin.  We have won the day. But alas all heroes are tragic in there ends. I have been fired from the program. They still don't believe me that the roaches were invading!  They are mad that it’s going to take a few days to clean out the spaceship from all the dead roaches and chemicals.   But it was nice working with you. The Man,  What man?  He said I was dead?  Well, I pretended to be for the roaches.. But as far as I know they never replaced me with anyone. he disappeared,  Really?  Get a hold of yourself. your talking crazy!  Good day sir.    
+	reward = 650000
+    category = MANNED, DOCKING
+	inOrder = true
+	destroyPunishment = 300000
+	requiresMission = 06 - Maids in Space.. A true story
+	
+		SubMissionGoal
+		{
+		
+	description = The maiden voyage and opening of the Space Hotel Is Under way. We had some setbacks with some crazy guy and roaches... But all is better.. Take the First set of civilians into space and dock with the hotel.  This is a 7 day trip.  (please note this will open the repeatable mission for this same trip.. Nothing is different only the story part is removed)			
+			OrbitGoal
+			{
+			body = Kerbin
+			minPeA = 200000
+			crewCount = 8
+			}
+		}
+		
+			DockingGoal
+			{
+			}
+		
+			LandingGoal
+			{
+			body = Kerbin
+			reward = 100000
+			crewCount = 8
+			}
+	}
+	
+	Mission
+    {
+    name = 08 = Kerbal X Hotel Division (repeatable)
+	description = Deliver This Load of passengers to the Hotel.  The tickets for this hotel are selling like Kerbal Hot Cakes on a cold day.  Make sure you have the Staff already on the hotel.. They can't be on this flight!!
+    reward = 650000
+    category = MANNED, DOCKING
+	inOrder = true
+	destroyPunishment = 300000
+	requiresMission = Open For Business Sorta.... Maybe
+	repeatable = true
+	
+		SubMissionGoal
+		{
+		
+		description = Get 8 Kerbal Civilians and the pilot safely to the station and dock for 7 days.
+			
+			OrbitGoal
+			{
+			body = Kerbin
+			minPeA = 200000
+			crewCount = 8
+			}
+		}
+		
+			DockingGoal
+			{
+			}
+		
+		LandingGoal
+			{
+			body = Kerbin
+			crewCount = 8
+			reward = 100000
+			}
+	}
+	
+	Mission
+    {
+    name = 09 - Kerbal X Hotel Division Staff Delivery Mission (repeatable)
+    description = This is the standard staff Delivery Mission.. Its sole purpose is for a role-play value. 
+    reward = 375000
+    category = MANNED, DOCKING
+	inOrder = true
+	destroyPunishment = 300000
+    requiresMission = Open For Business Sorta.... Maybe
+	repeatable = true
+	
+		SubMissionGoal
+		{
+		
+		description = This is a low paying job.  These are not paying customers. They are staff. Please don't kill them.  Deliver The Staff to the Station and stay docked for 1 day. You can keep the Vessel docked if you wish.  Once you return though you have to bring the staff back. Keep 2 staff on the Hotel at all times!  That is why we have 4 docking ports.
+			
+			OrbitGoal
+			{
+			body = Kerbin
+			minPeA = 200000
+			crewCount = 2
+			}
+
+		}
+		
+		DockingGoal
+			{
+			}
+		LandingGoal
+			{
+			body = Kerbin
+			reward = 100000
+			crewCount = 2
+			}
+			
+		
+	}
+	
+	Mission
+    {
+    name = 10 - New Worlds Await.. The Expansion of The Commercialization of Space Has Begun...
+	description = The Hotel Business, and the Space Liner is going full speed ahead. Now it’s time to think about expanding beyond our own System.. And exploring others. We have 2 targets in mind that we want to check out right away. The first target is What Scientist are dubbing Duna.  And the 2nd Mission is A new Planet called Eve.  Today we will be sending a Probe to Duna and checking it out.  We think Duna is a dead planet. Very Hot, Its deep red in color it has to be hot! We are thinking it’s not a very good area for a vacation spot.  The big wigs up in the office think this is a wasted trip. But we have to check it out. It’s about the easiest planet to get to in the whole system.  Come on!  It will be good practice for you.  Let’s get going.    
+	reward = 650000
+    category = PROBE, ORBIT  
+	inOrder = true
+	requiresMission = 08 = Kerbal X Hotel Division (repeatable)
+	
+		OrbitGoal
+			description = For the first let of the mission we want you to enter Dunas atmosphere.. The Planet looks pretty dead.. Im not even sure it has an atmosphere.. But find out anyway for us.. Not sure where it would begin.. Our telescopes are not very helpful in these aspects of planet research.
+			{
+			body = Duna
+			maxPeA = 34000
+			}
+		
+		SubMissionGoal
+		{
+		
+		description = Design a probe that can make it to the New Planet Duna.  It must have these instruments on it.. We want to find out what this planet has to offer for a commercial value.
+		reward = 50000
+	
+			OrbitGoal
+			{
+			body = Duna
+			maxApA = 80000
+			minPeA = 78000
+			}
+
+			PartGoal
+			{
+			partName = sensorAccelerometer
+			partCount = 1
+			}
+
+			PartGoal
+			{
+			partName = sensorBarometer
+			PartCount = 1
+			}
+
+			PartGoal
+			{
+			partName = sensorGravimeter
+			PartCount = 1
+			}   
+			PartGoal
+			{
+			partName = sensorThermometer
+			PartCount = 1
+			}
+ 
+			PartGoal
+			{
+			partName = longAntenna
+			partCount = 6
+			}
+
+		}
+	}
+	
+	Mission
+    {
+    name = 11 - New Worlds Await.. Part 2 The Purple Planet
+                description = Well with the Red Planet now in our grasp of understanding.. We now want to send a probe to the planet EVE. This purplish looking Round ball of fun looks very promising for a Holiday Stay on the surface.. not much is known about this planet. But its purple.. That means it has to be cool, and bright and shiny... Our Scientist are thinking that its Atmosphere is perfect for Landing and taking off. It has to be just as thin as Duna’s.. If it is, it will be the choice spot for a new Colony.  Some Higher ups are thinking reality TV shows. Like Big Kerbal, and even possibly a Season Of Kerbol Idol from EVE... Imagine the possibilities! But like all good business men. They want us to actually find out what eve is all about. So send a probe. Good Luck.    
+				reward = 800000
+    category = PROBE, ORBIT  
+	inOrder = true
+	requiresMission = 10 - New Worlds Await.. The Expansion of The Commercialization of Space Has Begun...
+	
+			OrbitGoal
+			description = For the first let of the mission we want you to enter eves atmosphere.. We want to test the composition with the probes instruments.  That means entering it.  We are pretty sure its not very thick.. So this should not be a problem.. But just in case... Have a plan...
+			{
+			body = Eve
+			maxPeA = 75000
+			}
+			
+		SubMissionGoal
+		{
+		
+		description = For The Final Part Of the Mission get an orbit around Eve for we can continue our study of the planet.
+		reward = 50000
+	
+			OrbitGoal
+			{
+			body = Eve
+			minPeA = 200000
+			}
+
+			PartGoal
+			{
+			partName = sensorAccelerometer
+			partCount = 1
+			}
+
+			PartGoal
+			{
+			partName = sensorBarometer
+			PartCount = 1
+			}
+
+			PartGoal
+			{
+			partName = sensorGravimeter
+			PartCount = 1
+			}   
+			PartGoal
+			{
+			partName = sensorThermometer
+			PartCount = 1
+			}
+ 
+			PartGoal
+			{
+			partName = longAntenna
+			partCount = 6
+			}
+
+		}
+	}
+	
+	Mission
+    {
+    name = 12 - 3 Wheels on the Ground.. 
+	description = Well what a surprise we got from our data on Duna And Eve.. Scientist were so wrong about these two planets that people are starting to question if scientist are ever correct?  But anyway Time to get some wheels on the ground on duna.  The Big Wigs up in the office want a Rover Expedition of the surface of DUNA.. They want pictures, and Live Video from the surface of Duna Pronto. The plans for the Big Kerbal House on Eve is Over.... With eve being at such a hot temperature, and the atmosphere so thick. Landing on eve is almost out of the question. Well landing is easy.. Getting back off is the hard part. So the plans have moved for an expedition to DUNA in the near future. But first let’s get something without a heartbeat on the planet before we risk a breathing live kerbal.    
+	reward = 800000
+    category = ROVER
+	inOrder = true
+	requiresMission = 11 - New Worlds Await.. Part 2 The Purple Planet
+	
+		SubMissionGoal
+		{
+		
+		description = Design a rover that can land on Duna and conduct studies of its surface.  
+		reward = 50000
+	
+			LandingGoal
+			{
+			body = Duna
+			}
+
+			PartGoal
+			{
+			partName = sensorAccelerometer
+			partCount = 1
+			}
+
+			PartGoal
+			{
+			partName = sensorBarometer
+			PartCount = 1
+			}
+
+			PartGoal
+			{
+			partName = sensorGravimeter
+			PartCount = 1
+			}   
+			PartGoal
+			{
+			partName = sensorThermometer
+			PartCount = 1
+			}
+ 
+			PartGoal
+			{
+			partName = longAntenna
+			partCount = 6
+			}
+
+		}
+	}
+	
+	Mission
+    {
+    name = 13 - The Future Of KerbalKind Manned Missions to Duna.. And Back PART 1
+	description = Well The time has come.. The big wigs up stairs are still worried about a full manned mission. So the first mission we will launch is a full sized craft that will Orbit Duna, land, and then return home.  If this mission is successful. Manned missions will be launched at the next able time.  Use this time to test out your landers, and your ships.. there is no Cost to failing this mission other than the cost of the vessel.. But in the future if we lose a manned vessel the insurance cost of Kerbals will cost us great.. And we are thinking that the Pressure at home would cost us well over a Million In damages to the civilian program.. So it’s important that the manned mission works.. So the first launch was decided to be totally unmanned and test of the craft you make.  If you get the vessel home the award will be amazing.  And the manned mission will be go for launch.. this is serious now. We’re talking about almost a year in space for a manned mission. This has to work. Good Luck.    
+	reward = 500000
+    category = LANDING
+	inOrder = true
+	requiresMission = 12 - 3 Wheels on the Ground.. 
+	
+		SubMissionGoal
+		{
+		
+		description = Most of the Ship is up to you to make.. Only things that are required are the Power Requirments, and the RC-L01 Large Probe Stack.  Also keep in mind the manned mission will require a three man team.. So this ship has to have support for that many kerbals.  Total Mission Payout is 1.3 Million Kerbal Dollars.. So lets do this right the first time!!
+		reward = 400000
+	
+			LandingGoal
+			{
+			body = Duna
+			}
+			
+			PartGoal
+			{
+			partName = probeStackLarge
+			partCount = 1
+			}
+ 
+			PartGoal
+			{
+			partName = commDish
+			PartCount = 1
+			}
+	   
+			PartGoal
+			{
+			partName = longAntenna
+			partCount = 4
+			}
+
+			ResourceGoal
+			{
+			name = ElectricCharge
+			minAmount = 2000
+			}
+		}
+		
+			LandingGoal
+			{
+			body = kerbin
+			reward = 400000
+			}
+	}
+	
+	Mission
+    {
+    name = 14 - The Future Of KerbalKind Manned Missions to Duna.. And Back PART 2 To Boldly Go Were No Kerbal Gone Before.
+	description = The room goes silent as you get up to make your grand speech You Start, And the air feels Excited:                   What we Have asked of Our Investors, And Kerbals everywhere above and beyond the increases I have earlier requested for space activities, to provide the funds which are needed to meet the following Program goal:       I believe that this World should commit itself to achieving this goal, before this year is out, of landing Kerbals on Duna and returning Them safely to Kerbin. No single space project in this period will be more impressive to Kerbal Kind, or more important for the long-range exploration of space; and none will be so difficult or expensive to accomplish. We propose to accelerate the development of the appropriate Duna space craft. We propose to develop alternate liquid and solid fuel boosters, much larger than any now being developed, until certain which is superior. We propose additional funds for other engine development and for unmanned explorations explorations which are particularly important for one purpose which this world will never overlook: the survival of the Kerbals who first makes this daring flight. But in a very real sense, it will not be Just a Few Kerbals going to Duna if we make this judgment affirmatively, it will be an entire World. For all of us must work to put Them there.   Thank You.. And Gods Speed.                             The Cheering crowd explodes in excitement.  It’s time to go to Duna.. And where bringing the whole world with us.. Let’s go!!	
+	reward = 800000
+    category = LANDING, MANNED
+	inOrder = true
+	destroyPunishment = 2300000
+	requiresMission = 13 - The Future Of KerbalKind Manned Missions to Duna.. And Back PART 1
+	
+		SubMissionGoal
+		{
+		
+		description = Its time.. The day has finally come.. Its launch day.. Your many years of service are about to pay off.. And pave the way for the future of our space program.. Everything rides on this mission.. If you fail we could go bankrupt.. Estimates are now at 2 Million Kerbal Dollars for failure.  The loss of the space program is possible if we have not planned this well.. Today we will send 3 kerbals on the journey of a lifetime.. Good Luck my friend.. And bring them home safe.  Total Mission Payout for all Goals are 1.6 Million Kerbal Dollars..
+		reward = 400000
+	
+			LandingGoal
+			{
+			body = Duna
+			crewCount = 3
+			}
+			
+			PartGoal
+			{
+			partName = commDish
+			PartCount = 1
+			}
+	   
+			PartGoal
+			{
+			partName = longAntenna
+			partCount = 4
+			}
+
+			ResourceGoal
+			{
+			name = ElectricCharge
+			minAmount = 2000
+			}
+		}
+		
+			LandingGoal
+			{
+			body = kerbin
+			crewCount = 3
+			reward = 400000
+			}
+	}
+}

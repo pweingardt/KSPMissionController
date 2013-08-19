@@ -496,18 +496,19 @@ namespace MissionController
         /// Doesnt Work yet Stumped
         /// </summary>
         /// <param name="node"></param>
-        public void OnSave (ConfigNode node)
+        
+        void OnLevelWasLoaded (ConfigNode config)
         {
-            PluginConfiguration config = PluginConfiguration.CreateForType<MissionController>();
-            config.SetValue("MainWindow", mainWindowPosition);
-            config.save();
+            config = new ConfigNode();
+            config.AddValue("Windowspostion", mainWindowPosition);
+            config.Save(@"GameData\MissionController\Plugins\PluginData\MissionController");  
         }
         
         /// <summary>
         /// Doesn't work Yet Stumped
         /// </summary>
         /// <param name="node"></param>
-        public void OnLoad (ConfigNode node)
+        private void Load(ConfigNode node)
         {
             PluginConfiguration config = PluginConfiguration.CreateForType<MissionController>();
             config.load();
