@@ -19,7 +19,7 @@ namespace MissionController
         }
 
         public static readonly double[] medium = new double[] 
-        { 0.7, 3, 5, 10, 3500, 6, 1.5, 10, 3, 5000 };
+        { 0.7, 3, 5, 10, 3500, 6, 1.5, 10, 3};
         
 
         public static readonly double[] easy;
@@ -104,16 +104,9 @@ namespace MissionController
                 return factors[8];
             }
         }
-        public static double KerbalNaut
-        {
-            get
-            {
-                return factors[9];
-            }
-        }
 
         public static void init(double liquid, double mono, double solid, double xenon,
-                                double mass, double oxidizer, double engines, double LiquidOxy, double LiquidH, double kerbals)
+                                double mass, double oxidizer, double engines, double LiquidOxy, double LiquidH)
         {
             factors [0] = liquid;
             factors [1] = mono;
@@ -124,7 +117,6 @@ namespace MissionController
             factors [6] = engines;
             factors [7] = LiquidOxy;
             factors [8] = LiquidH;
-            factors [9] = kerbals;
         }
 
         public static void init(int difficulty)

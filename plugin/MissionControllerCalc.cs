@@ -499,7 +499,7 @@ namespace MissionController
 
             public int kerbal()
             {
-                return (int)(Difficulty.KerbalNaut);
+                return (SettingsManager.Manager.getSettings().KerbalNautCost);
             }
 
             public int dry()
