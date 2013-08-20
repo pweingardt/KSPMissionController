@@ -497,6 +497,11 @@ namespace MissionController
                 return (SettingsManager.Manager.getSettings().kerbonautCostAsInt * crewCount);
             }
 
+            public int kerbal()
+            {
+                return (int)(Difficulty.KerbalNaut);
+            }
+
             public int dry()
             {
                 return pod() + tank() + engine() + ctrl() + util() + sci() + stru() + aero();

@@ -113,7 +113,7 @@ namespace MissionController
         }
 
         public static void init(double liquid, double mono, double solid, double xenon,
-                                double mass, double oxidizer, double engines, double LiquidOxy, double LiquidH)
+                                double mass, double oxidizer, double engines, double LiquidOxy, double LiquidH, double kerbals)
         {
             factors [0] = liquid;
             factors [1] = mono;
@@ -124,6 +124,7 @@ namespace MissionController
             factors [6] = engines;
             factors [7] = LiquidOxy;
             factors [8] = LiquidH;
+            factors [9] = kerbals;
         }
 
         public static void init(int difficulty)

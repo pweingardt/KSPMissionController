@@ -81,7 +81,7 @@ namespace MissionController
         private Rect settingsWindowPosition = new Rect (700, 70, 250, 250);
         private Rect packageWindowPosition = new Rect (50, 50, 1000, 700);
         private Rect financeWindowPosition = new Rect(700, 70, 250, 250);
-        private Rect kerbalnautswinpostion = new Rect(800, 70, 500, 600);
+        private Rect kerbalnautswinpostion = new Rect(800, 70, 300, 350);
 
         private bool showMainWindow = false;
         private bool showSettingsWindow = false;
@@ -633,11 +633,11 @@ namespace MissionController
                      resetCount = 0;
                  }
              }
-             //if (GUILayout.Button("KerbalNauts"))
-             //{
-             //    kerbalNautsWindow(!showkerbalwindow);
-             //    resetCount = 0;
-            // }
+             if (GUILayout.Button("KerbalNauts"))
+             {
+                 kerbalNautsWindow(!showkerbalwindow);
+                 resetCount = 0;
+             }
                 
 
 //            if (GUILayout.Button ("Draw landing area!", styleButton)) {

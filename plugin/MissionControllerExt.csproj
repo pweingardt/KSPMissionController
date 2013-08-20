@@ -56,7 +56,6 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="FinanceWindowGUI.cs" />
     <Compile Include="LaunchGoal.cs" />
-    <Compile Include="Kerbnauts.cs" />
     <Compile Include="MissionControllerCalc.cs">
       <SubType>Code</SubType>
     </Compile>
