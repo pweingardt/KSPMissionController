@@ -38,6 +38,10 @@ namespace MissionController
 
 
             GUILayout.Space(30);
+            if (GUILayout.Button("Exit Window"))
+            {
+                financeWindow(false);
+            }
 
             GUILayout.EndVertical();
             GUI.DragWindow();
