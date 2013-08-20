@@ -8,10 +8,36 @@ namespace MissionController
     /// </summary>
     public class DockingGoal : MissionGoal
     {
+
+        private Vessel activeVessel
+        {
+            get
+            {
+                // We need this try-catch-block, because FlightGlobals.ActiveVessel might throw
+                // an exception
+                try
+                {
+                    if (HighLogic.LoadedSceneIsFlight && FlightGlobals.ActiveVessel != null)
+                    {
+                        return FlightGlobals.ActiveVessel;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+        }
+
         protected override List<Value> values(Vessel vessel, GameEvent events) {
             List<Value> values = new List<Value> ();
 
-            if (vessel == null) {
+            if (activeVessel.situation == Vessel.Situations.DOCKED)
+            {
                 values.Add (new Value ("Docked", "True"));
             } else {
                 bool docked = (events.docked || this.doneOnce);
