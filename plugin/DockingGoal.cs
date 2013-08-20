@@ -13,8 +13,7 @@ namespace MissionController
         {
             get
             {
-                // We need this try-catch-block, because FlightGlobals.ActiveVessel might throw
-                // an exception
+                
                 try
                 {
                     if (HighLogic.LoadedSceneIsFlight && FlightGlobals.ActiveVessel != null)

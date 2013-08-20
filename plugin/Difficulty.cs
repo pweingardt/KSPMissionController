@@ -8,24 +8,24 @@ namespace MissionController
 
         static Difficulty() 
         {
-            easy = new double[medium.Length];
-            hard = new double[medium.Length];
+            testmode = new double[normal.Length];
+            hardcore = new double[normal.Length];
 
-            for (int i = 0; i < medium.Length; ++i) 
+            for (int i = 0; i < normal.Length; ++i) 
             {
-                easy[i] = 1.0 * medium[i];
-                hard [i] = 1.0 * medium [i];
+                testmode[i] = 1.0 * normal[i];
+                hardcore [i] = 1.0 * normal [i];
             }
         }
 
-        public static readonly double[] medium = new double[] 
+        public static readonly double[] normal = new double[] 
         { 0.7, 3, 5, 10, 3500, 6, 1.5, 10, 3};
         
 
-        public static readonly double[] easy;
-        public static readonly double[] hard;
+        public static readonly double[] testmode;
+        public static readonly double[] hardcore;
 
-        private static double[] factors = medium;
+        private static double[] factors = normal;
 
         public static double[] Factors 
         {
@@ -124,19 +124,19 @@ namespace MissionController
             switch (difficulty)
             {
                 case 0:
-                    factors = easy;
+                    factors = testmode;
                     break;
 
                 case 1:
-                    factors = medium;
+                    factors = normal;
                     break;
 
                 case 2:
-                    factors = hard;
+                    factors = hardcore;
                     break;
 
                 default:
-                    factors = medium;
+                    factors = normal;
                     break;            
                 
             }
