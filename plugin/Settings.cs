@@ -19,6 +19,16 @@ namespace MissionController
                 return int.Parse (kerbonautCost); 
             }
         }
+        public string HireKerbalNautCost = "5000";
+        public int KerbalNautCost
+        {
+            get
+            {
+                return int.Parse(HireKerbalNautCost);
+            }
+        }
+        
+
     }
 
     public class SettingsManager 
@@ -64,7 +74,7 @@ namespace MissionController
         public void saveSettings()
         {
             settings.changed = false;
-            parser.writeObject (settings, "settings.cfg");      
+            parser.writeObject (settings,"settings.cfg");
         }
 
     }

@@ -11,15 +11,10 @@ namespace MissionController
     public partial class MissionController
     {
         private int resetCount = 0;
-        private String[] resetStrings = new String[] {"Reset the space program!", "Are you sure?", "Are you *really* sure?",
-            "I don't think you are...", "Ok... fine...", "Last chance!"
-        };
+        private String[] resetStrings = new String[] {"Reset the space program!", "Are you sure?"};
 
         private int rewindCount = 0;
-        private String[] rewindStrings = new String[] {"Rewind", "Are you sure?", "So you messed up?", "LOL! And you want to get your latest expenses back?",
-            "Well, let me see what I can do...", "Good news and bad news: You should not be running a space program and you will get the latest expenses back ;).",
-            "Come on man, take that joke...", "Ok, last chance!"
-        };
+        private String[] rewindStrings = new String[] {"Rewind", "Are you sure?"};
 
         private String contributions = "Original Mission Controller\n" +
             "MC Main developer: nobody44\n" +
