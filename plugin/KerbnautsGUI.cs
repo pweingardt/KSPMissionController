@@ -44,7 +44,7 @@ namespace MissionController
             GUILayout.Space(30);
 
             GUILayout.Label("Use This To Simulate Hired Kerbals, At this Point it is not connected to the Actual Hire Button in Astronaut Complex. It is up to you if you want to use this option at this time When You Do Hire An Applicant you can use this button to charge your space Program. The price can be adjusted above", styleValueName);
-            if (GUILayout.Button(HireKerbal[kerbalCount]))
+            if (GUILayout.Button(HireKerbal[kerbalCount], styleButtonYellow))
             {
                 kerbalCount++;
                 if (kerbalCount >= HireKerbal.Length)

@@ -73,15 +73,16 @@ namespace MissionController
             get {
                 return SettingsManager.Manager.getSettings();
             }
+            
         }
 
         private List<MissionGoal> hiddenGoals = new List<MissionGoal> ();
-    
-        private Rect mainWindowPosition = new Rect (300, 70, 350, 690);
-        private Rect settingsWindowPosition = new Rect (700, 70, 250, 250);
-        private Rect packageWindowPosition = new Rect (50, 50, 1000, 700);
-        private Rect financeWindowPosition = new Rect(100, 40, 250, 250);
-        private Rect kerbalnautswinpostion = new Rect(800, 100, 300, 350);
+
+        public Rect mainWindowPosition;
+        private Rect settingsWindowPosition;
+        private Rect packageWindowPosition;
+        private Rect financeWindowPosition;
+        private Rect kerbalnautswinpostion;
 
         private bool showMainWindow = false;
         private bool showSettingsWindow = false;
@@ -243,10 +244,19 @@ namespace MissionController
             styleRedButton.wordWrap = true;
 
             styleIcon = new GUIStyle ();
+
         }
 
         public void toggleWindow () {
             showMainWindow = !showMainWindow;
+        }
+        void Start()
+        {
+            GUILoad();
+        }
+        void OnLevelWasLoaded()
+        {
+            GUISave();
         }
 
         public void Awake () {
@@ -263,7 +273,6 @@ namespace MissionController
             GameEvents.onVesselRecovered.Add(this.onRecovered);
             GameEvents.onPlanetariumTargetChanged.Add(this.onTargeted);
             GameEvents.onVesselCreate.Add(this.onCreate);
-            
 
             assemblyName = Assembly.GetExecutingAssembly().GetName();
             versionCode = "" + assemblyName.Version.Major + "." + assemblyName.Version.Minor;
@@ -292,7 +301,31 @@ namespace MissionController
             GameEvents.onVesselCreate.Remove(this.onCreate);
         }
 
-        
+        public void GUILoad()
+        {
+            KSP.IO.PluginConfiguration configfile = KSP.IO.PluginConfiguration.CreateForType<MissionController>();
+            configfile.load();
+
+            mainWindowPosition = configfile.GetValue<Rect>("maineWindowPostion");
+            settingsWindowPosition = configfile.GetValue<Rect>("settingsWindowPostion");
+            financeWindowPosition = configfile.GetValue<Rect>("finanaceWindowPostion");
+            kerbalnautswinpostion = configfile.GetValue<Rect>("kerbalnautWindowPostion");
+            packageWindowPosition = configfile.GetValue<Rect>("packageWindowPostion");
+        }
+
+        public void GUISave()
+        {
+            KSP.IO.PluginConfiguration configfile = KSP.IO.PluginConfiguration.CreateForType<MissionController>();
+
+            configfile.SetValue("maineWindowPostion", mainWindowPosition);
+            configfile.SetValue("settingsWindowPostion", settingsWindowPosition);
+            configfile.SetValue("finanaceWindowPostion", financeWindowPosition);
+            configfile.SetValue("kerbalnautWindowPostion", kerbalnautswinpostion);
+            configfile.SetValue("packageWindowPostion", packageWindowPosition);
+
+            configfile.save();            
+        }
+
         /// <summary>
         /// Returns the active vessel if there is one, null otherwise
         /// </summary>
@@ -439,20 +472,20 @@ namespace MissionController
             }
             
             if (showMainWindow) {
-                mainWindowPosition = GUILayout.Window (98765, mainWindowPosition, drawMainWindow, mainWindowTitle);
+                mainWindowPosition = GUILayout.Window (98765, mainWindowPosition, drawMainWindow, mainWindowTitle, GUILayout.MinHeight(700), GUILayout.MinWidth(330));
             }
 
             if (showSettingsWindow) {
-                settingsWindowPosition = GUILayout.Window (98763, settingsWindowPosition, drawSettingsWindow, "Settings");
+                settingsWindowPosition = GUILayout.Window(98763, settingsWindowPosition, drawSettingsWindow, "Settings", GUILayout.MinHeight(300), GUILayout.MaxWidth(300));
             }
 
             if (showMissionPackageBrowser) {
-                packageWindowPosition = GUILayout.Window(98762, packageWindowPosition, drawPackageWindow, currentPackage.name);
+                packageWindowPosition = GUILayout.Window(98762, packageWindowPosition, drawPackageWindow, currentPackage.name, GUILayout.MinHeight(750), GUILayout.MinWidth(1000));
             }
 
             if (showFinanceWindow)
             {
-                financeWindowPosition = GUILayout.Window(98761, financeWindowPosition, drawFinaceWindow, "Finance Window");
+                financeWindowPosition = GUILayout.Window(98761, financeWindowPosition, drawFinaceWindow, "Finance Window", GUILayout.MinHeight(250), GUILayout.MaxWidth(250));
             }
 
             if (showRecycleWindow)
@@ -462,7 +495,7 @@ namespace MissionController
 
             if (showkerbalwindow)
             {
-                kerbalnautswinpostion = GUILayout.Window(98760, kerbalnautswinpostion, drawKerbalnautWindow, "Kerbalnaut Window");
+                kerbalnautswinpostion = GUILayout.Window(98760, kerbalnautswinpostion, drawKerbalnautWindow, "Kerbalnaut Window", GUILayout.MinHeight(350), GUILayout.MaxWidth(275));
             }
             
             if (fileBrowser != null) {
@@ -509,6 +542,7 @@ namespace MissionController
         
    
         private void drawMainWindow (int id) {
+            
             Status status = calculateStatus (currentMission, true, activeVessel);
 
             GUI.skin = HighLogic.Skin;
@@ -766,7 +800,6 @@ namespace MissionController
             }
         }
 
-        
         /// <summary>
         /// Draws the mission goals
         /// </summary>

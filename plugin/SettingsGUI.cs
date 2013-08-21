@@ -120,6 +120,7 @@ namespace MissionController
 #endif
 
                 SettingsManager.Manager.saveSettings();
+                GUISave();
             }
 
             GUILayout.EndVertical();
