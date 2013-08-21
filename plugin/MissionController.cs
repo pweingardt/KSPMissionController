@@ -472,7 +472,7 @@ namespace MissionController
             }
             
             if (showMainWindow) {
-                mainWindowPosition = GUILayout.Window (98765, mainWindowPosition, drawMainWindow, mainWindowTitle, GUILayout.MinHeight(700), GUILayout.MinWidth(330));
+                mainWindowPosition = GUILayout.Window (98765, mainWindowPosition, drawMainWindow, mainWindowTitle, GUILayout.MinHeight(700), GUILayout.MaxWidth(330));
             }
 
             if (showSettingsWindow) {
@@ -639,19 +639,19 @@ namespace MissionController
                 GUILayout.Space(30);
                 GUILayout.EndScrollView();
 
-                if (GUILayout.Button("Configure"))
+                if (!HighLogic.LoadedSceneIsFlight && GUILayout.Button("Configure"))
                     {
                     settingsWindow(!showSettingsWindow);
                     resetCount = 0;
                     }
-             
-             if (!HighLogic.LoadedSceneIsEditor && GUILayout.Button("Financing"))
+
+                if (!HighLogic.LoadedSceneIsEditor && !HighLogic.LoadedSceneIsFlight && GUILayout.Button("Financing"))
                     {
                      financeWindow(!showFinanceWindow);
                      resetCount = 0;
                     }
-             
-             if (GUILayout.Button("KerbalNauts"))
+
+                if (!HighLogic.LoadedSceneIsFlight && GUILayout.Button("KerbalNauts"))
                     {
                     kerbalNautsWindow(!showkerbalwindow);
                     resetCount = 0;
