@@ -91,7 +91,7 @@ namespace MissionController
                     packageWindow (false);
                 }
 
-                if (currentPreviewMission.randomized && GUILayout.Button ("Discard")) {
+                if (currentPreviewMission.randomized && GUILayout.Button ("New Random Mission", styleButtonYellow)) {
                     manager.discardRandomMission (currentPreviewMission);
                     currentPreviewMission = manager.reloadMission (currentPreviewMission, activeVessel);
                 }

@@ -21,12 +21,17 @@ namespace MissionController
             GUI.skin = HighLogic.Skin;
             GUILayout.BeginVertical();
 
-            GUILayout.Label("Hire Kerbals And Adjust Hire Cost In This Window", styleValueGreenBold);
-            GUILayout.Label("This Window Is Work In Progress", styleValueGreenBold);
+            GUILayout.Label("Kerbal Control Room", styleValueGreenBold);
 
             GUILayout.Label("Kerbonaut Hire cost: ", styleValueGreenBold);
             settings.HireKerbalNautCost = GUILayout.TextField(settings.HireKerbalNautCost);
             settings.HireKerbalNautCost = Regex.Replace(settings.HireKerbalNautCost, @"[^0-9]", "");
+            GUILayout.Space(30);
+
+            GUILayout.Label("Kerbonaut insurance cost: ", styleValueGreenBold);            
+            settings.kerbonautCost = GUILayout.TextField(settings.kerbonautCost);
+            settings.kerbonautCost = Regex.Replace(settings.kerbonautCost, @"[^0-9]", "");
+            GUILayout.Label("Insurance Is Charged At Launch. Gets Returned When Recovered long as the Kerbals Lived through the mission", styleValueName);
 
             if (GUILayout.Button("Save Kerbal Cost", styleButton))
             {
@@ -36,9 +41,9 @@ namespace MissionController
                 SettingsManager.Manager.saveSettings();
             }
 
-            GUILayout.Space(15);
+            GUILayout.Space(30);
 
-            GUILayout.Label("Use This Button To Charge Your Space Program For New Hires You select in KerablNaut Complex", styleValueGreenBold);
+            GUILayout.Label("Use This To Simulate Hired Kerbals, At this Point it is not connected to the Actual Hire Button in Astronaut Complex. It is up to you if you want to use this option at this time When You Do Hire An Applicant you can use this button to charge your space Program. The price can be adjusted above", styleValueName);
             if (GUILayout.Button(HireKerbal[kerbalCount]))
             {
                 kerbalCount++;
@@ -52,6 +57,11 @@ namespace MissionController
 
             if (GUILayout.Button("Exit Window"))
             {
+
+                Difficulty.init(settings.difficulty);
+
+                SettingsManager.Manager.saveSettings();
+
                 kerbalNautsWindow(false);
             }
 

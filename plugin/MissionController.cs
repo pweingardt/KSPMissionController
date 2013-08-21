@@ -77,11 +77,11 @@ namespace MissionController
 
         private List<MissionGoal> hiddenGoals = new List<MissionGoal> ();
     
-        private Rect mainWindowPosition = new Rect (300, 70, 300, 690);
+        private Rect mainWindowPosition = new Rect (300, 70, 350, 690);
         private Rect settingsWindowPosition = new Rect (700, 70, 250, 250);
         private Rect packageWindowPosition = new Rect (50, 50, 1000, 700);
-        private Rect financeWindowPosition = new Rect(700, 70, 250, 250);
-        private Rect kerbalnautswinpostion = new Rect(800, 70, 300, 350);
+        private Rect financeWindowPosition = new Rect(100, 40, 250, 250);
+        private Rect kerbalnautswinpostion = new Rect(800, 100, 300, 350);
 
         private bool showMainWindow = false;
         private bool showSettingsWindow = false;
@@ -105,6 +105,7 @@ namespace MissionController
         private GUIStyle styleValueRed;
         private GUIStyle styleValueRedBold;
         private GUIStyle styleButton;
+        private GUIStyle styleButtonYellow;
         private GUIStyle styleGreenButton, styleRedButton;
         private GUIStyle styleValueName;
         private GUIStyle styleWarning;
@@ -119,7 +120,7 @@ namespace MissionController
             if (iconMenu == null) {
 
 
-                iconMenu = new Texture2D (35, 50, TextureFormat.ARGB32, false);
+                iconMenu = new Texture2D (125, 30, TextureFormat.ARGB32, false);
                 iconFinished = new Texture2D (0, 0, TextureFormat.ARGB32, false);
                 iconTypeProbe = new Texture2D (0, 0, TextureFormat.ARGB32, false);
                 iconTypeImpactor = new Texture2D (0, 0, TextureFormat.ARGB32, false);
@@ -164,6 +165,7 @@ namespace MissionController
                 iconDictionary.Add (Mission.Category.ROVER, iconTypeRover);
                 iconDictionary.Add (Mission.Category.SCIENCE, iconTypeScience);
                 iconDictionary.Add (Mission.Category.TIME, iconTypeClock);
+                
             }
         }
         
@@ -208,6 +210,11 @@ namespace MissionController
             styleButton.normal.textColor = Color.white;
             styleButton.fontStyle = FontStyle.Bold;
             styleButton.alignment = TextAnchor.MiddleCenter;
+
+            styleButtonYellow = new GUIStyle(HighLogic.Skin.button);
+            styleButtonYellow.normal.textColor = Color.yellow;
+            styleButtonYellow.fontStyle = FontStyle.Bold;
+            styleButtonYellow.alignment = TextAnchor.MiddleCenter;
 
             styleButtonWordWrap = new GUIStyle (HighLogic.Skin.button);
             styleButtonWordWrap.normal.textColor = Color.white;
@@ -256,6 +263,7 @@ namespace MissionController
             GameEvents.onVesselRecovered.Add(this.onRecovered);
             GameEvents.onPlanetariumTargetChanged.Add(this.onTargeted);
             GameEvents.onVesselCreate.Add(this.onCreate);
+            
 
             assemblyName = Assembly.GetExecutingAssembly().GetName();
             versionCode = "" + assemblyName.Version.Major + "." + assemblyName.Version.Minor;
@@ -426,7 +434,7 @@ namespace MissionController
                 return;
             }
 
-            if (GUI.Button (new Rect (Screen.width / 3 - 44, Screen.height - 38, 45, 40), iconMenu, styleIcon)) { //3-15
+            if (GUI.Button (new Rect (Screen.width / 3 - 44, Screen.height - 29, 125, 35), iconMenu, styleIcon)) { //3-15
                 toggleWindow ();
             }
             
@@ -491,30 +499,7 @@ namespace MissionController
             GUILayout.EndVertical();
             GUI.DragWindow();
         }
-        
-        /// <summary>
-        /// Doesnt Work yet Stumped
-        /// </summary>
-        /// <param name="node"></param>
-        
-        void OnLevelWasLoaded (ConfigNode config)
-        {
-            config = new ConfigNode();
-            config.AddValue("Windowspostion", mainWindowPosition);
-            config.Save(@"GameData\MissionController\Plugins\PluginData\MissionController");  
-        }
-        
-        /// <summary>
-        /// Doesn't work Yet Stumped
-        /// </summary>
-        /// <param name="node"></param>
-        private void Load(ConfigNode node)
-        {
-            PluginConfiguration config = PluginConfiguration.CreateForType<MissionController>();
-            config.load();
-            mainWindowPosition = config.GetValue<Rect>("MainWindow");
-        }
-
+          
         /// <summary>
         /// Draws the main mission window.
         /// Do not use currentMission.isDone or missionGoal.isDone(), use status instead!!!
@@ -620,24 +605,23 @@ namespace MissionController
                 GUILayout.Space(30);
                 GUILayout.EndScrollView();
 
-             if (GUILayout.Button("Configure"))
+                if (GUILayout.Button("Configure"))
                     {
                     settingsWindow(!showSettingsWindow);
                     resetCount = 0;
-                     }
-             if (!HighLogic.LoadedSceneIsEditor)
-             {
-                 if (GUILayout.Button("Financing"))
-                 {
+                    }
+             
+             if (!HighLogic.LoadedSceneIsEditor && GUILayout.Button("Financing"))
+                    {
                      financeWindow(!showFinanceWindow);
                      resetCount = 0;
-                 }
-             }
+                    }
+             
              if (GUILayout.Button("KerbalNauts"))
-             {
-                 kerbalNautsWindow(!showkerbalwindow);
-                 resetCount = 0;
-             }
+                    {
+                    kerbalNautsWindow(!showkerbalwindow);
+                    resetCount = 0;
+                    }
                 
 
 //            if (GUILayout.Button ("Draw landing area!", styleButton)) {
@@ -666,7 +650,7 @@ namespace MissionController
                     hiddenGoals = new List<MissionGoal> ();
                     currentMission = null;
                 }
-                // Edited Malkuth1974 With Help Of Frement Made a New Class File Located in the NameSpace TestingAndExperiment.cs called TerminateCurrentFlight() Simulate the Old Version And Save Kerbals.. 
+               
             }
             // NK recycle from tracking station
             if(HighLogic.LoadedScene.Equals(GameScenes.TRACKSTATION) && pVessel != null && settings.difficulty != 0)

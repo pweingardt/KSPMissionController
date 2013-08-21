@@ -48,9 +48,6 @@ namespace MissionController
 
             settings.disablePlugin = GUILayout.Toggle(settings.disablePlugin, "Disable Plugin");
 
-            GUILayout.Label("Kerbonaut insurance cost: ", styleValueGreenBold);
-            settings.kerbonautCost = GUILayout.TextField(settings.kerbonautCost);
-            settings.kerbonautCost = Regex.Replace(settings.kerbonautCost, @"[^0-9]", "");
 
 #if DEBUG  
             GUILayout.Label ("Liquid Fuel: ", styleCaption);
