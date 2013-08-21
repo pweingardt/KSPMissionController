@@ -1,13 +1,13 @@
-#Changes in .19 (Not Yet Released)
-1.	Azadam was nice enough to update the Stock Missions Descriptions and other fixes to the Mission File.
-2.	Aontas added a new missions Goal LaunchGoal. Now using LaunchGoal you can launch from any Body. And have it a mission Goal.
-3.	New KerbalNauts Window. This is a work in progress but now you have a way of charging your space program for the Kerbals you hire.  At this time it is not connected with the HireButton in the AstroNaut complex (can’t seem to find a refrence to it). But you do have the choice to use the HireButton to charge your Space Program.  The price of HireKerbals is Editable from the New KerbalNauts Window.
-4.	Kerbal Insurance has been moved to KerbalNaut window.
-5.	Updated the DOCKING GOAL.  I did not change much but the change I did use now uses the actual in game DOCKING to tell when you do dock.  It still uses most of the legacy code though for the The Rest of the code.  Seems to work with the testing I have done.  Not sure if its better though.
-6.	The silly long messages for Reset Space Program And Rewind have been removed.
-7.	New Mission Controller InGame Icon has been added.
-8.	New Random Missions.  A new Pack has been added that takes advantage of the Random Missions Option in Mission Controller.  Every Mission in Random Missions has Random Mission Goals.. After you play the mission you can Use the NEW RANDOM MISSION Button in Mission Packages to get a new set of values for the random mission.  All are repeatable.
-
+#Changes in .19
+1. Finally Mission Controller Has Saved Windows Postion.  Mission controller will finally remember your windows postions even after a restart.
+2. Azadam was nice enough to update the Stock Missions Descriptions and other fixes to the Mission File.
+3. Aontas added a new missions Goal LaunchGoal. Now using LaunchGoal you can launch from any Body. And have it a mission Goal.
+4. New KerbalNauts Window. This is a work in progress but now you have a way of charging your space program for the Kerbals you hire.  At this time it is not connected with the HireButton in the AstroNaut complex (can’t seem to find a refrence to it). But you do have the choice to use the HireButton to charge your Space Program.  The price of HireKerbals is Editable from the New KerbalNauts Window.
+5. Kerbal Insurance has been moved to KerbalNaut window.
+6. Updated the DOCKING GOAL.  I did not change much but the change I did use now uses the actual in game DOCKING to tell when you do dock.  It still uses most of the legacy code though for the The Rest of the code.  Seems to work with the testing I have done.  Not sure if its better though.
+7. The silly long messages for Reset Space Program And Rewind have been removed.
+8. New Mission Controller InGame Icon has been added.
+9. New Random Missions.  A new Pack has been added that takes advantage of the Random Missions Option in Mission Controller.  Every Mission in Random Missions has Random Mission Goals.. After you play the mission you can Use the NEW RANDOM MISSION Button in Mission Packages to get a new set of values for the random mission.  All are repeatable.
 
 #Changes In .18.1
 1. Fixed Kerbal Insurance not being Charged on launch. (thanks Nathan)
