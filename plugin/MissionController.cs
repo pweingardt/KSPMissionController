@@ -252,10 +252,12 @@ namespace MissionController
         }
         void Start()
         {
+            
             GUILoad();
         }
         void OnLevelWasLoaded()
         {
+           
             GUISave();
         }
 
@@ -472,11 +474,11 @@ namespace MissionController
             }
             
             if (showMainWindow) {
-                mainWindowPosition = GUILayout.Window (98765, mainWindowPosition, drawMainWindow, mainWindowTitle, GUILayout.MinHeight(700), GUILayout.MaxWidth(330));
+                mainWindowPosition = GUILayout.Window (98765, mainWindowPosition, drawMainWindow, mainWindowTitle, GUILayout.MinHeight(700), GUILayout.MinWidth(330));
             }
 
             if (showSettingsWindow) {
-                settingsWindowPosition = GUILayout.Window(98763, settingsWindowPosition, drawSettingsWindow, "Settings", GUILayout.MinHeight(300), GUILayout.MaxWidth(300));
+                settingsWindowPosition = GUILayout.Window(98763, settingsWindowPosition, drawSettingsWindow, "Settings", GUILayout.MinHeight(300), GUILayout.MinWidth(300));
             }
 
             if (showMissionPackageBrowser) {
@@ -485,7 +487,7 @@ namespace MissionController
 
             if (showFinanceWindow)
             {
-                financeWindowPosition = GUILayout.Window(98761, financeWindowPosition, drawFinaceWindow, "Finance Window", GUILayout.MinHeight(250), GUILayout.MaxWidth(250));
+                financeWindowPosition = GUILayout.Window(98761, financeWindowPosition, drawFinaceWindow, "Finance Window", GUILayout.MinHeight(250), GUILayout.MinWidth(250));
             }
 
             if (showRecycleWindow)
@@ -495,7 +497,7 @@ namespace MissionController
 
             if (showkerbalwindow)
             {
-                kerbalnautswinpostion = GUILayout.Window(98760, kerbalnautswinpostion, drawKerbalnautWindow, "Kerbalnaut Window", GUILayout.MinHeight(350), GUILayout.MaxWidth(275));
+                kerbalnautswinpostion = GUILayout.Window(98760, kerbalnautswinpostion, drawKerbalnautWindow, "Kerbalnaut Window", GUILayout.MinHeight(350), GUILayout.MinWidth(275));
             }
             
             if (fileBrowser != null) {

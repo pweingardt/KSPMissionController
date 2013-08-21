@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace MissionController
 {
@@ -35,12 +36,14 @@ namespace MissionController
         protected override List<Value> values(Vessel vessel, GameEvent events) {
             List<Value> values = new List<Value> ();
 
-            if (activeVessel.situation == Vessel.Situations.DOCKED)
+            if (vessel == null)
             {
                 values.Add (new Value ("Docked", "True"));
+                
             } else {
                 bool docked = (events.docked || this.doneOnce);
                 values.Add (new Value ("Docked", "True", "" + docked, docked));
+                
             }
 
             return values;

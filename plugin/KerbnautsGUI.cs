@@ -13,7 +13,7 @@ namespace MissionController
     {
         VesselResources res = new VesselResources();
       
-        private int kerbalCount = 0;
+        private int kerbalCount = 0;       
         private String[] HireKerbal = new String[] { "Hire Kerbals?", "Are you sure?"};
 
         private void drawKerbalnautWindow(int id)
@@ -52,7 +52,11 @@ namespace MissionController
                     kerbalCount = 0;
                     manager.costs(res.kerbal());
                 }
+                if (kerbalCount != 1)
+                    settings.KerbalsHired++;
+                
             }
+            showIntValue("Total Amount Kerbals Hired:", settings.KerbalsHired, styleValueGreen);
             GUILayout.Space(15);
 
             if (GUILayout.Button("Exit Window"))

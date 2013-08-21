@@ -4,6 +4,8 @@ namespace MissionController
 {
     public class Settings 
     {
+        public int KerbalsHired = 0;
+
         public bool disablePlugin = false;
 
         public String kerbonautCost = "0";
