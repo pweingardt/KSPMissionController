@@ -1572,7 +1572,6 @@ Mission
     reward = 130000
     category = DOCKING
     repeatable = true
-	vesselIndependent = true
     
 		SubMissionGoal
 		{
@@ -1728,41 +1727,7 @@ Mission
 		}
 	} 
 	
-	Mission
-	{
-    name = 31 - Passive Mission 4 Minmus Ahoy
-    description = Another Mission to study the 2nd body that orbits Kerbin, Minmus.
-    reward = 55000
-    category = SATELLITE
-    repeatable = true
-	requiresMission = 29 - Passive Mission 2 The Mun
-            
-	clientControlled = true
-	passiveMission = true
-	passiveReward = 200
-	lifetime = TIME(1y)
-			
-		SubMissionGoal
-		{	
-			OrbitGoal
-			{
-			body = Mun
-			maxApA = 20000
-			}
-			
-			PartGoal
-			{
-			partName = longAntenna
-			partCount = 3
-			}
- 
-			PartGoal
-			{
-			partName = commDish
-			PartCount = 1
-			}
-		}
-	} 
+	
 	
 	}
 

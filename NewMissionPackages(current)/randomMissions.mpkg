@@ -1,0 +1,122 @@
+MissionPackage
+{
+	name = Random Missions Package
+	description = These Are The Random Missions.  They are stock missions that generate random Mission Goals Within There Own Mission Goals.. IE Orbit Goals will have random AP and PE.
+
+Mission
+{
+    name = 1 - Random Satellite Low Orbit Mission
+    description = Bring a satellite into the defined orbit 
+	category = SATELLITE
+    reward = 60000
+	randomized = true
+	repeatable = true
+
+    OrbitGoal
+    {
+        body = Kerbin
+        minApA = RANDOM(70000,120000)
+        maxApA = ADD(minApA, 20000)
+		maxEccentricity = RANDOM(0.01, 0.08)
+		
+    }
+}
+
+Mission
+{
+    name = 2 - Random Satellite High Orbit Mission
+    description = Bring a satellite into the defined High orbit 
+	category = SATELLITE
+    reward = 80000
+	randomized = true
+	repeatable = true
+
+    OrbitGoal
+    {
+        body = Kerbin
+        minApA = RANDOM(120000,250000)
+        maxApA = ADD(minApA, 10000)
+		maxEccentricity = RANDOM(0.01, 0.07)
+		maxInclination = RANDOM(0,15)
+		minInclination = ADD(maxInclination, 5)
+    }
+}
+
+Mission
+{
+    name = 3 - Random Manned EVA Mission
+    description = Launch A manned Vessel Into Kerbin Orbit and Perform a EVA, Then Return To Kerbin Safely. 
+	category = MANNED, EVA
+    reward = 150000
+	randomized = true
+	repeatable = true
+
+	SubMissionGoal
+	{
+	
+		OrbitGoal
+			{
+			body = Kerbin
+			minApA = RANDOM(70000,120000)
+			maxApA = ADD(minApA, 10000)
+			crewCount = 1
+			}
+			
+		EVAGoal
+			{
+			}
+	}
+	
+	LandingGoal
+      {
+      body = Kerbin
+	  }
+}	  
+	  
+Mission
+{
+    name = 4 - Random Mun Probe
+    description = Launch A Small Probe To The Mun At These Desired Parameters. 
+	category = ORBIT, PROBE
+    reward = RANDOMREWARD(40000,90000)
+	randomized = true
+	repeatable = true
+
+	
+	
+		OrbitGoal
+			{
+			body = Mun
+			minApA = RANDOM(15000,100000)
+			maxEccentricity = RANDOM(0.01, 0.07)
+			maxInclination = RANDOM(0,40)
+			minInclination = ADD(maxInclination, 5)
+			}
+	
+		
+}
+
+Mission
+{
+    name = 5 - Random Minmus Probe
+    description = Launch A Small Probe To Minmus At These Desired Parameters. 
+	category = ORBIT, PROBE
+    reward = 110000
+	randomized = true
+	repeatable = true
+
+	
+	
+		OrbitGoal
+			{
+			body = Minmus
+			minApA = RANDOM(10000,60000)
+			maxEccentricity = RANDOM(0.01, 0.07)
+			maxInclination = RANDOM(0,40)
+			minInclination = ADD(maxInclination, 5)
+			}
+	
+		
+}
+
+}
