@@ -1572,6 +1572,7 @@ Mission
     reward = 130000
     category = DOCKING
     repeatable = true
+	vesselIndependent = true
     
 		SubMissionGoal
 		{
@@ -1727,7 +1728,57 @@ Mission
 		}
 	} 
 	
-	
+	Mission
+	{
+    name = 31 - Passive Mission 4 Minmus Ahoy
+    description = Another Mission to study the 2nd body that orbits Kerbin, Minmus.
+    reward = 55000
+    category = SATELLITE
+    repeatable = true
+	requiresMission = 29 - Passive Mission 2 The Mun
+            
+	clientControlled = true
+	passiveMission = true
+	passiveReward = 200
+	lifetime = TIME(1y)
+			
+		SubMissionGoal
+		{	
+			OrbitGoal
+			{
+			body = Mun
+			maxApA = 20000
+			}
+			
+			PartGoal
+			{
+			partName = longAntenna
+			partCount = 3
+			}
+ 
+			PartGoal
+			{
+			partName = commDish
+			PartCount = 1
+			}
+		}
+	}
+
+	Mission
+{
+    name = 32 - Test Random Mission
+    description = Bring a satellite into the defined orbit (test Mission)
+    reward = RANDOM(40000,90000)
+	randomized = true
+
+    OrbitGoal
+    {
+        body = Kerbin
+        maxApA = RANDOM(70000, 200000)
+        minPeA = ADD(maxApA, -20000)
+
+    }
+}
 	
 	}
 

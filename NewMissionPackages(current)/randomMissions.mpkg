@@ -1,7 +1,8 @@
 MissionPackage
 {
 	name = Random Missions Package
-	description = These Are The Random Missions.  They are stock missions that generate random Mission Goals Within There Own Mission Goals.. IE Orbit Goals will have random AP and PE.
+	description = These Are The Random Missions.  They are stock missions that generate random Mission Goals Within There Own Mission Goals.. IE Orbit Goals will have random AP and PE. These Are not tested yet, but they should work. They are pretty simple in how they work.. The only thing that might be off is The orbits.. Some might be wonky.. If so please report them as bugs.
+	ownOrder = true
 
 Mission
 {
@@ -11,15 +12,48 @@ Mission
     reward = 60000
 	randomized = true
 	repeatable = true
+	packageOrder = 1
 
-    OrbitGoal
-    {
+	SubMissionGoal
+	{
+    
+		OrbitGoal
+		{
         body = Kerbin
         minApA = RANDOM(70000,120000)
         maxApA = ADD(minApA, 20000)
 		maxEccentricity = RANDOM(0.01, 0.08)
-		
-    }
+		}
+		PartGoal
+            {
+                partName = commDish
+                partCount = 1
+            }
+    
+            PartGoal
+            {
+                partName = sensorAccelerometer
+                partCount = 1
+            }
+    
+            PartGoal
+            {
+                partName = sensorBarometer
+                partCount = 1
+            }
+    
+            PartGoal
+            {
+                partName = sensorGravimeter
+                partCount = 1
+            }
+    
+            PartGoal
+            {
+                partName = sensorThermometer
+                partCount = 1
+            }
+	}
 }
 
 Mission
@@ -30,16 +64,49 @@ Mission
     reward = 80000
 	randomized = true
 	repeatable = true
+	packageOrder = 2
 
-    OrbitGoal
-    {
-        body = Kerbin
-        minApA = RANDOM(120000,250000)
-        maxApA = ADD(minApA, 10000)
+    SubMissionGoal
+	{
+		OrbitGoal
+		{
+		body = Kerbin
+		minApA = RANDOM(120000,250000)
+		maxApA = ADD(minApA, 10000)
 		maxEccentricity = RANDOM(0.01, 0.07)
 		maxInclination = RANDOM(0,15)
 		minInclination = ADD(maxInclination, 5)
-    }
+		}
+		PartGoal
+        {
+        partName = commDish
+        partCount = 1
+        }
+    
+        PartGoal
+        {
+        partName = sensorAccelerometer
+		partCount = 1
+		}
+    
+        PartGoal
+        {
+        partName = sensorBarometer
+        partCount = 1
+        }
+    
+        PartGoal
+        {
+        partName = sensorGravimeter
+        partCount = 1
+        }
+    
+        PartGoal
+        {
+        partName = sensorThermometer
+        partCount = 1
+        }
+	}
 }
 
 Mission
@@ -50,6 +117,7 @@ Mission
     reward = 150000
 	randomized = true
 	repeatable = true
+	packageOrder = 3
 
 	SubMissionGoal
 	{
@@ -78,22 +146,54 @@ Mission
     name = 4 - Random Mun Probe
     description = Launch A Small Probe To The Mun At These Desired Parameters. 
 	category = ORBIT, PROBE
-    reward = RANDOMREWARD(40000,90000)
+    reward = 120000
 	randomized = true
 	repeatable = true
+	packageOrder = 4
 
-	
+	SubMissionGoal
+	{
 	
 		OrbitGoal
 			{
 			body = Mun
 			minApA = RANDOM(15000,100000)
 			maxEccentricity = RANDOM(0.01, 0.07)
-			maxInclination = RANDOM(0,40)
+			maxInclination = RANDOM(0,90)
 			minInclination = ADD(maxInclination, 5)
 			}
+			
+		PartGoal
+            {
+                partName = commDish
+                partCount = 1
+            }
+    
+            PartGoal
+            {
+                partName = sensorAccelerometer
+                partCount = 1
+            }
+    
+            PartGoal
+            {
+                partName = sensorBarometer
+                partCount = 1
+            }
+    
+            PartGoal
+            {
+                partName = sensorGravimeter
+                partCount = 1
+            }
+    
+            PartGoal
+            {
+                partName = sensorThermometer
+                partCount = 1
+            }	
 	
-		
+	}	
 }
 
 Mission
@@ -104,19 +204,321 @@ Mission
     reward = 110000
 	randomized = true
 	repeatable = true
+	packageOrder = 5
 
-	
-	
+	SubMissionGoal
+	{
 		OrbitGoal
 			{
 			body = Minmus
 			minApA = RANDOM(10000,60000)
 			maxEccentricity = RANDOM(0.01, 0.07)
-			maxInclination = RANDOM(0,40)
+			maxInclination = RANDOM(0,90)
 			minInclination = ADD(maxInclination, 5)
 			}
+		PartGoal
+            {
+                partName = commDish
+                partCount = 1
+            }
+    
+            PartGoal
+            {
+                partName = sensorAccelerometer
+                partCount = 1
+            }
+    
+            PartGoal
+            {
+                partName = sensorBarometer
+                partCount = 1
+            }
+    
+            PartGoal
+            {
+                partName = sensorGravimeter
+                partCount = 1
+            }
+    
+            PartGoal
+            {
+                partName = sensorThermometer
+                partCount = 1
+            }
+	}	
+}
+
+Mission
+{
+    name = 6 - Random Eve Probe
+    description = Its Time To explore other Planets.  This probe is contracted to explore Eve.  
+	category = ORBIT, PROBE
+    reward = 175000
+	randomized = true
+	repeatable = true
+	packageOrder = 6
+
+	SubMissionGoal
+	{
 	
-		
+		OrbitGoal
+			{
+			body = Eve
+			minApA = RANDOM(120000,250000)
+			maxEccentricity = RANDOM(0.01, 0.07)
+			maxInclination = RANDOM(0,90)
+			minInclination = ADD(maxInclination, 5)
+			}
+			
+		PartGoal
+            {
+                partName = commDish
+                partCount = 1
+            }
+    
+            PartGoal
+            {
+                partName = sensorAccelerometer
+                partCount = 1
+            }
+    
+            PartGoal
+            {
+                partName = sensorBarometer
+                partCount = 1
+            }
+    
+            PartGoal
+            {
+                partName = sensorGravimeter
+                partCount = 1
+            }
+    
+            PartGoal
+            {
+                partName = sensorThermometer
+                partCount = 1
+            }
+	
+	}	
+}
+
+Mission
+{
+    name = 7 - Random Duna Probe
+    description = Its Time To explore other Planets.  This probe is contracted to explore Duna.  
+	category = ORBIT, PROBE
+    reward = 175000
+	randomized = true
+	repeatable = true
+	packageOrder = 7
+
+	SubMissionGoal
+	{
+	
+		OrbitGoal
+			{
+			body = Duna
+			minApA = RANDOM(65000,110000)
+			maxEccentricity = RANDOM(0.01, 0.07)
+			maxInclination = RANDOM(0,90)
+			minInclination = ADD(maxInclination, 5)
+			}
+			
+		PartGoal
+            {
+                partName = commDish
+                partCount = 1
+            }
+    
+            PartGoal
+            {
+                partName = sensorAccelerometer
+                partCount = 1
+            }
+    
+            PartGoal
+            {
+                partName = sensorBarometer
+                partCount = 1
+            }
+    
+            PartGoal
+            {
+                partName = sensorGravimeter
+                partCount = 1
+            }
+    
+            PartGoal
+            {
+                partName = sensorThermometer
+                partCount = 1
+            }
+	
+	}	
+}
+
+Mission
+{
+    name = 8 - Random Dres Probe
+    description = Its Time To explore other Planets.  This probe is contracted to explore Dres.  
+	category = ORBIT, PROBE
+    reward = 245000
+	randomized = true
+	repeatable = true
+	packageOrder = 8
+
+	SubMissionGoal
+	{
+	
+		OrbitGoal
+			{
+			body = Dres
+			minApA = RANDOM(40000,75000)
+			maxEccentricity = RANDOM(0.01, 0.07)
+			maxInclination = RANDOM(0,90)
+			minInclination = ADD(maxInclination, 5)
+			}
+			
+		PartGoal
+            {
+                partName = commDish
+                partCount = 1
+            }
+    
+            PartGoal
+            {
+                partName = sensorAccelerometer
+                partCount = 1
+            }
+    
+            PartGoal
+            {
+                partName = sensorBarometer
+                partCount = 1
+            }
+    
+            PartGoal
+            {
+                partName = sensorGravimeter
+                partCount = 1
+            }
+    
+            PartGoal
+            {
+                partName = sensorThermometer
+                partCount = 1
+            }
+	
+	}	
+}
+
+Mission
+{
+    name = 9 - Random Moho Probe
+    description = Its Time To explore other Planets.  This probe is contracted to explore Moho.  
+	category = ORBIT, PROBE
+    reward = 300000
+	randomized = true
+	repeatable = true
+	packageOrder = 9
+
+	SubMissionGoal
+	{
+	
+		OrbitGoal
+			{
+			body = Moho
+			minApA = RANDOM(40000,75000)
+			maxEccentricity = RANDOM(0.01, 0.07)
+			maxInclination = RANDOM(0,90)
+			minInclination = ADD(maxInclination, 5)
+			}
+			
+		PartGoal
+            {
+                partName = commDish
+                partCount = 1
+            }
+    
+            PartGoal
+            {
+                partName = sensorAccelerometer
+                partCount = 1
+            }
+    
+            PartGoal
+            {
+                partName = sensorBarometer
+                partCount = 1
+            }
+    
+            PartGoal
+            {
+                partName = sensorGravimeter
+                partCount = 1
+            }
+    
+            PartGoal
+            {
+                partName = sensorThermometer
+                partCount = 1
+            }
+	
+	}	
+}
+
+Mission
+{
+    name = 10 - Random Jool Exploration Expedition
+    description = This planet has so many moons that many expeditions might be needed to explore them.  The contract calls for an Orbit of Jool.. After that its up to you to decide where to go.  
+	category = ORBIT, PROBE
+    reward = 400000
+	randomized = true
+	repeatable = true
+	
+packageOrder = 10
+	SubMissionGoal
+	{
+	
+		OrbitGoal
+			{
+			body = Jool
+			minApA = RANDOM(175000,300000)
+			maxEccentricity = RANDOM(0.01, 0.07)
+			}
+			
+		PartGoal
+            {
+                partName = commDish
+                partCount = 1
+            }
+    
+            PartGoal
+            {
+                partName = sensorAccelerometer
+                partCount = 1
+            }
+    
+            PartGoal
+            {
+                partName = sensorBarometer
+                partCount = 1
+            }
+    
+            PartGoal
+            {
+                partName = sensorGravimeter
+                partCount = 1
+            }
+    
+            PartGoal
+            {
+                partName = sensorThermometer
+                partCount = 1
+            }
+	
+	}	
 }
 
 }

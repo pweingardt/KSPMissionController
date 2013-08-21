@@ -22,7 +22,7 @@ MissionPackage
 			OrbitGoal
 			{
 			body = Kerbin
-			minPeA = 200000
+			minPeA = 90000
 			crewCount = 2
 			}
 
@@ -191,7 +191,7 @@ MissionPackage
 			{
 			body = Kerbin
 			minPeA = 200000
-			crewCount = 9
+			crewCount = 8
 			}
 			
 			
@@ -204,7 +204,7 @@ MissionPackage
 			LandingGoal
 			{
 			body = Kerbin
-			crewCount = 9	
+			crewCount = 8
 			}
 	  
 	} 
