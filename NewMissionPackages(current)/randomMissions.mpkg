@@ -74,8 +74,8 @@ Mission
 		minApA = RANDOM(120000,250000)
 		maxApA = ADD(minApA, 10000)
 		maxEccentricity = RANDOM(0.01, 0.07)
-		maxInclination = RANDOM(0,15)
-		minInclination = ADD(maxInclination, 5)
+		minInclination = RANDOM(0,15)
+		maxInclination = ADD(minInclination, 5)
 		}
 		PartGoal
         {
@@ -159,8 +159,8 @@ Mission
 			body = Mun
 			minApA = RANDOM(15000,100000)
 			maxEccentricity = RANDOM(0.01, 0.07)
-			maxInclination = RANDOM(0,90)
-			minInclination = ADD(maxInclination, 5)
+			minInclination = RANDOM(0,15)
+			maxInclination = ADD(minInclination, 5)
 			}
 			
 		PartGoal
@@ -213,8 +213,8 @@ Mission
 			body = Minmus
 			minApA = RANDOM(10000,60000)
 			maxEccentricity = RANDOM(0.01, 0.07)
-			maxInclination = RANDOM(0,90)
-			minInclination = ADD(maxInclination, 5)
+			minInclination = RANDOM(0,15)
+			maxInclination = ADD(minInclination, 5)
 			}
 		PartGoal
             {
@@ -266,8 +266,8 @@ Mission
 			body = Eve
 			minApA = RANDOM(120000,250000)
 			maxEccentricity = RANDOM(0.01, 0.07)
-			maxInclination = RANDOM(0,90)
-			minInclination = ADD(maxInclination, 5)
+			minInclination = RANDOM(0,15)
+			maxInclination = ADD(minInclination, 5)
 			}
 			
 		PartGoal
@@ -321,8 +321,8 @@ Mission
 			body = Duna
 			minApA = RANDOM(65000,110000)
 			maxEccentricity = RANDOM(0.01, 0.07)
-			maxInclination = RANDOM(0,90)
-			minInclination = ADD(maxInclination, 5)
+			minInclination = RANDOM(0,15)
+			maxInclination = ADD(minInclination, 5)
 			}
 			
 		PartGoal
@@ -376,8 +376,8 @@ Mission
 			body = Dres
 			minApA = RANDOM(40000,75000)
 			maxEccentricity = RANDOM(0.01, 0.07)
-			maxInclination = RANDOM(0,90)
-			minInclination = ADD(maxInclination, 5)
+			minInclination = RANDOM(0,15)
+			maxInclination = ADD(minInclination, 5)
 			}
 			
 		PartGoal
@@ -431,8 +431,8 @@ Mission
 			body = Moho
 			minApA = RANDOM(40000,75000)
 			maxEccentricity = RANDOM(0.01, 0.07)
-			maxInclination = RANDOM(0,90)
-			minInclination = ADD(maxInclination, 5)
+			minInclination = RANDOM(0,15)
+			maxInclination = ADD(minInclination, 5)
 			}
 			
 		PartGoal
