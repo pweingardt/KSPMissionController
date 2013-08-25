@@ -641,7 +641,7 @@ namespace MissionController
                 GUILayout.Space(30);
                 GUILayout.EndScrollView();
 
-                if (!HighLogic.LoadedSceneIsFlight && GUILayout.Button("Configure"))
+                if (GUILayout.Button("Configure"))
                     {
                     settingsWindow(!showSettingsWindow);
                     resetCount = 0;
