@@ -1,3 +1,12 @@
+Priority:
+1. Geckgo filter code
+2. Spaceplanes
+3. Mission goal completion stored/tracked on other missions loaded
+
+
+
+
+
 DONE - Apply costs to parts at load
 Expose cost coefficients via debug menu
 PARTIAL - Recycle on unload
