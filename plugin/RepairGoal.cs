@@ -13,28 +13,6 @@ namespace MissionController
     /// </summary>
     public class RepairGoal : MissionGoal
     {
-        private Vessel activeVessel
-        {
-            get
-            {
-
-                try
-                {
-                    if (HighLogic.LoadedSceneIsFlight && FlightGlobals.ActiveVessel != null)
-                    {
-                        return FlightGlobals.ActiveVessel;
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                }
-                catch
-                {
-                    return null;
-                }
-            }
-        }
 
         protected override List<Value> values(Vessel vessel, GameEvent ev)
         {
