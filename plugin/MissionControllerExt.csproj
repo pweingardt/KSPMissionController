@@ -60,6 +60,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="PartCost.cs" />
+    <Compile Include="RepairGoal.cs" />
+    <Compile Include="repairStation.cs" />
     <Compile Include="SpaceProgram.cs" />
     <Compile Include="Mission.cs" />
     <Compile Include="MathTools.cs" />

@@ -68,7 +68,7 @@ namespace MissionController
                     eventFlags = eventFlags.Remove(EventFlags.DOCKED);
                     s.events.docked = true;
                 }
-
+                
                 eventFlags = EventFlags.NONE;
             }
 

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace MissionController
 {
     /// <summary>
-    /// An EVA goal.
+    /// An Eva Goal
     /// </summary>
     public class EVAGoal : MissionGoal
     {

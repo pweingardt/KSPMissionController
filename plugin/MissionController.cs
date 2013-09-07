@@ -275,7 +275,7 @@ namespace MissionController
             GameEvents.onVesselRecovered.Add(this.onRecovered);
             GameEvents.onPlanetariumTargetChanged.Add(this.onTargeted);
             GameEvents.onVesselCreate.Add(this.onCreate);
-
+            
             assemblyName = Assembly.GetExecutingAssembly().GetName();
             versionCode = "" + assemblyName.Version.Major + "." + assemblyName.Version.Minor;
             buildDateTime = new DateTime(2000, 1, 1).Add(new TimeSpan(
@@ -285,7 +285,7 @@ namespace MissionController
             mainWindowTitle = "Mission Controller Extended " +
                 versionCode + " (" + buildDateTime.ToShortDateString() + ")";
 
-            loadIcons ();
+            loadIcons ();            
 
             Debug.LogError("Using factors: " + String.Join(", ", Difficulty.Factors.Select(p => p.ToString()).ToArray()));
         }
@@ -300,7 +300,7 @@ namespace MissionController
             GameEvents.onCollision.Remove (this.onCollision);
             GameEvents.onVesselRecovered.Remove(this.onRecovered);
             GameEvents.onPlanetariumTargetChanged.Remove(this.onTargeted);
-            GameEvents.onVesselCreate.Remove(this.onCreate);
+            GameEvents.onVesselCreate.Remove(this.onCreate);            
         }
 
         public void GUILoad()
@@ -646,6 +646,11 @@ namespace MissionController
                     settingsWindow(!showSettingsWindow);
                     resetCount = 0;
                     }
+                if (GUILayout.Button("Test Repair Button"))
+                {
+                    print("your pressed the Main Repair Button This Time");
+                    shipRepaired();
+                }
 
                 if (!HighLogic.LoadedSceneIsEditor && !HighLogic.LoadedSceneIsFlight && GUILayout.Button("Financing"))
                     {
