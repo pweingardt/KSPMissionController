@@ -16,6 +16,10 @@ namespace MissionController
             {SortBy.REWARD, "Sorted by reward"},
             {SortBy.PACKAGE_ORDER, "Sorted by package order"}
         };
+        
+        // for Geckgo mission filter
+        private bool showFinishedMissions = true;
+        private bool showUnavailableMissions = true;
 
         // Is initialized after the icons have been initialized!
         private Dictionary<Mission.Category, Texture2D> iconDictionary = new Dictionary<Mission.Category, Texture2D>();
@@ -33,21 +37,38 @@ namespace MissionController
                 nextSort ();
                 Mission.Sort(currentPackage.Missions, currentSort);
             }
+            
+            // Geckgo mission filter
+            GUILayout.BeginHorizontal();
+            GUILayout.BeginVertical(GUILayout.Width(260));
+            showFinishedMissions = GUILayout.Toggle(showFinishedMissions, "Show Finished");
+            GUILayout.EndVertical();
+            GUILayout.BeginVertical();
+            showUnavailableMissions = GUILayout.Toggle(showUnavailableMissions, "Show Unavailalbe");
+            GUILayout.EndVertical();
+            GUILayout.EndHorizontal();
+
             packageScrollPosition = GUILayout.BeginScrollView (packageScrollPosition, GUILayout.Width(500));
 
             foreach (Mission m in currentPackage.Missions) {
                 Status s = calculateStatus (m, false, null);
-                GUILayout.BeginHorizontal (GUILayout.Width(450));
+
                 GUIStyle style = styleButton;
 
                 if (s.requiresAnotherMission) {
-                    style = styleRedButton;
+                    if (!showUnavailableMissions)
+                        continue;
+                    else
+                        style = styleRedButton;
                 }
+                if (s.missionAlreadyFinished && !showFinishedMissions)
+                    continue;
 
                 if (m == currentPreviewMission) {
                     style = styleGreenButton;
                 }
 
+                GUILayout.BeginHorizontal(GUILayout.Width(450));
                 if (GUILayout.Button (m.name + "\n" + m.reward + CurrencySuffix, style, GUILayout.Width(350))) {
                     currentPreviewMission = manager.reloadMission(m, activeVessel);
                 }
