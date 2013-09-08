@@ -516,13 +516,7 @@ namespace MissionController
                 list.fontSize = 10;
             }
         }
-
-        public void activateRepair()
-        {
-            print("activateRepair was started");
-            shipRepaired();
-        }
-
+        
         private void drawRecycleWindow(int id)
         {
             GUI.skin = HighLogic.Skin;
@@ -652,10 +646,15 @@ namespace MissionController
                     settingsWindow(!showSettingsWindow);
                     resetCount = 0;
                     }
-                if (GUILayout.Button("Test Repair Button"))
+
+                repairStation rp = new repairStation();
+                if (rp.repair == true)
                 {
-                    print("your pressed the Main Repair Button This Time");
-                    shipRepaired();
+                    if (GUILayout.Button("Test Repair Button"))
+                    {
+                        print("your pressed the Main Repair Button This Time");
+                        shipRepaired();
+                    }
                 }
 
                 if (!HighLogic.LoadedSceneIsEditor && !HighLogic.LoadedSceneIsFlight && GUILayout.Button("Financing"))

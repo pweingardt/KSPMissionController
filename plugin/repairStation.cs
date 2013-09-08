@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-// for recycling
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,19 +7,37 @@ namespace MissionController
 {
     public class repairStation : PartModule
     {
-        MissionController control = new MissionController();
-        
-        public override void OnStart(StartState state)
+        [KSPField(isPersistant = true)]
+        public bool repair;
+
+        [KSPEvent(guiActive = true, guiName = "Start Repair", active = true)]
+        public void EnableRepair()
         {
-            print("MC Part Loaded");
+            repair = true;
+            print("repair is = " + repair);
         }
-       
-        [KSPEvent(unfocusedRange = 2f, guiActiveUnfocused = true, name = "Repair Menu", active = true, guiActive = true, guiName = "Repair Vessel")]
-        public void Repair()
+
+        [KSPEvent(guiActive = true, guiName = "End Repair", active = false)]
+        public void DisableRepair()
         {
-            print("You pushed The Repair button on the Vessels Part");
-            control.activateRepair();   
-        } 
-           
+            repair = false;
+            print("repair is = " + repair);
+        }
+
+        [KSPAction("Toggle Repair")]
+        public void ToggleRepairAction(KSPActionParam param)
+        {
+            repair = !repair;
+        }
+        public override void OnUpdate()
+        {
+            Events["EnableRepair"].active = !repair;
+            Events["DisableRepair"].active = repair;
+            if (repair != false) 
+            {
+                MissionController mc = new MissionController();
+                mc.shipRepaired();               
+            }
+        }
     }
 }
