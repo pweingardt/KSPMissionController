@@ -19,7 +19,7 @@ namespace MissionController
         public void Repair()
         {
             print("You pushed The Repair button on the Vessels Part");
-            control.shipRepaired();   
+            control.activateRepair();   
         } 
            
     }

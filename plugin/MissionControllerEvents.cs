@@ -210,17 +210,7 @@ namespace MissionController
         public void shipRepaired()
         {                       
           eventFlags = eventFlags.Add(EventFlags.REPAIR);
-          print("Event Flag Has Been Set To: " + eventFlags);
-
-          if (eventFlags.Has(EventFlags.REPAIR))
-          {
-              print("Event Flag Set: " + eventFlags + " and about to be Removed.");
-              GameEvent E = new GameEvent();
-              eventFlags = eventFlags.Remove(EventFlags.REPAIR);
-              E.isrepaired = true;
-              print("isrepaire is = " + E.isrepaired + " current flag is: " + eventFlags);
-              
-          }
+          print("Event Flag Has Been Set To: " + eventFlags);          
         }
             
        

@@ -517,6 +517,12 @@ namespace MissionController
             }
         }
 
+        public void activateRepair()
+        {
+            print("activateRepair was started");
+            shipRepaired();
+        }
+
         private void drawRecycleWindow(int id)
         {
             GUI.skin = HighLogic.Skin;
