@@ -45,19 +45,24 @@ namespace MissionController
                 {
                     if (e.propellants.Where(r => r.name.Equals("SolidFuel")).Count() == 0)
                     {
+                        //Debug.Log("part " + p.name + " is engine");
                         double cst = Math.Pow((e.atmosphereCurve.Evaluate(0) * 0.8 + e.atmosphereCurve.Evaluate(1) * 0.2) - 200, 2) * e.maxThrust / 1000.0;
+                        //Debug.Log("Isp " + e.atmosphereCurve.Evaluate(1) + "/" + e.atmosphereCurve.Evaluate(0));
                         foreach (ModuleGimbal g in p.Modules.OfType<ModuleGimbal>())
                         {
                             cst *= 1.0 + g.gimbalRange * 0.2;
                         }
+                        //Debug.Log("cost with gimbal: " + cst);
                         if (e.propellants.Where(r => r.name.Equals("IntakeAir")).Count() != 0 || e.propellants.Where(r => r.name.Equals("KIntakeAir")).Count() != 0)
                         {
                             cst *= 0.05;
+                            Debug.Log("Jet engine cost now: " + cst);
                         }
-                        cst = cst * Math.Pow(cst / p.mass / 4000, 0.25);
-                        if (e.atmosphereCurve.Evaluate(0) > 600 && e.propellants.Where(r => r.name.Equals("XenonGas")).Count() == 0)
+                        else if (e.atmosphereCurve.Evaluate(0) > 600 && e.propellants.Where(r => r.name.Equals("XenonGas")).Count() == 0)
                             cst *= 4; // special HACK handling for NTR
+                        cst = cst * Math.Pow(cst / p.mass / 4000, 0.25);
                         pcst += 250 + cst * 0.5;
+                        //Debug.Log("Final component cost: " + cst);
                         mult *= 0.1;
                     }
                 }
