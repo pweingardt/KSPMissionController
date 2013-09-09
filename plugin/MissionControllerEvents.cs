@@ -207,14 +207,7 @@ namespace MissionController
         /// If MC Repair Part Is Repaired By Player This Sets Repair Flag
         /// </summary>
         /// <param name="report"></param>
-        public void shipRepaired()
-        {                       
-          eventFlags = eventFlags.Add(EventFlags.REPAIR);
-          print("Event Flag Has Been Set To: " + eventFlags);          
-        }
-            
-       
-
+        
         /// <summary>
         /// We will punish the player for killing kerbonauts...
         /// </summary>
