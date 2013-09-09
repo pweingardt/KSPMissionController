@@ -11,6 +11,40 @@ namespace MissionController
     /// I even made it more complicated and copied docking and crash, by adding a flag for isrepaired.  Everything changes over and isrepaired becomes true.. But for some reason
     /// the Else part of this code is not reading it correct?
     /// </summary>
+
+    public class repairStation : PartModule
+    {
+        [KSPField(isPersistant = true)]
+        public bool repair;
+
+        [KSPEvent(guiActive = true, guiName = "Start Repair", active = true)]
+        public void EnableRepair()
+        {
+            repair = true;
+            MissionController mc = new MissionController();
+            mc.shipRepaired();
+            print("repair is = " + repair);
+        }
+
+        [KSPEvent(guiActive = true, guiName = "End Repair", active = false)]
+        public void DisableRepair()
+        {
+            repair = false;
+            print("repair is = " + repair);
+        }
+
+        [KSPAction("Toggle Repair")]
+        public void ToggleRepairAction(KSPActionParam param)
+        {
+            repair = !repair;
+        }
+        public override void OnUpdate()
+        {
+            Events["EnableRepair"].active = !repair;
+            Events["DisableRepair"].active = repair;
+        }
+    }
+        
     public class RepairGoal : MissionGoal
     {
 

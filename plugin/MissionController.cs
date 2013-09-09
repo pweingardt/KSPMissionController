@@ -645,17 +645,14 @@ namespace MissionController
                     {
                     settingsWindow(!showSettingsWindow);
                     resetCount = 0;
-                    }
-
-                repairStation rp = new repairStation();
-                if (rp.repair == true)
-                {
-                    if (GUILayout.Button("Test Repair Button"))
+                    }               
+                
+                if (GUILayout.Button("Test Repair Button"))
                     {
-                        print("your pressed the Main Repair Button This Time");
-                        shipRepaired();
+                     print("your pressed the Main Repair Button This Time");
+                     shipRepaired();
                     }
-                }
+                
 
                 if (!HighLogic.LoadedSceneIsEditor && !HighLogic.LoadedSceneIsFlight && GUILayout.Button("Financing"))
                     {
