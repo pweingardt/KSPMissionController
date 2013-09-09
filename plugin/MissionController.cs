@@ -645,14 +645,7 @@ namespace MissionController
                     {
                     settingsWindow(!showSettingsWindow);
                     resetCount = 0;
-                    }               
-                
-                if (GUILayout.Button("Test Repair Button"))
-                    {
-                     print("your pressed the Main Repair Button This Time");
-                     shipRepaired();
-                    }
-                
+                    }                                          
 
                 if (!HighLogic.LoadedSceneIsEditor && !HighLogic.LoadedSceneIsFlight && GUILayout.Button("Financing"))
                     {

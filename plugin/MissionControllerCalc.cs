@@ -56,14 +56,7 @@ namespace MissionController
 
             // We calculate the events only for the selected mission, because we might need to reset them.
             if (fullCheck)
-            {
-                if (eventFlags.Has(EventFlags.REPAIR))
-                {
-                    print("Event Flag Set: " + eventFlags + " and about to be Removed.");                   
-                    eventFlags = eventFlags.Remove(EventFlags.REPAIR);
-                    s.events.isrepaired = true;
-                    print("isrepaire is = " + s.events.isrepaired + " current flag is: " + eventFlags);
-                }
+            {               
 
                 if (eventFlags.Has(EventFlags.CRASHED))
                 {

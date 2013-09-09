@@ -15,22 +15,18 @@ namespace MissionController
     public class repairStation : PartModule
     {
         [KSPField(isPersistant = true)]
-        public bool repair;
+        public static bool repair;
 
         [KSPEvent(guiActive = true, guiName = "Start Repair", active = true)]
         public void EnableRepair()
         {
-            repair = true;
-            MissionController mc = new MissionController();
-            mc.shipRepaired();
-            print("repair is = " + repair);
+            repair = true;            
         }
 
         [KSPEvent(guiActive = true, guiName = "End Repair", active = false)]
         public void DisableRepair()
         {
-            repair = false;
-            print("repair is = " + repair);
+            repair = false;            
         }
 
         [KSPAction("Toggle Repair")]
@@ -60,8 +56,8 @@ namespace MissionController
             }
             else
             {
-                bool repair = (ev.isrepaired || this.doneOnce);
-                values2.Add(new Value("Repaired", "True", "" + repair, repair));
+                
+                values2.Add(new Value("Repaired", "True", "" + repairStation.repair, repairStation.repair));
 
             }
 
