@@ -43,11 +43,6 @@ MissionPackage
 		{
 		}
 		
-		LandingGoal
-		{
-		body = Kerbin
-		crewCount = 2
-		}
 	}
 
 	Mission
@@ -199,13 +194,7 @@ MissionPackage
 		
 			DockingGoal
 			{			
-			}
-			
-			LandingGoal
-			{
-			body = Kerbin
-			crewCount = 8
-			}
+			}			
 	  
 	} 
 	
@@ -240,13 +229,7 @@ MissionPackage
 		DockingGoal
 			{			
 			}
-		
-		LandingGoal
-			{
-			body = Kerbin
-			reward = 100000
-			crewCount = 2
-			}
+				
 	}
 	
 	Mission
@@ -274,13 +257,7 @@ MissionPackage
 			DockingGoal
 			{
 			}
-		
-			LandingGoal
-			{
-			body = Kerbin
-			reward = 100000
-			crewCount = 8
-			}
+				
 	}
 	
 	Mission
@@ -310,13 +287,7 @@ MissionPackage
 			DockingGoal
 			{
 			}
-		
-		LandingGoal
-			{
-			body = Kerbin
-			crewCount = 8
-			reward = 100000
-			}
+				
 	}
 	
 	Mission
@@ -346,15 +317,8 @@ MissionPackage
 		
 		DockingGoal
 			{
-			}
-		LandingGoal
-			{
-			body = Kerbin
-			reward = 100000
-			crewCount = 2
-			}
-			
-		
+			}		
+					
 	}
 	
 	Mission

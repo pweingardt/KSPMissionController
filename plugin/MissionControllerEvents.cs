@@ -27,6 +27,17 @@ namespace MissionController
             }
         }
 
+        private void onUndock(Part action)
+        {
+            if (HighLogic.LoadedSceneIsFlight)
+            {
+                eventFlags = eventFlags.Add(EventFlags.UNDOCKED);
+                print("eventFlag set: " + eventFlags);
+                print("Vessel Undockd From: " + action);
+            }
+
+        }
+
         // NK move recycle functionality to recovery
 
         private void onCreate(Vessel v)

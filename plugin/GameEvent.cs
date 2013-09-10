@@ -12,8 +12,10 @@ namespace MissionController
 
         public bool docked = false;
 
+        public bool undocked = false;
+
     }
 
-    public enum EventFlags {NONE = 0, CRASHED = 1, DOCKED = 2};
+    public enum EventFlags {NONE = 0, CRASHED = 1, DOCKED = 2, UNDOCKED = 3};
 }
 

@@ -400,6 +400,35 @@ MissionPackage
 	}
 
 	Mission
+{
+    name = 07 - Emergency Repair Of Telescope 
+    description = The Telescope we launched a few missions ago is no longer responding to our commands.  We need to launch a mission as soon as possible to save the Telescope, and reconnect its communications to Kerbin.
+    reward = 75000
+	category = REPAIR
+	requiresMission = 10 - Launch GPS Into Orbit around Kerbin
+
+	
+	SubMissionGoal
+	description = To Finish this Mission The Satellite has to have the Mission Controller Repair part on it.  You have to go EVA and then right Click the Part and select REPAIR PART in the context Menu.  Wait For Timer To run Down.. And Finish Mission.
+	{
+		OrbitGoal
+        {
+        body = Kerbin
+        minAltitude = 70000
+        }
+		
+		RepairGoal
+		{
+		minSeconds = TIME(22m)
+		}
+	}	
+		LandingGoal
+		{
+		}
+	
+}
+	
+	Mission
 	{
 	name = 08 - Scientific Probe Launch Land Mun
 	description = The Kerbal Research Institute wants to launch a small probe to the Mun and have it orbit for 8 days taking readings of the mun from low orbit.  Then they would like to land the probe on the mun and continue its research readings while landed. Some Engineers say they can hear scratching at night standing next to this Box thing they sent us though.	
@@ -498,7 +527,13 @@ MissionPackage
 			maxApA = RANDOM(1700000, 1800000)
 			minPeA = ADD(maxApA,-2000)
 			}
-
+			
+			PartGoal
+			{
+			partName = repairStation
+			partCount = 1
+			}
+			
 			PartGoal
 			{
 			partName = probeStackLarge
@@ -510,13 +545,7 @@ MissionPackage
 			partName = commDish
 			PartCount = 1
 			}
-	   
-			PartGoal
-			{
-			partName = longAntenna
-			partCount = 1
-			}
-
+	   			
 			ResourceGoal
 			{
 			name = ElectricCharge
@@ -534,7 +563,7 @@ MissionPackage
 	reward = 91000
     category = SATELLITE
     randomized = yes
-	requiresMission = 14 - Launch TV Network Satellite
+	requiresMission = 09 - Launch Telescope Into Orbit around Kerbin
     repeatable = true
 	
 		SubMissionGoal
@@ -772,6 +801,12 @@ MissionPackage
         minInclination = 10
         }
 
+		PartGoal
+		{
+		partName = repairStation
+		partCount = 1
+		}
+		
 		PartGoal
 		{
 		partName = probeStackLarge
@@ -1572,23 +1607,23 @@ Mission
     reward = 130000
     category = DOCKING
     repeatable = true
+	randomized = true
 	vesselIndependent = true
+	repeatableSameVessel = true
     
-		SubMissionGoal
-		{
+		
         description = Dock With The Station
-        reward = 10000
-        
-			OrbitGoal
-			{
-            body = Kerbin
-			minPeA = 70000
-			}
-			
-			DockingGoal
-			{
-			}
+
+		OrbitGoal
+		{
+        body = Kerbin
+		minPeA = 70000
 		}
+			
+		DockingGoal
+		{
+		}
+		
 	}       	
 Mission
 	{
@@ -1597,6 +1632,7 @@ Mission
     reward = 500000
     category = LANDING, MANNED
     repeatable = true
+	requiresMission = 20 - Kerbal X Space Travel Agency Mun Tour
             
 			LandingGoal
 			reward = 30000
@@ -1690,7 +1726,7 @@ Mission
     name = 30 - Passive Mission 3 The Mun Manned Observations
     description = We would like you to put a Manned Observation craft in orbit around the mun.  The kerbals on board will study the muns cycles and landmass..  We would also like to learn about long term Manned missions away from kerbin's Magnetic Sphere.  Place 2 kerbals over the mun for a years time.  This is a passive mission. 
     reward = 195000
-    category = SATELLITE
+    category = ORBIT, MANNED
     repeatable = true
 	requiresMission = 29 - Passive Mission 2 The Mun
             
@@ -1746,7 +1782,7 @@ Mission
 		{	
 			OrbitGoal
 			{
-			body = Mun
+			body = Minmus
 			maxApA = 20000
 			}
 			
@@ -1763,21 +1799,35 @@ Mission
 			}
 		}
 	}
-
+	
 	Mission
 {
-    name = 32 - Test Random Mission
-    description = Bring a satellite into the defined orbit (test Mission)
-    reward = RANDOM(40000,90000)
-	randomized = true
+    name = 32 - Government Medium Satellite Maintenance Trip 
+    description = The faulty government software that was sent up with the Medium Government Satellite we launched in mission 13 Has to Be adjusted to accept some new Upgrades. Send a Manned Vessel to the Satellite and conduct the Upgrades in person.
+    reward = 120000
+	category = REPAIR
+	requiresMission = 13 - Government Medium Satellite Mission
+	packageOrder = 11
 
-    OrbitGoal
-    {
+	
+	SubMissionGoal
+	description = To Finish this Mission The Satellite has to have the Mission Controller Repair part on it.  You have to go EVA and then right Click the Part and select REPAIR PART in the context Menu.  Wait For Timer To run Down.. And Finish Mission.
+	{
+		OrbitGoal
+        {
         body = Kerbin
-        maxApA = RANDOM(70000, 200000)
-        minPeA = ADD(maxApA, -20000)
-
-    }
+        minAltitude = 70000
+        }
+		
+		RepairGoal
+		{
+		minSeconds = TIME(10m)
+		}
+	}	
+		LandingGoal
+		{
+		}
+	
 }
 	
 	}

@@ -56,7 +56,12 @@ namespace MissionController
 
             // We calculate the events only for the selected mission, because we might need to reset them.
             if (fullCheck)
-            {               
+            {
+                if (eventFlags.Has(EventFlags.UNDOCKED))
+                {
+                    eventFlags = eventFlags.Remove(EventFlags.UNDOCKED);
+                    s.events.undocked = true;
+                }
 
                 if (eventFlags.Has(EventFlags.CRASHED))
                 {

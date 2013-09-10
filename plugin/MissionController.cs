@@ -32,7 +32,7 @@ namespace MissionController
         private WWW wwwIconImpactor = new WWW("file://" + pluginFolder + "icons/impactormk2.png");
         private WWW wwwIconLander = new WWW("file://" + pluginFolder + "icons/landermk2.png");
         private WWW wwwIconOrbit = new WWW("file://" + pluginFolder + "icons/launchmk2.png");
-        private WWW wwwIconDocking = new WWW("file://" + pluginFolder + "icons/rendezvousmk2.png");
+        private WWW wwwIconDocking = new WWW("file://" + pluginFolder + "icons/docking.png");
         private WWW wwwIconSatellite = new WWW("file://" + pluginFolder + "icons/Stellitemk2.png");
         private WWW wwwIconEVA = new WWW("file://" + pluginFolder + "icons/EVAing.png");
         private WWW wwwIconClock = new WWW("file://" + pluginFolder + "icons/clockmk2.png");
@@ -41,6 +41,7 @@ namespace MissionController
         private WWW wwwIconScience = new WWW("file://" + pluginFolder + "icons/sciencemk2.png");
         private WWW wwwIconCommunication = new WWW("file://" + pluginFolder + "icons/sensormk2.png");
         private WWW wwwIconRover = new WWW("file://" + pluginFolder + "icons/rovermk2.png");
+        private WWW wwwIconRepair = new WWW("file://" + pluginFolder + "icons/repair.png");
 
         private Texture2D iconFinished = null;
         private Texture2D iconMenu = null;
@@ -57,6 +58,7 @@ namespace MissionController
         private Texture2D iconTypeScience = null;
         private Texture2D iconTypeCommunication = null;
         private Texture2D iconTypeRover = null;
+        private Texture2D iconTypeRepair = null;
 
         /// <summary>
         /// True if the UI should be hidden (F2 button)
@@ -77,7 +79,6 @@ namespace MissionController
             {
                 return SettingsManager.Manager.getSettings();
             }
-
         }
 
         private List<MissionGoal> hiddenGoals = new List<MissionGoal>();
@@ -126,7 +127,6 @@ namespace MissionController
             if (iconMenu == null)
             {
 
-
                 iconMenu = new Texture2D(125, 30, TextureFormat.ARGB32, false);
                 iconFinished = new Texture2D(0, 0, TextureFormat.ARGB32, false);
                 iconTypeProbe = new Texture2D(0, 0, TextureFormat.ARGB32, false);
@@ -142,6 +142,7 @@ namespace MissionController
                 iconTypeManned = new Texture2D(0, 0, TextureFormat.ARGB32, false);
                 iconTypeRover = new Texture2D(0, 0, TextureFormat.ARGB32, false);
                 iconTypeScience = new Texture2D(0, 0, TextureFormat.ARGB32, false);
+                iconTypeRepair = new Texture2D(0, 0, TextureFormat.ARGB32, false);
 
                 wwwIconFinished.LoadImageIntoTexture(iconFinished);
                 wwwIconMenu.LoadImageIntoTexture(iconMenu);
@@ -156,6 +157,7 @@ namespace MissionController
                 wwwIconEVA.LoadImageIntoTexture(iconTypeEVA);
                 wwwIconManned.LoadImageIntoTexture(iconTypeManned);
                 wwwIconRover.LoadImageIntoTexture(iconTypeRover);
+                wwwIconRepair.LoadImageIntoTexture(iconTypeRepair);
                 wwwIconScience.LoadImageIntoTexture(iconTypeScience);
                 wwwIconCommunication.LoadImageIntoTexture(iconTypeCommunication);
 
@@ -170,9 +172,9 @@ namespace MissionController
                 iconDictionary.Add(Mission.Category.EVA, iconTypeEVA);
                 iconDictionary.Add(Mission.Category.MANNED, iconTypeManned);
                 iconDictionary.Add(Mission.Category.ROVER, iconTypeRover);
+                iconDictionary.Add(Mission.Category.REPAIR, iconTypeRepair);
                 iconDictionary.Add(Mission.Category.SCIENCE, iconTypeScience);
                 iconDictionary.Add(Mission.Category.TIME, iconTypeClock);
-
             }
         }
 
@@ -268,7 +270,7 @@ namespace MissionController
         {
 
             GUISave();
-            repairStation.repair = false; // we have to reset the RepairGoal incase player forgets to shut the Repair Door on part
+            repairStation.repair = false; // we have to reset the RepairGoal for it can be used again.
         }
 
         public void Awake()
@@ -286,6 +288,7 @@ namespace MissionController
             GameEvents.onVesselRecovered.Add(this.onRecovered);
             GameEvents.onPlanetariumTargetChanged.Add(this.onTargeted);
             GameEvents.onVesselCreate.Add(this.onCreate);
+            GameEvents.onPartUndock.Add(this.onUndock);
 
             assemblyName = Assembly.GetExecutingAssembly().GetName();
             versionCode = "" + assemblyName.Version.Major + "." + assemblyName.Version.Minor;
@@ -313,6 +316,7 @@ namespace MissionController
             GameEvents.onVesselRecovered.Remove(this.onRecovered);
             GameEvents.onPlanetariumTargetChanged.Remove(this.onTargeted);
             GameEvents.onVesselCreate.Remove(this.onCreate);
+            GameEvents.onPartUndock.Remove(this.onUndock);
         }
 
         public void GUILoad()
@@ -567,8 +571,6 @@ namespace MissionController
 
             showCostValue("Vessel " + recycledName + " recyled: ", recycledCost, styleCaption);
 
-
-
             if (GUILayout.Button("OK", styleButtonWordWrap))
             {
                 showRecycleWindow = false;
@@ -583,8 +585,6 @@ namespace MissionController
         /// Do not use currentMission.isDone or missionGoal.isDone(), use status instead!!!
         /// </summary>
         /// <param name="id">Identifier.</param>
-
-
 
         private void drawMainWindow(int id)
         {
@@ -660,7 +660,6 @@ namespace MissionController
                 }
             }
 
-
             if (status.isClientControlled)
             {
                 MissionStatus s = manager.getClientControlledMission(activeVessel);
@@ -680,8 +679,6 @@ namespace MissionController
             {
                 drawMission(currentMission, status);
             }
-
-
 
             GUILayout.Space(30);
             GUILayout.EndScrollView();
@@ -944,8 +941,6 @@ namespace MissionController
             }
         }
 
-
-
         // Create the file browser
         private void createFileBrowser(string title, FileBrowser.FinishedCallback callback)
         {
@@ -1028,7 +1023,6 @@ namespace MissionController
                 }
             }
         }
-
 
         private void showCostValue(String name, double value, GUIStyle style)
         {

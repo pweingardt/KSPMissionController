@@ -9,28 +9,9 @@ namespace MissionController
     /// </summary>
     public class DockingGoal : MissionGoal
     {
-
-        private Vessel activeVessel
+        public DockingGoal()
         {
-            get
-            {
-                
-                try
-                {
-                    if (HighLogic.LoadedSceneIsFlight && FlightGlobals.ActiveVessel != null)
-                    {
-                        return FlightGlobals.ActiveVessel;
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                }
-                catch
-                {
-                    return null;
-                }
-            }
+            this.vesselIndenpendent = true;
         }
 
         protected override List<Value> values(Vessel vessel, GameEvent events) {
@@ -53,6 +34,40 @@ namespace MissionController
         {
             return "Docking";
         }
+    }
+
+    public class UnDockingGoal : MissionGoal
+    {
+        public UnDockingGoal()
+        {
+            this.vesselIndenpendent = true;
+        }
+       
+        
+        protected override List<Value> values(Vessel vessel, GameEvent events)
+        {
+            List<Value> values = new List<Value>();
+
+            if (vessel == null)
+            {
+                values.Add(new Value("UnDock Vessel", "True"));
+
+            }
+            else
+            {
+                bool undocked = (events.undocked || this.doneOnce);
+                values.Add(new Value("UnDock Vessel", "True", "" + undocked, undocked));
+
+            }
+
+            return values;
+        }
+
+        public override string getType()
+        {
+            return "UnDocking";
+        }
+
     }
 }
 
