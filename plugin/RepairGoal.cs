@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Timers;
 
 namespace MissionController
 {
@@ -13,8 +12,6 @@ namespace MissionController
 
     public class repairStation : PartModule
     {
-        Timer time = new Timer();
-        
 
         [KSPField(isPersistant = true)]
         public static bool repair;
@@ -22,14 +19,18 @@ namespace MissionController
 
         [KSPEvent(unfocusedRange = 4f, guiActiveUnfocused = true, guiActive = false, guiName = "Start Repair", active = true)]
         public void EnableRepair()
-        {            
-            repair = true;  
+        {    
+        repair = true;                   
         }      
         
     }
         
     public class RepairGoal : MissionGoal
     {
+        public RepairGoal()
+        {
+            this.vesselIndenpendent = true;
+        }
 
         protected override List<Value> values(Vessel vessel, GameEvent ev)
         {

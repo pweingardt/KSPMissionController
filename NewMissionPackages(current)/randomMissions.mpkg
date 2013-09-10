@@ -15,6 +15,7 @@ Mission
 	packageOrder = 1
 
 	SubMissionGoal
+	description = this mission has changed since its first inception.  Now it requires the part Mission Controller Repair.  This is to support the new mission goal RepairMission.  Mission 11 Launches a repair mission to any of these vessels that already have the new part.
 	{
     
 		OrbitGoal
@@ -29,8 +30,13 @@ Mission
                 partName = commDish
                 partCount = 1
             }
-    
-            PartGoal
+			PartGoal
+			{
+			    partName = repairStation
+				partCount = 1
+			}
+            
+			PartGoal
             {
                 partName = sensorAccelerometer
                 partCount = 1
@@ -135,10 +141,6 @@ Mission
 			}
 	}
 	
-	LandingGoal
-      {
-      body = Kerbin
-	  }
 }	  
 	  
 Mission
@@ -519,6 +521,37 @@ packageOrder = 10
             }
 	
 	}	
+}
+
+Mission
+{
+    name = 11 - New Repair Mission 
+    description = Repair Mission.  You must have previously launched a vessel with the Repair Part on it to Finish This Vessel.
+    reward = 52000
+	category = REPAIR
+	repeatable = true
+	requiresMission = 1 - Random Satellite Low Orbit Mission
+	packageOrder = 11
+
+	
+	SubMissionGoal
+	description = To Finish this Mission The Satellite has to have the Mission Controller Repair part on it.  You have to go EVA and then right Click the Part and select REPAIR PART in the context Menu.  Wait For Timer To run Down.. And Finish Mission.
+	{
+		OrbitGoal
+        {
+        body = Kerbin
+        minAltitude = 70000
+        }
+		
+		RepairGoal
+		{
+		minSeconds = TIME(10m)
+		}
+	}	
+		LandingGoal
+		{
+		}
+	
 }
 
 }
