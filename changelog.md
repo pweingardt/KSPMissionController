@@ -1,3 +1,35 @@
+#Changes in .20
+1. 2 new MissionGoals UndockingGoal And RepairGoal
+
+UndockingGoal Alows you to start the mission from a space station or other vessel you are Docked too.  
+
+RepairGoal Adds a new part to MissionController.  Right now the part is just a place holder copy of the Vanilla SP-L 1x6 Photovoltaic Panels.  But it works out pretty good 
+
+because it looks just like a small hatch.. Great for a repair door. :)  With RepairGoal you can put a part on any vessel and have the RepairGoal for that Vessel Set by a mission 
+
+Designer. (later there might actually be a random mission for it).  The player launches to the vessel and HAS TO GO EVA and approach the vessel with the part on it.. After 
+
+reaching a certain distance to the part.. The player can Right Click on it and select Repair.  If you wish as a Mission Designer you can add the TIME fuction to this and have a 
+
+countdown to simulate the time needed to repair the vessel.. not to long though. :)
+
+2. New UI options.  Now when you select missions you can filter out missions you can't do yet.  And missions that are complete and can't be redone.
+3. DockingGoal has changed.. It has the same fuctions now as UnDocking.. These new fuctions have come at a price.  Because of the way KSP handles Vessel IDs.. And the 
+
+way Mission Controller records these vessel IDs to show a player has finished a missionGoal and save it to file.. I had to take out the Vessel ID for both Undocking and 
+
+Docking.  No big deal.. The only catch is that do not put Undocking and Docking into the same SubMissionGoal.. Or bad things will happen. (mission won't be able to 
+
+complete)  So mission designers beware.. In fact I highly suggest you keep both Docking And Undocking in Seperate SINGLE GOALs... I have tested it and you can mix 1 with 
+
+any other goals.. But you can't mix BOTH of them in same GOALS.
+4. Nathan also fixed (he did the UI changes too) the cost of jets. 
+5.New UI Icon For Docking and Undocking.. The Docking One was always there.. (not used?) and I made the new Undocking one. (don't laugh) ;)
+6.Bunch of Code Changes and fixes..  And other stuff like that.  (mission controller now uses KSPADDON to start up.. Instead of the old way Nobody had set up.. Was a 
+
+hacked way before KSPADDON)
+
+
 #Changes in .19
 1. Finally Mission Controller Has Saved Windows Postion.  Mission controller will finally remember your windows postions even after a restart.
 2. Azadam was nice enough to update the Stock Missions Descriptions and other fixes to the Mission File.
