@@ -115,11 +115,12 @@ Possible categories and their corresponding ideas:
 * MINING: mining mission (no icon yet)
 * EVA: eva goal
 * TIME: mission goals with minSeconds
-* SCIENCE: science missions
+* SCIENCE: science missions (No Mission Goal For This Yet)
 * AVIATION: aviation missions
 * MANNED: manned missions
 * ROVER: a rover mission
-* COMMUNICATION: communication mission (no icon yet)
+* COMMUNICATION: communication mission (no icon yet Or Mission Goal Yet)
+* REPAIR For the New Repair Mission Has icon.
 
 Combine two categories with a coma: MANNED, ROVER.
 
@@ -131,7 +132,7 @@ and then continue to finish the 2nd mission goal with vessel `B`. Exception: EVA
 
 ### Mission Goals
 
-Currently there are six mission goals:
+Currently there are 11 mission goals:
 
 1. OrbitGoal to define an orbit
 2. LandingGoal to define a landing site
@@ -141,6 +142,9 @@ Currently there are six mission goals:
 6. CrashGoal to define an impact
 7. DockingGoal to define a docking maneuver
 8. SubMissionGoal to combine multiple goals into one goal.
+9. UnDockingGoal to undock from a vessel.. For start Missions.. Or other ideas (Read Important Info Below)
+10. RepairGoal Places a part on vessel.. That can be used to set RepairGoal
+11. LaunchGoal launch from Runway or any Planet Body
 
 ### Common mission goal fields (available in *all* mission goals)
 
@@ -275,6 +279,33 @@ Defines a successful docking.
 Fields:
 
 * no extra fields
+
+### UnDockingGoal
+
+* Defines a Successful Undock from a vessel
+UnDockingGoal
+{
+}
+
+All you need.. Do not mix UnDocking and Docking in the Same SubMissionGoal.. Bad things happen.. In fact I suggest 
+you keep them in single Goals by themselves.. .You can mix 1 and only 1 with other goals in SubMissionGoals.. Ive 
+tested it and it works.. AGAIN DON't MIX BOTH TOGETHER. The MIssion will not be able to be finsihed!!
+
+###RepairGoal
+
+* Alows you to have a repair mission to a vessel. Place the part on the Mission (you can have the player do this in a 
+* previous mission with the partGoal.  Then in another mission have the player launch to the vessel and use the part to
+* repair the vessel.. The player right clicks on the part and the condition for Repair is set to true.  I suggest
+* adding some timed event to it like minSeconds.
+* 
+Example code for RepairGoal
+{RepairGoal
+		{
+		minSeconds = TIME(10m)
+		}}
+
+*Fields that might be good idea to use with this
+ minTime to define the amount of seconds it will take to finish the goal use it like this
 
 
 ### <a id="#submission"></a>SubMissionGoal
