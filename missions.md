@@ -299,10 +299,11 @@ tested it and it works.. AGAIN DON't MIX BOTH TOGETHER. The MIssion will not be 
 * adding some timed event to it like minSeconds.
 * 
 Example code for RepairGoal
-{RepairGoal
+		
+		RepairGoal
 		{
 		minSeconds = TIME(10m)
-		}}
+		}
 
 *Fields that might be good idea to use with this
  minTime to define the amount of seconds it will take to finish the goal use it like this
