@@ -54,7 +54,7 @@ namespace MissionController
 
         public override string getType()
         {
-            return "All Repaired";
+            return "Repair";
         }
     }
 }

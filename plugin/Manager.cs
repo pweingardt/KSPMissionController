@@ -169,6 +169,11 @@ namespace MissionController
         /// <param name="goal">Goal.</param>
         /// <param name="vessel">Vessel.</param>
         public void finishMissionGoal(MissionGoal goal, Vessel vessel, GameEvent events) {
+            if (!isMissionGoalAlreadyFinished(goal, vessel) && goal.special)
+            {
+                currentProgram.add(new GoalStatus(goal.id));
+            }
+
             if (!isMissionGoalAlreadyFinished (goal, vessel) && goal.nonPermanent && goal.isDone(vessel, events)) {
                 currentProgram.add(new GoalStatus(vessel.id.ToString(), goal.id));
                 reward (goal.reward);
@@ -187,6 +192,11 @@ namespace MissionController
             }
 
             foreach (GoalStatus con in currentProgram.completedGoals) {
+                // this is to help Undock Behave with Vessel Ids
+                if(c.special && con.id.Equals(c.id))
+                {
+                    return true;
+                }
                 // If the mission goal is an EVAGoal, we don't care about the vessel id. Otherwise we do...
                 if(con.id.Equals(c.id) && (con.vesselGuid.Equals (v.id.ToString()) || c.vesselIndenpendent)) {
                     return true;

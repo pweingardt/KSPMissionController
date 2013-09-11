@@ -65,6 +65,11 @@ namespace MissionController
         public bool vesselIndenpendent = false;
 
         /// <summary>
+        /// If True this mission goal won't save the Vessel ID.. This is a hack used to get by the Vessel ID problem with UnDock...
+        /// </summary>
+        public bool special = false;
+
+        /// <summary>
         /// The maximal and minimal total mass
         /// </summary>
         public double minTotalMass = 0.0;

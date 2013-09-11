@@ -4,7 +4,7 @@ namespace MissionController
 {
     public class Settings 
     {
-        public int KerbalsHired = 0;
+        public int KerbalsHired;
 
         public bool disablePlugin = false;
 

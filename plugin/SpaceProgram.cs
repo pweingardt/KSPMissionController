@@ -63,6 +63,11 @@ namespace MissionController
             this.vesselGuid = vesselGuid;
             this.id = id;
         }
+
+        public GoalStatus(String id)
+        {
+            this.id = id;
+        }
     }
 
     public class MissionStatus {

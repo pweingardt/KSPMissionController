@@ -9,9 +9,10 @@ namespace MissionController
     /// </summary>
     public class DockingGoal : MissionGoal
     {
+
         public DockingGoal()
         {
-            this.vesselIndenpendent = true;
+            this.special = true;
         }
 
         protected override List<Value> values(Vessel vessel, GameEvent events) {
@@ -22,6 +23,7 @@ namespace MissionController
                 values.Add (new Value ("Docked", "True"));
                 
             } else {
+                
                 bool docked = (events.docked || this.doneOnce);
                 values.Add (new Value ("Docked", "True", "" + docked, docked));
                 
@@ -40,9 +42,8 @@ namespace MissionController
     {
         public UnDockingGoal()
         {
-            this.vesselIndenpendent = true;
+            this.special = true;
         }
-       
         
         protected override List<Value> values(Vessel vessel, GameEvent events)
         {
@@ -65,7 +66,7 @@ namespace MissionController
 
         public override string getType()
         {
-            return "UnDocking";
+            return "UnDock";
         }
 
     }

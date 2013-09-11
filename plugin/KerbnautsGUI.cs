@@ -12,7 +12,7 @@ namespace MissionController
     public partial class MissionController
     {
         VesselResources res = new VesselResources();
-      
+
         private int kerbalCount = 0;       
         private String[] HireKerbal = new String[] { "Hire Kerbals?", "Are you sure?"};
 
@@ -53,7 +53,7 @@ namespace MissionController
                     manager.costs(res.kerbal());
                 }
                 if (kerbalCount != 1)
-                    settings.KerbalsHired++;
+                   settings.KerbalsHired++;
                 
             }
             showIntValue("Total Amount Kerbals Hired:", settings.KerbalsHired, styleValueGreen);
@@ -69,16 +69,8 @@ namespace MissionController
                 kerbalNautsWindow(false);
             }
 
-
-            
-            
             GUILayout.EndVertical();
             GUI.DragWindow();
-            
-
-
-
-
 
         }
     }
