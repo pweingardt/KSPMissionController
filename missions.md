@@ -129,7 +129,10 @@ A mission has one or multiple mission goals. After you have finished the mission
 
 Every vessel has its own mission: You can't finish the 1st mission goal with vessel `A`
 and then continue to finish the 2nd mission goal with vessel `B`. Exception: EVAGoals, because an EVA is strictly speaking a vessel.
-
+Exception B is the New DockingGoal and UnDockingGoal.  They both save the MissionData Only.. But not the Vessel ID.  This
+also causes a problem with other Goals.. Suggest to keep these 2 in Seperate single Goals.. Because if you mix them with Goals
+That do save the Vessel ID.. Then by default they will have the vessel ID also for that MissionGoal.. And you won't be able to UnDock or 
+Dock In another SubMission.  (be warned)
 ### Mission Goals
 
 Currently there are 11 mission goals:
