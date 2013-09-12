@@ -103,6 +103,7 @@ A mission has several fields
 * category: a list of categories (please *do not* use more than two categories at the same time for one mission)
 * repeatableSameVessel: if true, then this mission can be finished more than once with the same vessel. Only possible
     for clientControlled or passive missions. (default: false)
+** special: new field added in .20 that both Docking And UnDocking Have set to true.. The default Value is False.  This Field alows you to save a submission goal without the vessel ID.. (don't mix other goals with this Goal if you use it That do save the vessel ID)
 
 Possible categories and their corresponding ideas:
 
