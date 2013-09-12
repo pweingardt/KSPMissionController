@@ -48,7 +48,7 @@ namespace MissionController
         /// <param name="vessel">Vessel.</param>
         /// <param name="costs">Costs.</param>
         public void recycleVessel(Vessel vessel, int costs) {
-            reward (costs);
+            recyclereward (costs);
         }
 
         public void loadProgram(String title) {
@@ -463,6 +463,14 @@ namespace MissionController
             }
             return currentProgram.money;
         }
+
+        public int recyclereward(int value) {
+            if (!SettingsManager.Manager.getSettings().disablePlugin)
+            {
+                currentProgram.money += value;
+            }
+            
+            return currentProgram.money;}
 
         public int costs(int value) 
         {

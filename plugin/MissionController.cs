@@ -395,7 +395,7 @@ namespace MissionController
                 if ((lastPassiveReward == 0.0 || Planetarium.GetUniversalTime() - lastPassiveReward >= 60.0 * 60.0 * 24.0)
                         && Planetarium.GetUniversalTime() != 0.0)
                 {
-
+                    
                     lastPassiveReward = Planetarium.GetUniversalTime();
 
                     // we better make sure that lastPassiveReward is non zero:

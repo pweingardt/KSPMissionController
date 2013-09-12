@@ -25,6 +25,7 @@ namespace MissionController
         /// Regex for TIME value: TIME(5d).
         /// Works for double fields only!
         /// </summary>
+        [KSPField(isPersistant = true)]
         private static Regex timeRegex = new Regex("^TIME\\(\\s*(?:(\\d+)y)?\\s*(?:(\\d+)d)?\\s*(?:(\\d+)h)?\\s*(?:(\\d+)m)?\\s*(?:(\\d+(?:\\.\\d+)?)s)?\\s*\\)$");
 
         private List<Instruction> instructions = new List<Instruction>();
