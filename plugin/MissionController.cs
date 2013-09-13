@@ -11,7 +11,8 @@ using KSP.IO;
 /// </summary>
 namespace MissionController
 {
-    [KSPAddon(KSPAddon.Startup.MainMenu, false)]
+    [KSPAddonFixed(KSPAddon.Startup.MainMenu, true, typeof(MissionController))]
+    
     public partial class MissionController : MonoBehaviour
     {
         public bool recycled = false;
@@ -89,12 +90,15 @@ namespace MissionController
         private Rect financeWindowPosition;
         private Rect kerbalnautswinpostion;
 
+
         private bool showMainWindow = false;
         private bool showSettingsWindow = false;
         private bool showMissionPackageBrowser = false;
         private bool showFinanceWindow = false;
         private bool showRecycleWindow = false;
         private bool showkerbalwindow = false;
+        public bool showRandomWindow = false;
+
         public string recycledName = "";
         public int recycledCost = 0;
 
@@ -291,7 +295,7 @@ namespace MissionController
             GameEvents.onPartUndock.Add(this.onUndock);
 
             assemblyName = Assembly.GetExecutingAssembly().GetName();
-            versionCode = "" + assemblyName.Version.Major + "." + assemblyName.Version.Minor;
+            versionCode = "" + assemblyName.Version.Major + "." + assemblyName.Version.Minor + "." + assemblyName.Version.Build;
             buildDateTime = new DateTime(2000, 1, 1).Add(new TimeSpan(
                 TimeSpan.TicksPerDay * assemblyName.Version.Build + // days since 1 January 2000
                 TimeSpan.TicksPerSecond * 2 * assemblyName.Version.Revision));
@@ -540,6 +544,10 @@ namespace MissionController
             {
                 GUILayout.Window(98766, new Rect(Screen.width / 2 - 200, Screen.height / 2 - 100, 400, 100), drawRecycleWindow, "Recycle Window");
             }
+            if (showRandomWindow)
+            {
+                GUILayout.Window(98866, new Rect(Screen.width / 2 - 200, Screen.height / 2 - 100, 400, 100), drawRandomWindow, "Event Window");
+            }
 
             if (showkerbalwindow)
             {
@@ -576,6 +584,21 @@ namespace MissionController
                 showRecycleWindow = false;
             }
 
+            GUILayout.EndVertical();
+            GUI.DragWindow();
+        }
+
+        private void drawRandomWindow(int id)
+        {
+            GUI.skin = HighLogic.Skin;
+            GUILayout.BeginVertical();
+
+           
+
+            if (GUILayout.Button("ok", styleButtonWordWrap))
+            {
+                showRandomWindow = false;
+            }
             GUILayout.EndVertical();
             GUI.DragWindow();
         }
@@ -1061,5 +1084,38 @@ namespace MissionController
 
         private const String CurrencySuffix = " ₭";
     }
+    /// <summary>
+    /// KSPAddon with equality checking using an additional type parameter. Fixes the issue where AddonLoader prevents multiple start-once addons with the same start scene.
+    /// </summary>
+    public class KSPAddonFixed : KSPAddon, IEquatable<KSPAddonFixed>
+    {
+        private readonly Type type;
+
+        public KSPAddonFixed(KSPAddon.Startup startup, bool once, Type type)
+            : base(startup, once)
+        {
+            this.type = type;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj.GetType() != this.GetType()) { return false; }
+            return Equals((KSPAddonFixed)obj);
+        }
+
+        public bool Equals(KSPAddonFixed other)
+        {
+            if (this.once != other.once) { return false; }
+            if (this.startup != other.startup) { return false; }
+            if (this.type != other.type) { return false; }
+            return true;
+        }
+
+        public override int GetHashCode()
+        {
+            return this.startup.GetHashCode() ^ this.once.GetHashCode() ^ this.type.GetHashCode();
+        }
+    }
 }
+
 

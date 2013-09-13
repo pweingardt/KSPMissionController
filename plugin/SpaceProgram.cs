@@ -9,6 +9,7 @@ namespace MissionController
 	public class SpaceProgram
 	{
 		public int money;
+        public int totalMoney;
 
         public List<MissionStatus> completedMissions = new List<MissionStatus>();
 

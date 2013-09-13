@@ -172,6 +172,7 @@ namespace MissionController
             if (!isMissionGoalAlreadyFinished(goal, vessel) && goal.special)
             {
                 currentProgram.add(new GoalStatus(goal.id));
+                reward(goal.reward);
             }
 
             if (!isMissionGoalAlreadyFinished (goal, vessel) && goal.nonPermanent && goal.isDone(vessel, events)) {
@@ -460,6 +461,8 @@ namespace MissionController
                 }
                 latestExpenses = -value;
                 currentProgram.money += value;
+                currentProgram.totalMoney += value;
+
             }
             return currentProgram.money;
         }
