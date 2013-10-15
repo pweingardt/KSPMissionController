@@ -17,6 +17,12 @@ namespace MissionController
     {
         public bool recycled = false;
         private bool drawLandingArea = false;
+        private bool FileBrowserBool = false;
+        private bool packageWindowtoggle = false;
+        private bool currentMissiontoggle = false;
+        private bool finishmissiontoggle = true;
+        private bool ExpandCost = false;
+        private bool ShowMissionGoals = false;
 
         private AssemblyName assemblyName;
         private String versionCode;
@@ -618,29 +624,29 @@ namespace MissionController
             GUILayout.BeginVertical();
 
             GUILayout.BeginHorizontal();
-            GUILayout.Label("Current budget: ", styleValueYellow);
-            GUILayout.Label(manager.budget + CurrencySuffix, (manager.budget < 0 ? styleValueRedBold : styleValueGreenBold));
+            GUILayout.Box("Current budget: ", styleValueYellow);
+            GUILayout.Box(manager.budget + CurrencySuffix, (manager.budget < 0 ? styleValueRedBold : styleValueGreenBold));           
             GUILayout.EndHorizontal();
             // Edits malkuth shows the modes that you have the plugin set to from settings .13 added the Borrowing Money mission deduction of %25
             if (settings.disablePlugin == true)
             {
-                GUILayout.Label("PLUGIN IS DISABLED ", styleValueYellow);
+                GUILayout.Box("PLUGIN IS DISABLED ", styleValueYellow);
             }
             if (settings.difficulty == 0)
             {
-                GUILayout.Label("Test Flight Mode ", styleValueYellow);
+                GUILayout.Box("Test Flight Mode ", styleValueYellow);
             }
             if (settings.difficulty == 1)
             {
-                GUILayout.Label("Flight Mode ", styleValueGreen);
+                GUILayout.Box("Flight Mode ", styleValueGreen);
             }
             if (manager.budget < 0)
             {
-                GUILayout.Label("In Red, Borrowing Money", styleWarning);
+                GUILayout.Box("In Red, Borrowing Money", styleWarning);
             }
             if (settings.difficulty == 2)
             {
-                GUILayout.Label("HardCore Mode", styleValueRed);
+                GUILayout.Box("HardCore Mode", styleValueRed);
             }
             // Show only when the loaded scene is an editor or a vessel is available and its situation is PRELAUNCH
 
@@ -652,127 +658,148 @@ namespace MissionController
 
                 // .11 Edited malkuth shows only when in Testing Mode.  Plan to add things like Delta V stats and other Helpful testing info
                 if (settings.difficulty == 0)
-                {
-                    GUILayout.Label("Flight Test Mode, No Missions, Cost Reduced to 6%", styleCaption);
+                {                    
                     showCostValue("Flight Testing Cost:", res.dry() * 6 / 100, (res.dry() * 6 / 100 > manager.budget ? styleValueRedBold : styleValueYellow));
                 }
                 else
                 {
-                    // .11 Edited malkuth shows only when in flight mode. New Edit for .12 values only show if Price is above 0.. Little GUI cleanup that I think works better. .12 Edit Added Oxegen and Modular Fuel Cost
-                    GUILayout.Label("Flight Mode Selected, Vessel launch Full Price. Missions Available ", styleCaption);
-                    if (res.pod() > (0)) { showCostValue("Command Sections:", res.pod(), styleValueGreen); }
-                    showCostValue("Crew insurance (Launch Pad Only): ", res.crew(), styleValueGreen);
-                    if (res.ctrl() > (0)) { showCostValue("Avionics and Control:", res.ctrl(), styleValueGreen); } // NOT control surfaces. Those are AERO parts. These are SAS etc
-                    if (res.util() > (0)) { showCostValue("Utility Parts:", res.util(), styleValueGreen); }
-                    if (res.sci() > (0)) { showCostValue("Science Parts:", res.sci(), styleValueGreen); }
-                    if (res.engine() > (0)) { showCostValue("Engines And Cooling: ", res.engine(), styleValueGreen); }
-                    if (res.tank() > (0)) { showCostValue("Fuel Tank Cost: ", res.tank(), styleValueGreen); }
-                    if (res.oxylife() > (0)) { showCostValue("Oxygen Life Support: ", res.oxylife(), styleValueGreen); }
-                    if (res.LiquidOxy() > (0)) { showCostValue("LiquidOxygen fuel costs:", res.LiquidOxy(), styleValueGreen); }
-                    if (res.LiquidH() > (0)) { showCostValue("LiquidH2O:", res.LiquidH(), styleValueGreen); }
-                    if (res.liquid() > (0)) { showCostValue("Liquid fuel costs:", res.liquid(), styleValueGreen); }
-                    if (res.oxidizer() > (0)) { showCostValue("Oxidizer costs:", res.oxidizer(), styleValueGreen); }
-                    if (res.mono() > (0)) { showCostValue("Monopropellant costs:", res.mono(), styleValueGreen); }
-                    if (res.solid() > (0)) { showCostValue("Solid fuel costs:", res.solid(), styleValueGreen); }
-                    if (res.xenon() > (0)) { showCostValue("Xenon gas costs:", res.xenon(), styleValueGreen); }
-                    if (res.stru() > (0)) { showCostValue("Structural Cost:", res.stru(), styleValueGreen); }
-                    if (res.aero() > (0)) { showCostValue("Aerodynamic Cost:", res.aero(), styleValueGreen); }
-                    if (res.wet() > (0)) { showCostValue("(Total Cost Of Fuels):", res.wet(), styleCaption); }
-                    if (res.dry() > (0)) { showCostValue("(Total Cost Of Parts):", res.dry(), styleCaption); }
-                    showCostValue("Total Cost Of Vessel With All:", res.sum(), (res.sum() > manager.budget ? styleValueRedBold : styleValueYellow));
+                    
+                    showCostValue("Total Cost Vessel:", res.sum(), (res.sum() > manager.budget ? styleValueRedBold : styleValueYellow));                   
+                    ExpandCost = GUILayout.Toggle(ExpandCost, "Expand Cost List");
+                    if (ExpandCost == true)
+                    {
+                        showCostValue("Crew insurance (Launch Pad Only): ", res.crew(), styleValueGreen);
+                        if (res.pod() > (0)) { showCostValue("Command Sections:", res.pod(), styleValueGreen); }
+                        if (res.ctrl() > (0)) { showCostValue("Avionics and Control:", res.ctrl(), styleValueGreen); } // NOT control surfaces. Those are AERO parts. These are SAS etc
+                        if (res.util() > (0)) { showCostValue("Utility Parts:", res.util(), styleValueGreen); }
+                        if (res.sci() > (0)) { showCostValue("Science Parts:", res.sci(), styleValueGreen); }
+                        if (res.engine() > (0)) { showCostValue("Engines And Cooling: ", res.engine(), styleValueGreen); }
+                        if (res.tank() > (0)) { showCostValue("Fuel Tank Cost: ", res.tank(), styleValueGreen); }
+                        if (res.oxylife() > (0)) { showCostValue("Oxygen Life Support: ", res.oxylife(), styleValueGreen); }
+                        if (res.LiquidOxy() > (0)) { showCostValue("LiquidOxygen fuel costs:", res.LiquidOxy(), styleValueGreen); }
+                        if (res.LiquidH() > (0)) { showCostValue("LiquidH2O:", res.LiquidH(), styleValueGreen); }
+                        if (res.liquid() > (0)) { showCostValue("Liquid fuel costs:", res.liquid(), styleValueGreen); }
+                        if (res.oxidizer() > (0)) { showCostValue("Oxidizer costs:", res.oxidizer(), styleValueGreen); }
+                        if (res.mono() > (0)) { showCostValue("Monopropellant costs:", res.mono(), styleValueGreen); }
+                        if (res.solid() > (0)) { showCostValue("Solid fuel costs:", res.solid(), styleValueGreen); }
+                        if (res.xenon() > (0)) { showCostValue("Xenon gas costs:", res.xenon(), styleValueGreen); }
+                        if (res.stru() > (0)) { showCostValue("Structural Cost:", res.stru(), styleValueGreen); }
+                        if (res.aero() > (0)) { showCostValue("Aerodynamic Cost:", res.aero(), styleValueGreen); }
+                        if (res.wet() > (0)) { showCostValue("(Total Cost Of Fuels):", res.wet(), styleCaption); }
+                        if (res.dry() > (0)) { showCostValue("(Total Cost Of Parts):", res.dry(), styleCaption); }
+                        GUILayout.Space(20);
+                    }
+
                 }
             }
-
-            if (status.isClientControlled)
+            
             {
-                MissionStatus s = manager.getClientControlledMission(activeVessel);
-                GUILayout.Label("This vessel is controlled by a client. Do not destroy this vessel! Fine: " + s.punishment + CurrencySuffix, styleWarning);
-                GUILayout.Label("End of life in " + MathTools.formatTime(s.endOfLife - Planetarium.GetUniversalTime()));
-            }
-            else if (status.isOnPassiveMission)
-            {
-                MissionStatus s = manager.getPassiveMission(activeVessel);
-                GUILayout.Label("This vessel is involved in a passive mission. Do not destroy this vessel! Fine: " + s.punishment + CurrencySuffix, styleWarning);
-                GUILayout.Label("End of life in " + MathTools.formatTime(s.endOfLife - Planetarium.GetUniversalTime()));
-            }
 
-            ;
-
-            if (currentMission != null)
-            {
-                drawMission(currentMission, status);
-            }
-
-            GUILayout.Space(30);
-            GUILayout.EndScrollView();
-
-            if (GUILayout.Button("Configure"))
-            {
-                settingsWindow(!showSettingsWindow);
-                resetCount = 0;
-            }
-
-            if (!HighLogic.LoadedSceneIsEditor && !HighLogic.LoadedSceneIsFlight && GUILayout.Button("Financing"))
-            {
-                financeWindow(!showFinanceWindow);
-                resetCount = 0;
-            }
-
-            if (!HighLogic.LoadedSceneIsFlight && GUILayout.Button("KerbalNauts"))
-            {
-                kerbalNautsWindow(!showkerbalwindow);
-                resetCount = 0;
-            }
-
-
-            //            if (GUILayout.Button ("Draw landing area!", styleButton)) {
-            //                drawLandingArea = !drawLandingArea;
-            //            }
-
-            if (GUILayout.Button("Select mission package"))
-            {
-                createFileBrowser("Select mission from package", selectMissionPackage);
-            }
-
-            if (currentPackage != null)
-            {
-                if (GUILayout.Button("Open browser window"))
+                if (status.isClientControlled)
                 {
-                    packageWindow(true);
+                    MissionStatus s = manager.getClientControlledMission(activeVessel);
+                    GUILayout.Label("This vessel is controlled by a client. Do not destroy this vessel! Fine: " + s.punishment + CurrencySuffix, styleWarning);
+                    GUILayout.Label("End of life in " + MathTools.formatTime(s.endOfLife - Planetarium.GetUniversalTime()));
                 }
-            }
-
-            if (currentMission != null)
-            {
-                if (GUILayout.Button("Deselect mission"))
+                else if (status.isOnPassiveMission)
                 {
-                    currentMission = null;
+                    MissionStatus s = manager.getPassiveMission(activeVessel);
+                    GUILayout.Label("This vessel is involved in a passive mission. Do not destroy this vessel! Fine: " + s.punishment + CurrencySuffix, styleWarning);
+                    GUILayout.Label("End of life in " + MathTools.formatTime(s.endOfLife - Planetarium.GetUniversalTime()));
                 }
-            }
 
-            if (status.missionIsFinishable)
-            {
-                if (GUILayout.Button("Finish the mission!"))
+                if (currentMission != null)
                 {
-                    manager.finishMission(currentMission, activeVessel, status.events);
-                    hiddenGoals = new List<MissionGoal>();
-                    currentMission = null;
+                    ShowMissionGoals = GUILayout.Toggle(ShowMissionGoals, "Show Mission Status");
+                    if (ShowMissionGoals == true)
+                    {
+                        drawMission(currentMission, status);
+                    }
                 }
-
             }
-            // NK recycle from tracking station
-            if (HighLogic.LoadedScene.Equals(GameScenes.TRACKSTATION) && pVessel != null && settings.difficulty != 0)
-            {
-                //print("*MC* In TS, pVessel not null");
-                if (pVessel.situation.Equals(Vessel.Situations.LANDED) || pVessel.situation.Equals(Vessel.Situations.SPLASHED))
+                GUILayout.Space(30);
+                GUILayout.EndScrollView();
+
+                GUILayout.BeginHorizontal();
+                GUILayout.BeginVertical(GUILayout.Width(150));
+                showSettingsWindow = GUILayout.Toggle(showSettingsWindow, "Settings");
+                GUILayout.EndVertical();
+                GUILayout.BeginVertical();
+                showFinanceWindow = GUILayout.Toggle(showFinanceWindow, "Finances");
+                GUILayout.EndVertical();
+                GUILayout.EndHorizontal();                       
+
+                //if (!HighLogic.LoadedSceneIsFlight && GUILayout.Button("KerbalNauts"))
+                //{
+                //    kerbalNautsWindow(!showkerbalwindow);
+                //    resetCount = 0;
+                //}
+
+
+                //            if (GUILayout.Button ("Draw landing area!", styleButton)) {
+                //                drawLandingArea = !drawLandingArea;
+                //            }
+                GUILayout.BeginHorizontal();
+                GUILayout.BeginVertical(GUILayout.Width(150));
+                FileBrowserBool = GUILayout.Toggle(FileBrowserBool, "Mission Browser");
+
+                if (FileBrowserBool == true)
                 {
-                    VesselResources res = new VesselResources(pVessel.vesselRef);
-                    showCostValue("Recyclable value: ", res.recyclable(pVessel.situation.Equals(Vessel.Situations.LANDED)), styleCaption);
+                    createFileBrowser("Select mission from package", selectMissionPackage);
+                    FileBrowserBool = false;
                 }
-            }
+                GUILayout.EndVertical();
+                GUILayout.BeginVertical();
 
-            GUILayout.EndVertical();
-            GUI.DragWindow();
+                if (currentPackage != null)
+                {
+
+                    packageWindowtoggle = GUILayout.Toggle(packageWindowtoggle, "Mission List");
+                    if (packageWindowtoggle == true)
+                    {
+                        packageWindow(true);
+                        packageWindowtoggle = false;
+                    }
+                }
+                GUILayout.EndVertical();
+                GUILayout.EndHorizontal();
+
+                if (currentMission != null)
+                {
+                    currentMissiontoggle = GUILayout.Toggle(currentMissiontoggle, "Deselect  mission");
+                    if (currentMissiontoggle == true)
+                    {
+                        currentMission = null;
+                        currentMissiontoggle = false;
+                    }
+                }
+
+                if (status.missionIsFinishable)
+                {
+                    finishmissiontoggle = GUILayout.Toggle(finishmissiontoggle, "FINISH THE CURRENT MISSION");
+                    if (finishmissiontoggle == false)
+                    {
+                        manager.finishMission(currentMission, activeVessel, status.events);
+                        hiddenGoals = new List<MissionGoal>();
+                        currentMission = null;
+                        finishmissiontoggle = false;
+                    }
+
+                }
+                // NK recycle from tracking station
+                if (HighLogic.LoadedScene.Equals(GameScenes.TRACKSTATION) && pVessel != null && settings.difficulty != 0)
+                {
+                    //print("*MC* In TS, pVessel not null");
+                    if (pVessel.situation.Equals(Vessel.Situations.LANDED) || pVessel.situation.Equals(Vessel.Situations.SPLASHED))
+                    {
+                        VesselResources res = new VesselResources(pVessel.vesselRef);
+                        showCostValue("Recyclable value: ", res.recyclable(pVessel.situation.Equals(Vessel.Situations.LANDED)), styleCaption);
+                    }
+                }
+
+                GUILayout.EndVertical();
+                GUI.DragWindow();
+            
         }
 
         /// <summary>
@@ -807,7 +834,7 @@ namespace MissionController
                 GUILayout.Label("Mission already finished!", styleWarning);
             }
 
-            GUILayout.Label("Mission: ", styleValueGreenBold);
+            GUILayout.Label("Current Mission: ", styleValueGreenBold);
             GUILayout.Label(mission.name, styleText);
             GUILayout.Label("Description: ", styleCaption);
             GUILayout.Label(mission.description, styleText);
@@ -894,69 +921,71 @@ namespace MissionController
             int index = 1;
 
             foreach (MissionGoal c in mission.goals)
-            {
-                if (hiddenGoals.Contains(c))
+            {                
                 {
-                    index++;
-                    continue;
-                }
-
-                if (c is SubMissionGoal)
-                {
-                    GUILayout.Label((index++) + ". Mission goal: " + (c.optional ? " (optional)" : ""), styleValueGreenBold);
-                }
-                else
-                {
-                    GUILayout.Label((index++) + ". Mission goal: " + c.getType() + (c.optional ? " (optional)" : ""), styleValueGreenBold);
-                }
-
-                if (c.description.Length != 0)
-                {
-                    GUILayout.Label("Description: ", styleCaption);
-                    GUILayout.Label(c.description, styleText);
-                }
-
-                if (c.nonPermanent && c.reward != 0)
-                {
-                    GUILayout.BeginHorizontal();
-                    GUILayout.Label("Reward:", styleValueGreenBold);
-                    GUILayout.Label(c.reward + CurrencySuffix, styleValueYellow);
-                    GUILayout.EndHorizontal();
-                }
-
-                List<Value> values = c.getValues(activeVessel, s.events);
-
-                foreach (Value v in values)
-                {
-                    GUILayout.BeginHorizontal();
-                    GUILayout.Label(v.name, styleValueName);
-                    if (v.currentlyIs.Length == 0)
+                    if (hiddenGoals.Contains(c))
                     {
-                        GUILayout.Label(v.shouldBe, styleValueGreen);
+                        index++;
+                        continue;
+                    }
+
+                    if (c is SubMissionGoal)
+                    {
+                        GUILayout.Label((index++) + ". Mission goal: " + (c.optional ? " (optional)" : ""), styleValueGreenBold);
                     }
                     else
                     {
-                        GUILayout.Label(v.shouldBe + " : " + v.currentlyIs, (v.done ? styleValueGreen : styleValueRed));
+                        GUILayout.Label((index++) + ". Mission goal: " + c.getType() + (c.optional ? " (optional)" : ""), styleValueGreenBold);
                     }
-                    GUILayout.EndHorizontal();
-                }
 
-                if (activeVessel != null)
-                {
-                    if (s.finishableGoals.ContainsKey(c.id) && s.finishableGoals[c.id])
+                    if (c.description.Length != 0)
                     {
-                        if (GUILayout.Button("Hide finished goal"))
+                        GUILayout.Label("Description: ", styleCaption);
+                        GUILayout.Label(c.description, styleText);
+                    }
+
+                    if (c.nonPermanent && c.reward != 0)
+                    {
+                        GUILayout.BeginHorizontal();
+                        GUILayout.Label("Reward:", styleValueGreenBold);
+                        GUILayout.Label(c.reward + CurrencySuffix, styleValueYellow);
+                        GUILayout.EndHorizontal();
+                    }
+
+                    List<Value> values = c.getValues(activeVessel, s.events);
+
+                    foreach (Value v in values)
+                    {
+                        GUILayout.BeginHorizontal();
+                        GUILayout.Label(v.name, styleValueName);
+                        if (v.currentlyIs.Length == 0)
                         {
-                            hiddenGoals.Add(c);
+                            GUILayout.Label(v.shouldBe, styleValueGreen);
                         }
-                    }
-                    else
-                    {
-                        if (c.optional)
+                        else
                         {
-                            if (GUILayout.Button("Hide optional goal"))
+                            GUILayout.Label(v.shouldBe + " : " + v.currentlyIs, (v.done ? styleValueGreen : styleValueRed));
+                        }
+                        GUILayout.EndHorizontal();
+                    }
+
+                    if (activeVessel != null)
+                    {
+                        if (s.finishableGoals.ContainsKey(c.id) && s.finishableGoals[c.id])
+                        {
+                            if (GUILayout.Button("Hide finished goal"))
                             {
                                 hiddenGoals.Add(c);
+                            }
+                        }
+                        else
+                        {
+                            if (c.optional)
+                            {
+                                if (GUILayout.Button("Hide optional goal"))
+                                {
+                                    hiddenGoals.Add(c);
+                                }
                             }
                         }
                     }
