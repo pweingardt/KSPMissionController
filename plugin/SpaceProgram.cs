@@ -11,9 +11,7 @@ namespace MissionController
 		public int money;
         public int totalMoney;
         public int totalSpentVessels;
-        public int totalrecycleMoney;
-        public int contructionlevel = 0;
-        public int fuelsave = 0;
+        public int totalrecycleMoney;        
 
         public List<MissionStatus> completedMissions = new List<MissionStatus>();
 

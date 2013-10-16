@@ -18,6 +18,10 @@ namespace MissionController
         
         private String[] difficulties = new String[] { "Flight Testing", "Flight Mode","HardCoreMode"};
 
+        private String[] fueltech = new String[] { "Fuel Level 0", "Fuel Level 1" };
+
+        private String[] constructtech = new String[] { "Tech 0", "Tech 1", "Tech 2" };
+
         private void drawSettingsWindow(int id)
         {
             GUI.skin = HighLogic.Skin;
@@ -27,8 +31,8 @@ namespace MissionController
 
             GUILayout.Space(10);
             GUILayout.Box("Chose Your Game Modes",GUILayout.Height(30));
-            settings.difficulty = GUILayout.SelectionGrid(settings.difficulty, difficulties, 3);            
-
+            settings.difficulty = GUILayout.SelectionGrid(settings.difficulty, difficulties, 3);
+           
             GUILayout.Space(10);
             GUILayout.Box("Revert Your Missions", GUILayout.Height(30));
             if (GUILayout.Button(rewindStrings[rewindCount], styleGreenButton))
@@ -56,6 +60,7 @@ namespace MissionController
             {
                 settingsWindow(false);
                 Difficulty.init(settings.difficulty);
+                
                 SettingsManager.Manager.saveSettings();
                 GUISave();
             }

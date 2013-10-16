@@ -52,10 +52,17 @@ namespace MissionController
             GUILayout.EndHorizontal();
 
             GUILayout.Space(20);
+            GUILayout.BeginHorizontal();
+            GUILayout.Box("Repair Missions", GUILayout.Width(160), GUILayout.Height(40));
+            GUILayout.Box(" Needed Level 6", GUILayout.Width(160), GUILayout.Height(40));
+            GUILayout.Box("RESEARCHED", GUILayout.Width(160), GUILayout.Height(40));
+            GUILayout.EndHorizontal();
+
+            GUILayout.Space(20);
             if (GUILayout.Button("Exit Window"))
             {
 
-                Difficulty.init(settings.difficulty);
+                Difficulty.init(settings.difficulty);                
 
                 SettingsManager.Manager.saveSettings();
 

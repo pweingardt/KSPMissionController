@@ -557,7 +557,7 @@ namespace MissionController
 
             if (showResearchTreeWindow)
             {
-                researchtreewinpostion = GUILayout.Window(98760, researchtreewinpostion, drawResearchTree, "Rersearch Window", GUILayout.MinHeight(350), GUILayout.MinWidth(500));
+                researchtreewinpostion = GUILayout.Window(98760, researchtreewinpostion, drawResearchTree, "Research Window", GUILayout.MinHeight(350), GUILayout.MinWidth(500));
             }
 
             if (fileBrowser != null)

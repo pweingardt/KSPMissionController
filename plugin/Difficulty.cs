@@ -17,16 +17,15 @@ namespace MissionController
                 hardcore [i] = 1.0 * normal [i];
             }
         }
-
-        public static readonly double[] normal = new double[] 
-        { 0.7, 3, 5, 10, 3500, 6, 1.5, 10, 3};
         
-
+        public static readonly double[] normal = new double[] 
+        { 0.7, 3, 5, 10, 3500, 6, 1.5, 10, 3};       
+        
         public static readonly double[] testmode;
-        public static readonly double[] hardcore;
+        public static readonly double[] hardcore; 
         
         private static double[] factors = normal;
-
+        
         public static double[] Factors 
         {
             get 
@@ -144,8 +143,65 @@ namespace MissionController
                     break;            
                 
             }
-        }        
+        }
+       
         
     }
-}
 
+    public class FuelMode
+    {
+        static FuelMode()
+        {
+            fuelmode1 = new double[fuelmode0.Length];
+            
+            for (int i = 0; i < fuelmode0.Length; ++i) 
+            {
+                fuelmode1[i] = .9 * fuelmode0[i];
+            }
+        }
+
+        public static readonly double[] fuelmode1;
+
+        public static readonly double[] fuelmode0 = new double[] 
+        {1};
+
+        private static double[] fuelfactors = fuelmode0;
+
+        public static double[] Fuelfactors
+        {
+            get
+            {
+                return fuelfactors;
+            }
+        }
+
+        public static double TechFuel 
+        {
+            get 
+            { 
+                return fuelfactors [0]; 
+            }
+        }
+
+        public static void fuelinit(int fuelmode)
+        {
+            switch (fuelmode)
+            {
+                case 0:
+                    fuelfactors = fuelmode0;
+                    break;
+
+                case 1:
+                    fuelfactors = fuelmode1;
+                    break;
+                
+                default:
+                    fuelfactors = fuelmode0;
+                    break;       
+        
+            }
+        }
+
+
+    }
+}

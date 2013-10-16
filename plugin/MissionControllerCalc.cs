@@ -459,43 +459,44 @@ namespace MissionController
                 return (int)(costmultiplier * aeroCost);
             }
 
+            Settings set = new Settings();
 
             public int oxylife()
             {
-                return (int)(costmultiplier * oxygen * Difficulty.LiquidFuel);
+                return (int)(costmultiplier * oxygen * Difficulty.LiquidFuel * FuelMode.TechFuel);
             }
             public int LiquidOxy()
             {
-                return (int)(costmultiplier * LiquidOxygen * Difficulty.LiquidOxygen);
+                return (int)(costmultiplier * LiquidOxygen * Difficulty.LiquidOxygen * FuelMode.TechFuel);
             }
             public int LiquidH()
             {
-                return (int)(costmultiplier * LiquidH2 * Difficulty.LiquidH2);
+                return (int)(costmultiplier * LiquidH2 * Difficulty.LiquidH2 * FuelMode.TechFuel);
             }
 
             public int liquid()
             {
-                return (int)(costmultiplier * liquidFuel * Difficulty.LiquidFuel);
+                return (int)(costmultiplier * liquidFuel * Difficulty.LiquidFuel * FuelMode.TechFuel);
             }
 
             public int mono()
             {
-                return (int)(costmultiplier * monoFuel * Difficulty.MonoPropellant);
+                return (int)(costmultiplier * monoFuel * Difficulty.MonoPropellant * FuelMode.TechFuel);
             }
 
             public int solid()
             {
-                return (int)(costmultiplier * solidFuel * Difficulty.SolidFuel);
+                return (int)(costmultiplier * solidFuel * Difficulty.SolidFuel * FuelMode.TechFuel);
             }
 
             public int xenon()
             {
-                return (int)(costmultiplier * xenonFuel * Difficulty.Xenon);
+                return (int)(costmultiplier * xenonFuel * Difficulty.Xenon * FuelMode.TechFuel);
             }
 
             public int oxidizer()
             {
-                return (int)(costmultiplier * oxidizerFuel * Difficulty.Oxidizer);
+                return (int)(costmultiplier * oxidizerFuel * Difficulty.Oxidizer * FuelMode.TechFuel);
             }
 
             public int crew()
@@ -510,11 +511,11 @@ namespace MissionController
 
             public int dry()
             {
-                return pod() + tank() + engine() + ctrl() + util() + sci() + stru() + aero();
+                return  pod() + tank() + engine() + ctrl() + util() + sci() + stru() + aero();               
             }
             public int wet()
-            {
-                return liquid() + oxidizer() + solid() + mono() + xenon() + oxylife() + LiquidOxy() + LiquidH();
+            {  
+                return  liquid() + oxidizer() + solid() + mono() + xenon() + oxylife() + LiquidOxy() + LiquidH();                
             }
 
             public int sum()
