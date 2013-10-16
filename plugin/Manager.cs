@@ -377,6 +377,28 @@ namespace MissionController
         }
 
         /// <summary>
+        /// Returns the Total Amount Made In Space Program Since Start Of Game.
+        /// </summary>
+        public int Totalbudget
+        {
+            get { return currentProgram.totalMoney; }
+        }
+
+        /// <summary>
+        /// Returns the Total Amount Made In Recycling.
+        /// </summary>
+        public int TotalRecycleMoney
+        {
+            get { return currentProgram.totalrecycleMoney; }
+        }
+
+        public int TotalSpentVechicles
+        {
+            get { return currentProgram.totalSpentVessels; }
+        }
+         
+            
+        /// <summary>
         /// Checks if the given vessel is controlled by a client.
         /// </summary>
         /// <returns><c>true</c>, if vessel is controlled by a client, <c>false</c> otherwise.</returns>
@@ -458,11 +480,10 @@ namespace MissionController
                     if (settings.difficulty == 2)
                         mult *= 0.6;
                     value = (int)((double)value * mult);
-                }
+                }               
                 latestExpenses = -value;
                 currentProgram.money += value;
                 currentProgram.totalMoney += value;
-
             }
             return currentProgram.money;
         }
@@ -471,13 +492,16 @@ namespace MissionController
             if (!SettingsManager.Manager.getSettings().disablePlugin)
             {
                 currentProgram.money += value;
+                currentProgram.totalrecycleMoney += value;
+
             }
             
             return currentProgram.money;}
 
         public int costs(int value) 
         {
-            return reward (-value);
+            currentProgram.totalSpentVessels += value;
+            return reward (-value);            
         }
     }
 }

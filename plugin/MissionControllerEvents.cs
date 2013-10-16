@@ -183,7 +183,7 @@ namespace MissionController
                 if (settings.difficulty != 0)
                 {
                     Debug.LogError("Launching vessel!");
-                    manager.costs(res.sum());
+                    manager.costs(res.sum());                    
                     recycled = false; 
                 }
                 else

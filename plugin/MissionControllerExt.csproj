@@ -88,7 +88,7 @@
     <Compile Include="Enums.cs" />
     <Compile Include="Difficulty.cs" />
     <Compile Include="GLUtils.cs" />
-    <Compile Include="KerbnautsGUI.cs" />
+    <Compile Include="ResearchTree.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

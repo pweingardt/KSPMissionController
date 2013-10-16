@@ -10,6 +10,8 @@ namespace MissionController
 	{
 		public int money;
         public int totalMoney;
+        public int totalSpentVessels;
+        public int totalrecycleMoney;
 
         public List<MissionStatus> completedMissions = new List<MissionStatus>();
 

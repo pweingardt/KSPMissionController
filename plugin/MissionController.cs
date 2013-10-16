@@ -22,7 +22,7 @@ namespace MissionController
         private bool currentMissiontoggle = false;
         private bool finishmissiontoggle = true;
         private bool ExpandCost = false;
-        private bool ShowMissionGoals = false;
+        private bool ShowMissionGoals = true;
 
         private AssemblyName assemblyName;
         private String versionCode;
@@ -94,7 +94,7 @@ namespace MissionController
         private Rect settingsWindowPosition;
         private Rect packageWindowPosition;
         private Rect financeWindowPosition;
-        private Rect kerbalnautswinpostion;
+        private Rect researchtreewinpostion;
 
 
         private bool showMainWindow = false;
@@ -102,7 +102,7 @@ namespace MissionController
         private bool showMissionPackageBrowser = false;
         private bool showFinanceWindow = false;
         private bool showRecycleWindow = false;
-        private bool showkerbalwindow = false;
+        private bool showResearchTreeWindow = false;
         public bool showRandomWindow = false;
 
         public string recycledName = "";
@@ -337,7 +337,7 @@ namespace MissionController
             mainWindowPosition = configfile.GetValue<Rect>("maineWindowPostion");
             settingsWindowPosition = configfile.GetValue<Rect>("settingsWindowPostion");
             financeWindowPosition = configfile.GetValue<Rect>("finanaceWindowPostion");
-            kerbalnautswinpostion = configfile.GetValue<Rect>("kerbalnautWindowPostion");
+            researchtreewinpostion = configfile.GetValue<Rect>("kerbalnautWindowPostion");
             packageWindowPosition = configfile.GetValue<Rect>("packageWindowPostion");
         }
 
@@ -348,7 +348,7 @@ namespace MissionController
             configfile.SetValue("maineWindowPostion", mainWindowPosition);
             configfile.SetValue("settingsWindowPostion", settingsWindowPosition);
             configfile.SetValue("finanaceWindowPostion", financeWindowPosition);
-            configfile.SetValue("kerbalnautWindowPostion", kerbalnautswinpostion);
+            configfile.SetValue("kerbalnautWindowPostion", researchtreewinpostion);
             configfile.SetValue("packageWindowPostion", packageWindowPosition);
 
             configfile.save();
@@ -528,7 +528,7 @@ namespace MissionController
 
             if (showMainWindow)
             {
-                mainWindowPosition = GUILayout.Window(98765, mainWindowPosition, drawMainWindow, mainWindowTitle, GUILayout.MinHeight(700), GUILayout.MinWidth(330));
+                mainWindowPosition = GUILayout.Window(98765, mainWindowPosition, drawMainWindow, mainWindowTitle, GUILayout.MinHeight(700), GUILayout.MaxHeight(700), GUILayout.MinWidth(375), GUILayout.MaxWidth(375));
             }
 
             if (showSettingsWindow)
@@ -543,7 +543,7 @@ namespace MissionController
 
             if (showFinanceWindow)
             {
-                financeWindowPosition = GUILayout.Window(98761, financeWindowPosition, drawFinaceWindow, "Finance Window", GUILayout.MinHeight(250), GUILayout.MinWidth(250));
+                financeWindowPosition = GUILayout.Window(98761, financeWindowPosition, drawFinaceWindow, "Finance Window", GUILayout.MinHeight(400), GUILayout.MinWidth(300));
             }
 
             if (showRecycleWindow)
@@ -555,9 +555,9 @@ namespace MissionController
                 GUILayout.Window(98866, new Rect(Screen.width / 2 - 200, Screen.height / 2 - 100, 400, 100), drawRandomWindow, "Event Window");
             }
 
-            if (showkerbalwindow)
+            if (showResearchTreeWindow)
             {
-                kerbalnautswinpostion = GUILayout.Window(98760, kerbalnautswinpostion, drawKerbalnautWindow, "Kerbalnaut Window", GUILayout.MinHeight(350), GUILayout.MinWidth(275));
+                researchtreewinpostion = GUILayout.Window(98760, researchtreewinpostion, drawResearchTree, "Kerbalnaut Window", GUILayout.MinHeight(350), GUILayout.MinWidth(275));
             }
 
             if (fileBrowser != null)
@@ -630,27 +630,37 @@ namespace MissionController
             // Edits malkuth shows the modes that you have the plugin set to from settings .13 added the Borrowing Money mission deduction of %25
             if (settings.disablePlugin == true)
             {
+                GUILayout.BeginHorizontal();
                 GUILayout.Box("PLUGIN IS DISABLED ", styleValueYellow);
+                GUILayout.EndHorizontal();
             }
             if (settings.difficulty == 0)
             {
+                GUILayout.BeginHorizontal();
                 GUILayout.Box("Test Flight Mode ", styleValueYellow);
+                GUILayout.EndHorizontal();
             }
             if (settings.difficulty == 1)
             {
+                GUILayout.BeginHorizontal();
                 GUILayout.Box("Flight Mode ", styleValueGreen);
+                GUILayout.EndHorizontal();
             }
             if (manager.budget < 0)
             {
+                GUILayout.BeginHorizontal();
                 GUILayout.Box("In Red, Borrowing Money", styleWarning);
+                GUILayout.EndHorizontal();
             }
             if (settings.difficulty == 2)
             {
+                GUILayout.BeginHorizontal();
                 GUILayout.Box("HardCore Mode", styleValueRed);
+                GUILayout.EndHorizontal();
             }
             // Show only when the loaded scene is an editor or a vessel is available and its situation is PRELAUNCH
 
-            scrollPosition = GUILayout.BeginScrollView(scrollPosition);
+            scrollPosition = GUILayout.BeginScrollView(scrollPosition,GUILayout.MaxWidth(365), GUILayout.MaxHeight(550));
 
             if (HighLogic.LoadedSceneIsEditor || status.onLaunchPad)
             {
@@ -710,7 +720,7 @@ namespace MissionController
 
                 if (currentMission != null)
                 {
-                    ShowMissionGoals = GUILayout.Toggle(ShowMissionGoals, "Show Mission Status");
+                    ShowMissionGoals = GUILayout.Toggle(ShowMissionGoals, "Show Mission Info");
                     if (ShowMissionGoals == true)
                     {
                         drawMission(currentMission, status);
@@ -721,27 +731,24 @@ namespace MissionController
                 GUILayout.EndScrollView();
 
                 GUILayout.BeginHorizontal();
-                GUILayout.BeginVertical(GUILayout.Width(150));
+                GUILayout.BeginVertical(GUILayout.Width(125));
                 showSettingsWindow = GUILayout.Toggle(showSettingsWindow, "Settings");
                 GUILayout.EndVertical();
-                GUILayout.BeginVertical();
+                GUILayout.BeginVertical(GUILayout.Width(125));
                 showFinanceWindow = GUILayout.Toggle(showFinanceWindow, "Finances");
                 GUILayout.EndVertical();
-                GUILayout.EndHorizontal();                       
-
-                //if (!HighLogic.LoadedSceneIsFlight && GUILayout.Button("KerbalNauts"))
-                //{
-                //    kerbalNautsWindow(!showkerbalwindow);
-                //    resetCount = 0;
-                //}
+                GUILayout.BeginVertical();
+                showResearchTreeWindow = GUILayout.Toggle(showResearchTreeWindow, "Research");
+                GUILayout.EndVertical();    
+                GUILayout.EndHorizontal();
 
 
                 //            if (GUILayout.Button ("Draw landing area!", styleButton)) {
                 //                drawLandingArea = !drawLandingArea;
                 //            }
                 GUILayout.BeginHorizontal();
-                GUILayout.BeginVertical(GUILayout.Width(150));
-                FileBrowserBool = GUILayout.Toggle(FileBrowserBool, "Mission Browser");
+                GUILayout.BeginVertical(GUILayout.Width(125));
+                FileBrowserBool = GUILayout.Toggle(FileBrowserBool, "Packages");
 
                 if (FileBrowserBool == true)
                 {
@@ -749,12 +756,12 @@ namespace MissionController
                     FileBrowserBool = false;
                 }
                 GUILayout.EndVertical();
-                GUILayout.BeginVertical();
+                GUILayout.BeginVertical(GUILayout.Width(125));
 
                 if (currentPackage != null)
                 {
 
-                    packageWindowtoggle = GUILayout.Toggle(packageWindowtoggle, "Mission List");
+                    packageWindowtoggle = GUILayout.Toggle(packageWindowtoggle, "Missions");
                     if (packageWindowtoggle == true)
                     {
                         packageWindow(true);
@@ -762,18 +769,19 @@ namespace MissionController
                     }
                 }
                 GUILayout.EndVertical();
-                GUILayout.EndHorizontal();
 
+                GUILayout.BeginVertical();
                 if (currentMission != null)
                 {
-                    currentMissiontoggle = GUILayout.Toggle(currentMissiontoggle, "Deselect  mission");
+                    currentMissiontoggle = GUILayout.Toggle(currentMissiontoggle, "Deselect");
                     if (currentMissiontoggle == true)
                     {
                         currentMission = null;
                         currentMissiontoggle = false;
                     }
                 }
-
+                GUILayout.EndVertical();
+                GUILayout.EndHorizontal();
                 if (status.missionIsFinishable)
                 {
                     finishmissiontoggle = GUILayout.Toggle(finishmissiontoggle, "FINISH THE CURRENT MISSION");
@@ -1041,9 +1049,9 @@ namespace MissionController
         /// Sets The Visibility of the KerbalNauts Recruitment Window
         /// </summary>
         /// <param name="visibility"></param>
-        private void kerbalNautsWindow(bool visibility)
+        private void ResearchTreeWindow(bool visibility)
         {
-            showkerbalwindow = visibility;
+            showResearchTreeWindow = visibility;
             lockOrUnlockEditor(visibility);
         }
 
