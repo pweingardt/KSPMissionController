@@ -25,13 +25,13 @@ namespace MissionController
 
             settings.disablePlugin = GUILayout.Toggle(settings.disablePlugin, "Disable Plugin");
 
-            GUILayout.Space(20);
-            GUILayout.Label("Chose Your Game Modes", styleValueGreenBold);
+            GUILayout.Space(10);
+            GUILayout.Box("Chose Your Game Modes",GUILayout.Height(30));
             settings.difficulty = GUILayout.SelectionGrid(settings.difficulty, difficulties, 3);            
 
-            GUILayout.Space(20);
-            GUILayout.Label("Revert Your Missions", styleValueGreenBold);
-            if (GUILayout.Button(rewindStrings[rewindCount], styleButtonWordWrap))
+            GUILayout.Space(10);
+            GUILayout.Box("Revert Your Missions", GUILayout.Height(30));
+            if (GUILayout.Button(rewindStrings[rewindCount], styleGreenButton))
             {
                 rewindCount++;
                 if (rewindCount >= rewindStrings.Length)
@@ -41,7 +41,7 @@ namespace MissionController
                 }
             }
 
-            if (GUILayout.Button(resetStrings[resetCount], styleButtonWordWrap))
+            if (GUILayout.Button(resetStrings[resetCount],styleGreenButton))
             {
                 resetCount++;
                 if (resetCount >= resetStrings.Length)
@@ -50,9 +50,9 @@ namespace MissionController
                     manager.resetSpaceProgram();
                 }
             }
-            GUILayout.Space(20);
-            GUILayout.Label("Save Your Settings", styleValueGreenBold);
-            if (GUILayout.Button("Save and Close Settings", styleButton))
+            GUILayout.Space(10);
+            GUILayout.Box("Save Your Settings", GUILayout.Height(30));
+            if (GUILayout.Button("Save and Close Settings", styleGreenButton))
             {
                 settingsWindow(false);
                 Difficulty.init(settings.difficulty);

@@ -33,7 +33,8 @@ namespace MissionController
             GUILayout.BeginHorizontal ();
 
             GUILayout.BeginVertical (GUILayout.Width(530));
-            if (GUILayout.Button (sortStrings[currentSort], styleButton, GUILayout.Width(500))) {
+            if (GUILayout.Button(sortStrings[currentSort], styleGreenButton, GUILayout.Width(500)))
+            {
                 nextSort ();
                 Mission.Sort(currentPackage.Missions, currentSort);
             }

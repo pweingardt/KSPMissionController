@@ -624,38 +624,39 @@ namespace MissionController
             GUILayout.BeginVertical();
 
             GUILayout.BeginHorizontal();
-            GUILayout.Box("Current budget: ", styleValueYellow);
-            GUILayout.Box(manager.budget + CurrencySuffix, (manager.budget < 0 ? styleValueRedBold : styleValueGreenBold));           
+            GUILayout.Box("Current budget: ", GUILayout.Height(30));
+            GUILayout.Box(manager.budget + CurrencySuffix, GUILayout.Height(30));           
             GUILayout.EndHorizontal();
             // Edits malkuth shows the modes that you have the plugin set to from settings .13 added the Borrowing Money mission deduction of %25
+            GUILayout.Space(10);
             if (settings.disablePlugin == true)
             {
                 GUILayout.BeginHorizontal();
-                GUILayout.Box("PLUGIN IS DISABLED ", styleValueYellow);
+                GUILayout.Box("PLUGIN IS DISABLED ", GUILayout.Height(25));
                 GUILayout.EndHorizontal();
             }
             if (settings.difficulty == 0)
             {
                 GUILayout.BeginHorizontal();
-                GUILayout.Box("Test Flight Mode ", styleValueYellow);
+                GUILayout.Box("Test Flight Mode ", GUILayout.Height(25));
                 GUILayout.EndHorizontal();
             }
             if (settings.difficulty == 1)
             {
                 GUILayout.BeginHorizontal();
-                GUILayout.Box("Flight Mode ", styleValueGreen);
+                GUILayout.Box("Flight Mode ", GUILayout.Height(25));
                 GUILayout.EndHorizontal();
             }
             if (manager.budget < 0)
             {
                 GUILayout.BeginHorizontal();
-                GUILayout.Box("In Red, Borrowing Money", styleWarning);
+                GUILayout.Box("In Red, Borrowing Money", GUILayout.Height(25));
                 GUILayout.EndHorizontal();
             }
             if (settings.difficulty == 2)
             {
                 GUILayout.BeginHorizontal();
-                GUILayout.Box("HardCore Mode", styleValueRed);
+                GUILayout.Box("HardCore Mode", GUILayout.Height(25));
                 GUILayout.EndHorizontal();
             }
             // Show only when the loaded scene is an editor or a vessel is available and its situation is PRELAUNCH

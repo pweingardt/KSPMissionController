@@ -21,58 +21,63 @@ namespace MissionController
             GUILayout.BeginVertical();
 
             GUILayout.BeginHorizontal();
-            GUILayout.Box("Current budget: ", styleValueGreenBold);
-            GUILayout.Box(manager.budget + CurrencySuffix, styleValueGreenBold);
+            GUILayout.Box("Current budget: ", GUILayout.Width(190),GUILayout.Height(30));
+            GUILayout.Box(manager.budget + CurrencySuffix, GUILayout.Width(110), GUILayout.Height(30));
             GUILayout.EndHorizontal();
 
             GUILayout.Space(20);
             GUILayout.BeginHorizontal();
-            GUILayout.Box("Total Money Made Missions: ", styleValueGreenBold);
-            GUILayout.Box(manager.Totalbudget + manager.TotalSpentVechicles + CurrencySuffix);
+            GUILayout.Box("Total Mission Payouts: ", GUILayout.Width(190), GUILayout.Height(25));
+            GUILayout.Box(manager.Totalbudget + manager.TotalSpentVechicles + CurrencySuffix, GUILayout.Width(110), GUILayout.Height(25));
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-            GUILayout.Box("Total Recycle Made: ", styleValueGreenBold);
-            GUILayout.Box(manager.TotalRecycleMoney + CurrencySuffix);
+            GUILayout.Box("Total Recycle Made: ", GUILayout.Width(190), GUILayout.Height(25));
+            GUILayout.Box(manager.TotalRecycleMoney + CurrencySuffix, GUILayout.Width(110), GUILayout.Height(25));
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-            GUILayout.Box("Total Profit For All Above: ", styleValueGreenBold);
-            GUILayout.Box(manager.TotalRecycleMoney + manager.Totalbudget + manager.TotalSpentVechicles + CurrencySuffix);
+            GUILayout.Box("Total Payouts Above: ",GUILayout.Width(190), GUILayout.Height(25));
+            GUILayout.Box(manager.TotalRecycleMoney + manager.Totalbudget + manager.TotalSpentVechicles + CurrencySuffix, GUILayout.Width(110), GUILayout.Height(25));
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-            GUILayout.Box("Total Spent On Vessels: ", styleValueGreenBold);
-            GUILayout.Box(manager.TotalSpentVechicles + CurrencySuffix);
+            GUILayout.Box("Total Spent On Vessels: ", GUILayout.Width(190), GUILayout.Height(25));
+            GUILayout.Box(manager.TotalSpentVechicles + CurrencySuffix, GUILayout.Width(110), GUILayout.Height(25));
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Box("Total Profits: ", GUILayout.Width(190), GUILayout.Height(25));
+            GUILayout.Box(manager.TotalRecycleMoney + manager.Totalbudget + CurrencySuffix, GUILayout.Width(110), GUILayout.Height(25));
             GUILayout.EndHorizontal();
 
             GUILayout.Space(20);
-            GUILayout.Label("Kerbonaut insurance cost: ",styleValueGreenBold);
+            GUILayout.BeginHorizontal();
+            GUILayout.Box("Kerbonaut insurance cost: ", GUILayout.Height(30));
             settings.kerbonautCost = GUILayout.TextField(settings.kerbonautCost);
-            settings.kerbonautCost = Regex.Replace(settings.kerbonautCost, @"[^0-9]", "");    
+            settings.kerbonautCost = Regex.Replace(settings.kerbonautCost, @"[^0-9]", "");
+            GUILayout.EndHorizontal();
 
             GUILayout.Space(20);
             if (manager.budget < 0)
             {
-            GUILayout.Label("Borrowing Money", styleWarning);
+                GUILayout.Box("Borrowing Money", GUILayout.Height(30));
             GUILayout.BeginHorizontal();
-            GUILayout.Label("Current Bank Loan: ", styleValueGreen);
-            GUILayout.Label(manager.budget + CurrencySuffix, styleValueYellow);
+            GUILayout.Box("Current Bank Loan: ", GUILayout.Width(150), GUILayout.Height(25));
+            GUILayout.Box(manager.budget + CurrencySuffix, GUILayout.Width(150), GUILayout.Height(25));
             GUILayout.EndHorizontal();
             GUILayout.BeginHorizontal();
-            GUILayout.Label(" Current Interest Rate: ", styleValueGreen);
-            GUILayout.Label("25%", styleValueYellow);
+            GUILayout.Box(" Current Interest Rate: ", GUILayout.Width(150), GUILayout.Height(25));
+            GUILayout.Box("25%", GUILayout.Width(150), GUILayout.Height(25));
             GUILayout.EndHorizontal();
              }
 
             GUILayout.Space(20);
-            scrollPosition2 = GUILayout.BeginScrollView (scrollPosition2, GUILayout.Width(290));
-            GUILayout.Label("Current Passive Mission Payouts", styleValueGreenBold);
+            GUILayout.Box("Current Passive Mission Payouts");
+            scrollPosition2 = GUILayout.BeginScrollView(scrollPosition2, GUILayout.Width(300), GUILayout.Height(100));
             drawPassiveMissions(manager.getActivePassiveMissions());
             GUILayout.EndScrollView();
             
-
-
             GUILayout.Space(20);
             if (GUILayout.Button("Exit Window"))
             {
