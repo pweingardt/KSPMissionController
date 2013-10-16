@@ -428,38 +428,36 @@ namespace MissionController
 
             public int pod()
             {
-                return (int)(costmultiplier * podCost);
+                return (int)(costmultiplier * podCost * ConstructionMode.TechConstrustion);
             }
             public int tank()
             {
-                return (int)(costmultiplier * tankCost);
+                return (int)(costmultiplier * tankCost * ConstructionMode.TechConstrustion);
             }
             public int engine()
             {
-                return (int)(costmultiplier * engineCost);
+                return (int)(costmultiplier * engineCost * ConstructionMode.TechConstrustion);
             }
             public int ctrl()
             {
-                return (int)(costmultiplier * controlCost);
+                return (int)(costmultiplier * controlCost * ConstructionMode.TechConstrustion);
             }
             public int util()
             {
-                return (int)(costmultiplier * utilCost);
+                return (int)(costmultiplier * utilCost * ConstructionMode.TechConstrustion);
             }
             public int sci()
             {
-                return (int)(costmultiplier * sciCost);
+                return (int)(costmultiplier * sciCost * ConstructionMode.TechConstrustion);
             }
             public int stru()
             {
-                return (int)(costmultiplier * structCost);
+                return (int)(costmultiplier * structCost * ConstructionMode.TechConstrustion);
             }
             public int aero()
             {
-                return (int)(costmultiplier * aeroCost);
+                return (int)(costmultiplier * aeroCost * ConstructionMode.TechConstrustion);
             }
-
-            Settings set = new Settings();
 
             public int oxylife()
             {

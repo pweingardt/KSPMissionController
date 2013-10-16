@@ -18,9 +18,9 @@ namespace MissionController
         
         private String[] difficulties = new String[] { "Flight Testing", "Flight Mode","HardCoreMode"};
 
-        private String[] fueltech = new String[] { "Fuel Level 0", "Fuel Level 1" };
+        //private String[] fueltech = new String[] { "Fuel Level 0", "Fuel Level 1" };
 
-        private String[] constructtech = new String[] { "Tech 0", "Tech 1", "Tech 2" };
+        //private String[] constructtech = new String[] { "Tech 0", "Tech 1", "Tech 2" };
 
         private void drawSettingsWindow(int id)
         {
@@ -32,6 +32,14 @@ namespace MissionController
             GUILayout.Space(10);
             GUILayout.Box("Chose Your Game Modes",GUILayout.Height(30));
             settings.difficulty = GUILayout.SelectionGrid(settings.difficulty, difficulties, 3);
+
+            //GUILayout.Space(10);
+            //GUILayout.Box("Fuel Modes", GUILayout.Height(30));
+            //settings.fuelmode = GUILayout.SelectionGrid(settings.fuelmode, fueltech, 2);
+
+            //GUILayout.Space(10);
+            //GUILayout.Box("Construction Modes", GUILayout.Height(30));
+            //settings.constructmode = GUILayout.SelectionGrid(settings.constructmode, constructtech, 3);
            
             GUILayout.Space(10);
             GUILayout.Box("Revert Your Missions", GUILayout.Height(30));
@@ -60,6 +68,8 @@ namespace MissionController
             {
                 settingsWindow(false);
                 Difficulty.init(settings.difficulty);
+                FuelMode.fuelinit(settings.fuelmode);
+                ConstructionMode.constructinit(settings.constructmode);
                 
                 SettingsManager.Manager.saveSettings();
                 GUISave();

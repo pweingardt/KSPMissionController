@@ -278,9 +278,11 @@ namespace MissionController
 
         void OnLevelWasLoaded()
         {
-
             GUISave();
             repairStation.repair = false; // we have to reset the RepairGoal for it can be used again.
+            FuelMode.fuelinit(settings.fuelmode);
+            ConstructionMode.constructinit(settings.constructmode);
+            SettingsManager.Manager.saveSettings();            
         }
 
         public void Awake()

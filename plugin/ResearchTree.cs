@@ -62,7 +62,9 @@ namespace MissionController
             if (GUILayout.Button("Exit Window"))
             {
 
-                Difficulty.init(settings.difficulty);                
+                Difficulty.init(settings.difficulty);
+                FuelMode.fuelinit(settings.fuelmode);
+                ConstructionMode.constructinit(settings.constructmode);
 
                 SettingsManager.Manager.saveSettings();
 

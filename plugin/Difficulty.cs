@@ -148,6 +148,9 @@ namespace MissionController
         
     }
 
+    /// <summary>
+    /// This is Used For Research Tab and mission Controller to control Fuel Research Levels
+    /// </summary>
     public class FuelMode
     {
         static FuelMode()
@@ -203,5 +206,70 @@ namespace MissionController
         }
 
 
+    }
+
+    /// <summary>
+    /// This is used by the Research Tab and Mission Controller to control Construction cost Levels
+    /// </summary>
+    public class ConstructionMode
+    {
+         static ConstructionMode()
+        {
+            construction1 = new double[construction0.Length];
+            construction2 = new double[construction0.Length];
+            
+            for (int i = 0; i < construction0.Length; ++i) 
+            {
+                construction1[i] = .84 * construction0[i];
+                construction2[i] = .74 * construction0[i];
+            }
+        }
+
+        public static readonly double[] construction1;
+        public static readonly double[] construction2;
+
+        public static readonly double[] construction0 = new double[] 
+        {1.2};
+
+        private static double[] constructionfactors = construction0;
+
+        public static double[] ConstructionFactors
+        {
+            get
+            {
+                return constructionfactors;
+            }
+        }
+
+        public static double TechConstrustion 
+        {
+            get 
+            {
+                return constructionfactors[0]; 
+            }
+        }
+
+        public static void constructinit(int constructionmode)
+        {
+            switch (constructionmode)
+            {
+                case 0:
+                    constructionfactors = construction0;
+                    break;
+
+                case 1:
+                    constructionfactors = construction1;
+                    break;
+
+                case 2:
+                    constructionfactors = construction2;
+                    break;
+                
+                default:
+                    constructionfactors = construction0;
+                    break;       
+        
+            }
+        }
     }
 }
