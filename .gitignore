@@ -12,6 +12,7 @@ missions/Stock.mpkg
 #User Specific
 *.userprefs
 *.usertasks
+*.user
 
 #Mono Project Files
 *.pidb

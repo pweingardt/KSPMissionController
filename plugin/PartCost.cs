@@ -22,7 +22,7 @@ namespace MissionController
         /// Calculates the cost of a part
         /// </summary>
         /// <returns>The cost.</returns>
-        /// <param name="pt">AvailablePart.</param>
+        /// <param name="pt">Part.</param>
         public static int cost(Part p)
         {
             double pcst = 0;
