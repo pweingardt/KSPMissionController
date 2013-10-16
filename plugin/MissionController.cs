@@ -543,7 +543,7 @@ namespace MissionController
 
             if (showFinanceWindow)
             {
-                financeWindowPosition = GUILayout.Window(98761, financeWindowPosition, drawFinaceWindow, "Finance Window", GUILayout.MinHeight(400), GUILayout.MinWidth(300));
+                financeWindowPosition = GUILayout.Window(98761, financeWindowPosition, drawFinaceWindow, "Finance Window", GUILayout.MinHeight(350), GUILayout.MinWidth(300));
             }
 
             if (showRecycleWindow)
@@ -557,7 +557,7 @@ namespace MissionController
 
             if (showResearchTreeWindow)
             {
-                researchtreewinpostion = GUILayout.Window(98760, researchtreewinpostion, drawResearchTree, "Kerbalnaut Window", GUILayout.MinHeight(350), GUILayout.MinWidth(275));
+                researchtreewinpostion = GUILayout.Window(98760, researchtreewinpostion, drawResearchTree, "Rersearch Window", GUILayout.MinHeight(350), GUILayout.MinWidth(500));
             }
 
             if (fileBrowser != null)

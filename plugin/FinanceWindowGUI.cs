@@ -32,7 +32,7 @@ namespace MissionController
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-            GUILayout.Box("Total Recycle Made: ", GUILayout.Width(190), GUILayout.Height(25));
+            GUILayout.Box("Total Reycling Paid: ", GUILayout.Width(190), GUILayout.Height(25));
             GUILayout.Box(manager.TotalRecycleMoney + CurrencySuffix, GUILayout.Width(110), GUILayout.Height(25));
             GUILayout.EndHorizontal();
 
@@ -42,7 +42,7 @@ namespace MissionController
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-            GUILayout.Box("Total Spent On Vessels: ", GUILayout.Width(190), GUILayout.Height(25));
+            GUILayout.Box("Total Vessel Cost: ", GUILayout.Width(190), GUILayout.Height(25));
             GUILayout.Box(manager.TotalSpentVechicles + CurrencySuffix, GUILayout.Width(110), GUILayout.Height(25));
             GUILayout.EndHorizontal();
 
@@ -61,7 +61,7 @@ namespace MissionController
             GUILayout.Space(20);
             if (manager.budget < 0)
             {
-                GUILayout.Box("Borrowing Money", GUILayout.Height(30));
+            GUILayout.Box("Borrowing Money", GUILayout.Height(30));
             GUILayout.BeginHorizontal();
             GUILayout.Box("Current Bank Loan: ", GUILayout.Width(150), GUILayout.Height(25));
             GUILayout.Box(manager.budget + CurrencySuffix, GUILayout.Width(150), GUILayout.Height(25));

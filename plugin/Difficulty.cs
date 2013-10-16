@@ -24,7 +24,7 @@ namespace MissionController
 
         public static readonly double[] testmode;
         public static readonly double[] hardcore;
-
+        
         private static double[] factors = normal;
 
         public static double[] Factors 
@@ -119,6 +119,10 @@ namespace MissionController
             factors [8] = LiquidH;
         }
 
+        /// <summary>
+        /// Selects What Flight Mode MC is in
+        /// </summary>
+        /// <param name="difficulty"></param>
         public static void init(int difficulty)
         {
             switch (difficulty)
@@ -140,7 +144,7 @@ namespace MissionController
                     break;            
                 
             }
-        }
+        }        
         
     }
 }

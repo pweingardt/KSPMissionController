@@ -23,6 +23,16 @@ namespace MissionController
 
         private int latestExpenses = 0;
 
+        public static readonly double[] fuel1;
+        public static readonly double[] fuel2;
+
+        public static readonly double[] level0;
+        public static readonly double[] level1;
+        public static readonly double[] level2;
+
+        private static double[] factors1 = fuel1;
+        private static double[] factors2 = level0;
+
         public void resetLatest()
         {
             latestExpenses = 0;
@@ -392,12 +402,57 @@ namespace MissionController
             get { return currentProgram.totalrecycleMoney; }
         }
 
+        /// <summary>
+        /// Retuns Total Spent On Vehicle Launches
+        /// </summary>
         public int TotalSpentVechicles
         {
             get { return currentProgram.totalSpentVessels; }
         }
-         
-            
+
+        /// <summary>
+        /// Reasearch Fuel and Efficiency Switch
+        /// </summary>
+        /// <param name="fuelsave"></param>
+        public static void fueleff(int fuelsave)
+        {
+            switch (fuelsave)
+            {
+                case 0:
+                    factors1 = fuel1;
+                    break;
+                case 1:
+                    factors1 = fuel2;
+                    break;
+                default:
+                    factors1 = fuel1;
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Research Construction Efficiency Switch
+        /// </summary>
+        /// <param name="contructionlevel"></param>
+        public static void constructionlevel(int contructionlevel)
+        {
+            switch (contructionlevel)
+            {
+                case 0:
+                    factors2 = level0;
+                    break;
+                case 1:
+                    factors2 = level1;
+                    break;
+                case 2:
+                    factors2 = level2;
+                    break;
+                default:
+                    factors2 = level0;
+                    break;
+            }
+        }
+                    
         /// <summary>
         /// Checks if the given vessel is controlled by a client.
         /// </summary>

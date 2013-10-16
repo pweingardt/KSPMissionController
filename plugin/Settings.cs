@@ -13,7 +13,7 @@ namespace MissionController
         public bool changed = false;
 
         public int difficulty = 1;
-
+       
         public int kerbonautCostAsInt 
         {
             get 
@@ -70,7 +70,7 @@ namespace MissionController
                 settings = new Settings();
             }
             settings.changed = false;
-            Difficulty.init (settings.difficulty);
+            Difficulty.init (settings.difficulty);            
         }
 
         public void saveSettings()
