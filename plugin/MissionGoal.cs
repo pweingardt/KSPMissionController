@@ -224,7 +224,7 @@ namespace MissionController
         }
 
         public Value(String name, double value)
-            : this(name, String.Format(MathTools.SingleRoundedValue, value), "", false)
+            : this(name, String.Format(MathTools.SingleDoubleValue, value), "", false)
         {
         }
 

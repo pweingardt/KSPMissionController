@@ -229,7 +229,7 @@ namespace MissionController
         public static readonly double[] construction2;
 
         public static readonly double[] construction0 = new double[] 
-        {1.2};
+        {1.0};
 
         private static double[] constructionfactors = construction0;
 

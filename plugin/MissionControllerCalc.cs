@@ -177,15 +177,6 @@ namespace MissionController
         
         private class VesselResources
         {
-            public double liquidFuel;
-            public double oxidizerFuel;
-            public double solidFuel;
-            public double monoFuel;
-            //public double mass;
-            public double xenonFuel;
-            public double oxygen;
-            public double LiquidOxygen;
-            public double LiquidH2;
 
             public int crewCount = 0;
             public double engineCost = 0;
@@ -196,6 +187,8 @@ namespace MissionController
             public double sciCost = 0;
             public double aeroCost = 0;
             public double structCost = 0;
+
+            public Dictionary<string, double> resources = new Dictionary<string, double>();
 
             public VesselResources(Vessel v = null)
             {
@@ -231,18 +224,21 @@ namespace MissionController
                     {
                         foreach (Part p in parts)
                         {
-                            int cst = p.partInfo.cost;
+                            //int cst = p.partInfo.cost;
+                            int cst = PartCost.cost(p); // for procedural parts, have to redo each time.
+                            p.partInfo.cost = cst; // so it's stored in snapshot, I hope.
+
                             //print("part " + p.name + " has cost " + cst);
                             if (p.partInfo.category.Equals(PartCategories.Propulsion))
                             {
                                 bool isEngine = false;
                                 foreach (ModuleEngines e in p.Modules.OfType<ModuleEngines>())
                                 {
-                                    if (e.propellants.Where(r => r.name.Equals("SolidFuel")).Count() == 0)
-                                    {
+                                    //if (e.propellants.Where(r => r.name.Equals("SolidFuel")).Count() == 0)
+                                    //{
                                         engineCost += cst;
                                         isEngine = true;
-                                    }
+                                    //}
                                 }
                                 if (!isEngine)
                                     tankCost += cst;
@@ -290,68 +286,31 @@ namespace MissionController
                                 sciCost += cst;
                             }
 
-                            // EXPENDABLE RESOURCES
-                            double lf = 0.0;
-                            double ox = 0.0;
-                            if (p.Resources["LiquidFuel"] != null)
+                            // new resource calc
+                            ConfigNode MCSettings = null;
+                            foreach (ConfigNode node in GameDatabase.Instance.GetConfigNodes("MISSIONCONTROLLER"))
+                                MCSettings = node;
+                            if (MCSettings != null)
                             {
-                                lf = p.Resources["LiquidFuel"].amount;
-                                liquidFuel += lf;
-                            }
 
-                            if (p.Resources["SolidFuel"] != null)
-                            {
-                                solidFuel += p.Resources["SolidFuel"].amount;
+                                foreach (PartResource r in p.Resources)
+                                {
+                                    // get multiplier
+                                    double rCost = 0;
+                                    foreach (ConfigNode rNode in MCSettings.GetNode("RESOURCECOST").nodes)
+                                    {
+                                        if (rNode.name.Equals(r.resourceName) && r.amount > 0)
+                                        {
+                                            rCost = PartCost.tryDouble(rNode, "cost", 0.0);
+                                            //print("Found resource " + r.resourceName + ", amount " + r.amount + ", cost = " + rCost);
+                                            if (resources.ContainsKey(rNode.name))
+                                                resources[r.name] += r.amount * rCost;
+                                            else
+                                                resources[rNode.name] = r.amount * rCost;
+                                        }
+                                    }
+                                }
                             }
-
-                            if (p.Resources["MonoPropellant"] != null)
-                            {
-                                monoFuel += p.Resources["MonoPropellant"].amount;
-                                //tankCost += cst;
-
-                            }
-
-                            if (p.Resources["Oxidizer"] != null)
-                            {
-                                ox = p.Resources["Oxidizer"].amount;
-                                oxidizerFuel += ox;
-                            }
-
-                            // edit in .12 to add support for iron cross mod -- malkuth .12 Also Added Support for Modular Fuel Mod Check Difficulty for Multipliers
-                            if (p.Resources["Oxygen"] != null)
-                            {
-                                oxygen += p.Resources["Oxygen"].amount;
-                                //tankCost += cst;
-                            }
-                            if (p.Resources["LiquidOxygen"] != null)
-                            {
-                                LiquidOxygen += p.Resources["LiquidOxygen"].amount;
-                                //tankCost += cst;
-                            }
-                            if (p.Resources["LiquidH2"] != null)
-                            {
-                                LiquidH2 += p.Resources["LiquidH2"].amount;
-                                //tankCost += cst;
-                            }
-                            /*if (lf + ox > 0)
-                            {
-                                tankCost += cst;
-                            }*/
-
-                            if (p.Resources["XenonGas"] != null)
-                            {
-                                xenonFuel += p.Resources["XenonGas"].amount;
-                                //tankCost += cst;
-                            }
-
-                            // NK add category detection, module detection, etc
-                            // also DRE support
-                            if (p.Resources["AblativeShielding"] != null)
-                            {
-                                podCost += p.Resources["AblativeShielding"].amount * 2;
-                                // NOTE: we are NOT including part cost here, since that was derived from amount of abl shielding!
-                            }
-                            //mass += p.mass * mult;
 
                         }
                     }
@@ -362,62 +321,7 @@ namespace MissionController
                             int cst = p.partInfo.cost;
                             //print("part " + p.partName + " has cost " + cst);
                             podCost += cst;
-                            /*if (p.partInfo.category.Equals(PartCategories.Propulsion))
-                            {
-                                bool isEngine = false;
-                                foreach (ModuleEngines e in p.partRef.Modules.OfType<ModuleEngines>())
-                                {
-                                    if (e.propellants.Where(r => r.name.Equals("SolidFuel")).Count() == 0)
-                                    {
-                                        engineCost += cst;
-                                        isEngine = true;
-                                    }
-                                }
-                                if (!isEngine)
-                                    tankCost += cst;
-                            }
-
-
-                            // PODS
-                            if (p.partInfo.category.Equals(PartCategories.Pods))
-                            {
-                                podCost += cst;
-                            }
-
-                            // PROPULSION - taken care of above: engines, LF, SF, MP.
-
-                            // CONTROL
-                            if (p.partInfo.category.Equals(PartCategories.Control))
-                            {
-                                controlCost += cst;
-                            }
-
-                            // STRUCTURAL
-                            if (p.partInfo.category.Equals(PartCategories.Structural))
-                            {
-                                structCost += cst;
-                            }
-                            // STRUCTURAL
-                            if (p.partInfo.category.Equals(PartCategories.Aero))
-                            {
-                                aeroCost += cst;
-                            }
-
-
-
-                            // UTILITY
-                            if (p.partInfo.category.Equals(PartCategories.Utility))
-                            {
-                                //print("part " + p.name + " is utility");
-                                utilCost += cst;
-                            }
-
-                            // SCIENCE
-                            if (p.partInfo.category.Equals(PartCategories.Science))
-                            {
-                                //print("part " + p.name + " is science");
-                                sciCost += cst;
-                            }*/
+                            // breakdown unnneccessary for recovery purposes.
                         }
                     }
                 }
@@ -428,73 +332,35 @@ namespace MissionController
 
             public int pod()
             {
-                return (int)(costmultiplier * podCost * ConstructionMode.TechConstrustion);
+                return (int)(podCost * ConstructionMode.TechConstrustion);
             }
             public int tank()
             {
-                return (int)(costmultiplier * tankCost * ConstructionMode.TechConstrustion);
+                return (int)(tankCost * ConstructionMode.TechConstrustion);
             }
             public int engine()
             {
-                return (int)(costmultiplier * engineCost * ConstructionMode.TechConstrustion);
+                return (int)(engineCost * ConstructionMode.TechConstrustion);
             }
             public int ctrl()
             {
-                return (int)(costmultiplier * controlCost * ConstructionMode.TechConstrustion);
+                return (int)(controlCost * ConstructionMode.TechConstrustion);
             }
             public int util()
             {
-                return (int)(costmultiplier * utilCost * ConstructionMode.TechConstrustion);
+                return (int)(utilCost * ConstructionMode.TechConstrustion);
             }
             public int sci()
             {
-                return (int)(costmultiplier * sciCost * ConstructionMode.TechConstrustion);
+                return (int)(sciCost * ConstructionMode.TechConstrustion);
             }
             public int stru()
             {
-                return (int)(costmultiplier * structCost * ConstructionMode.TechConstrustion);
+                return (int)(structCost * ConstructionMode.TechConstrustion);
             }
             public int aero()
             {
-                return (int)(costmultiplier * aeroCost * ConstructionMode.TechConstrustion);
-            }
-
-            public int oxylife()
-            {
-                return (int)(costmultiplier * oxygen * Difficulty.LiquidFuel * FuelMode.TechFuel);
-            }
-            public int LiquidOxy()
-            {
-                return (int)(costmultiplier * LiquidOxygen * Difficulty.LiquidOxygen * FuelMode.TechFuel);
-            }
-            public int LiquidH()
-            {
-                return (int)(costmultiplier * LiquidH2 * Difficulty.LiquidH2 * FuelMode.TechFuel);
-            }
-
-            public int liquid()
-            {
-                return (int)(costmultiplier * liquidFuel * Difficulty.LiquidFuel * FuelMode.TechFuel);
-            }
-
-            public int mono()
-            {
-                return (int)(costmultiplier * monoFuel * Difficulty.MonoPropellant * FuelMode.TechFuel);
-            }
-
-            public int solid()
-            {
-                return (int)(costmultiplier * solidFuel * Difficulty.SolidFuel * FuelMode.TechFuel);
-            }
-
-            public int xenon()
-            {
-                return (int)(costmultiplier * xenonFuel * Difficulty.Xenon * FuelMode.TechFuel);
-            }
-
-            public int oxidizer()
-            {
-                return (int)(costmultiplier * oxidizerFuel * Difficulty.Oxidizer * FuelMode.TechFuel);
+                return (int)(aeroCost * ConstructionMode.TechConstrustion);
             }
 
             public int crew()
@@ -512,8 +378,12 @@ namespace MissionController
                 return  pod() + tank() + engine() + ctrl() + util() + sci() + stru() + aero();               
             }
             public int wet()
-            {  
-                return  liquid() + oxidizer() + solid() + mono() + xenon() + oxylife() + LiquidOxy() + LiquidH();                
+            {
+                double val = 0;
+                foreach (double v in resources.Values)
+                    val += v;
+
+                return (int)Math.Round(val,0);
             }
 
             public int sum()

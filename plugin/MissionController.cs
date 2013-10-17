@@ -488,10 +488,14 @@ namespace MissionController
                 {
                     try
                     {
+                        /*if (ap.partPrefab.Modules.Contains("LaunchClamp"))
+                        {
+                            foreach (ConfigNode n in GameDatabase.Instance.GetConfigNodes("MISSIONCONTROLLER"))
+                                ap.partPrefab.mass = (float)PartCost.tryDouble(n, "LaunchClampMass", 10); // NK to fix clamps.
+                        }*/
                         int cst = PartCost.cost(ap);
                         print("For part " + ap.name + ", cost = " + cst);
                         ap.cost = cst;
-                        //ap.partPrefab.partInfo.cost = cst;
                     }
                     catch
                     {
@@ -688,16 +692,16 @@ namespace MissionController
                         if (res.sci() > (0)) { showCostValue("Science Parts:", res.sci(), styleValueGreen); }
                         if (res.engine() > (0)) { showCostValue("Engines And Cooling: ", res.engine(), styleValueGreen); }
                         if (res.tank() > (0)) { showCostValue("Fuel Tank Cost: ", res.tank(), styleValueGreen); }
-                        if (res.oxylife() > (0)) { showCostValue("Oxygen Life Support: ", res.oxylife(), styleValueGreen); }
-                        if (res.LiquidOxy() > (0)) { showCostValue("LiquidOxygen fuel costs:", res.LiquidOxy(), styleValueGreen); }
-                        if (res.LiquidH() > (0)) { showCostValue("LiquidH2O:", res.LiquidH(), styleValueGreen); }
-                        if (res.liquid() > (0)) { showCostValue("Liquid fuel costs:", res.liquid(), styleValueGreen); }
-                        if (res.oxidizer() > (0)) { showCostValue("Oxidizer costs:", res.oxidizer(), styleValueGreen); }
-                        if (res.mono() > (0)) { showCostValue("Monopropellant costs:", res.mono(), styleValueGreen); }
-                        if (res.solid() > (0)) { showCostValue("Solid fuel costs:", res.solid(), styleValueGreen); }
-                        if (res.xenon() > (0)) { showCostValue("Xenon gas costs:", res.xenon(), styleValueGreen); }
                         if (res.stru() > (0)) { showCostValue("Structural Cost:", res.stru(), styleValueGreen); }
                         if (res.aero() > (0)) { showCostValue("Aerodynamic Cost:", res.aero(), styleValueGreen); }
+                        // pull from resources
+                        if(res.resources.Count > 0)
+                        {
+                            List<string> resInVessel = res.resources.Keys.ToList();
+                            resInVessel.Sort();
+                            foreach(string r in resInVessel)
+                                showCostValue(r, Math.Round(res.resources[r],0), styleValueGreen);
+                        }
                         if (res.wet() > (0)) { showCostValue("(Total Cost Of Fuels):", res.wet(), styleCaption); }
                         if (res.dry() > (0)) { showCostValue("(Total Cost Of Parts):", res.dry(), styleCaption); }
                         GUILayout.Space(20);

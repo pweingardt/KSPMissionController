@@ -5,8 +5,8 @@ using System.Linq;
 
 namespace MissionController
 {
-    public class PartCost
-    {
+    public class PartCost //: MonoBehaviour
+    {   
         /// <summary>
         /// Calculates the cost of a part
         /// </summary>
@@ -17,6 +17,21 @@ namespace MissionController
             return cost(pt.partPrefab);
         }
 
+        private static double atod(string a)
+        {
+            double o;
+            double.TryParse(a, out o);
+            return o;
+        }
+
+        public static double tryDouble(ConfigNode node, string name, double val)
+        {
+            if (node.HasValue(name))
+                val = atod(node.GetValue(name));
+            //else
+                //print("*MCEPC key not found: " + name);
+            return val;
+        }
 
         /// <summary>
         /// Calculates the cost of a part
@@ -26,244 +41,175 @@ namespace MissionController
         public static int cost(Part p)
         {
             double pcst = 0;
-            const double massCost = 700;
             try
             {
-                double mult = 1.0;
-                // LAUNCH CLAMP HACK
-                bool isClamp = false;
-                foreach (LaunchClamp e in p.Modules.OfType<LaunchClamp>())
+
+                ConfigNode MCSettings = null;
+                foreach (ConfigNode node in GameDatabase.Instance.GetConfigNodes ("MISSIONCONTROLLER"))
+                    MCSettings = node;
+                if(MCSettings == null)
+                    return 0;
+
+                double massCost = tryDouble(MCSettings, "massCost", 700);
+                double totalCostMult = tryDouble(MCSettings, "totalCostScalar", 1.0);
+                double massCostMult = 1.0;
+
+                //get base multiplier
+                switch (p.partInfo.category)
                 {
-                    //print("part " + p.name + " is launch clamp");
-                    isClamp = true;
+                    case PartCategories.Pods:
+                        massCostMult = tryDouble(MCSettings.GetNode("CATEGORYMASSCOSTMULT"), "Pods", 2);
+                        break;
+                    case PartCategories.Propulsion:
+                        massCostMult = tryDouble(MCSettings.GetNode("CATEGORYMASSCOSTMULT"), "Propulsion", 0.1);
+                        break;
+                    case PartCategories.Control:
+                        massCostMult = tryDouble(MCSettings.GetNode("CATEGORYMASSCOSTMULT"), "Control", 0.1);
+                        break;
+                    case PartCategories.Structural:
+                        massCostMult = tryDouble(MCSettings.GetNode("CATEGORYMASSCOSTMULT"), "Structural", 0.1);
+                        break;
+                    case PartCategories.Aero:
+                        massCostMult = tryDouble(MCSettings.GetNode("CATEGORYMASSCOSTMULT"), "Aero", 2.0);
+                        break;
+                    case PartCategories.Utility:
+                        massCostMult = tryDouble(MCSettings.GetNode("CATEGORYMASSCOSTMULT"), "Utility", 2.0);
+                        break;
+                    case PartCategories.Science:
+                        massCostMult = tryDouble(MCSettings.GetNode("CATEGORYMASSCOSTMULT"), "Science", 7.0);
+                        break;
                 }
-                if (isClamp)
+
+                // get crew capacity
+                pcst += p.CrewCapacity * tryDouble(MCSettings, "costPerCrew", 6000);
+                //print("*MCEPC* " + p.name + ", m" + massCostMult + ", c" + pcst);
+                foreach(ConfigNode mNode in MCSettings.GetNode("MODULECOST").nodes)
                 {
-                    return (int)(massCost * 0.05);
-                }
-                foreach (ModuleEngines e in p.Modules.OfType<ModuleEngines>())
-                {
-                    if (e.propellants.Where(r => r.name.Equals("SolidFuel")).Count() == 0)
+                    double cst = 0;
+                    if (p.Modules.Contains(mNode.name)) // part has this node's module
                     {
-                        //Debug.Log("part " + p.name + " is engine");
-                        double cst = Math.Pow((e.atmosphereCurve.Evaluate(0) * 0.8 + e.atmosphereCurve.Evaluate(1) * 0.2) - 200, 2) * e.maxThrust / 1000.0;
-                        //Debug.Log("Isp " + e.atmosphereCurve.Evaluate(1) + "/" + e.atmosphereCurve.Evaluate(0));
-                        foreach (ModuleGimbal g in p.Modules.OfType<ModuleGimbal>())
+                        //print("found module " + mNode.name);
+                        //set up base part cost
+                        // check for Nodes, and apply values in the nodes as multipliers to the partmodule's variable named as the keys.
+                        // like, if FLOATS has chargeRate, apply chargeRate's value as a multiplier to partmodule.chargerate, and add
+                        // that to the cost.
+                        if (mNode.HasNode("FLOATS"))
                         {
-                            cst *= 1.0 + g.gimbalRange * 0.2;
+                            foreach (string valName in mNode.GetNode("FLOATS").values.DistinctNames())
+                            {
+                                double valCost = atod(mNode.GetNode("FLOATS").GetValue(valName));
+                                cst += ((float)p.Modules[mNode.name].Fields.GetValue(valName)) * valCost;
+                            }
                         }
-                        //Debug.Log("cost with gimbal: " + cst);
-                        if (e.propellants.Where(r => r.name.Equals("IntakeAir")).Count() != 0 || e.propellants.Where(r => r.name.Equals("KIntakeAir")).Count() != 0)
+
+                        // special handling for engines/RCS
+                        bool doEngine = false;
+
+                        // this stuff is so we can combine engines and RCS since they use the same code
+                        // just engines have some special factors
+                        double gimbalFactor = 1.0;
+                        double propMult = 1.0;
+                        double nukeMult = 1.0;
+                        double ispSL = 0;
+                        double ispV = 0;
+                        double thrust = 0;
+                        if (mNode.name == "ModuleEngines")
                         {
-                            cst *= 0.05;
-                            Debug.Log("Jet engine cost now: " + cst);
+                            ModuleEngines e = (ModuleEngines)p.Modules["ModuleEngines"];
+
+                            ispSL = e.atmosphereCurve.Evaluate(1);
+                            ispV = e.atmosphereCurve.Evaluate(0);
+                            thrust = e.maxThrust;
+
+                            bool foundPropMod = false;
+                            foreach(ModuleEngines.Propellant r in e.propellants)
+                            {
+                                if(mNode.HasValue(r.name))
+                                {
+                                    propMult *= atod(mNode.GetValue(r.name));
+                                    foundPropMod = true;
+                                }
+                            }
+
+                                
+                            if (!foundPropMod && ispV > 600)
+                                nukeMult = tryDouble(mNode, "nukeMult", nukeMult);
+
+                            foreach (ModuleGimbal g in p.Modules.OfType<ModuleGimbal>())
+                                gimbalFactor = 1.0 + g.gimbalRange * tryDouble(mNode, "gimbalFactor", 0.2);
                         }
-                        else if (e.atmosphereCurve.Evaluate(0) > 600 && e.propellants.Where(r => r.name.Equals("XenonGas")).Count() == 0)
-                            cst *= 4; // special HACK handling for NTR
-                        cst = cst * Math.Pow(cst / p.mass / 4000, 0.25);
-                        pcst += 250 + cst * 0.5;
-                        //Debug.Log("Final component cost: " + cst);
-                        mult *= 0.1;
-                    }
-                }
-
-                //                        res.construction += p.partInfo.cost;
-                double lf = 0.0;
-                double ox = 0.0;
-                bool doOnce = false;
-                // NK add tank efficiency mult - DISABLED
-                if (p.Resources["LiquidFuel"] != null)
-                {
-                    lf = p.Resources["LiquidFuel"].maxAmount;
-                }
-                if (p.Resources["Oxidizer"] != null)
-                {
-                    ox = p.Resources["Oxidizer"].maxAmount;
-                    //res.oxidizerFuel += ox;
-                }
-                if (lf + ox > 0)
-                {
-                    mult = 0.1;
-                    pcst += Math.Pow((lf + ox) / p.mass / 1600, 2) * (lf + ox) * 0.025; // normalized for FL-T800 
-                }
-
-                if (p.Resources["SolidFuel"] != null)
-                {
-                    //res.solidFuel += p.Resources["SolidFuel"].maxAmount;
-                    //mult *= (p.Resources["SolidFuel"].amount / p.mass / 866); // normalized for RT-10
-                    mult = 0.25;
-                }
-
-                if (p.Resources["MonoPropellant"] != null)
-                {
-                    mult = 0.1;
-                    //res.monoFuel += p.Resources["MonoPropellant"].amount;
-                    pcst += p.Resources["MonoPropellant"].maxAmount / p.mass / 666 * p.Resources["MonoPropellant"].maxAmount * 0.15; // normalized for R25
-                }
-
-                if (p.Resources["XenonGas"] != null)
-                {
-                    mult = 0.1;
-                    //res.xenonFuel += p.Resources["XenonGas"].amount;
-                    pcst += p.Resources["XenonGas"].maxAmount / p.mass / 5833 * p.Resources["XenonGas"].maxAmount * 0.25; // normalized for R25
-                }
-
-                // NK add category detection, module detection, etc
-                // also DRE support
-                if (p.Resources["AblativeShielding"] != null)
-                {
-                    pcst += p.Resources["AblativeShielding"].maxAmount * 5;
-                }
-
-                // PODS
-                bool isPod = false;
-                if (p.partInfo.category.Equals(PartCategories.Pods))
-                {
-                    mult *= 2;
-                    //print("part " + p.name + " is a pod");
-                }
-                doOnce = false;
-                foreach (ModuleCommand e in p.Modules.OfType<ModuleCommand>())
-                {
-                    if (doOnce)
-                        continue;
-                    if (!p.partInfo.name.Contains("RemoteTech")) // HACK for RC antenna
-                    {
-                        pcst += (p.mass - p.CrewCapacity / 4.0) * 10 * 350;
-                        if (p.CrewCapacity > 0)
-                            pcst += p.CrewCapacity * Math.Sqrt(p.CrewCapacity / p.mass / 0.8) * 750;
-                        else
-                            pcst += 75 / (p.mass < 0.02 ? 0.02 : p.mass);
-                        //print("part " + p.name + " has cmd");
-                        isPod = true;
-                    }
-                    doOnce = true;
-                }
-
-                // PROPULSION - taken care of above: engines, LF, SF, MP.
-
-                // CONTROL
-                if (p.partInfo.category.Equals(PartCategories.Control))
-                {
-                    //print("part " + p.name + " is ctrl");
-                    bool hasRCS = false;
-                    foreach (ModuleRCS r in p.Modules.OfType<ModuleRCS>())
-                    {
-                        hasRCS = true;
-                        //print("part " + p.name + " has rcs");
-                        pcst += Math.Pow(r.atmosphereCurve.Evaluate(0) - 200, 2) * r.thrusterPower * 0.1;
-                    }
-                    if (!hasRCS)
-                    {
-                        pcst += p.mass * 4000;
-                        if (p.partInfo.moduleInfo.Equals("AdvSASModule"))
-                            pcst += p.mass * 4000;
-                    }
-                }
-
-                // STRUCTURAL
-                if (p.partInfo.category.Equals(PartCategories.Structural))
-                {
-                    //print("part " + p.name + " is structural");
-                    mult *= 0.1;
-                }
-                foreach (ModuleAnchoredDecoupler e in p.Modules.OfType<ModuleAnchoredDecoupler>())
-                {
-                    //print("part " + p.name + " is decoupler");
-                    mult *= 1.5;
-                }
-                foreach (ModuleDecouple e in p.Modules.OfType<ModuleDecouple>())
-                {
-                    //print("part " + p.name + " is decoupler");
-                    mult *= 1.5;
-                }
-                // better would be check force
-
-                // AERODYNAMIC
-                // leave as stock: 3500/ton. Yes, this is bad for nosecones vs adapters
-                if (p.partInfo.moduleInfo.Equals("ControlSurface"))
-                {
-                    //print("part " + p.name + " is controlsurface");
-                    mult *= 2.0; // control surfaces are a bit more expensive
-                }
-
-
-                // UTILITY
-                if (p.partInfo.category.Equals(PartCategories.Utility))
-                {
-                    //print("part " + p.name + " is utility");
-                    mult *= 2;
-                }
-                foreach (ModuleDockingNode e in p.Modules.OfType<ModuleDockingNode>())
-                {
-                    //print("part " + p.name + " has docking port");
-                    pcst += Math.Sqrt(p.mass) * 500;
-                }
-                foreach (ModuleLandingGear e in p.Modules.OfType<ModuleLandingGear>())
-                {
-                    //print("part " + p.name + " has gear");
-                    mult *= 0.1;
-                    pcst += p.mass * 350 * 0.5;
-                }
-                /*if (p.partInfo.moduleInfo.Equals("HLandingLeg"))
-                {
-                    mult *= 0.1;
-                }*/
-                // and wheels can stay as they are, too.
-
-                foreach (ModuleDeployableSolarPanel s in p.Modules.OfType<ModuleDeployableSolarPanel>())
-                {
-                    //print("part " + p.name + " is solar panel");
-                    // mult is fine for mass; change cost
-                    double panelmult = 1.0;
-                    if (s.sunTracking)
-                        panelmult = 3.0;
-                    pcst += (s.chargeRate * 120) * panelmult; // *s.chargeRate / p.mass / 150; // baseline = OX-STAT, so need high mult for tracking
-                }
-                // for generators and electric charge, check efficiency
-                if (p.Resources["ElectricCharge"] != null)
-                {
-                    //print("part " + p.name + " has electric charge");
-                    pcst += p.Resources["ElectricCharge"].amount * 1.2 * (p.Resources["ElectricCharge"].amount / p.mass / 20000); //baseline = Z-100
-                }
-                foreach (ModuleGenerator g in p.Modules.OfType<ModuleGenerator>())
-                {
-                    //print("part " + p.name + " is generator");
-                    if (g.inputList.Count <= 0) // from nothing
-                    {
-                        foreach (ModuleGenerator.GeneratorResource gr in g.outputList)
+                        if (mNode.name == "ModuleRCS")
                         {
-                            if (gr.name.Equals("ElectricCharge"))
-                                pcst += 1000 + gr.rate * 500 * gr.rate / p.mass / 9.375; // normalized for stock RTG
+                            doEngine = true;
+                            ModuleRCS e = (ModuleRCS)p.Modules["ModuleRCS"];
+                            ispSL = e.atmosphereCurve.Evaluate(1);
+                            ispV = e.atmosphereCurve.Evaluate(0);
+                            thrust = e.thrusterPower;
                         }
+                        if(doEngine)
+                        {
+                            double atmoRatio = tryDouble(mNode, "atmoRatio", 0.2);
+                            double ispOffset = tryDouble(mNode, "ispOffset", 200);
+                            double power = tryDouble(mNode, "power", 2.0);
+                            double scalar = tryDouble(mNode, "scalar", 0.001);
+
+                            double ecst = Math.Pow((ispSL * atmoRatio + ispV * (1-atmoRatio)) - ispOffset, power) * thrust * scalar;
+                            ecst *= gimbalFactor;
+                            ecst *= propMult;
+                            cst = ecst;
+                        }
+
+                        // another special handling function: generators
+                        if (mNode.name == "ModuleGenerator")
+                        {
+                            if (!p.Modules.Contains("LaunchClamp"))
+                            {
+                                foreach (ModuleGenerator g in p.Modules.OfType<ModuleGenerator>())
+                                {
+                                    //print("part " + p.name + " is generator");
+                                    if (g.inputList.Count <= 0) // from nothing
+                                    {
+                                        foreach (ModuleGenerator.GeneratorResource gr in g.outputList)
+                                        {
+                                            if (gr.name.Equals("ElectricCharge"))
+                                                cst = gr.rate;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        // apply modifiers
+                        if (mNode.HasValue("effScalar"))
+                        {
+                            double effS, effP;
+                            effS = atod(mNode.GetValue("effScalar"));
+                            effP = tryDouble(mNode, "effPower", 1.0);
+                            if (cst < 1)
+                                cst = 1;
+                            //print(" cost " + cst + ", es " + effS + "," + effP + "\n");
+                            cst *= Math.Pow(cst / p.mass * effS, effP);
+                        }
+                        cst *= tryDouble(mNode, "costMult", 1.0);
+                        cst += tryDouble(mNode, "costAdd", 0);
+                        //print("module cost = " + cst);
+                        pcst += cst; // add this module's cost to the part
+
+                        // apply for other modules
+                        massCostMult *= tryDouble(mNode, "massCostMult", 1.0);
+                        totalCostMult *= tryDouble(mNode, "totalCostMult", 1.0);
                     }
                 }
+                //print("Part cost now " + pcst);
+                // now add partcost based on tankage
+                foreach (ConfigNode rNode in MCSettings.GetNode("RESOURCECOST").nodes)
+                    if (p.Resources[rNode.name] != null)
+                        pcst += tryDouble(rNode, "tank", 0.0) * ((PartResource)p.Resources[rNode.name]).maxAmount;
+                
+                //print("After resources, part cost now " + pcst);
 
-
-
-
-                // SCIENCE
-                if (p.partInfo.category.Equals(PartCategories.Science))
-                {
-                    //print("part " + p.name + " is science");
-                    //mult *= 10;
-                    pcst += p.mass * 30000;
-                    foreach (ModuleEnviroSensor e in p.Modules.OfType<ModuleEnviroSensor>())
-                        pcst += 100; // fixed cost for now
-                    //But for other science (Keth, RemoteTech) it's mass only alas.
-                }
-
-                if (p.CrewCapacity > 0)
-                {
-                    if (!isPod)
-                    {
-                        //print("part " + p.name + " has crew (and no cmd)");
-                        mult = 2.0; // reset for struct, util
-                    }
-                    pcst += (p.CrewCapacity) * 2500;
-                }
-
-                pcst += p.mass * mult * massCost;
+                pcst += p.mass * massCostMult * massCost;
+                pcst *= totalCostMult;
             }
             catch
             {
