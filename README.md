@@ -1,10 +1,30 @@
+
+##Research Tech New To MCE
+Recycling: You have to research the ability to recycle now.
+
+Fuel Efficiency:  research a Top End 20% Reduction to how well You Produce Fuels.. (IE Cheaper Fuel Cost)
+
+Construction 1:  First Level Of Construction Your Paying Out about 120% more Then Original MCE.. 
+With This Upgrade you bring it back down to Normal MCE.
+
+Construction 2:  2nd Reduction in Construction Cost with an additional %10 Cut to cost.
+
 ##Loans Bank Loans:
 
 Now if you go into the red with mission controller the bank will be happy to lend you the money you need to 
 continue your space program. But it will cost you interest. At 25% of Your Mission Payouts until you pay off 
 the loan and get back into the Green.
 
-##Budgets And Financing:
+##Budgets And Financing: New For .30 and KSP .22
+
+New Finance Screen that tracks the following
+
+Total Mission Payouts (lifetime)
+Total Recycling Payouts (LifeTime)
+Total Of Both Above (LifeTime)
+Total Spent On Vessels (LifeTime)
+
+Total Profit (LifeTime)  After All Expenses.
 
 The mod takes care of your budget.. Subtracting Cost of vessels for you.. And putting
 the payments from missions back into your Budget. Can You keep it in the green?
