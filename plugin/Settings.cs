@@ -12,9 +12,7 @@ namespace MissionController
 
         public bool changed = false;
 
-        public int difficulty = 1;
-        public int fuelmode = 0;
-        public int constructmode = 0;
+        public int difficulty = 1;        
        
         public int kerbonautCostAsInt 
         {
@@ -72,9 +70,7 @@ namespace MissionController
                 settings = new Settings();
             }
             settings.changed = false;
-            Difficulty.init (settings.difficulty);
-            FuelMode.fuelinit(settings.fuelmode);
-            ConstructionMode.constructinit(settings.constructmode);
+            Difficulty.init (settings.difficulty);            
             
         }
 

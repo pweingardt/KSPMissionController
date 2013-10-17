@@ -68,8 +68,8 @@ namespace MissionController
             {
                 settingsWindow(false);
                 Difficulty.init(settings.difficulty);
-                FuelMode.fuelinit(settings.fuelmode);
-                ConstructionMode.constructinit(settings.constructmode);
+                FuelMode.fuelinit(manager.GetFuels);
+                ConstructionMode.constructinit(manager.GetConstruction);
                 
                 SettingsManager.Manager.saveSettings();
                 GUISave();

@@ -134,13 +134,15 @@ namespace MissionController
         /// Returns the current space program.
         /// </summary>
         /// <value>The current program.</value>
-        private SpaceProgram currentProgram {
+        private SpaceProgram currentProgram 
+        {
             get { 
                 if(spaceProgram == null) {
-                    loadProgram(currentTitle);
+                    loadProgram(currentTitle);                   
                 }
                 return spaceProgram;
             }
+            
         }
 
         /// <summary>
@@ -400,7 +402,75 @@ namespace MissionController
             get { return currentProgram.totalSpentVessels; }
         }
 
-       
+       /// <summary>
+       /// Research For Recycle
+       /// Set Research True
+       /// </summary>
+        public bool ResearchRecycle
+        {
+            get { return currentProgram.VRecylce; }
+        }
+        public bool SetResearchRecycle()
+        {
+            return currentProgram.VRecylce = true;
+        }
+        // End Research Recycle
+
+        /// <summary>
+        /// Research For Fuels
+        /// Set Fuels True
+        /// Set Switch Fuels to 1
+        /// </summary>
+        public bool ResearchFuels
+        {
+            get { return currentProgram.VFuels; }
+        }
+        public bool SetResearchFuels()
+        {
+             return currentProgram.VFuels = true;
+        }
+        public int GetFuels
+        {
+            get { return currentProgram.fuelmode; }
+        }
+        public int SetFuels()
+        {
+            return currentProgram.fuelmode = 1;
+        }
+        // End Research Fuels
+
+        /// <summary>
+        /// Research For Construction Levels
+        /// Set Construction True
+        /// Set Switch Construction to 1 or 2
+        /// </summary>
+        public bool ResearchConstruction1
+        {
+            get { return currentProgram.VConstruction1; }
+        }
+        public bool ResearchConstruction2
+        {
+            get { return currentProgram.VConstruction2; }
+        }
+        public bool SetResearchConstruction1()
+        {
+            return currentProgram.VConstruction1 = true;
+        }
+        public bool SetResearchConstruction2()
+        {
+            return currentProgram.VConstruction2 = true;
+        }
+        public int GetConstruction
+        {
+            get { return currentProgram.constructmode; }
+        }
+        public int SetConstruction(int value)
+        {
+            return currentProgram.constructmode = value ;
+        }
+        // End Construction Research
+
+
                     
         /// <summary>
         /// Checks if the given vessel is controlled by a client.
