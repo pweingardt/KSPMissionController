@@ -279,10 +279,10 @@ namespace MissionController
         void OnLevelWasLoaded()
         {
             GUISave();
-            repairStation.repair = false; // we have to reset the RepairGoal for it can be used again.
-            FuelMode.fuelinit(settings.fuelmode);
-            ConstructionMode.constructinit(settings.constructmode);
-            SettingsManager.Manager.saveSettings();            
+            repairStation.repair = false; // we have to reset the RepairGoal for it can be used again.           
+            SettingsManager.Manager.saveSettings();
+            FuelMode.fuelinit(manager.GetFuels);
+            ConstructionMode.constructinit(manager.GetConstruction);
         }
 
         public void Awake()
@@ -802,7 +802,7 @@ namespace MissionController
 
                 }
                 // NK recycle from tracking station
-                if (HighLogic.LoadedScene.Equals(GameScenes.TRACKSTATION) && pVessel != null && settings.difficulty != 0)
+                if (HighLogic.LoadedScene.Equals(GameScenes.TRACKSTATION) && pVessel != null && settings.difficulty != 0 && manager.ResearchRecycle != false)
                 {
                     //print("*MC* In TS, pVessel not null");
                     if (pVessel.situation.Equals(Vessel.Situations.LANDED) || pVessel.situation.Equals(Vessel.Situations.SPLASHED))

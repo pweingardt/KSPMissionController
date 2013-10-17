@@ -1,8 +1,16 @@
 using System;
+using UnityEngine;
+using MissionController;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Linq;
+using KSP.IO;
 
 namespace MissionController
 {
-    
+    /// <summary>
+    /// This is the old system for Diffictulties now its used to switch between Flight Mode, Test Mode, and Hardcore Mode
+    /// </summary>
     public class Difficulty 
     {
 
@@ -150,6 +158,7 @@ namespace MissionController
 
     /// <summary>
     /// This is Used For Research Tab and mission Controller to control Fuel Research Levels
+    /// Sets Up The Switches For Fuels Check MCcalc for what it effects
     /// </summary>
     public class FuelMode
     {
@@ -159,7 +168,7 @@ namespace MissionController
             
             for (int i = 0; i < fuelmode0.Length; ++i) 
             {
-                fuelmode1[i] = .9 * fuelmode0[i];
+                fuelmode1[i] = .8 * fuelmode0[i];
             }
         }
 
@@ -185,7 +194,10 @@ namespace MissionController
                 return fuelfactors [0]; 
             }
         }
-
+        /// <summary>
+        /// The Switches for Fuels
+        /// </summary>
+        /// <param name="fuelmode"></param>
         public static void fuelinit(int fuelmode)
         {
             switch (fuelmode)
@@ -209,11 +221,48 @@ namespace MissionController
     }
 
     /// <summary>
+    /// Loads the Players Science Also
     /// This is used by the Research Tab and Mission Controller to control Construction cost Levels
+    /// check MCCalc for what it effects
     /// </summary>
     public class ConstructionMode
     {
-         static ConstructionMode()
+        /// <summary>
+        /// Loads Research And Development
+        /// </summary>
+        public bool RDScience
+        {
+            get { return ResearchAndDevelopment.Instance != null; }
+        }
+
+        /// <summary>
+        /// Gets And Sets The Amount Of Science In Player Saved Game
+        /// </summary>
+        public float Science
+        {
+            get
+            {
+                return ResearchAndDevelopment.Instance.Science;
+            }
+            set
+            {
+                float previous = ResearchAndDevelopment.Instance.Science;
+                ResearchAndDevelopment.Instance.Science = value;
+                Debug.LogError("Mission Controller Changed Science by " + (ResearchAndDevelopment.Instance.Science - previous) + " to " + ResearchAndDevelopment.Instance.Science + ".");
+            }
+        }
+
+        /// <summary>
+        /// Deducts Science from the Player Saved Game Persistent file
+        /// </summary>
+        /// <param name="cost"></param>
+        /// <returns></returns>
+        public float DeductScience(float cost)
+        {           
+            return Science -= cost;   
+        }
+        
+        static ConstructionMode()
         {
             construction1 = new double[construction0.Length];
             construction2 = new double[construction0.Length];
@@ -225,6 +274,9 @@ namespace MissionController
             }
         }
 
+        /// <summary>
+        /// Sets up The Construction Switches For Different Research Levels
+        /// </summary>
         public static readonly double[] construction1;
         public static readonly double[] construction2;
 
@@ -248,7 +300,10 @@ namespace MissionController
                 return constructionfactors[0]; 
             }
         }
-
+        /// <summary>
+        /// The switches For Construction
+        /// </summary>
+        /// <param name="constructionmode"></param>
         public static void constructinit(int constructionmode)
         {
             switch (constructionmode)
