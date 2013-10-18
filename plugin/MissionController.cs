@@ -107,6 +107,7 @@ namespace MissionController
 
         public string recycledName = "";
         public int recycledCost = 0;
+        public int recycledCrewCost = 0;
 
         private FileBrowser fileBrowser = null;
         private Mission currentMission = null;
@@ -588,8 +589,11 @@ namespace MissionController
         {
             GUI.skin = HighLogic.Skin;
             GUILayout.BeginVertical();
-
-            showCostValue("Vessel " + recycledName + " recyled: ", recycledCost, styleCaption);
+            if (settings.difficulty != 0 && manager.ResearchRecycle != false)
+            {
+                showCostValue("Vessel " + recycledName + " recyled: ", recycledCost, styleCaption);
+            }
+            showCostValue("Crew Insurance Returned: ", recycledCrewCost, styleCaption);
 
             if (GUILayout.Button("OK", styleButtonWordWrap))
             {

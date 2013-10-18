@@ -395,12 +395,16 @@ namespace MissionController
             {
                 if (landed)
                 {
-                    return (int)(0.85 * dry() + crew());
+                    return (int)(0.85 * dry()); //Crew Insurance Disabled until Better system I come up with.
                 }
                 else
                 {
-                    return (int)(0.65 * dry() + crew());
+                    return (int)(0.65 * dry());
                 }
+            }
+            public int crewreturn(bool landed)
+            {
+                return (int)crew();
             }
         }
     }

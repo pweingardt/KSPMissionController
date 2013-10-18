@@ -562,6 +562,15 @@ namespace MissionController
             return currentProgram.money;
         }
 
+        public int cleanReward(int value)
+        {
+            if (!SettingsManager.Manager.getSettings().disablePlugin)
+            { 
+                currentProgram.money += value; 
+            }
+            return currentProgram.money;
+        }
+
         public int recyclereward(int value) {
             if (!SettingsManager.Manager.getSettings().disablePlugin)
             {
