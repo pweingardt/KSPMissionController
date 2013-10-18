@@ -29,9 +29,9 @@ namespace MissionController
             GUILayout.EndHorizontal();
             
             GUILayout.BeginHorizontal();
-            GUILayout.Box("MC TechTree", styleValueGreenBold, GUILayout.Width(160), GUILayout.Height(30));
-            GUILayout.Box("Purchase Cost", styleValueGreenBold, GUILayout.Width(160), GUILayout.Height(30));
-            GUILayout.Box("Research Status", styleValueGreenBold, GUILayout.Width(160), GUILayout.Height(30));
+            GUILayout.Box("          MC TechTree", styleValueGreenBold, GUILayout.Width(160), GUILayout.Height(30));
+            GUILayout.Box("          Purchase Cost", styleValueGreenBold, GUILayout.Width(160), GUILayout.Height(30));
+            GUILayout.Box("          Research Status", styleValueGreenBold, GUILayout.Width(160), GUILayout.Height(30));
             GUILayout.EndHorizontal();
 
             GUILayout.Space(5);

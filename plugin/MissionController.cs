@@ -683,7 +683,7 @@ namespace MissionController
                     
                     showCostValue("Total Cost Vessel:", res.sum(), (res.sum() > manager.budget ? styleValueRedBold : styleValueYellow));                   
                     ExpandCost = GUILayout.Toggle(ExpandCost, "Expand Cost List");
-                    if (ExpandCost == true)
+                    if (ExpandCost != false)
                     {
                         showCostValue("Crew insurance (Launch Pad Only): ", res.crew(), styleValueGreen);
                         if (res.pod() > (0)) { showCostValue("Command Sections:", res.pod(), styleValueGreen); }
@@ -728,7 +728,7 @@ namespace MissionController
                 if (currentMission != null)
                 {
                     ShowMissionGoals = GUILayout.Toggle(ShowMissionGoals, "Show Mission Info");
-                    if (ShowMissionGoals == true)
+                    if (ShowMissionGoals != false)
                     {
                         drawMission(currentMission, status);
                     }
@@ -802,7 +802,7 @@ namespace MissionController
 
                 }
                 // NK recycle from tracking station
-                if (HighLogic.LoadedScene.Equals(GameScenes.TRACKSTATION) && pVessel != null && settings.difficulty != 0 && manager.ResearchRecycle != false)
+                if (pVessel != null && settings.difficulty != 0 && manager.ResearchRecycle != false)
                 {
                     //print("*MC* In TS, pVessel not null");
                     if (pVessel.situation.Equals(Vessel.Situations.LANDED) || pVessel.situation.Equals(Vessel.Situations.SPLASHED))

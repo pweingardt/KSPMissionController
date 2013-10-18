@@ -52,8 +52,7 @@ namespace MissionController
         /// <param name="pv">the vessel</param>
         private void onRecovered(ProtoVessel pv)
         {
-            if (HighLogic.LoadedScene.Equals(GameScenes.TRACKSTATION) || HighLogic.LoadedScene.Equals(GameScenes.SPACECENTER) && settings.difficulty != 0 
-                && (pv.situation.Equals(Vessel.Situations.LANDED) || pv.situation.Equals(Vessel.Situations.SPLASHED) && manager.ResearchRecycle != false))
+            if (settings.difficulty != 0 &&  manager.ResearchRecycle != false && (pv.situation.Equals(Vessel.Situations.LANDED) || pv.situation.Equals(Vessel.Situations.SPLASHED)))
             {
                 VesselResources res = new VesselResources(pv.vesselRef);
                 recycledName = pv.vesselName;
@@ -96,10 +95,10 @@ namespace MissionController
             {
                 try { print("*MC* Vessel " + v.name + " destroyed. Alt " + v.mainBody.GetAltitude(v.CoM) + ", body " + v.orbit.referenceBody.bodyName + ", sit = " + v.situation); }
                 catch { }
-                if (!HighLogic.LoadedSceneIsEditor && canRecycle && activeVessel != v && !v.isEVA // canRecycle is false iff load requested and haven't returned to flight yet.
+                if (!HighLogic.LoadedSceneIsEditor && manager.ResearchRecycle != false && canRecycle && activeVessel != v && !v.isEVA // canRecycle is false iff load requested and haven't returned to flight yet.
                     && v.name.Contains("(Unloaded)") // check make sure it's because we're unloading it
                     && (v.situation == Vessel.Situations.FLYING || v.situation == Vessel.Situations.SUB_ORBITAL) && v.mainBody.GetAltitude(v.CoM) <= 25000 && v.orbit.referenceBody.bodyName.Equals("Kerbin")
-                    && settings.difficulty != 0 && manager.ResearchRecycle != false)
+                    && settings.difficulty != 0)
                 {
                     print("*MC* Checking " + v.name);
                     double mass = 0;
