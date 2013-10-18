@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace MissionController
 {
-    public class PartCost //: MonoBehaviour
+    public class PartCost //DBG : MonoBehaviour
     {   
         /// <summary>
         /// Calculates the cost of a part
@@ -28,8 +28,8 @@ namespace MissionController
         {
             if (node.HasValue(name))
                 val = atod(node.GetValue(name));
-            //else
-                //print("*MCEPC key not found: " + name);
+            // DBG else
+                //DBG print"*MCEPC key not found: " + name);
             return val;
         }
 
@@ -82,13 +82,13 @@ namespace MissionController
 
                 // get crew capacity
                 pcst += p.CrewCapacity * tryDouble(MCSettings, "costPerCrew", 6000);
-                //print("*MCEPC* " + p.name + ", m" + massCostMult + ", c" + pcst);
+                //DBG print"*MCEPC* " + p.name + ", m" + massCostMult + ", c" + pcst);
                 foreach(ConfigNode mNode in MCSettings.GetNode("MODULECOST").nodes)
                 {
                     double cst = 0;
                     if (p.Modules.Contains(mNode.name)) // part has this node's module
                     {
-                        //print("found module " + mNode.name);
+                        //DBG print"found module " + mNode.name);
                         //set up base part cost
                         // check for Nodes, and apply values in the nodes as multipliers to the partmodule's variable named as the keys.
                         // like, if FLOATS has chargeRate, apply chargeRate's value as a multiplier to partmodule.chargerate, and add
@@ -113,8 +113,9 @@ namespace MissionController
                         double ispSL = 0;
                         double ispV = 0;
                         double thrust = 0;
-                        if (mNode.name == "ModuleEngines")
+                        if (mNode.name.Equals("ModuleEngines"))
                         {
+                            doEngine = true;
                             ModuleEngines e = (ModuleEngines)p.Modules["ModuleEngines"];
 
                             ispSL = e.atmosphereCurve.Evaluate(1);
@@ -138,7 +139,7 @@ namespace MissionController
                             foreach (ModuleGimbal g in p.Modules.OfType<ModuleGimbal>())
                                 gimbalFactor = 1.0 + g.gimbalRange * tryDouble(mNode, "gimbalFactor", 0.2);
                         }
-                        if (mNode.name == "ModuleRCS")
+                        if (mNode.name.Equals("ModuleRCS"))
                         {
                             doEngine = true;
                             ModuleRCS e = (ModuleRCS)p.Modules["ModuleRCS"];
@@ -148,6 +149,7 @@ namespace MissionController
                         }
                         if(doEngine)
                         {
+                            //DBG print"Found engine/rcs: " + ispSL + "-" + ispV);
                             double atmoRatio = tryDouble(mNode, "atmoRatio", 0.2);
                             double ispOffset = tryDouble(mNode, "ispOffset", 200);
                             double power = tryDouble(mNode, "power", 2.0);
@@ -160,13 +162,13 @@ namespace MissionController
                         }
 
                         // another special handling function: generators
-                        if (mNode.name == "ModuleGenerator")
+                        if (mNode.name.Equals("ModuleGenerator"))
                         {
                             if (!p.Modules.Contains("LaunchClamp"))
                             {
                                 foreach (ModuleGenerator g in p.Modules.OfType<ModuleGenerator>())
                                 {
-                                    //print("part " + p.name + " is generator");
+                                    //DBG print"part " + p.name + " is generator");
                                     if (g.inputList.Count <= 0) // from nothing
                                     {
                                         foreach (ModuleGenerator.GeneratorResource gr in g.outputList)
@@ -187,12 +189,12 @@ namespace MissionController
                             effP = tryDouble(mNode, "effPower", 1.0);
                             if (cst < 1)
                                 cst = 1;
-                            //print(" cost " + cst + ", es " + effS + "," + effP + "\n");
+                            ////DBG print" cost " + cst + ", es " + effS + "," + effP + "\n");
                             cst *= Math.Pow(cst / p.mass * effS, effP);
                         }
                         cst *= tryDouble(mNode, "costMult", 1.0);
                         cst += tryDouble(mNode, "costAdd", 0);
-                        //print("module cost = " + cst);
+                        ////DBG print"module cost = " + cst);
                         pcst += cst; // add this module's cost to the part
 
                         // apply for other modules
@@ -200,13 +202,13 @@ namespace MissionController
                         totalCostMult *= tryDouble(mNode, "totalCostMult", 1.0);
                     }
                 }
-                //print("Part cost now " + pcst);
+                //DBG print"Part cost now " + pcst);
                 // now add partcost based on tankage
                 foreach (ConfigNode rNode in MCSettings.GetNode("RESOURCECOST").nodes)
                     if (p.Resources[rNode.name] != null)
                         pcst += tryDouble(rNode, "tank", 0.0) * ((PartResource)p.Resources[rNode.name]).maxAmount;
                 
-                //print("After resources, part cost now " + pcst);
+                //DBG print"After resources, part cost now " + pcst);
 
                 pcst += p.mass * massCostMult * massCost;
                 pcst *= totalCostMult;

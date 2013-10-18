@@ -302,7 +302,7 @@ namespace MissionController
                                         if (rNode.name.Equals(r.resourceName) && r.amount > 0)
                                         {
                                             rCost = PartCost.tryDouble(rNode, "cost", 0.0);
-                                            //print("Found resource " + r.resourceName + ", amount " + r.amount + ", cost = " + rCost);
+                                            //DBG print("Found resource " + r.resourceName + ", amount " + r.amount + ", cost = " + rCost);
                                             if (resources.ContainsKey(rNode.name))
                                                 resources[r.name] += r.amount * rCost;
                                             else
