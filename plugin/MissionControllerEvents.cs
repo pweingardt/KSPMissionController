@@ -61,7 +61,14 @@ namespace MissionController
                 showRecycleWindow = true;
                 manager.recycleVessel(pv.vesselRef, recycledCost);
             }
-            pVessel = null;
+            if (settings.difficulty != 0 && (pv.situation.Equals(Vessel.Situations.LANDED) || pv.situation.Equals(Vessel.Situations.SPLASHED)))
+            {
+                VesselResources res = new VesselResources(pv.vesselRef);
+                recycledCrewCost = res.crewreturn(pv.situation.Equals(Vessel.Situations.LANDED));
+                manager.cleanReward(recycledCrewCost);
+            }
+
+            pVessel = null;           
         }
 
         /// <summary>
