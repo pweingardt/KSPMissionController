@@ -314,7 +314,7 @@ namespace MissionController
 
             loadIcons();
 
-            Debug.LogError("Using factors: " + String.Join(", ", Difficulty.Factors.Select(p => p.ToString()).ToArray()));
+            //Debug.LogError("Using factors: " + String.Join(", ", Difficulty.Factors.Select(p => p.ToString()).ToArray()));
         }
 
         private void Reset(GameScenes gameScenes)

@@ -67,7 +67,7 @@ namespace MissionController
             if (GUILayout.Button("Save and Close Settings", styleGreenButton))
             {
                 settingsWindow(false);
-                Difficulty.init(settings.difficulty);
+                //Difficulty.init(settings.difficulty);
                 FuelMode.fuelinit(manager.GetFuels);
                 ConstructionMode.constructinit(manager.GetConstruction);
                 

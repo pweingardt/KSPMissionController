@@ -141,7 +141,7 @@ namespace MissionController
             if (GUILayout.Button("Exit Window"))
             {
 
-                Difficulty.init(settings.difficulty);                
+                //Difficulty.init(settings.difficulty);                
 
                 SettingsManager.Manager.saveSettings();
                 manager.saveProgram();

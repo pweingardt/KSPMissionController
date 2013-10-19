@@ -70,7 +70,7 @@ namespace MissionController
                 settings = new Settings();
             }
             settings.changed = false;
-            Difficulty.init (settings.difficulty);            
+            //Difficulty.init (settings.difficulty);            
             
         }
 
