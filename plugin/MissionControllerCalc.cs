@@ -301,7 +301,7 @@ namespace MissionController
                                     {
                                         if (rNode.name.Equals(r.resourceName) && r.amount > 0)
                                         {
-                                            rCost = PartCost.tryDouble(rNode, "cost", 0.0);
+                                            rCost = Tools.tryDouble(rNode, "cost", 0.0);
                                             //DBG print("Found resource " + r.resourceName + ", amount " + r.amount + ", cost = " + rCost);
                                             if (resources.ContainsKey(rNode.name))
                                                 resources[rNode.name] = resources[rNode.name] + r.amount * rCost;
@@ -322,6 +322,10 @@ namespace MissionController
                             //print("part " + p.partName + " has cost " + cst);
                             podCost += cst;
                             // breakdown unnneccessary for recovery purposes.
+                            foreach (ProtoPartResourceSnapshot r in p.resources)
+                            {
+                                print(Tools.NodeToString(r.resourceValues, 0));
+                            }
                         }
                     }
                 }

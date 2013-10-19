@@ -492,7 +492,7 @@ namespace MissionController
                         /*if (ap.partPrefab.Modules.Contains("LaunchClamp"))
                         {
                             foreach (ConfigNode n in GameDatabase.Instance.GetConfigNodes("MISSIONCONTROLLER"))
-                                ap.partPrefab.mass = (float)PartCost.tryDouble(n, "LaunchClampMass", 10); // NK to fix clamps.
+                                ap.partPrefab.mass = (float)Tools.tryDouble(n, "LaunchClampMass", 10); // NK to fix clamps.
                         }*/
                         int cst = PartCost.cost(ap);
                         print("For part " + ap.name + ", cost = " + cst);

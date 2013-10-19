@@ -89,6 +89,7 @@
     <Compile Include="Difficulty.cs" />
     <Compile Include="GLUtils.cs" />
     <Compile Include="ResearchTree.cs" />
+    <Compile Include="Tools.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

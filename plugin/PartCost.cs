@@ -17,21 +17,6 @@ namespace MissionController
             return cost(pt.partPrefab);
         }
 
-        private static double atod(string a)
-        {
-            double o;
-            double.TryParse(a, out o);
-            return o;
-        }
-
-        public static double tryDouble(ConfigNode node, string name, double val)
-        {
-            if (node.HasValue(name))
-                val = atod(node.GetValue(name));
-            // DBG else
-                //DBG print"*MCEPC key not found: " + name);
-            return val;
-        }
 
         /// <summary>
         /// Calculates the cost of a part
@@ -50,38 +35,38 @@ namespace MissionController
                 if(MCSettings == null)
                     return 0;
 
-                double massCost = tryDouble(MCSettings, "massCost", 700);
-                double totalCostMult = tryDouble(MCSettings, "totalCostScalar", 1.0);
+                double massCost = Tools.tryDouble(MCSettings, "massCost", 700);
+                double totalCostMult = Tools.tryDouble(MCSettings, "totalCostScalar", 1.0);
                 double massCostMult = 1.0;
 
                 //get base multiplier
                 switch (p.partInfo.category)
                 {
                     case PartCategories.Pods:
-                        massCostMult = tryDouble(MCSettings.GetNode("CATEGORYMASSCOSTMULT"), "Pods", 2);
+                        massCostMult = Tools.tryDouble(MCSettings.GetNode("CATEGORYMASSCOSTMULT"), "Pods", 2);
                         break;
                     case PartCategories.Propulsion:
-                        massCostMult = tryDouble(MCSettings.GetNode("CATEGORYMASSCOSTMULT"), "Propulsion", 0.1);
+                        massCostMult = Tools.tryDouble(MCSettings.GetNode("CATEGORYMASSCOSTMULT"), "Propulsion", 0.1);
                         break;
                     case PartCategories.Control:
-                        massCostMult = tryDouble(MCSettings.GetNode("CATEGORYMASSCOSTMULT"), "Control", 0.1);
+                        massCostMult = Tools.tryDouble(MCSettings.GetNode("CATEGORYMASSCOSTMULT"), "Control", 0.1);
                         break;
                     case PartCategories.Structural:
-                        massCostMult = tryDouble(MCSettings.GetNode("CATEGORYMASSCOSTMULT"), "Structural", 0.1);
+                        massCostMult = Tools.tryDouble(MCSettings.GetNode("CATEGORYMASSCOSTMULT"), "Structural", 0.1);
                         break;
                     case PartCategories.Aero:
-                        massCostMult = tryDouble(MCSettings.GetNode("CATEGORYMASSCOSTMULT"), "Aero", 2.0);
+                        massCostMult = Tools.tryDouble(MCSettings.GetNode("CATEGORYMASSCOSTMULT"), "Aero", 2.0);
                         break;
                     case PartCategories.Utility:
-                        massCostMult = tryDouble(MCSettings.GetNode("CATEGORYMASSCOSTMULT"), "Utility", 2.0);
+                        massCostMult = Tools.tryDouble(MCSettings.GetNode("CATEGORYMASSCOSTMULT"), "Utility", 2.0);
                         break;
                     case PartCategories.Science:
-                        massCostMult = tryDouble(MCSettings.GetNode("CATEGORYMASSCOSTMULT"), "Science", 7.0);
+                        massCostMult = Tools.tryDouble(MCSettings.GetNode("CATEGORYMASSCOSTMULT"), "Science", 7.0);
                         break;
                 }
 
                 // get crew capacity
-                pcst += p.CrewCapacity * tryDouble(MCSettings, "costPerCrew", 6000);
+                pcst += p.CrewCapacity * Tools.tryDouble(MCSettings, "costPerCrew", 6000);
                 //DBG print"*MCEPC* " + p.name + ", m" + massCostMult + ", c" + pcst);
                 foreach(ConfigNode mNode in MCSettings.GetNode("MODULECOST").nodes)
                 {
@@ -97,7 +82,7 @@ namespace MissionController
                         {
                             foreach (string valName in mNode.GetNode("FLOATS").values.DistinctNames())
                             {
-                                double valCost = atod(mNode.GetNode("FLOATS").GetValue(valName));
+                                double valCost = Tools.atod(mNode.GetNode("FLOATS").GetValue(valName));
                                 cst += ((float)p.Modules[mNode.name].Fields.GetValue(valName)) * valCost;
                             }
                         }
@@ -127,17 +112,17 @@ namespace MissionController
                             {
                                 if(mNode.HasValue(r.name))
                                 {
-                                    propMult *= atod(mNode.GetValue(r.name));
+                                    propMult *= Tools.atod(mNode.GetValue(r.name));
                                     foundPropMod = true;
                                 }
                             }
 
                                 
                             if (!foundPropMod && ispV > 600)
-                                nukeMult = tryDouble(mNode, "nukeMult", nukeMult);
+                                nukeMult = Tools.tryDouble(mNode, "nukeMult", nukeMult);
 
                             foreach (ModuleGimbal g in p.Modules.OfType<ModuleGimbal>())
-                                gimbalFactor = 1.0 + g.gimbalRange * tryDouble(mNode, "gimbalFactor", 0.2);
+                                gimbalFactor = 1.0 + g.gimbalRange * Tools.tryDouble(mNode, "gimbalFactor", 0.2);
                         }
                         if (mNode.name.Equals("ModuleRCS"))
                         {
@@ -150,10 +135,10 @@ namespace MissionController
                         if(doEngine)
                         {
                             //DBG print"Found engine/rcs: " + ispSL + "-" + ispV);
-                            double atmoRatio = tryDouble(mNode, "atmoRatio", 0.2);
-                            double ispOffset = tryDouble(mNode, "ispOffset", 200);
-                            double power = tryDouble(mNode, "power", 2.0);
-                            double scalar = tryDouble(mNode, "scalar", 0.001);
+                            double atmoRatio = Tools.tryDouble(mNode, "atmoRatio", 0.2);
+                            double ispOffset = Tools.tryDouble(mNode, "ispOffset", 200);
+                            double power = Tools.tryDouble(mNode, "power", 2.0);
+                            double scalar = Tools.tryDouble(mNode, "scalar", 0.001);
 
                             double ecst = Math.Pow((ispSL * atmoRatio + ispV * (1-atmoRatio)) - ispOffset, power) * thrust * scalar;
                             ecst *= gimbalFactor;
@@ -185,28 +170,28 @@ namespace MissionController
                         if (mNode.HasValue("effScalar"))
                         {
                             double effS, effP;
-                            effS = atod(mNode.GetValue("effScalar"));
-                            effP = tryDouble(mNode, "effPower", 1.0);
+                            effS = Tools.atod(mNode.GetValue("effScalar"));
+                            effP = Tools.tryDouble(mNode, "effPower", 1.0);
                             if (cst < 1)
                                 cst = 1;
                             ////DBG print" cost " + cst + ", es " + effS + "," + effP + "\n");
                             cst *= Math.Pow(cst / p.mass * effS, effP);
                         }
-                        cst *= tryDouble(mNode, "costMult", 1.0);
-                        cst += tryDouble(mNode, "costAdd", 0);
+                        cst *= Tools.tryDouble(mNode, "costMult", 1.0);
+                        cst += Tools.tryDouble(mNode, "costAdd", 0);
                         ////DBG print"module cost = " + cst);
                         pcst += cst; // add this module's cost to the part
 
                         // apply for other modules
-                        massCostMult *= tryDouble(mNode, "massCostMult", 1.0);
-                        totalCostMult *= tryDouble(mNode, "totalCostMult", 1.0);
+                        massCostMult *= Tools.tryDouble(mNode, "massCostMult", 1.0);
+                        totalCostMult *= Tools.tryDouble(mNode, "totalCostMult", 1.0);
                     }
                 }
                 //DBG print"Part cost now " + pcst);
                 // now add partcost based on tankage
                 foreach (ConfigNode rNode in MCSettings.GetNode("RESOURCECOST").nodes)
                     if (p.Resources[rNode.name] != null)
-                        pcst += tryDouble(rNode, "tank", 0.0) * ((PartResource)p.Resources[rNode.name]).maxAmount;
+                        pcst += Tools.tryDouble(rNode, "tank", 0.0) * ((PartResource)p.Resources[rNode.name]).maxAmount;
                 
                 //DBG print"After resources, part cost now " + pcst);
 
