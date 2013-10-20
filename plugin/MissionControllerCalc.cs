@@ -301,7 +301,7 @@ namespace MissionController
                                     {
                                         if (rNode.name.Equals(r.resourceName))
                                         {
-                                            rCost = Tools.tryDouble(rNode, "cost", 0.0);
+                                            rCost = Tools.GetValueDefault(rNode, "cost", 0.0);
                                             //DBG print("Found resource " + r.resourceName + ", amount " + r.amount + ", cost = " + rCost);
                                             if (resources.ContainsKey(rNode.name))
                                                 resources[rNode.name] = resources[rNode.name] + r.amount * rCost;
@@ -331,7 +331,7 @@ namespace MissionController
                                 foreach (ProtoPartResourceSnapshot r in p.resources)
                                 {
                                     double rCost = 0;
-                                    double amt = Tools.tryDouble(r.resourceValues, "amount", 0);
+                                    double amt = Tools.GetValueDefault(r.resourceValues, "amount", 0.0);
                                     //print(Tools.NodeToString(r.resourceValues, 0));
                                     if (!(amt > 0))
                                         continue;
@@ -340,7 +340,7 @@ namespace MissionController
                                     {
                                         if (rNode.name.Equals(r.resourceName))
                                         {
-                                            rCost = Tools.tryDouble(rNode, "cost", 0.0);
+                                            rCost = Tools.GetValueDefault(rNode, "cost", 0.0);
                                             //DBG print("Found resource " + r.resourceName + ", amount " + r.amount + ", cost = " + rCost);
                                             if (resources.ContainsKey(rNode.name))
                                                 resources[rNode.name] = resources[rNode.name] + amt * rCost;
@@ -421,18 +421,22 @@ namespace MissionController
                 return wet() + dry() + crew();
             }
 
-            public int recyclable(bool landed)
+            public int recyclable(int sit)
             {
-                if (landed)
+                switch(sit)
                 {
-                    return (int)(0.85 * dry() + wet()); //Crew Insurance Disabled until Better system I come up with.
-                }
-                else
-                {
-                    return (int)(0.65 * dry() + wet());
+                    case 1: // landed
+                        return (int)(Tools.Setting("landedRecycle", 0.85) * dry() + Tools.Setting("fuelRecycle", 0.95) * wet()); //Crew Insurance Disabled until Better system I come up with.
+                    // case 2: // landed on runway
+                    case 3: // autorecycle with fuel
+                        return (int)(Tools.Setting("autoRecycle", 0.63) * (Tools.Setting("runwayRecycle", 0.95) * dry() + Tools.Setting("fuelRecycle", 0.95) * wet())); //Crew Insurance Disabled until Better system I come up with.
+                    case 4: // autorecycle without fuel
+                        return (int)(Tools.Setting("autoRecycle", 0.63) * (Tools.Setting("runwayRecycle", 0.95) * dry())); //Crew Insurance Disabled until Better system I come up with.
+                    default: // case 0, or any other.
+                        return (int)(Tools.Setting("splashedRecycle", 0.65) * dry() + Tools.Setting("landedRecycle", 0.95) * wet());
                 }
             }
-            public int crewreturn(bool landed)
+            public int crewreturn(int sit)
             {
                 return (int)crew();
             }

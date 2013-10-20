@@ -106,6 +106,7 @@ namespace MissionController
         public bool showRandomWindow = false;
 
         public string recycledName = "";
+        public string recycledDesc = "";
         public int recycledCost = 0;
         public int recycledCrewCost = 0;
 
@@ -586,11 +587,16 @@ namespace MissionController
         {
             GUI.skin = HighLogic.Skin;
             GUILayout.BeginVertical();
-            if (settings.difficulty != 0 && manager.ResearchRecycle != false)
+            if (settings.difficulty != 0 && (manager.ResearchRecycle || HighLogic.CurrentGame.Mode != Game.Modes.CAREER))
             {
                 showCostValue("Vessel " + recycledName + " recyled: ", recycledCost, styleCaption);
+                GUILayout.BeginHorizontal();
+                GUILayout.Label("  (" + recycledDesc + ")", styleValueName);
+                GUILayout.EndHorizontal();
+
             }
-            showCostValue("Crew Insurance Returned: ", recycledCrewCost, styleCaption);
+            if(recycledCrewCost > 0)
+                showCostValue("Crew Insurance Returned: ", recycledCrewCost, styleCaption);
 
             if (GUILayout.Button("OK", styleButtonWordWrap))
             {
@@ -803,13 +809,13 @@ namespace MissionController
 
                 }
                 // NK recycle from tracking station
-                if (pVessel != null && settings.difficulty != 0 && manager.ResearchRecycle != false)
+                if (pVessel != null && settings.difficulty != 0 && (manager.ResearchRecycle || HighLogic.CurrentGame.Mode != Game.Modes.CAREER))
                 {
                     //print("*MC* In TS, pVessel not null");
                     if (pVessel.situation.Equals(Vessel.Situations.LANDED) || pVessel.situation.Equals(Vessel.Situations.SPLASHED))
                     {
                         VesselResources res = new VesselResources(pVessel.vesselRef);
-                        showCostValue("Recyclable value: ", res.recyclable(pVessel.situation.Equals(Vessel.Situations.LANDED)), styleCaption);
+                        showCostValue("Recyclable value: ", res.recyclable(pVessel.situation.Equals(Vessel.Situations.LANDED) ? 1 : 0), styleCaption);
                     }
                 }
 
@@ -1094,17 +1100,17 @@ namespace MissionController
 
         private void showCostValue(String name, double value, GUIStyle style)
         {
-            showStringValue(name, String.Format("{0:n0}{1}", value, CurrencySuffix), style);
+            showStringValue(name, String.Format("{0:N0}{1}", value, CurrencySuffix), style);
         }
 
         private void showDoubleValue(String name, double value, GUIStyle style)
         {
-            showStringValue(name, String.Format("{0:n0}", value), style);
+            showStringValue(name, String.Format("{0:N3}", value), style);
         }
 
         private void showIntValue(String name, int value, GUIStyle style)
         {
-            showStringValue(name, String.Format("{0:n0}", value), style);
+            showStringValue(name, String.Format("{0:N0}", value), style);
         }
 
         private void showStringValue(String name, String value, GUIStyle style)

@@ -24,11 +24,39 @@ namespace MissionController
             double.TryParse(a, out o);
             return o;
         }
+        public static bool atob(string a)
+        {
+            bool o;
+            bool.TryParse(a, out o);
+            return o;
+        }
+        public static int atoi(string a)
+        {
+            int o;
+            int.TryParse(a, out o);
+            return o;
+        }
 
-        public static double tryDouble(ConfigNode node, string name, double val)
+        public static double GetValueDefault(ConfigNode node, string name, double val)
         {
             if (node.HasValue(name))
                 val = atod(node.GetValue(name));
+            // DBG else
+            //DBG print"*MCEPC key not found: " + name);
+            return val;
+        }
+        public static bool GetValueDefault(ConfigNode node, string name, bool val)
+        {
+            if (node.HasValue(name))
+                val = atob(node.GetValue(name));
+            // DBG else
+            //DBG print"*MCEPC key not found: " + name);
+            return val;
+        }
+        public static int GetValueDefault(ConfigNode node, string name, int val)
+        {
+            if (node.HasValue(name))
+                val = atoi(node.GetValue(name));
             // DBG else
             //DBG print"*MCEPC key not found: " + name);
             return val;
@@ -53,6 +81,25 @@ namespace MissionController
                 str += NodeToString(n, depth + 1);
 
             return str + spaces(depth) + "}\n";
+        }
+
+        public static double Setting(string key, double val)
+        {
+            if (MCSettings != null)
+                return GetValueDefault(MCSettings, key, val);
+            return val;
+        }
+        public static bool Setting(string key, bool val)
+        {
+            if (MCSettings != null)
+                return GetValueDefault(MCSettings, key, val);
+            return val;
+        }
+        public static int Setting(string key, int val)
+        {
+            if (MCSettings != null)
+                return GetValueDefault(MCSettings, key, val);
+            return val;
         }
     }
 }

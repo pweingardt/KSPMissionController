@@ -52,19 +52,18 @@ namespace MissionController
         /// <param name="pv">the vessel</param>
         private void onRecovered(ProtoVessel pv)
         {
-            if (settings.difficulty != 0 &&  manager.ResearchRecycle != false && (pv.situation.Equals(Vessel.Situations.LANDED) || pv.situation.Equals(Vessel.Situations.SPLASHED)))
+            VesselResources res = new VesselResources(pv.vesselRef);
+            recycledName = pv.vesselName;
+            if (settings.difficulty != 0 && (manager.ResearchRecycle || HighLogic.CurrentGame.Mode != Game.Modes.CAREER) && (pv.situation.Equals(Vessel.Situations.LANDED) || pv.situation.Equals(Vessel.Situations.SPLASHED)))
             {
-                VesselResources res = new VesselResources(pv.vesselRef);
-                recycledName = pv.vesselName;
-                recycledCost = res.recyclable(pv.situation.Equals(Vessel.Situations.LANDED));
+                recycledCost = res.recyclable(pv.situation.Equals(Vessel.Situations.LANDED) ? 1 : 0);
                 print("*MC* Craft " + recycledName + " recovered for " + recycledCost);
                 showRecycleWindow = true;
                 manager.recycleVessel(pv.vesselRef, recycledCost);
             }
             if (settings.difficulty != 0 && (pv.situation.Equals(Vessel.Situations.LANDED) || pv.situation.Equals(Vessel.Situations.SPLASHED)))
             {
-                VesselResources res = new VesselResources(pv.vesselRef);
-                recycledCrewCost = res.crewreturn(pv.situation.Equals(Vessel.Situations.LANDED));
+                recycledCrewCost = res.crewreturn(pv.situation.Equals(Vessel.Situations.LANDED) ? 1 : 0);
                 manager.cleanReward(recycledCrewCost);
             }
 
@@ -102,21 +101,30 @@ namespace MissionController
             {
                 try { print("*MC* Vessel " + v.name + " destroyed. Alt " + v.mainBody.GetAltitude(v.CoM) + ", body " + v.orbit.referenceBody.bodyName + ", sit = " + v.situation); }
                 catch { }
-                if (!HighLogic.LoadedSceneIsEditor && manager.ResearchRecycle != false && canRecycle && activeVessel != v && !v.isEVA // canRecycle is false iff load requested and haven't returned to flight yet.
+                if (!HighLogic.LoadedSceneIsEditor && canRecycle && activeVessel != v && !v.isEVA // canRecycle is false iff load requested and haven't returned to flight yet.
                     && v.name.Contains("(Unloaded)") // check make sure it's because we're unloading it
                     && (v.situation == Vessel.Situations.FLYING || v.situation == Vessel.Situations.SUB_ORBITAL) && v.mainBody.GetAltitude(v.CoM) <= 25000 && v.orbit.referenceBody.bodyName.Equals("Kerbin")
                     && settings.difficulty != 0
+                    && (manager.ResearchRecycle || HighLogic.CurrentGame.Mode != Game.Modes.CAREER)
                     )
                 {
                     print("*MC* Checking " + v.name);
                     double mass = 0;
+                    double rmass = 0;
                     double pdrag = 0.0;
                     int cost = 0;
-                    double AUTORECYCLE_COST_MULT = 0.925; // now applied against SPLASHED recycle amount; was 0.6;
                     // need 70 drag per ton of vessel for 6m/s at 500m.
-                    const double PARACHUTE_DRAG_PER_TON = 70.0;
+                    double jetIsp = Tools.Setting("jetIsp", 600.0);
+                    List<ModuleEngines> engines = new List<ModuleEngines>();
+                    List<ModuleEngines> jets = new List<ModuleEngines>();
+                    Dictionary<string, double> resources = new Dictionary<string, double>();
+                    Dictionary<string, double> rmasses = new Dictionary<string, double>();
                     try
                     {
+                        if (!v.packed)
+                            foreach (Part p in v.Parts)
+                                p.Pack();
+
                         foreach (ProtoPartSnapshot p in v.protoVessel.protoPartSnapshots)
                         {
                             print("Has part " + p.partName + ", mass " + p.mass + ", cost " + p.partRef.partInfo.cost);
@@ -127,20 +135,186 @@ namespace MissionController
                                 if (m.moduleName.Equals("ModuleParachute"))
                                 {
                                     ModuleParachute mp = (ModuleParachute)m.moduleRef;
+                                    mp.Load(m.moduleValues);
                                     pdrag += p.mass * mp.fullyDeployedDrag;
                                     print("Drag now " + pdrag);
                                 }
+                                if (m.moduleName.Equals("ModuleEngines"))
+                                {
+                                    ModuleEngines me = (ModuleEngines)m.moduleRef;
+                                    me.Load(m.moduleValues);
+                                    print("Found engine, SL Isp = " + me.atmosphereCurve.Evaluate(1) + " (jet cutoff: " + jetIsp + ")");
+                                    if(me.atmosphereCurve.Evaluate(1) > jetIsp)
+                                        jets.Add(me);
+                                    else
+                                        engines.Add(me);
+                                }
+                                foreach (ProtoPartResourceSnapshot r in p.resources)
+                                {
+                                    double amt = Tools.GetValueDefault(r.resourceValues, "amount", 0.0);
+                                    //print(Tools.NodeToString(r.resourceValues, 0));
+                                    if (!(amt > 0))
+                                        continue;
+                                            //DBG print("Found resource " + r.resourceName + ", amount " + r.amount + ", cost = " + rCost);
+                                    double dens = r.resourceRef.info.density;
+                                    if (resources.ContainsKey(r.resourceName))
+                                    {
+                                        resources[r.resourceName] = resources[r.resourceName] + amt;
+                                        rmasses[r.resourceName] = rmasses[r.resourceName] + amt * dens;
+                                    }
+                                    else
+                                    {
+                                        resources[r.resourceName] = amt;
+                                        rmasses[r.resourceName] = amt * dens;
+                                    }
+                                    rmass += amt * dens;
+                                }
                             }
                         }
-                        if (mass * PARACHUTE_DRAG_PER_TON <= pdrag)
+                        /*if(!v.packed)
+                        {
+                            rmass = 0;
+                            resources.Clear();
+                            foreach(Part p in v.Parts)
+                            {
+                                foreach(PartResource r in p.Resources)
+                                {
+                                    double amt = r.amount;
+                                    //print(Tools.NodeToString(r.resourceValues, 0));
+                                    if (!(amt > 0))
+                                        continue;
+                                            //DBG print("Found resource " + r.resourceName + ", amount " + r.amount + ", cost = " + rCost);
+                                    double dens = r.info.density;
+                                    if (resources.ContainsKey(r.resourceName))
+                                    {
+                                        resources[r.resourceName] = resources[r.resourceName] + amt;
+                                        rmasses[r.resourceName] = rmasses[r.resourceName] + amt * dens;
+                                    }
+                                    else
+                                    {
+                                        resources[r.resourceName] = amt;
+                                        rmasses[r.resourceName] = amt * dens;
+                                    }
+                                    rmass += amt * dens;
+                                }
+                            }
+                        }*/
+                        if (mass * Tools.Setting("parachuteDragPerTon", 70.0) <= pdrag)
                         {
                             recycledName = v.name;
                             VesselResources vr = new VesselResources(v);
-                            recycledCost = (int)Math.Round((double)vr.recyclable(false) * AUTORECYCLE_COST_MULT,0); //(int)((double)cost * AUTORECYCLE_COST_MULT);
+                            int type = (mass + rmass) * Tools.Setting("parachuteDragPerTon", 70.0) <= pdrag ? 3 : 4;
+                            recycledCost = vr.recyclable(type); // can we recycle fuel too?
+                            recycledDesc = "Parachute landing (" + (type == 3 ? "with fuel" : "after fuel dumped") + ").";
                             print("*MC* Recycling vessel: enough parachutes! Val: " + recycledCost);
                             showRecycleWindow = true;
                             manager.recycleVessel(v, recycledCost);
                         }
+                        else
+                        {
+                            int landing = 0;
+                            List<string> props = new List<string>();
+                            // try for propulsive landing
+                            if (jets.Count > 0) // jets! Assume vessel is a plane. Heck, if it's a rocket, it will have >1TWR anyway.
+                            {
+                                // find best SL Isp
+                                double isp = 0;
+                                ModuleEngines e = jets[0];
+                                double thrust = 0;
+                                foreach (ModuleEngines ei in jets)
+                                {
+                                    if (ei.atmosphereCurve.Evaluate(1) > isp)
+                                    {
+                                        isp = ei.atmosphereCurve.Evaluate(1);
+                                        e = ei;
+                                        thrust += ei.maxThrust;
+                                    }
+                                }
+
+                                // find propellants
+                                List<double> rats = new List<double>();
+                                double ratSum = 0;
+                                foreach (ModuleEngines.Propellant pr in e.propellants)
+                                {
+                                    if (!(pr.name.ToLower().Contains("air") || pr.name.ToLower().Contains("electric") || pr.name.ToLower().Contains("coolant")))
+                                    {
+                                        props.Add(pr.name);
+                                        rats.Add(pr.ratio);
+                                        ratSum += pr.ratio;
+                                    }
+
+                                }
+                                if (ratSum == 0)
+                                    ratSum = 1.0;
+
+                                // HACK TIME! :)
+                                double nWgt = (rmass + mass) * e.G;
+                                if (thrust > nWgt) // don't need > 1.0 TWR to land with jets. But they'll be at 0.5x maxthrust when slow, so...still need 1.0 twr max.
+                                    thrust = nWgt;
+                                landing = 1;
+                                double jetFuelMult = Tools.Setting("jetFuelMultiplier", 0.5);
+                                for (int i = 0; i < props.Count; i++)
+                                {
+                                    double req = thrust * jetFuelMult * (rats[i] / ratSum);
+                                    double amt = resources[props[i]];
+                                    print("Fuel needed: " + req + " " + props[i] + "(avail: " + amt + ")");
+                                    if ( amt < req )
+                                        landing = 0;
+                                }
+                            }
+                            else if(engines.Count > 0) // propulsive via rockets
+                            {
+                                double isp = 999999;
+                                ModuleEngines e = engines[0];
+                                double thrust = 0;
+                                foreach (ModuleEngines ei in engines)
+                                    if (ei.atmosphereCurve.Evaluate(1) < isp)
+                                    {
+                                        isp = ei.atmosphereCurve.Evaluate(1);
+                                        e = ei;
+                                        thrust += ei.maxThrust;
+                                    }
+                                double rmassdry = rmass;
+                                foreach (ModuleEngines.Propellant pr in e.propellants)
+                                {
+                                    if (rmasses.Keys.Contains(pr.name))
+                                    {
+                                        rmassdry -= rmasses[pr.name];
+                                        print("Using propellant " + pr.name + "(mass: " + rmasses[pr.name] + ")");
+                                    }
+                                }
+                                double dV = isp * 9.81 * Math.Log((mass + rmass) / (mass + rmassdry));
+                                print("DeltaV available: " + dV + "(Mass ratio: " + (mass+rmassdry) + " / " + (mass + rmass) + ")");
+                                if (dV >= Tools.Setting("deltaVRequired", 1000.0))
+                                {
+                                    landing = 2;
+                                }
+                            }
+                            if(landing > 0) // landed!
+                            {
+                                // remove fuel used (for now, remove all fuel of used types, don't try to remove only some.
+                                foreach(ProtoPartSnapshot p in v.protoVessel.protoPartSnapshots)
+                                    foreach (ProtoPartResourceSnapshot r in p.resources)
+                                        if(props.Contains(r.resourceName))
+                                        {
+                                            print("Setting " + r.resourceName + " to 0 (used in landing).");
+                                            r.resourceValues.SetValue("amount", "0");
+                                            if(r.resourceRef != null)
+                                                r.resourceRef.amount = 0;
+                                        }
+                                recycledName = v.name;
+                                VesselResources vr = new VesselResources(v);
+                                recycledCost = vr.recyclable(3); // can we recycle fuel too?
+                                string landingtype = landing == 2 ? "Rocket-powered landing." : "Jet-powered flight and landing.";
+                                recycledDesc = landingtype;
+                                print("*MC* Recycling vessel: " + landingtype + " Val: " + recycledCost);
+                                showRecycleWindow = true;
+                                manager.recycleVessel(v, recycledCost);
+
+                            }
+
+                        }
+
                     }
                     catch { }
                 }

@@ -38,7 +38,7 @@ namespace MissionController
             GUILayout.BeginHorizontal();
             GUILayout.Box("Vessel Recycling", GUILayout.Width(160), GUILayout.Height(40));
             GUILayout.Box("300 Science", GUILayout.Width(160), GUILayout.Height(40));
-            if (CM.Science >= 300 && manager.ResearchRecycle != true)
+            if (CM.Science >= 300 && !manager.ResearchRecycle)
             {
                 if (GUILayout.Button("Purchase", GUILayout.Width(160), GUILayout.Height(40)))
                 {
