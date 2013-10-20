@@ -295,11 +295,14 @@ namespace MissionController
 
                                 foreach (PartResource r in p.Resources)
                                 {
+                                    if (!(r.amount > 0))
+                                        continue;
+
                                     // get multiplier
                                     double rCost = 0;
                                     foreach (ConfigNode rNode in MCSettings.GetNode("RESOURCECOST").nodes)
                                     {
-                                        if (rNode.name.Equals(r.resourceName) && r.amount > 0)
+                                        if (rNode.name.Equals(r.resourceName))
                                         {
                                             rCost = Tools.tryDouble(rNode, "cost", 0.0);
                                             //DBG print("Found resource " + r.resourceName + ", amount " + r.amount + ", cost = " + rCost);
@@ -307,6 +310,8 @@ namespace MissionController
                                                 resources[rNode.name] = resources[rNode.name] + r.amount * rCost;
                                             else
                                                 resources[rNode.name] = r.amount * rCost;
+
+                                            break;
                                         }
                                     }
                                 }
@@ -322,9 +327,37 @@ namespace MissionController
                             //print("part " + p.partName + " has cost " + cst);
                             podCost += cst;
                             // breakdown unnneccessary for recovery purposes.
-                            foreach (ProtoPartResourceSnapshot r in p.resources)
+                            // Now get resources:
+                            // new resource calc
+                            ConfigNode MCSettings = null;
+                            foreach (ConfigNode node in GameDatabase.Instance.GetConfigNodes("MISSIONCONTROLLER"))
+                                MCSettings = node;
+
+                            if (MCSettings != null)
                             {
-                                print(Tools.NodeToString(r.resourceValues, 0));
+                                foreach (ProtoPartResourceSnapshot r in p.resources)
+                                {
+                                    double rCost = 0;
+                                    double amt = Tools.tryDouble(r.resourceValues, "amount", 0);
+                                    //print(Tools.NodeToString(r.resourceValues, 0));
+                                    if (!(amt > 0))
+                                        continue;
+
+                                    foreach (ConfigNode rNode in MCSettings.GetNode("RESOURCECOST").nodes)
+                                    {
+                                        if (rNode.name.Equals(r.resourceName))
+                                        {
+                                            rCost = Tools.tryDouble(rNode, "cost", 0.0);
+                                            //DBG print("Found resource " + r.resourceName + ", amount " + r.amount + ", cost = " + rCost);
+                                            if (resources.ContainsKey(rNode.name))
+                                                resources[rNode.name] = resources[rNode.name] + amt * rCost;
+                                            else
+                                                resources[rNode.name] = amt * rCost;
+
+                                            break;
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -399,11 +432,11 @@ namespace MissionController
             {
                 if (landed)
                 {
-                    return (int)(0.85 * dry()); //Crew Insurance Disabled until Better system I come up with.
+                    return (int)(0.85 * dry() + wet()); //Crew Insurance Disabled until Better system I come up with.
                 }
                 else
                 {
-                    return (int)(0.65 * dry());
+                    return (int)(0.65 * dry() + wet());
                 }
             }
             public int crewreturn(bool landed)

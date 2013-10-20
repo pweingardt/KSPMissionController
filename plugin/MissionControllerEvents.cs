@@ -105,13 +105,14 @@ namespace MissionController
                 if (!HighLogic.LoadedSceneIsEditor && manager.ResearchRecycle != false && canRecycle && activeVessel != v && !v.isEVA // canRecycle is false iff load requested and haven't returned to flight yet.
                     && v.name.Contains("(Unloaded)") // check make sure it's because we're unloading it
                     && (v.situation == Vessel.Situations.FLYING || v.situation == Vessel.Situations.SUB_ORBITAL) && v.mainBody.GetAltitude(v.CoM) <= 25000 && v.orbit.referenceBody.bodyName.Equals("Kerbin")
-                    && settings.difficulty != 0)
+                    && settings.difficulty != 0
+                    )
                 {
                     print("*MC* Checking " + v.name);
                     double mass = 0;
                     double pdrag = 0.0;
                     int cost = 0;
-                    double AUTORECYCLE_COST_MULT = 0.6;
+                    double AUTORECYCLE_COST_MULT = 0.925; // now applied against SPLASHED recycle amount; was 0.6;
                     // need 70 drag per ton of vessel for 6m/s at 500m.
                     const double PARACHUTE_DRAG_PER_TON = 70.0;
                     try
@@ -134,8 +135,9 @@ namespace MissionController
                         if (mass * PARACHUTE_DRAG_PER_TON <= pdrag)
                         {
                             recycledName = v.name;
-                            recycledCost = (int)((double)cost * AUTORECYCLE_COST_MULT);
-                            print("*MC* Recycling vessel: enough parachutes! Val: " + cost + " * " + AUTORECYCLE_COST_MULT + " = " + recycledCost);
+                            VesselResources vr = new VesselResources(v);
+                            recycledCost = (int)Math.Round((double)vr.recyclable(false) * AUTORECYCLE_COST_MULT,0); //(int)((double)cost * AUTORECYCLE_COST_MULT);
+                            print("*MC* Recycling vessel: enough parachutes! Val: " + recycledCost);
                             showRecycleWindow = true;
                             manager.recycleVessel(v, recycledCost);
                         }
