@@ -308,8 +308,13 @@ namespace MissionController
                                 string landingtype = landing == 2 ? "Rocket-powered landing." : "Jet-powered flight and landing.";
                                 recycledDesc = landingtype;
                                 print("*MC* Recycling vessel: " + landingtype + " Val: " + recycledCost);
+                                
+                                recycledCrewCost = vr.crewreturn(0);
+                                manager.cleanReward(recycledCrewCost);
+                                
                                 showRecycleWindow = true;
                                 manager.recycleVessel(v, recycledCost);
+
 
                             }
 

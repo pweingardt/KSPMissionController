@@ -214,7 +214,8 @@ namespace MissionController
                             crewCount = v.GetCrewCount();
                         else
                         {
-                            crewCount = v.protoVessel.protoPartSnapshots.Sum(pps => pps.protoModuleCrew.Count);
+                            //crewCount = v.protoVessel.protoPartSnapshots.Sum(pps => pps.protoModuleCrew.Count);
+                            // (done per part now, might as well not trawl the list twice.)
                             usesnapshots = true;
                         }
                         //print("Has " + crewCount + " crew");
@@ -321,6 +322,7 @@ namespace MissionController
                         foreach (ProtoPartSnapshot p in v.protoVessel.protoPartSnapshots)
                         {
                             int cst = p.partInfo.cost;
+                            crewCount += p.protoModuleCrew.Count;
                             //print("part " + p.partName + " has cost " + cst);
                             podCost += cst;
                             // breakdown unnneccessary for recovery purposes.
