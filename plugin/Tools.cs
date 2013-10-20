@@ -7,6 +7,17 @@ namespace MissionController
 {
     class Tools
     {
+        public static ConfigNode MCSettings = null;
+
+        public static void FindMCSettings()
+        {
+            foreach (ConfigNode node in GameDatabase.Instance.GetConfigNodes("MISSIONCONTROLLER"))
+                MCSettings = node;
+            
+            if (MCSettings == null)
+                throw new UnityException("*MC* MCSettings not found!");
+        }
+
         public static double atod(string a)
         {
             double o;

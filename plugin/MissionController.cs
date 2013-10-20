@@ -482,6 +482,8 @@ namespace MissionController
             // NK
             if (!partsCostCorrected)
             {
+                Tools.FindMCSettings();
+
                 pVessel = null;
                 partsCostCorrected = true;
                 print("*MC* Calculating part costs!");
@@ -489,11 +491,6 @@ namespace MissionController
                 {
                     try
                     {
-                        /*if (ap.partPrefab.Modules.Contains("LaunchClamp"))
-                        {
-                            foreach (ConfigNode n in GameDatabase.Instance.GetConfigNodes("MISSIONCONTROLLER"))
-                                ap.partPrefab.mass = (float)Tools.tryDouble(n, "LaunchClampMass", 10); // NK to fix clamps.
-                        }*/
                         int cst = PartCost.cost(ap);
                         print("For part " + ap.name + ", cost = " + cst);
                         ap.cost = cst;

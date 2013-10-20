@@ -29,46 +29,43 @@ namespace MissionController
             try
             {
 
-                ConfigNode MCSettings = null;
-                foreach (ConfigNode node in GameDatabase.Instance.GetConfigNodes ("MISSIONCONTROLLER"))
-                    MCSettings = node;
-                if(MCSettings == null)
+                if(Tools.MCSettings == null)
                     return 0;
 
-                double massCost = Tools.tryDouble(MCSettings, "massCost", 700);
-                double totalCostMult = Tools.tryDouble(MCSettings, "totalCostScalar", 1.0);
+                double massCost = Tools.tryDouble(Tools.MCSettings, "massCost", 700);
+                double totalCostMult = Tools.tryDouble(Tools.MCSettings, "totalCostScalar", 1.0);
                 double massCostMult = 1.0;
 
                 //get base multiplier
                 switch (p.partInfo.category)
                 {
                     case PartCategories.Pods:
-                        massCostMult = Tools.tryDouble(MCSettings.GetNode("CATEGORYMASSCOSTMULT"), "Pods", 2);
+                        massCostMult = Tools.tryDouble(Tools.MCSettings.GetNode("CATEGORYMASSCOSTMULT"), "Pods", 2);
                         break;
                     case PartCategories.Propulsion:
-                        massCostMult = Tools.tryDouble(MCSettings.GetNode("CATEGORYMASSCOSTMULT"), "Propulsion", 0.1);
+                        massCostMult = Tools.tryDouble(Tools.MCSettings.GetNode("CATEGORYMASSCOSTMULT"), "Propulsion", 0.1);
                         break;
                     case PartCategories.Control:
-                        massCostMult = Tools.tryDouble(MCSettings.GetNode("CATEGORYMASSCOSTMULT"), "Control", 0.1);
+                        massCostMult = Tools.tryDouble(Tools.MCSettings.GetNode("CATEGORYMASSCOSTMULT"), "Control", 0.1);
                         break;
                     case PartCategories.Structural:
-                        massCostMult = Tools.tryDouble(MCSettings.GetNode("CATEGORYMASSCOSTMULT"), "Structural", 0.1);
+                        massCostMult = Tools.tryDouble(Tools.MCSettings.GetNode("CATEGORYMASSCOSTMULT"), "Structural", 0.1);
                         break;
                     case PartCategories.Aero:
-                        massCostMult = Tools.tryDouble(MCSettings.GetNode("CATEGORYMASSCOSTMULT"), "Aero", 2.0);
+                        massCostMult = Tools.tryDouble(Tools.MCSettings.GetNode("CATEGORYMASSCOSTMULT"), "Aero", 2.0);
                         break;
                     case PartCategories.Utility:
-                        massCostMult = Tools.tryDouble(MCSettings.GetNode("CATEGORYMASSCOSTMULT"), "Utility", 2.0);
+                        massCostMult = Tools.tryDouble(Tools.MCSettings.GetNode("CATEGORYMASSCOSTMULT"), "Utility", 2.0);
                         break;
                     case PartCategories.Science:
-                        massCostMult = Tools.tryDouble(MCSettings.GetNode("CATEGORYMASSCOSTMULT"), "Science", 7.0);
+                        massCostMult = Tools.tryDouble(Tools.MCSettings.GetNode("CATEGORYMASSCOSTMULT"), "Science", 7.0);
                         break;
                 }
 
                 // get crew capacity
-                pcst += p.CrewCapacity * Tools.tryDouble(MCSettings, "costPerCrew", 6000);
+                pcst += p.CrewCapacity * Tools.tryDouble(Tools.MCSettings, "costPerCrew", 6000);
                 //DBG print"*MCEPC* " + p.name + ", m" + massCostMult + ", c" + pcst);
-                foreach(ConfigNode mNode in MCSettings.GetNode("MODULECOST").nodes)
+                foreach(ConfigNode mNode in Tools.MCSettings.GetNode("MODULECOST").nodes)
                 {
                     double cst = 0;
                     if (p.Modules.Contains(mNode.name)) // part has this node's module
@@ -189,7 +186,7 @@ namespace MissionController
                 }
                 //DBG print"Part cost now " + pcst);
                 // now add partcost based on tankage
-                foreach (ConfigNode rNode in MCSettings.GetNode("RESOURCECOST").nodes)
+                foreach (ConfigNode rNode in Tools.MCSettings.GetNode("RESOURCECOST").nodes)
                     if (p.Resources[rNode.name] != null)
                         pcst += Tools.tryDouble(rNode, "tank", 0.0) * ((PartResource)p.Resources[rNode.name]).maxAmount;
                 

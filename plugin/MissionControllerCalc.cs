@@ -287,10 +287,7 @@ namespace MissionController
                             }
 
                             // new resource calc
-                            ConfigNode MCSettings = null;
-                            foreach (ConfigNode node in GameDatabase.Instance.GetConfigNodes("MISSIONCONTROLLER"))
-                                MCSettings = node;
-                            if (MCSettings != null)
+                            if (Tools.MCSettings != null)
                             {
 
                                 foreach (PartResource r in p.Resources)
@@ -300,7 +297,7 @@ namespace MissionController
 
                                     // get multiplier
                                     double rCost = 0;
-                                    foreach (ConfigNode rNode in MCSettings.GetNode("RESOURCECOST").nodes)
+                                    foreach (ConfigNode rNode in Tools.MCSettings.GetNode("RESOURCECOST").nodes)
                                     {
                                         if (rNode.name.Equals(r.resourceName))
                                         {
@@ -329,11 +326,7 @@ namespace MissionController
                             // breakdown unnneccessary for recovery purposes.
                             // Now get resources:
                             // new resource calc
-                            ConfigNode MCSettings = null;
-                            foreach (ConfigNode node in GameDatabase.Instance.GetConfigNodes("MISSIONCONTROLLER"))
-                                MCSettings = node;
-
-                            if (MCSettings != null)
+                            if (Tools.MCSettings != null)
                             {
                                 foreach (ProtoPartResourceSnapshot r in p.resources)
                                 {
@@ -343,7 +336,7 @@ namespace MissionController
                                     if (!(amt > 0))
                                         continue;
 
-                                    foreach (ConfigNode rNode in MCSettings.GetNode("RESOURCECOST").nodes)
+                                    foreach (ConfigNode rNode in Tools.MCSettings.GetNode("RESOURCECOST").nodes)
                                     {
                                         if (rNode.name.Equals(r.resourceName))
                                         {
