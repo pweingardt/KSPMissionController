@@ -955,6 +955,10 @@ namespace MissionController
                     {
                         GUILayout.Label((index++) + ". Mission goal: " + (c.optional ? " (optional)" : ""), styleValueGreenBold);
                     }
+                    else if (c is OrMissionGoal)
+                    {
+                        GUILayout.Label((index++) + ". Mission goal (complete any):" + (c.optional ? " (optional)" : ""), styleValueGreenBold);
+                    }
                     else
                     {
                         GUILayout.Label((index++) + ". Mission goal: " + c.getType() + (c.optional ? " (optional)" : ""), styleValueGreenBold);

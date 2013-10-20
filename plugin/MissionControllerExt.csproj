@@ -59,6 +59,7 @@
     <Compile Include="MissionControllerCalc.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="OrMissionGoal.cs" />
     <Compile Include="PartCost.cs" />
     <Compile Include="RepairGoal.cs" />
     <Compile Include="SpaceProgram.cs" />
@@ -69,7 +70,6 @@
     <Compile Include="DockingGoal.cs" />
     <Compile Include="OrbitGoal.cs" />
     <Compile Include="PartGoal.cs" />
-    <Compile Include="SubMissionGoal.cs" />
     <Compile Include="LandingGoal.cs" />
     <Compile Include="Manager.cs" />
     <Compile Include="MissionController.cs" />
@@ -89,6 +89,9 @@
     <Compile Include="Difficulty.cs" />
     <Compile Include="GLUtils.cs" />
     <Compile Include="ResearchTree.cs" />
+    <Compile Include="SubMissionGoal.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Tools.cs" />
   </ItemGroup>
   <ItemGroup>
