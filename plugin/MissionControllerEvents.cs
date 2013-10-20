@@ -283,9 +283,10 @@ namespace MissionController
                                         print("Using propellant " + pr.name + "(mass: " + rmasses[pr.name] + ")");
                                     }
                                 }
+                                double TWR = thrust / (mass + rmassdry) / e.G;
                                 double dV = isp * 9.81 * Math.Log((mass + rmass) / (mass + rmassdry));
-                                print("DeltaV available: " + dV + "(Mass ratio: " + (mass+rmassdry) + " / " + (mass + rmass) + ")");
-                                if (dV >= Tools.Setting("deltaVRequired", 1000.0))
+                                print("DeltaV available: " + dV + "(Mass ratio: " + (mass+rmassdry) + " / " + (mass + rmass) + ", TWR " + TWR + ")");
+                                if (dV >= Tools.Setting("deltaVRequired", 1000.0) && TWR > Tools.Setting("minRocketTWR", 1.5))
                                 {
                                     landing = 2;
                                 }
