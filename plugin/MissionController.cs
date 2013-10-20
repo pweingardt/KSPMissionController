@@ -804,7 +804,7 @@ namespace MissionController
                         manager.finishMission(currentMission, activeVessel, status.events);
                         hiddenGoals = new List<MissionGoal>();
                         currentMission = null;
-                        finishmissiontoggle = false;
+                        finishmissiontoggle = true;
                     }
 
                 }
