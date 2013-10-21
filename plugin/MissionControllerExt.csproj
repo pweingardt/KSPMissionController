@@ -59,7 +59,10 @@
     <Compile Include="MissionControllerCalc.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="OrMissionGoal.cs" />
+    <Compile Include="NorMissionGoal.cs" />
+    <Compile Include="OrMissionGoal.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="PartCost.cs" />
     <Compile Include="RepairGoal.cs" />
     <Compile Include="SpaceProgram.cs" />
@@ -99,6 +102,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>rd /s /q KSPMissionController\plugin\obj</PostBuildEvent>
+    <PostBuildEvent>rd /s /q KSPMissionController\plugin\obj
+del System.dll
+del System.Core.dll</PostBuildEvent>
   </PropertyGroup>
 </Project>

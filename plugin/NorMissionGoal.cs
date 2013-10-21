@@ -7,11 +7,11 @@ namespace MissionController
     /// <summary>
     /// A submission that consists of several mission goals
     /// </summary>
-    public class OrMissionGoal : MissionGoal
+    public class NorMissionGoal : MissionGoal
     {
         public List<MissionGoal> subGoals = new List<MissionGoal>();
 
-        public OrMissionGoal()
+        public NorMissionGoal()
         {
             this.nonPermanent = true;
         }
@@ -26,9 +26,9 @@ namespace MissionController
             //if (value && nonPermanent) {
                 foreach (MissionGoal g in subGoals) {
                     if (g.isDone(vessel, events))
-                        return true;
+                        return false;
                 }
-                return false;
+                return true;
             //}
             //return value;
         }
@@ -44,7 +44,7 @@ namespace MissionController
         }
 
         public override String getType() {
-            return "Ormission";
+            return "Normission";
         }
     }
 }

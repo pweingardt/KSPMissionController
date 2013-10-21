@@ -953,11 +953,15 @@ namespace MissionController
 
                     if (c is SubMissionGoal)
                     {
-                        GUILayout.Label((index++) + ". Mission goal: " + (c.optional ? " (optional)" : ""), styleValueGreenBold);
+                        GUILayout.Label((index++) + ". Mission goal (complete all):" + (c.optional ? " (optional)" : ""), styleValueGreenBold);
                     }
                     else if (c is OrMissionGoal)
                     {
                         GUILayout.Label((index++) + ". Mission goal (complete any):" + (c.optional ? " (optional)" : ""), styleValueGreenBold);
+                    }
+                    else if (c is OrMissionGoal)
+                    {
+                        GUILayout.Label((index++) + ". Mission goal (complete none):" + (c.optional ? " (optional)" : ""), styleValueGreenBold);
                     }
                     else
                     {
