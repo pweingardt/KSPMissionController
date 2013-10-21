@@ -37,6 +37,11 @@ namespace MissionController
         public int reward = 100;
 
         /// <summary>
+        /// science reward for finishing the mission
+        /// </summary>
+        public float scienceReward = 0;
+
+        /// <summary>
         /// If true, this mission is repeatable. You can't finish the same mission with one vessel twice.
         /// </summary>
         public bool repeatable = false;

@@ -868,6 +868,14 @@ namespace MissionController
             if (settings.difficulty == 2)
             { GUILayout.Label(mission.reward * 60 / 100 + CurrencySuffix, styleValueYellow); }
             GUILayout.EndHorizontal();
+            
+            if (mission.scienceReward != 0)
+            {
+                GUILayout.BeginHorizontal();
+                GUILayout.Label("Science Reward: ", styleValueGreenBold);
+                GUILayout.Label(mission.scienceReward + " sp", styleValueYellow);
+                GUILayout.EndHorizontal();
+            }
 
             if (mission.passiveMission)
             {
@@ -911,11 +919,13 @@ namespace MissionController
                     {
                         GUILayout.Label("All goals accomplished. You can finish the mission now! Deducted 25% for loans!", styleCaption);
                         showCostValue("Total Mission Payout:", currentMission.reward * 75 / 100, styleValueGreen);
+                        showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
                     }
                     if (settings.difficulty == 2)
                     {
                         GUILayout.Label("All Goals accomplished. Finish The Mission. Deducted 25% for loans and 40% for HardCore mode"); // .75 * .6 = .45
                         showCostValue("Total Mission Payout:", currentMission.reward * 45 / 100, styleValueGreen);
+                        showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
                     }
                 }
                 else
@@ -924,11 +934,13 @@ namespace MissionController
                     {
                         GUILayout.Label("All goals accomplished. you can finish the mission now!", styleCaption);
                         showCostValue("Total Mission Payout:", currentMission.reward, styleValueGreen);
+                        showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
                     }
                     if (settings.difficulty == 2)
                     {
                         GUILayout.Label("All goals accomplished. you can finish the mission now: HardCore Mode 40 % Reduction!", styleCaption);
                         showCostValue("Total Mission Payout:", currentMission.reward * 60 / 100, styleValueGreen);
+                        showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
                     }
                 }
             }

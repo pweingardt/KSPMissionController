@@ -113,7 +113,7 @@ namespace MissionController
         {           
             return Science -= cost;   
         }
-        
+      
         static ConstructionMode()
         {
             construction1 = new double[construction0.Length];

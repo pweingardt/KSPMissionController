@@ -235,6 +235,11 @@ namespace MissionController
 
                 currentProgram.add(status);
                 reward (m.reward);
+
+                if (m.scienceReward != 0)
+                {
+                    sciencereward(m.scienceReward);
+                }
                 
                 // finish unfinished goals
                 foreach(MissionGoal goal in m.goals) {
@@ -542,6 +547,12 @@ namespace MissionController
             return currentProgram.money;
         }
         // Malkuth Edit This is where the program does the checks for Bank Loans and Difficulties for it chanrges gives the correct amounts for payouts
+        
+        /// <summary>
+        /// the reward for finishing a missioin, this is the payment.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public int reward(int value)
         {
             if (!SettingsManager.Manager.getSettings().disablePlugin)
@@ -562,6 +573,12 @@ namespace MissionController
             return currentProgram.money;
         }
 
+        
+        /// <summary>
+        /// 2 opitons with this one pays out Insurance Cost.. And also only payout option that is CLEAN.. IE no % losses etc.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public int cleanReward(int value)
         {
             if (!SettingsManager.Manager.getSettings().disablePlugin)
@@ -571,6 +588,11 @@ namespace MissionController
             return currentProgram.money;
         }
 
+        /// <summary>
+        /// Used to payout a reward for recycling only
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public int recyclereward(int value) {
             if (!SettingsManager.Manager.getSettings().disablePlugin)
             {
@@ -580,6 +602,18 @@ namespace MissionController
             }
             
             return currentProgram.money;}
+
+       /// <summary>
+       /// Option reward for missions for science.. Use with care... 
+       /// </summary>
+       /// <param name="value"></param>
+       /// <returns></returns>
+        public float sciencereward(float value)
+        {
+            ConstructionMode cn = new ConstructionMode();
+            return cn.Science += value; 
+            
+        }
 
         public int costs(int value) 
         {

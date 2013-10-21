@@ -70,9 +70,19 @@ namespace MissionController
                 }
 
                 GUILayout.BeginHorizontal(GUILayout.Width(450));
-                if (GUILayout.Button (m.name + "\n" + m.reward + CurrencySuffix, style, GUILayout.Width(350))) {
-                    currentPreviewMission = manager.reloadMission(m, activeVessel);
+                if (m.scienceReward != 0)
+                {
+                    if (GUILayout.Button(m.name + "\n" + m.reward + CurrencySuffix + " : " +m.scienceReward + " sp", style, GUILayout.Width(350)))
+                    {
+                        currentPreviewMission = manager.reloadMission(m, activeVessel);
+                    }
                 }
+
+                else
+                    if (GUILayout.Button(m.name + "\n" + m.reward + CurrencySuffix, style, GUILayout.Width(350)))
+                    {
+                        currentPreviewMission = manager.reloadMission(m, activeVessel);
+                    }       
 
                 if (s.missionAlreadyFinished) {
                     GUILayout.Label(iconFinished, GUILayout.MaxWidth (50), GUILayout.MaxHeight (50), GUILayout.ExpandWidth(false),
