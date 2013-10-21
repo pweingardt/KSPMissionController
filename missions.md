@@ -423,9 +423,11 @@ Here is the example `Mun X.m` mission file:
             body = Kerbin
         }
     }
-##OrMissionGoal works just like SubMission Goal only this is a Complete this.. Or Complete this for the submission parts.
+##OrMissionGoal 
+works just like SubMission Goal only this is a Complete this.. Or Complete this for the submission parts.
 
-##NorMissionGoal again just like SubMission Goal but all Submissions within this goal must NOT be complete for to be true.
+##NorMissionGoal 
+again just like SubMission Goal but all Submissions within this goal must NOT be complete for to be true.
 
 
 ## Mission file instructions
