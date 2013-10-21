@@ -86,6 +86,7 @@ A mission has several fields
     real life missions like "Apollo 11". Those names are reserved for designated mission designers.
 * description: The description for this mission.
 * reward: The reward in krones for finishing this mission
+* scienceReward: Reward The Player in Science Points (KSP) be careful.. Don't give to much, science already too easy.
 * requiresMission: name of another mission, that needs to be finished in order to finish this mission
     (default: "", ignored)
 * repeatable: if true, the mission is repeatable. Requires a different vessel. You can't finish the
@@ -422,6 +423,10 @@ Here is the example `Mun X.m` mission file:
             body = Kerbin
         }
     }
+##OrMissionGoal works just like SubMission Goal only this is a Complete this.. Or Complete this for the submission parts.
+
+##NorMissionGoal again just like SubMission Goal but all Submissions within this goal must NOT be complete for to be true.
+
 
 ## Mission file instructions
 
