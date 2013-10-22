@@ -58,13 +58,13 @@ namespace MissionController
             {
                 recycledCost = res.recyclable(pv.situation.Equals(Vessel.Situations.LANDED) ? 1 : 0);
                 print("*MC* Craft " + recycledName + " recovered for " + recycledCost);
-                showRecycleWindow = true;
                 manager.recycleVessel(pv.vesselRef, recycledCost);
             }
             if (settings.difficulty != 0 && (pv.situation.Equals(Vessel.Situations.LANDED) || pv.situation.Equals(Vessel.Situations.SPLASHED)))
             {
                 recycledCrewCost = res.crewreturn(pv.situation.Equals(Vessel.Situations.LANDED) ? 1 : 0);
                 manager.cleanReward(recycledCrewCost);
+                showRecycleWindow = true;
             }
 
             pVessel = null;           
