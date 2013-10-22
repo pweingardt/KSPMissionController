@@ -8,29 +8,9 @@ namespace MissionController
 
         public bool disablePlugin = false;
 
-        public String kerbonautCost = "0";
-
         public bool changed = false;
 
-        public int difficulty = 1;        
-       
-        public int kerbonautCostAsInt 
-        {
-            get 
-            { 
-                return int.Parse (kerbonautCost); 
-            }
-        }
-        public string HireKerbalNautCost = "5000";
-        public int KerbalNautCost
-        {
-            get
-            {
-                return int.Parse(HireKerbalNautCost);
-            }
-        }
-        
-
+        public int difficulty = 1;                  
     }
 
     public class SettingsManager 
