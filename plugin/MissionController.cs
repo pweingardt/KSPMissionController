@@ -598,9 +598,11 @@ namespace MissionController
 
             }
             if (recycledCrewCost > 0)
+            {
                 GUILayout.BeginHorizontal();
                 showCostValue("Crew Insurance Returned: ", recycledCrewCost, styleCaption);
                 GUILayout.EndHorizontal();
+            }
 
             if (GUILayout.Button("OK", styleButtonWordWrap))
             {

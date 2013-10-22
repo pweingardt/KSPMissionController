@@ -19,8 +19,8 @@ namespace MissionController
 
         [KSPEvent(unfocusedRange = 4f, guiActiveUnfocused = true, guiActive = false, guiName = "Start Repair", active = true)]
         public void EnableRepair()
-        {    
-        repair = true;                   
+        {
+            repair = true;  
         }      
         
     }
@@ -55,6 +55,32 @@ namespace MissionController
         public override string getType()
         {
             return "Repair";
+        }
+    }
+
+    
+    /// <summary>
+    /// Unity Timer Used for Repair Countdown.
+    /// </summary>
+    public class Countdown : MonoBehaviour
+    {
+
+        public float timeLeft = 0.0f;
+
+        public void RepairCountdown()
+        {
+            ++timeLeft;
+
+            if (timeLeft >= 60.0f)
+            {
+                print("Time Finished");
+                repairStation.repair = true;
+            }
+
+            else
+            {
+                print("Time left for Repair = " + (int)++timeLeft + " seconds");
+            }
         }
     }
 }
