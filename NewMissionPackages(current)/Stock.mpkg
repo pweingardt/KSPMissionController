@@ -18,7 +18,7 @@ MissionPackage
     
         SubMissionGoal
         {
-            description = Reach an altitude of at least 70km and record the required atmospheric data. You will need 3 Communotron 16s, 1 accelerometer, 1 gravimeter, 1 thermometer and 1 barometer.
+            description = Reach an altitude of at least 70km and record the required atmospheric data. And Gain Science Points.
     
             OrbitGoal
             {
@@ -29,32 +29,9 @@ MissionPackage
             PartGoal
             {
                 partName = longAntenna
-                partCount = 3
-            }
-    
-            PartGoal
-            {
-                partName = sensorAccelerometer
                 partCount = 1
-            }
-    
-            PartGoal
-            {
-                partName = sensorBarometer
-                partCount = 1
-            }
-    
-            PartGoal
-            {
-                partName = sensorGravimeter
-                partCount = 1
-            }
-    
-            PartGoal
-            {
-                partName = sensorThermometer
-                partCount = 1
-            }
+            }						           
+            
         }
     
         LandingGoal
@@ -78,7 +55,7 @@ MissionPackage
     
         SubMissionGoal
         {
-            description = Achieve a stable orbit around Kerbin. You will need 3 Communotron 16s, 1 accelerometer, 1 gravimeter, 1 thermometer and 1 barometer. Stay inside Kerbins magnetic field to avoid corrupted readings.
+            description = Achieve a stable orbit around Kerbin. And Record The Scientific Data.  And Gain Science Points.
     
             minSeconds = TIME(4h)
     
@@ -92,32 +69,9 @@ MissionPackage
             PartGoal
             {
                 partName = longAntenna
-                partCount = 3
-            }
-    
-            PartGoal
-            {
-                partName = sensorAccelerometer
                 partCount = 1
             }
     
-            PartGoal
-            {
-                partName = sensorBarometer
-                partCount = 1
-            }
-    
-            PartGoal
-            {
-                partName = sensorGravimeter
-                partCount = 1
-            }
-    
-            PartGoal
-            {
-                partName = sensorThermometer
-                partCount = 1
-            }
         }
     
         LandingGoal
@@ -141,7 +95,7 @@ MissionPackage
     
         SubMissionGoal
         {
-        description = Achieve a stable orbit around Kerbin outside of its magnetic field. You will need 3 Communotron 16s.
+        description = Achieve a stable orbit around Kerbin outside of its magnetic field. 
     
             OrbitGoal
             {
@@ -153,8 +107,14 @@ MissionPackage
             PartGoal
             {
                 partName = longAntenna
-                partCount = 3
+                partCount = 1
             }
+			
+			PartGoal
+			{
+				partName = GooExperiment
+				partCount = 1
+			}
         }
     }
 

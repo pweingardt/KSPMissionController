@@ -137,7 +137,7 @@ MissionPackage
 	Mission
 	{
 	name = 03 - Launch Weather Satellite Into Orbit Of Kerbin
-	description = meteorologist on kerbin are having issues predicting weather patterns on kerbin. The current rate of success for meteorologist on kerbin 2.454% accuracy,  which means they are always wrong!  scientist believe that if they launch this satellite into orbit they can change the success rate to around 3.5%.  Which in their minds is like huge.. only time will tell. Probe Must Orbit the Mun At 200,000M And 195,000M  	
+	description = meteorologist on kerbin are having issues predicting weather patterns on kerbin. The current rate of success for meteorologist on kerbin 2.454% accuracy,  which means they are always wrong!  scientist believe that if they launch this satellite into orbit they can change the success rate to around 3.5%.  Which in their minds is like huge.. only time will tell. Probe must orbit Kerbin between 195,000M and 200,000M.  	
 	reward = 61000
 	category = SATELLITE
 	repeatable = true
@@ -888,7 +888,7 @@ Mission
 
 	PartGoal
     {
-     partName = ksp_r_largeBatteryPack
+     partName = ksp.r.largeBatteryPack
      partCount = 2
     }
 }

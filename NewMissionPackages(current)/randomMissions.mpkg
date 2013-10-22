@@ -6,16 +6,310 @@ MissionPackage
 
 Mission
 {
-    name = 1 - Random Satellite Low Orbit Mission
-    description = Bring a satellite into the defined orbit 
-	category = SATELLITE
-    reward = 60000
+    name = 1 - Early Manned Missions Rocket Basics
+    description = Our Early Years are all about the learning of Rockets.  We have to launch them to learn anything.. Lets go. 
+	category = MANNED
+    reward = 24000
 	randomized = true
 	repeatable = true
 	packageOrder = 1
 
 	SubMissionGoal
-	description = this mission has changed since its first inception.  Now it requires the part Mission Controller Repair.  This is to support the new mission goal RepairMission.  Mission 11 Launches a repair mission to any of these vessels that already have the new part.
+	
+	{
+    
+		OrbitGoal
+		{
+        body = Kerbin
+        minAltitude = RANDOM(50000,70000)		
+		crewCount = 1
+		}
+		PartGoal
+            {
+                partName = longAntenna
+                partCount = 1
+            }					
+	}
+	LandingGoal
+        {
+            body = Kerbin
+        }
+}
+
+Mission
+{
+    name = 2 - Early Manned Missions Orbits
+    description = Our Early Years are all about the learning of Rockets.  We have to launch them to learn anything.. Lets go. 
+	category = MANNED
+    reward = 45000
+	randomized = true
+	repeatable = true
+	packageOrder = 2
+
+	SubMissionGoal
+	
+	{
+    
+		OrbitGoal
+		{
+        body = Kerbin
+        minApA = RANDOM(70000,120000)
+        maxApA = ADD(minApA, 20000)
+		maxEccentricity = RANDOM(0.01, 0.08)
+		crewCount = 1
+		}
+		PartGoal
+            {
+                partName = longAntenna
+                partCount = 1
+            }					
+	}
+	LandingGoal
+        {
+            body = Kerbin
+        }
+}
+
+Mission
+{
+    name = 3 - Early Missions Manned EVA Mission
+    description = Launch A manned Vessel Into Kerbin Orbit and Perform an EVA, Then Return To Kerbin Safely. 
+	category = MANNED, EVA
+    reward = 52000
+	randomized = true
+	repeatable = true
+	packageOrder = 3
+
+	SubMissionGoal
+	{
+	
+		OrbitGoal
+			{
+			body = Kerbin
+			minApA = RANDOM(200000,300000)
+			maxApA = ADD(minApA, 10000)
+			crewCount = 1
+			}
+			
+		
+	}
+	EVAGoal
+	{
+	}
+	LandingGoal
+        {
+            body = Kerbin
+        }
+	
+}
+
+
+
+	Mission
+{
+    name = 4 - Early Missions explore Kerbin Polar Regions 
+    description = Our Early Years are all about the learning of Rockets.  Send a probe to explore the polar regions of the home planet kerbin. 
+	category = PROBE
+    reward = 50000
+	randomized = true
+	repeatable = true
+	packageOrder = 4
+
+	SubMissionGoal
+	
+	{
+    
+		LandingGoal
+		{
+        body = Kerbin
+		maxLatitude = 105
+		minLatitude = 75
+		}
+		PartGoal
+            {
+                partName = mediumDishAntenna
+                partCount = 1
+            }
+		PartGoal
+			{
+				partName = GooExperiment
+				partCount = 1
+			}
+		PartGoal
+			{
+				partName = probeCoreSphere
+			}
+	}
+	LandingGoal
+        {
+            body = Kerbin
+        }
+}
+
+	Mission
+{
+    name = 5 - Early Missions explore Kerbin Crater 
+    description = Our Early Years are all about the learning of Rockets.  Send a probe to explore the strange crator like land formation located on Kerbin. 
+	category = PROBE
+    reward = 65000
+	randomized = true
+	repeatable = true
+	packageOrder = 5
+
+	SubMissionGoal
+	
+	{
+    
+		LandingGoal
+		{
+        body = Kerbin
+		maxLatitude = 10.5
+		minLatitude = 7.5
+		}
+		PartGoal
+            {
+                partName = mediumDishAntenna
+                partCount = 1
+            }
+		PartGoal
+			{
+				partName = GooExperiment
+				partCount = 1
+			}
+		PartGoal
+			{
+				partName = probeCoreSphere
+			}
+	}
+	LandingGoal
+        {
+            body = Kerbin
+        }
+}	
+
+  Mission
+{
+    name = 6 - Early Manned Missions FlyBy Of Moon
+    description = Our Early Years are all about the learning of Rockets.  Today we are going to do a flyby of the Mun and do some science. 
+	category = MANNED
+    reward = 70000
+	randomized = true
+	repeatable = true
+	packageOrder = 6
+
+	SubMissionGoal
+	
+	{
+    
+		OrbitGoal
+		{
+        body = Mun
+        maxApa = RANDOM(60000,200000)		
+		crewCount = 1
+		}
+		PartGoal
+            {
+                partName = longAntenna
+                partCount = 1
+            }
+		PartGoal
+			{
+				partName = GooExperiment
+				partCount = 1
+			}
+	}
+	
+	LandingGoal
+        {
+            body = Kerbin
+        }
+}
+
+Mission
+{
+    name = 7 - Early Manned Missions Landing Mun
+    description = Our Early Years are all about the learning of Rockets.  Today It's time to land on the Mun.
+	category = MANNED, LANDING
+    reward = 130000
+	scienceReward = 5
+	repeatable = true
+	packageOrder = 7
+
+	LandingGoal
+        {
+            body = Mun
+        }
+	LandingGoal
+        {
+            body = Kerbin
+        }
+}
+
+Mission
+{
+    name = 8 - Early Manned Missions FlyBy Of Minmus
+    description = Our Early Years are all about the learning of Rockets.  Today we are going to do a flyby of the Minmus and do some science. 
+	category = MANNED
+    reward = 80000
+	randomized = true
+	repeatable = true
+	packageOrder = 8
+
+	SubMissionGoal
+	
+	{
+    
+		OrbitGoal
+		{
+        body = Minmus
+        maxApa = RANDOM(20000,120000)		
+		crewCount = 1
+		}
+		PartGoal
+            {
+                partName = longAntenna
+                partCount = 1
+            }
+		PartGoal
+			{
+				partName = GooExperiment
+				partCount = 1
+			}
+	}
+}
+
+Mission
+{
+    name = 9 - Early Manned Missions Landing Minmus
+    description = Our Early Years are all about the learning of Rockets.  Today It's time to land on the Minmus.
+	category = MANNED, LANDING
+    reward = 120000
+	scienceReward = 5
+	repeatable = true
+	packageOrder = 9
+
+	LandingGoal
+        {
+            body = Mun
+        }
+	LandingGoal
+        {
+            body = Kerbin
+        }
+}
+	
+Mission
+{
+    name = 10 - Random Probe Low Orbit Mission
+    description = Bring a probe into the defined orbit 
+	category = PROBE
+    reward = 60000
+	randomized = true
+	repeatable = true
+	packageOrder = 10
+
+	SubMissionGoal
+	
 	{
     
 		OrbitGoal
@@ -27,50 +321,27 @@ Mission
 		}
 		PartGoal
             {
-                partName = commDish
+                partName = longAntenna
                 partCount = 1
             }
-			PartGoal
+			
+		PartGoal
 			{
-			    partName = repairStation
+				partName = GooExperiment
 				partCount = 1
 			}
-            
-			PartGoal
-            {
-                partName = sensorAccelerometer
-                partCount = 1
-            }
-    
-            PartGoal
-            {
-                partName = sensorBarometer
-                partCount = 1
-            }
-    
-            PartGoal
-            {
-                partName = sensorGravimeter
-                partCount = 1
-            }
-    
-            PartGoal
-            {
-                partName = sensorThermometer
-                partCount = 1
-            }
 	}
 }
 
 Mission
 {
-    name = 2 - Random Satellite High Orbit Mission
-    description = Bring a satellite into the defined High orbit 
-	category = SATELLITE
+    name = 11 - Random Probe High Orbit Mission
+    description = Bring a Probe into the defined High orbit 
+	category = PROBE
     reward = 80000
 	randomized = true
 	repeatable = true
-	packageOrder = 2
+	packageOrder = 11
 
     SubMissionGoal
 	{
@@ -84,74 +355,74 @@ Mission
 		maxInclination = ADD(minInclination, 5)
 		}
 		PartGoal
-        {
-        partName = commDish
-        partCount = 1
-        }
-    
-        PartGoal
-        {
-        partName = sensorAccelerometer
-		partCount = 1
-		}
-    
-        PartGoal
-        {
-        partName = sensorBarometer
-        partCount = 1
-        }
-    
-        PartGoal
-        {
-        partName = sensorGravimeter
-        partCount = 1
-        }
-    
-        PartGoal
-        {
-        partName = sensorThermometer
-        partCount = 1
-        }
+            {
+                partName = longAntenna
+                partCount = 1
+            }
+			
+		PartGoal
+			{
+				partName = GooExperiment
+				partCount = 1
+			}
 	}
 }
 
 Mission
 {
-    name = 3 - Random Manned EVA Mission
+    name = 12 - Random Manned EVA Mission (Mun)
     description = Launch A manned Vessel Into Kerbin Orbit and Perform a EVA, Then Return To Kerbin Safely. 
 	category = MANNED, EVA
-    reward = 150000
+    reward = 90000
 	randomized = true
 	repeatable = true
-	packageOrder = 3
+	packageOrder = 12
 
 	SubMissionGoal
 	{
 	
 		OrbitGoal
 			{
-			body = Kerbin
-			minApA = RANDOM(70000,120000)
+			body = Mun
+			minApA = RANDOM(50000,75000)
 			maxApA = ADD(minApA, 10000)
 			crewCount = 1
 			}
 			
-		EVAGoal
+			PartGoal
+            {
+                partName = longAntenna
+                partCount = 1
+            }
+			
+		PartGoal
+			{
+				partName = GooExperiment
+				partCount = 1
+			}
+			
+		
+	}
+	EVAGoal
 			{
 			}
-	}
+	LandingGoal
+		{
+			body = Kerbin
+		}
+		
 	
 }	  
 	  
 Mission
 {
-    name = 4 - Random Mun Probe
+    name = 13 - Random Mun Probe
     description = Launch A Small Probe To The Mun At These Desired Parameters. 
 	category = ORBIT, PROBE
     reward = 120000
 	randomized = true
 	repeatable = true
-	packageOrder = 4
+	packageOrder = 13
 
 	SubMissionGoal
 	{
@@ -167,46 +438,28 @@ Mission
 			
 		PartGoal
             {
-                partName = commDish
+                partName = longAntenna
                 partCount = 1
             }
-    
-            PartGoal
-            {
-                partName = sensorAccelerometer
-                partCount = 1
-            }
-    
-            PartGoal
-            {
-                partName = sensorBarometer
-                partCount = 1
-            }
-    
-            PartGoal
-            {
-                partName = sensorGravimeter
-                partCount = 1
-            }
-    
-            PartGoal
-            {
-                partName = sensorThermometer
-                partCount = 1
-            }	
+			
+		PartGoal
+			{
+				partName = GooExperiment
+				partCount = 1
+			}
 	
 	}	
 }
 
 Mission
 {
-    name = 5 - Random Minmus Probe
+    name = 14 - Random Minmus Probe
     description = Launch A Small Probe To Minmus At These Desired Parameters. 
 	category = ORBIT, PROBE
     reward = 110000
 	randomized = true
 	repeatable = true
-	packageOrder = 5
+	packageOrder = 14
 
 	SubMissionGoal
 	{
@@ -220,45 +473,27 @@ Mission
 			}
 		PartGoal
             {
-                partName = commDish
+                partName = longAntenna
                 partCount = 1
             }
-    
-            PartGoal
-            {
-                partName = sensorAccelerometer
-                partCount = 1
-            }
-    
-            PartGoal
-            {
-                partName = sensorBarometer
-                partCount = 1
-            }
-    
-            PartGoal
-            {
-                partName = sensorGravimeter
-                partCount = 1
-            }
-    
-            PartGoal
-            {
-                partName = sensorThermometer
-                partCount = 1
-            }
+			
+		PartGoal
+			{
+				partName = GooExperiment
+				partCount = 1
+			}
 	}	
 }
 
 Mission
 {
-    name = 6 - Random Eve Probe
+    name = 15 - Random Eve Probe
     description = Its Time To explore other Planets.  This probe is contracted to explore Eve.  
 	category = ORBIT, PROBE
     reward = 175000
 	randomized = true
 	repeatable = true
-	packageOrder = 6
+	packageOrder = 15
 
 	SubMissionGoal
 	{
@@ -279,41 +514,23 @@ Mission
             }
     
             PartGoal
-            {
-                partName = sensorAccelerometer
-                partCount = 1
-            }
-    
-            PartGoal
-            {
-                partName = sensorBarometer
-                partCount = 1
-            }
-    
-            PartGoal
-            {
-                partName = sensorGravimeter
-                partCount = 1
-            }
-    
-            PartGoal
-            {
-                partName = sensorThermometer
-                partCount = 1
-            }
+			{
+				partName = GooExperiment
+				partCount = 1
+			}
 	
 	}	
 }
 
 Mission
 {
-    name = 7 - Random Duna Probe
+    name = 16 - Random Duna Probe
     description = Its Time To explore other Planets.  This probe is contracted to explore Duna.  
 	category = ORBIT, PROBE
     reward = 175000
 	randomized = true
 	repeatable = true
-	packageOrder = 7
+	packageOrder = 16
 
 	SubMissionGoal
 	{
@@ -334,41 +551,23 @@ Mission
             }
     
             PartGoal
-            {
-                partName = sensorAccelerometer
-                partCount = 1
-            }
-    
-            PartGoal
-            {
-                partName = sensorBarometer
-                partCount = 1
-            }
-    
-            PartGoal
-            {
-                partName = sensorGravimeter
-                partCount = 1
-            }
-    
-            PartGoal
-            {
-                partName = sensorThermometer
-                partCount = 1
-            }
+			{
+				partName = GooExperiment
+				partCount = 1
+			}
 	
 	}	
 }
 
 Mission
 {
-    name = 8 - Random Dres Probe
+    name = 17 - Random Dres Probe
     description = Its Time To explore other Planets.  This probe is contracted to explore Dres.  
 	category = ORBIT, PROBE
     reward = 245000
 	randomized = true
 	repeatable = true
-	packageOrder = 8
+	packageOrder = 17
 
 	SubMissionGoal
 	{
@@ -389,41 +588,23 @@ Mission
             }
     
             PartGoal
-            {
-                partName = sensorAccelerometer
-                partCount = 1
-            }
-    
-            PartGoal
-            {
-                partName = sensorBarometer
-                partCount = 1
-            }
-    
-            PartGoal
-            {
-                partName = sensorGravimeter
-                partCount = 1
-            }
-    
-            PartGoal
-            {
-                partName = sensorThermometer
-                partCount = 1
-            }
+			{
+				partName = GooExperiment
+				partCount = 1
+			}
 	
 	}	
 }
 
 Mission
 {
-    name = 9 - Random Moho Probe
+    name = 18 - Random Moho Probe
     description = Its Time To explore other Planets.  This probe is contracted to explore Moho.  
 	category = ORBIT, PROBE
     reward = 300000
 	randomized = true
 	repeatable = true
-	packageOrder = 9
+	packageOrder = 18
 
 	SubMissionGoal
 	{
@@ -444,42 +625,24 @@ Mission
             }
     
             PartGoal
-            {
-                partName = sensorAccelerometer
-                partCount = 1
-            }
-    
-            PartGoal
-            {
-                partName = sensorBarometer
-                partCount = 1
-            }
-    
-            PartGoal
-            {
-                partName = sensorGravimeter
-                partCount = 1
-            }
-    
-            PartGoal
-            {
-                partName = sensorThermometer
-                partCount = 1
-            }
+			{
+				partName = GooExperiment
+				partCount = 1
+			}
 	
 	}	
 }
 
 Mission
 {
-    name = 10 - Random Jool Exploration Expedition
+    name = 19 - Random Jool Exploration Expedition
     description = This planet has so many moons that many expeditions might be needed to explore them.  The contract calls for an Orbit of Jool.. After that its up to you to decide where to go.  
 	category = ORBIT, PROBE
     reward = 400000
 	randomized = true
 	repeatable = true
 	
-packageOrder = 10
+packageOrder = 19
 	SubMissionGoal
 	{
 	
@@ -497,41 +660,57 @@ packageOrder = 10
             }
     
             PartGoal
-            {
-                partName = sensorAccelerometer
-                partCount = 1
-            }
-    
-            PartGoal
-            {
-                partName = sensorBarometer
-                partCount = 1
-            }
-    
-            PartGoal
-            {
-                partName = sensorGravimeter
-                partCount = 1
-            }
-    
-            PartGoal
-            {
-                partName = sensorThermometer
-                partCount = 1
-            }
+			{
+				partName = GooExperiment
+				partCount = 1
+			}
 	
 	}	
 }
 
 Mission
 {
-    name = 11 - New Repair Mission 
+    name = 20 - Launch Satellite Into High Orbit
+    description = Launch A Satellite Into High Orbit For Local Company 
+	category = SATELLITE
+    reward = 60000
+	randomized = true
+	repeatable = true
+	packageOrder = 20
+
+	SubMissionGoal
+	
+	{
+    
+		OrbitGoal
+		{
+        body = Kerbin
+        minApA = RANDOM(300000,350000)
+        maxApA = ADD(minApA, 20000)
+		maxEccentricity = RANDOM(0.01, 0.08)
+		}
+		PartGoal
+            {
+                partName = commDish
+                partCount = 1
+            }
+		PartGoal
+			{
+				partName = repairStation
+				partCount = 1
+			}
+	}
+}
+
+Mission
+{
+    name = 21 - New Repair Mission 
     description = Repair Mission.  You must have previously launched a vessel with the Repair Part on it to Finish This Vessel.
     reward = 52000
 	category = REPAIR
 	repeatable = true
-	requiresMission = 1 - Random Satellite Low Orbit Mission
-	packageOrder = 11
+	requiresMission = 20 - Launch Satellite Into High Orbit
+	packageOrder = 21
 
 	
 	SubMissionGoal
@@ -554,4 +733,103 @@ Mission
 	
 }
 
+Mission
+{
+    name = 22 - Late years. Manned mission to Duna
+    description = In the later years of our Space Program we decided to venture out of Kerbins SOI.  We are going to Duna my friends.
+	category = MANNED, LANDING
+    reward = 500000
+	scienceReward = 10
+	repeatable = true
+	packageOrder = 22
+
+	LandingGoal
+        {
+            body = Duna
+        }
+	LandingGoal
+        {
+            body = Kerbin
+        }
+}
+
+Mission
+{
+    name = 23 - Late years. Manned mission to Moho
+    description = In the later years of our Space Program we decided to venture out of Kerbins SOI.  Moho is very close to our home star.  Lets get some boots on the ground!
+	category = MANNED, LANDING
+    reward = 650000
+	scienceReward = 15
+	repeatable = true
+	packageOrder = 23
+
+	LandingGoal
+        {
+            body = Moho
+        }
+	LandingGoal
+        {
+            body = Kerbin
+        }
+}
+
+Mission
+{
+    name = 24 - Late years. Manned mission to Dres
+    description = In the later years of our Space Program we decided to venture out of Kerbins SOI.  Dres will be a difficult target to land on. But we need to try!
+	category = MANNED, LANDING
+    reward = 850000
+	scienceReward = 20
+	repeatable = true
+	packageOrder = 24
+
+	LandingGoal
+        {
+            body = Dres
+        }
+	LandingGoal
+        {
+            body = Kerbin
+        }
+}
+
+Mission
+{
+    name = 25 - Late years. Manned mission to Laythe
+    description = In the later years of our Space Program we decided to venture out of Kerbins SOI.  The moon Laythe seems to be an interesting place to try a landing.
+	category = MANNED, LANDING
+    reward = 1000000
+	scienceReward = 25
+	repeatable = true
+	packageOrder = 25
+
+	LandingGoal
+        {
+            body = Laythe
+        }
+	LandingGoal
+        {
+            body = Kerbin
+        }
+}
+
+Mission
+{
+    name = 26 - Late years. Manned mission to Eeloo
+    description = In the later years of our Space Program we decided to venture out of Kerbins SOI.  This small pice of dirt at the end of our solar system looks interesting.  Time to go and see what it is!
+	category = MANNED, LANDING
+    reward = 1200000
+	scienceReward = 50
+	repeatable = true
+	packageOrder = 26
+
+	LandingGoal
+        {
+            body = Eeloo
+        }
+	LandingGoal
+        {
+            body = Kerbin
+        }
+}
 }
