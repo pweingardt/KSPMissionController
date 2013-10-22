@@ -754,7 +754,10 @@ namespace MissionController
                 showFinanceWindow = GUILayout.Toggle(showFinanceWindow, "Finances");
                 GUILayout.EndVertical();
                 GUILayout.BeginVertical();
-                showResearchTreeWindow = GUILayout.Toggle(showResearchTreeWindow, "Research");
+                if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
+                {
+                    showResearchTreeWindow = GUILayout.Toggle(showResearchTreeWindow, "Research");
+                }
                 GUILayout.EndVertical();    
                 GUILayout.EndHorizontal();
 
