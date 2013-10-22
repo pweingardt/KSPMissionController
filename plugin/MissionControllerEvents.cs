@@ -65,7 +65,7 @@ namespace MissionController
             {
                 recycledCrewCost = res.crewreturn(pv.situation.Equals(Vessel.Situations.LANDED) ? 1 : 0);
                 manager.cleanReward(recycledCrewCost);
-                if (!manager.ResearchRecycle)
+                if (!manager.ResearchRecycle && HighLogic.CurrentGame.Mode == Game.Modes.CAREER && (pv.situation.Equals(Vessel.Situations.LANDED) || pv.situation.Equals(Vessel.Situations.SPLASHED)))
                 {
                     showRecycleWindow = true;
                 }
