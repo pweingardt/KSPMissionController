@@ -10,11 +10,6 @@ namespace MissionController
     public class DockingGoal : MissionGoal
     {
 
-        public DockingGoal()
-        {
-            this.special = true;
-        }
-
         protected override List<Value> values(Vessel vessel, GameEvent events) {
             List<Value> values = new List<Value> ();
 
