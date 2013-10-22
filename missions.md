@@ -279,7 +279,10 @@ Field:
 
 ### DockingGoal
 
-Defines a successful docking.
+Defines a successful docking. Docking goal was fixed in .33.  Multiple docking ports on a vessel will not make the
+mission not finishable.  Now Docking records the ship ID again.  When combined with UnDocking please note that a mission
+that uses Undocking will suffer the same problem of multiple docking ports not working.  There is no way around
+this problem.  The id conflict because of the Ship ID changes when you Dock cause to many problems.
 
 Fields:
 
