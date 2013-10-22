@@ -358,6 +358,8 @@ namespace MissionController
             configfile.save();
         }
 
+        
+
         /// <summary>
         /// Returns the active vessel if there is one, null otherwise
         /// </summary>
@@ -820,7 +822,10 @@ namespace MissionController
                 }
 
                 GUILayout.EndVertical();
-                GUI.DragWindow();
+                if (!Input.GetMouseButtonDown(1))
+                {
+                    GUI.DragWindow();
+                }
             
         }
 

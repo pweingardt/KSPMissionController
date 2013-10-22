@@ -137,7 +137,11 @@ namespace MissionController
             GUILayout.EndVertical ();
             GUILayout.EndHorizontal ();
 
-            GUI.DragWindow ();
+            if (!Input.GetMouseButtonDown(1))
+            {
+                GUI.DragWindow();
+            }
+            
         }
 
         /// <summary>
