@@ -496,7 +496,7 @@ namespace MissionController
                     try
                     {
                         int cst = PartCost.cost(ap);
-                        print("For part " + ap.name + ", cost = " + cst);
+                        print("For part " + ap.name + ": " + ap.title + ", cost = " + cst);
                         ap.cost = cst;
                     }
                     catch
