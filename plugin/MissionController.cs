@@ -282,6 +282,7 @@ namespace MissionController
         {
             GUISave();
             repairStation.repair = false; // we have to reset the RepairGoal for it can be used again.           
+            repairStation.myTime = 5.0f; // Also Reset the Time For RepairGoal For it can be used again in same session.
             SettingsManager.Manager.saveSettings();
             FuelMode.fuelinit(manager.GetFuels);
             ConstructionMode.constructinit(manager.GetConstruction);
@@ -618,7 +619,7 @@ namespace MissionController
             GUI.skin = HighLogic.Skin;
             GUILayout.BeginVertical();
 
-           
+            showCostValue("Time Remaining: ", (double)repairStation.myTime, styleCaption);
 
             if (GUILayout.Button("ok", styleButtonWordWrap))
             {
@@ -716,7 +717,7 @@ namespace MissionController
                                 showCostValue(r, Math.Round(res.resources[r],0), styleValueGreen);
                         }
                         if (res.wet() > (0)) { showCostValue("(Total Cost Of Fuels):", res.wet(), styleCaption); }
-                        if (res.dry() > (0)) { showCostValue("(Total Cost Of Parts):", res.dry(), styleCaption); }
+                        if (res.dry() > (0)) { showCostValue("(Total Cost Of Parts):", res.dry(), styleCaption); }  
                         GUILayout.Space(20);
                     }
 

@@ -15,73 +15,63 @@ namespace MissionController
 
         [KSPField(isPersistant = true)]
         public static bool repair;
-        
+
+        public static float myTime = 1.0f;
+
+        void timercount()
+        {
+            if (myTime > 0)
+            {
+                myTime -= Time.deltaTime;
+                print("Repair Countdown: " + myTime);
+            }
+            if (myTime <= 0)
+            {
+                print("Time Has Ended");
+                repair = true;
+                CancelInvoke("timercount");
+            }
+        }
 
         [KSPEvent(unfocusedRange = 4f, guiActiveUnfocused = true, guiActive = false, guiName = "Start Repair", active = true)]
         public void EnableRepair()
         {
-            repair = true;  
-        }      
-        
-    }
-        
-    public class RepairGoal : MissionGoal
-    {
-        public RepairGoal()
-        {
-            this.vesselIndenpendent = true;
-        }
-
-        protected override List<Value> values(Vessel vessel, GameEvent ev)
-        {
-
-            List<Value> values2 = new List<Value>();
-
-            if (vessel == null)
-            {
-                values2.Add(new Value("Repaired", "True"));
-
-            }
-            else
-            {
-                
-                values2.Add(new Value("Repaired", "True", "" + repairStation.repair, repairStation.repair));
-
-            }
-
-            return values2;
-        }
-
-        public override string getType()
-        {
-            return "Repair";
+            InvokeRepeating("timercount", 1, 1);
         }
     }
+
+        public class RepairGoal : MissionGoal
+        {
+            public RepairGoal()
+            {
+                this.vesselIndenpendent = true;
+            }
+
+            protected override List<Value> values(Vessel vessel, GameEvent ev)
+            {
+
+                List<Value> values2 = new List<Value>();
+
+                if (vessel == null)
+                {
+                    values2.Add(new Value("Repaired", "True"));
+
+                }
+                else
+                {
+                    values2.Add(new Value("Repaired", "True", "" + repairStation.repair, repairStation.repair));
+                    values2.Add(new Value("Repair Time", (double)repairStation.myTime));
+                }
+
+                return values2;
+            }
+
+            public override string getType()
+            {
+                return "Repair";
+            }
+        }
 
     
-    /// <summary>
-    /// Unity Timer Used for Repair Countdown.
-    /// </summary>
-    public class Countdown : MonoBehaviour
-    {
-
-        public float timeLeft = 0.0f;
-
-        public void RepairCountdown()
-        {
-            ++timeLeft;
-
-            if (timeLeft >= 60.0f)
-            {
-                print("Time Finished");
-                repairStation.repair = true;
-            }
-
-            else
-            {
-                print("Time left for Repair = " + (int)++timeLeft + " seconds");
-            }
-        }
-    }
 }
 
