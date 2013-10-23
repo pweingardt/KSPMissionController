@@ -54,7 +54,7 @@ namespace MissionController
         {
             VesselResources res = new VesselResources(pv.vesselRef);
             recycledName = pv.vesselName;
-            if (settings.difficulty != 0 && (manager.ResearchRecycle || HighLogic.CurrentGame.Mode != Game.Modes.CAREER) && (pv.situation.Equals(Vessel.Situations.LANDED) || pv.situation.Equals(Vessel.Situations.SPLASHED)))
+            if (!HighLogic.LoadedSceneIsFlight && settings.difficulty != 0 && (manager.ResearchRecycle || HighLogic.CurrentGame.Mode != Game.Modes.CAREER) && (pv.situation.Equals(Vessel.Situations.LANDED) || pv.situation.Equals(Vessel.Situations.SPLASHED)))
             {
                 recycledCost = res.recyclable(pv.situation.Equals(Vessel.Situations.LANDED) ? 1 : 0);
                 print("*MC* Craft " + recycledName + " recovered for " + recycledCost);
@@ -71,7 +71,7 @@ namespace MissionController
                 }
             }
 
-            pVessel = null;           
+            pVessel = null;
         }
 
         /// <summary>
