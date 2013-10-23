@@ -303,15 +303,10 @@ tested it and it works.. AGAIN DON't MIX BOTH TOGETHER. The MIssion will not be 
 
 * Alows you to have a repair mission to a vessel. Place the part on the vessel (you can have the player do this in a 
 * previous mission with the partGoal.  Then in another mission have the player launch to the vessel and use the part to
-* repair the vessel.. The player right clicks on the part and the condition for Repair is set to true.  I suggest
-* adding some timed event to it like minSeconds.
-* 
-Example code for RepairGoal
-		
-		RepairGoal
-		{
-		minSeconds = TIME(10m)
-		}
+* repair the vessel.. The player right clicks on the part and the condition for Repair is set to true.  NEW For
+* VERSION .33 Repair Goal has its own countdown Timer.. Its takes about 1 min to coplete repairs now.
+
+
 
 
 ### <a id="#submission"></a>SubMissionGoal
