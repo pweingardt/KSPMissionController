@@ -43,7 +43,7 @@ namespace MissionController
         private void onCreate(Vessel v)
         {
             // for now, just reenable recycling. It's so you don't recycle on return to spaceport or revert.
-            canRecycle = true;
+            //canRecycle = false;
         }
         
         /// <summary>
@@ -54,7 +54,7 @@ namespace MissionController
         {
             VesselResources res = new VesselResources(pv.vesselRef);
             recycledName = pv.vesselName;
-            if (!HighLogic.LoadedSceneIsFlight && settings.difficulty != 0 && (manager.ResearchRecycle || HighLogic.CurrentGame.Mode != Game.Modes.CAREER) && (pv.situation.Equals(Vessel.Situations.LANDED) || pv.situation.Equals(Vessel.Situations.SPLASHED)))
+            if (!HighLogic.LoadedSceneIsEditor && !HighLogic.LoadedSceneIsFlight && settings.difficulty != 0 && (manager.ResearchRecycle || HighLogic.CurrentGame.Mode != Game.Modes.CAREER) && (pv.situation.Equals(Vessel.Situations.LANDED) || pv.situation.Equals(Vessel.Situations.SPLASHED)))
             {
                 recycledCost = res.recyclable(pv.situation.Equals(Vessel.Situations.LANDED) ? 1 : 0);
                 print("*MC* Craft " + recycledName + " recovered for " + recycledCost);
@@ -65,7 +65,7 @@ namespace MissionController
             {
                 recycledCrewCost = res.crewreturn(pv.situation.Equals(Vessel.Situations.LANDED) ? 1 : 0);
                 manager.cleanReward(recycledCrewCost);
-                if (!manager.ResearchRecycle && HighLogic.CurrentGame.Mode == Game.Modes.CAREER && (pv.situation.Equals(Vessel.Situations.LANDED) || pv.situation.Equals(Vessel.Situations.SPLASHED)))
+                if (!HighLogic.LoadedSceneIsFlight && !manager.ResearchRecycle && HighLogic.CurrentGame.Mode == Game.Modes.CAREER && (pv.situation.Equals(Vessel.Situations.LANDED) || pv.situation.Equals(Vessel.Situations.SPLASHED)))
                 {
                     showRecycleWindow = true;
                 }
@@ -377,13 +377,15 @@ namespace MissionController
                 {
                     Debug.LogError("Launching vessel!");
                     manager.costs(res.sum());                    
-                    recycled = false; 
+                    recycled = false;
+                    canRecycle = true;
                 }
                 else
                 {
                     Debug.LogError("Launching Test vessel!");
                     manager.costs((res.dry()) * 6 / 100);
                     recycled = false;
+                    canRecycle = true;
                 }
             }
         }
