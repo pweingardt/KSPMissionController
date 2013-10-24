@@ -13,7 +13,29 @@ namespace MissionController
     /// </summary>
     public partial class MissionController
     {
+        //List<hired> kerbalshired;
+        //public struct hired
+        //{
+        //    string name;
+        //    public hired(string ename)
+        //    {
+        //        name = ename; 
+        //    }    
+        //}
         
+
+        //public void getdata()
+        //{
+        //    ConfigNode[] data = ConfigNode.Load(KSPUtil.ApplicationRootPath + "saves/" + HighLogic.SaveFolder + "/persistent.sfs").GetNode("GAME").GetNode("ROSTER", 1).GetNodes("CREW");
+        //    kerbalshired = new List<hired>();
+        //    foreach (ConfigNode item in data)
+        //    {
+        //        string kerbname = item.GetValue("name");
+        //        hired Khired = new hired(kerbname);
+        //        kerbalshired.Add(Khired);
+        //    }
+        //}
+
         private Vector2 scrollPosition2 = new Vector2(0, 0);
         private void drawFinaceWindow(int id)
         {
