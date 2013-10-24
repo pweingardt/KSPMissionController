@@ -619,10 +619,48 @@ namespace MissionController
             GUI.skin = HighLogic.Skin;
             GUILayout.BeginVertical();
 
-            showCostValue("Time Remaining: ", (double)repairStation.myTime, styleCaption);
+            Status status = calculateStatus(currentMission, true, activeVessel);
+            Mission mission = new Mission();
 
-            if (GUILayout.Button("ok", styleButtonWordWrap))
+            
+            GUILayout.Label("Current Mission: " +mission.name, styleText);
+            if (manager.budget < 0)
             {
+                if (settings.difficulty == 1)
+                {
+                    GUILayout.Label("All goals accomplished. Deducted For Loans!", styleCaption);
+                    showCostValue("Total Mission Payout:", currentMission.reward * 75 / 100, styleValueGreen);
+                    showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
+                }
+                if (settings.difficulty == 2)
+                {
+                    GUILayout.Label("All Goals accomplished. Hardcore and Deducted Loans"); // .75 * .6 = .45
+                    showCostValue("Total Mission Payout:", currentMission.reward * 45 / 100, styleValueGreen);
+                    showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
+                }
+            }
+            else
+            {
+                if (settings.difficulty == 1)
+                {
+                    GUILayout.Label("All goals accomplished. you can finish the mission now!", styleCaption);
+                    showCostValue("Total Mission Payout:", currentMission.reward, styleValueGreen);
+                    showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
+                }
+                if (settings.difficulty == 2)
+                {
+                    GUILayout.Label("All goals accomplished. you can finish the mission now: HardCore Mode 40 % Reduction!", styleCaption);
+                    showCostValue("Total Mission Payout:", currentMission.reward * 60 / 100, styleValueGreen);
+                    showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
+                }
+            }
+
+            if (GUILayout.Button("Finish The Mission", styleButtonWordWrap))
+            {
+                manager.finishMission(currentMission, activeVessel, status.events);
+                hiddenGoals = new List<MissionGoal>();
+                currentMission = null;
+                finishmissiontoggle = true;
                 showRandomWindow = false;
             }
             GUILayout.EndVertical();
@@ -808,6 +846,8 @@ namespace MissionController
                 GUILayout.EndHorizontal();
                 if (status.missionIsFinishable)
                 {
+
+                    showRandomWindow = true;
                     finishmissiontoggle = GUILayout.Toggle(finishmissiontoggle, "FINISH THE CURRENT MISSION");
                     if (finishmissiontoggle == false)
                     {
