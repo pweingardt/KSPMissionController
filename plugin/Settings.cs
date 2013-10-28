@@ -4,13 +4,11 @@ namespace MissionController
 {
     public class Settings 
     {
-        public int KerbalsHired;
-
         public bool disablePlugin = false;
 
         public bool changed = false;
 
-        public int difficulty = 1;                  
+        public int gameMode = 1;                  
     }
 
     public class SettingsManager 

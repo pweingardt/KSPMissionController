@@ -54,14 +54,14 @@ namespace MissionController
         {
             VesselResources res = new VesselResources(pv.vesselRef);
             recycledName = pv.vesselName;
-            if (!HighLogic.LoadedSceneIsEditor && !HighLogic.LoadedSceneIsFlight && settings.difficulty != 0 && (manager.ResearchRecycle || HighLogic.CurrentGame.Mode != Game.Modes.CAREER) && (pv.situation.Equals(Vessel.Situations.LANDED) || pv.situation.Equals(Vessel.Situations.SPLASHED)))
+            if (!HighLogic.LoadedSceneIsEditor && !HighLogic.LoadedSceneIsFlight && settings.gameMode != 0 && (manager.ResearchRecycle || HighLogic.CurrentGame.Mode != Game.Modes.CAREER) && (pv.situation.Equals(Vessel.Situations.LANDED) || pv.situation.Equals(Vessel.Situations.SPLASHED)))
             {
                 recycledCost = res.recyclable(pv.situation.Equals(Vessel.Situations.LANDED) ? 1 : 0);
                 print("*MC* Craft " + recycledName + " recovered for " + recycledCost);
                 manager.recycleVessel(pv.vesselRef, recycledCost);
                 showRecycleWindow = true;
             }
-            if (settings.difficulty != 0 && (pv.situation.Equals(Vessel.Situations.LANDED) || pv.situation.Equals(Vessel.Situations.SPLASHED)))
+            if (settings.gameMode != 0 && (pv.situation.Equals(Vessel.Situations.LANDED) || pv.situation.Equals(Vessel.Situations.SPLASHED)))
             {
                 recycledCrewCost = res.crewreturn(pv.situation.Equals(Vessel.Situations.LANDED) ? 1 : 0);
                 manager.cleanReward(recycledCrewCost);
@@ -108,7 +108,7 @@ namespace MissionController
                 if (!HighLogic.LoadedSceneIsEditor && canRecycle && activeVessel != v && !v.isEVA // canRecycle is false iff load requested and haven't returned to flight yet.
                     && v.name.Contains("(Unloaded)") // check make sure it's because we're unloading it
                     && (v.situation == Vessel.Situations.FLYING || v.situation == Vessel.Situations.SUB_ORBITAL) && v.mainBody.GetAltitude(v.CoM) <= 25000 && v.orbit.referenceBody.bodyName.Equals("Kerbin")
-                    && settings.difficulty != 0
+                    && settings.gameMode != 0
                     && (manager.ResearchRecycle || HighLogic.CurrentGame.Mode != Game.Modes.CAREER)
                     )
                 {
@@ -373,7 +373,7 @@ namespace MissionController
             if (activeVessel != null && activeVessel.situation == Vessel.Situations.PRELAUNCH)
             {
                 VesselResources res = new VesselResources(activeVessel);
-                if (settings.difficulty != 0)
+                if (settings.gameMode != 0)
                 {
                     Debug.LogError("Launching vessel!");
                     manager.costs(res.sum());                    

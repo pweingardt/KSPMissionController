@@ -590,7 +590,7 @@ namespace MissionController
         {
             GUI.skin = HighLogic.Skin;
             GUILayout.BeginVertical();
-            if (settings.difficulty != 0 && (manager.ResearchRecycle || HighLogic.CurrentGame.Mode != Game.Modes.CAREER))
+            if (settings.gameMode != 0 && (manager.ResearchRecycle || HighLogic.CurrentGame.Mode != Game.Modes.CAREER))
             {
                 showCostValue("Vessel " + recycledName + " recyled: ", recycledCost, styleCaption);
                 GUILayout.BeginHorizontal();
@@ -626,13 +626,13 @@ namespace MissionController
             GUILayout.Label("Current Mission: " +mission.name, styleText);
             if (manager.budget < 0)
             {
-                if (settings.difficulty == 1)
+                if (settings.gameMode == 1)
                 {
                     GUILayout.Label("All goals accomplished. Deducted For Loans!", styleCaption);
                     showCostValue("Total Mission Payout:", currentMission.reward * 75 / 100, styleValueGreen);
                     showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
                 }
-                if (settings.difficulty == 2)
+                if (settings.gameMode == 2)
                 {
                     GUILayout.Label("All Goals accomplished. Hardcore and Deducted Loans"); // .75 * .6 = .45
                     showCostValue("Total Mission Payout:", currentMission.reward * 45 / 100, styleValueGreen);
@@ -641,13 +641,13 @@ namespace MissionController
             }
             else
             {
-                if (settings.difficulty == 1)
+                if (settings.gameMode == 1)
                 {
                     GUILayout.Label("All goals accomplished. you can finish the mission now!", styleCaption);
                     showCostValue("Total Mission Payout:", currentMission.reward, styleValueGreen);
                     showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
                 }
-                if (settings.difficulty == 2)
+                if (settings.gameMode == 2)
                 {
                     GUILayout.Label("All goals accomplished. you can finish the mission now: HardCore Mode 40 % Reduction!", styleCaption);
                     showCostValue("Total Mission Payout:", currentMission.reward * 60 / 100, styleValueGreen);
@@ -693,13 +693,13 @@ namespace MissionController
                 GUILayout.Box("PLUGIN IS DISABLED ", GUILayout.Height(25));
                 GUILayout.EndHorizontal();
             }
-            if (settings.difficulty == 0)
+            if (settings.gameMode == 0)
             {
                 GUILayout.BeginHorizontal();
                 GUILayout.Box("Test Flight Mode ", GUILayout.Height(25));
                 GUILayout.EndHorizontal();
             }
-            if (settings.difficulty == 1)
+            if (settings.gameMode == 1)
             {
                 GUILayout.BeginHorizontal();
                 GUILayout.Box("Flight Mode ", GUILayout.Height(25));
@@ -711,7 +711,7 @@ namespace MissionController
                 GUILayout.Box("In Red, Borrowing Money", GUILayout.Height(25));
                 GUILayout.EndHorizontal();
             }
-            if (settings.difficulty == 2)
+            if (settings.gameMode == 2)
             {
                 GUILayout.BeginHorizontal();
                 GUILayout.Box("HardCore Mode", GUILayout.Height(25));
@@ -726,7 +726,7 @@ namespace MissionController
                 VesselResources res = new VesselResources(activeVessel);
 
                 // .11 Edited malkuth shows only when in Testing Mode.  Plan to add things like Delta V stats and other Helpful testing info
-                if (settings.difficulty == 0)
+                if (settings.gameMode == 0)
                 {                    
                     showCostValue("Flight Testing Cost:", res.dry() * 6 / 100, (res.dry() * 6 / 100 > manager.budget ? styleValueRedBold : styleValueYellow));
                 }
@@ -859,7 +859,7 @@ namespace MissionController
 
                 }
                 // NK recycle from tracking station
-                if (pVessel != null && settings.difficulty != 0 && (manager.ResearchRecycle || HighLogic.CurrentGame.Mode != Game.Modes.CAREER))
+                if (pVessel != null && settings.gameMode != 0 && (manager.ResearchRecycle || HighLogic.CurrentGame.Mode != Game.Modes.CAREER))
                 {
                     //print("*MC* In TS, pVessel not null");
                     if (pVessel.situation.Equals(Vessel.Situations.LANDED) || pVessel.situation.Equals(Vessel.Situations.SPLASHED))
@@ -916,9 +916,9 @@ namespace MissionController
 
             GUILayout.BeginHorizontal();
             GUILayout.Label("Reward: ", styleValueGreenBold);
-            if (settings.difficulty == 1)
+            if (settings.gameMode == 1)
             { GUILayout.Label(mission.reward + CurrencySuffix, styleValueYellow); }
-            if (settings.difficulty == 2)
+            if (settings.gameMode == 2)
             { GUILayout.Label(mission.reward * 60 / 100 + CurrencySuffix, styleValueYellow); }
             GUILayout.EndHorizontal();
             
@@ -968,13 +968,13 @@ namespace MissionController
             {
                 if (manager.budget < 0)
                 {
-                    if (settings.difficulty == 1)
+                    if (settings.gameMode == 1)
                     {
                         GUILayout.Label("All goals accomplished. You can finish the mission now! Deducted 25% for loans!", styleCaption);
                         showCostValue("Total Mission Payout:", currentMission.reward * 75 / 100, styleValueGreen);
                         showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
                     }
-                    if (settings.difficulty == 2)
+                    if (settings.gameMode == 2)
                     {
                         GUILayout.Label("All Goals accomplished. Finish The Mission. Deducted 25% for loans and 40% for HardCore mode"); // .75 * .6 = .45
                         showCostValue("Total Mission Payout:", currentMission.reward * 45 / 100, styleValueGreen);
@@ -983,13 +983,13 @@ namespace MissionController
                 }
                 else
                 {
-                    if (settings.difficulty == 1)
+                    if (settings.gameMode == 1)
                     {
                         GUILayout.Label("All goals accomplished. you can finish the mission now!", styleCaption);
                         showCostValue("Total Mission Payout:", currentMission.reward, styleValueGreen);
                         showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
                     }
-                    if (settings.difficulty == 2)
+                    if (settings.gameMode == 2)
                     {
                         GUILayout.Label("All goals accomplished. you can finish the mission now: HardCore Mode 40 % Reduction!", styleCaption);
                         showCostValue("Total Mission Payout:", currentMission.reward * 60 / 100, styleValueGreen);

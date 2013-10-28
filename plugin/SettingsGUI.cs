@@ -31,7 +31,7 @@ namespace MissionController
 
             GUILayout.Space(10);
             GUILayout.Box("Chose Your Game Modes",GUILayout.Height(30));
-            settings.difficulty = GUILayout.SelectionGrid(settings.difficulty, difficulties, 3);
+            settings.gameMode = GUILayout.SelectionGrid(settings.gameMode, difficulties, 3);
 
             //GUILayout.Space(10);
             //GUILayout.Box("Fuel Modes", GUILayout.Height(30));

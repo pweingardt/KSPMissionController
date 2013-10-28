@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="FinanceMode.cs" />
     <Compile Include="FinanceWindowGUI.cs" />
     <Compile Include="LaunchGoal.cs" />
     <Compile Include="MissionControllerCalc.cs">
@@ -89,7 +90,7 @@
     <Compile Include="GameEvent.cs" />
     <Compile Include="MissionControllerEvents.cs" />
     <Compile Include="Enums.cs" />
-    <Compile Include="Difficulty.cs" />
+    <Compile Include="GameMode.cs" />
     <Compile Include="GLUtils.cs" />
     <Compile Include="ResearchTree.cs" />
     <Compile Include="SubMissionGoal.cs">

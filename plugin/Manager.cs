@@ -443,6 +443,18 @@ namespace MissionController
         {
             return currentProgram.fuelmode = 1;
         }
+        
+        /// <summary>
+        /// sets the current Loan Modes for money and negative budget
+        /// </summary>
+        public double GetLoanMode
+        {
+            get { return currentProgram.loanmode; }
+        }
+        public double SetLoanMode(int value)
+        {
+            return currentProgram.loanmode = value;
+        }
         // End Research Fuels
 
         /// <summary>
@@ -563,7 +575,7 @@ namespace MissionController
                     double mult = 1.0;
                     if (manager.budget < 0)
                         mult *= 0.75;
-                    if (settings.difficulty == 2)
+                    if (settings.gameMode == 2)
                         mult *= 0.6;
                     value = (int)((double)value * mult);
                 }               

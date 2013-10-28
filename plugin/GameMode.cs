@@ -174,9 +174,8 @@ namespace MissionController
                 
                 default:
                     constructionfactors = construction0;
-                    break;       
-        
-            }
+                    break; 
+           }
         }
     }
 }
