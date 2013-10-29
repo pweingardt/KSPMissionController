@@ -600,7 +600,7 @@ namespace MissionController
                 GUILayout.EndHorizontal();
 
             }
-            if (recycledCrewCost > 0)
+            if (recycledCrewCost > 0 && settings.gameMode != 0)
             {
                 GUILayout.BeginHorizontal();
                 showCostValue("Crew Insurance Returned: ", recycledCrewCost, styleCaption);
@@ -656,8 +656,8 @@ namespace MissionController
                     showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
                 }
             }
-
-            if (GUILayout.Button("Finish The Mission", styleButtonWordWrap))
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("Finish And Save The Mission Results", styleButtonWordWrap,GUILayout.Width(275)))
             {
                 manager.finishMission(currentMission, activeVessel, status.events);
                 hiddenGoals = new List<MissionGoal>();
@@ -665,8 +665,14 @@ namespace MissionController
                 finishmissiontoggle = true;
                 showRandomWindow = false;
             }
+            if (GUILayout.Button("X", styleButtonWordWrap, GUILayout.Width(25)))
+            {
+                currentMission = null;
+                currentMissiontoggle = false;
+                showRandomWindow = false;
+            }
+            GUILayout.EndHorizontal();
             GUILayout.EndVertical();
-            GUI.DragWindow();
         }
 
         /// <summary>

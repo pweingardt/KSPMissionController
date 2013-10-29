@@ -30,11 +30,12 @@ namespace MissionController
             {
                 currentloan = medloan;
             }
-            if (manager.budget < -6000)
+            if (manager.budget < -60000)
             {
                 currentloan = highloan;
             }
 
-        }
+        }        
+    
     }
 }
