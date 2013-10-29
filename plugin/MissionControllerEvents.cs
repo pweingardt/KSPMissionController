@@ -373,12 +373,15 @@ namespace MissionController
             if (activeVessel != null && activeVessel.situation == Vessel.Situations.PRELAUNCH)
             {
                 VesselResources res = new VesselResources(activeVessel);
+                FinanceMode fn = new FinanceMode();
                 if (settings.gameMode != 0)
                 {
                     Debug.LogError("Launching vessel!");
                     manager.costs(res.sum());                    
                     recycled = false;
                     canRecycle = true;
+                    fn.checkloans();
+
                 }
                 else
                 {
@@ -386,6 +389,7 @@ namespace MissionController
                     manager.costs((res.dry()) * 6 / 100);
                     recycled = false;
                     canRecycle = true;
+                    fn.checkloans();
                 }
             }
         }

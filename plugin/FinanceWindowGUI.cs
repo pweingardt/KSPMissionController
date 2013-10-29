@@ -67,8 +67,8 @@ namespace MissionController
             GUILayout.Box(manager.budget + CurrencySuffix, GUILayout.Width(150), GUILayout.Height(25));
             GUILayout.EndHorizontal();
             GUILayout.BeginHorizontal();
-            GUILayout.Box(" Current Interest Rate: ", GUILayout.Width(150), GUILayout.Height(25));
-            GUILayout.Box("25%", GUILayout.Width(150), GUILayout.Height(25));
+            GUILayout.Box(" Mission Payout Rate: ", GUILayout.Width(150), GUILayout.Height(25));
+            GUILayout.Box(FinanceMode.currentloan + "%", GUILayout.Width(150), GUILayout.Height(25));
             GUILayout.EndHorizontal();
              }
 
