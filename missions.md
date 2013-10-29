@@ -197,6 +197,12 @@ Fields:
 * maxGForce: maximal G force (default: 0, ignored)
 * minVerticalSpeed: minimal vertical speed (default: 0, ignored)
 * maxVerticalSpeed: maximal vertical speed (default: 0, ignored)
+* minLatitude: The latitude and longitude can be used for stationary orbits to specify and other points needed
+* minLongitude
+* maxLongitude
+* minLongitude
+
+
 
 ### LaunchGoal
 
