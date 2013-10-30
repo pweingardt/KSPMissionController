@@ -28,6 +28,13 @@ namespace MissionController
 
         public List<RandomMission> randomMissions = new List<RandomMission> ();
 
+        public List<FlagSystem> flagSystem = new List<FlagSystem>();
+
+        public void add(FlagSystem m)
+        {
+            flagSystem.Add(m);
+        }
+
         public void add(MissionStatus m) {
             completedMissions.Add (m);
         }
@@ -109,6 +116,24 @@ namespace MissionController
 
     public class RecycledVessel {
         public String guid;
+    }
+
+    /// <summary>
+    /// This Flags a vessel as not being able to do missionis.. 
+    /// Either Vessel was launched during Testing Mode, or During Disabled Mode.
+    /// </summary>
+    public class FlagSystem
+    {
+        public String flagVesselGuid;
+
+        public FlagSystem() 
+        {
+        }
+
+        public FlagSystem(String idflagVesselGuid)
+        {
+            this.flagVesselGuid = idflagVesselGuid;
+        }
     }
 }
 

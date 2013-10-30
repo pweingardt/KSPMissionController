@@ -54,21 +54,23 @@ namespace MissionController
         {
             VesselResources res = new VesselResources(pv.vesselRef);
             recycledName = pv.vesselName;
-            if (!HighLogic.LoadedSceneIsEditor && !HighLogic.LoadedSceneIsFlight && settings.gameMode != 0 && (manager.ResearchRecycle || HighLogic.CurrentGame.Mode != Game.Modes.CAREER) && (pv.situation.Equals(Vessel.Situations.LANDED) || pv.situation.Equals(Vessel.Situations.SPLASHED)))
+            if (!manager.isVesselFlagged(pv.vesselRef) && !HighLogic.LoadedSceneIsEditor && !HighLogic.LoadedSceneIsFlight && settings.gameMode != 0 && (manager.ResearchRecycle || HighLogic.CurrentGame.Mode != Game.Modes.CAREER) && (pv.situation.Equals(Vessel.Situations.LANDED) || pv.situation.Equals(Vessel.Situations.SPLASHED)))
             {
                 recycledCost = res.recyclable(pv.situation.Equals(Vessel.Situations.LANDED) ? 1 : 0);
                 print("*MC* Craft " + recycledName + " recovered for " + recycledCost);
                 manager.recycleVessel(pv.vesselRef, recycledCost);
                 showRecycleWindow = true;
+               
+                
             }
-            if (settings.gameMode != 0 && (pv.situation.Equals(Vessel.Situations.LANDED) || pv.situation.Equals(Vessel.Situations.SPLASHED)))
+            if (!manager.isVesselFlagged(pv.vesselRef) && settings.gameMode != 0 && (pv.situation.Equals(Vessel.Situations.LANDED) || pv.situation.Equals(Vessel.Situations.SPLASHED)))
             {
                 recycledCrewCost = res.crewreturn(pv.situation.Equals(Vessel.Situations.LANDED) ? 1 : 0);
-                manager.cleanReward(recycledCrewCost);
-                if (!HighLogic.LoadedSceneIsFlight && !manager.ResearchRecycle && HighLogic.CurrentGame.Mode == Game.Modes.CAREER && (pv.situation.Equals(Vessel.Situations.LANDED) || pv.situation.Equals(Vessel.Situations.SPLASHED)))
-                {
+                manager.cleanReward(pv.vesselRef,recycledCrewCost);
+                if (!HighLogic.LoadedSceneIsFlight && !manager.ResearchRecycle && HighLogic.CurrentGame.Mode == Game.Modes.CAREER 
+                    && (pv.situation.Equals(Vessel.Situations.LANDED) || pv.situation.Equals(Vessel.Situations.SPLASHED)))
                     showRecycleWindow = true;
-                }
+
             }
 
             pVessel = null;
@@ -105,12 +107,10 @@ namespace MissionController
             {
                 try { print("*MC* Vessel " + v.name + " destroyed. Alt " + v.mainBody.GetAltitude(v.CoM) + ", body " + v.orbit.referenceBody.bodyName + ", sit = " + v.situation); }
                 catch { }
-                if (!HighLogic.LoadedSceneIsEditor && canRecycle && activeVessel != v && !v.isEVA // canRecycle is false iff load requested and haven't returned to flight yet.
+                if (!manager.isVesselFlagged(activeVessel) &&!HighLogic.LoadedSceneIsEditor && canRecycle && activeVessel != v && !v.isEVA // canRecycle is false iff load requested and haven't returned to flight yet.
                     && v.name.Contains("(Unloaded)") // check make sure it's because we're unloading it
-                    && (v.situation == Vessel.Situations.FLYING || v.situation == Vessel.Situations.SUB_ORBITAL) && v.mainBody.GetAltitude(v.CoM) <= 25000 && v.orbit.referenceBody.bodyName.Equals("Kerbin")
-                    && settings.gameMode != 0
-                    && (manager.ResearchRecycle || HighLogic.CurrentGame.Mode != Game.Modes.CAREER)
-                    )
+                    && (v.situation == Vessel.Situations.FLYING || v.situation == Vessel.Situations.SUB_ORBITAL) && v.mainBody.GetAltitude(v.CoM) <= 25000 
+                    && v.orbit.referenceBody.bodyName.Equals("Kerbin") && settings.gameMode != 0 && (manager.ResearchRecycle || HighLogic.CurrentGame.Mode != Game.Modes.CAREER))
                 {
                     print("*MC* Checking " + v.name);
                     double mass = 0;
@@ -315,8 +315,7 @@ namespace MissionController
                                 print("*MC* Recycling vessel: " + landingtype + " Val: " + recycledCost);
                                 
                                 recycledCrewCost = vr.crewreturn(0);
-                                manager.cleanReward(recycledCrewCost);
-                                
+                                manager.cleanReward(v,recycledCrewCost);
                                 showRecycleWindow = true;
                                 manager.recycleVessel(v, recycledCost);
 
@@ -376,13 +375,21 @@ namespace MissionController
                 FinanceMode fn = new FinanceMode();
                 if (settings.gameMode != 0)
                 {
-                    Debug.LogError("Launching vessel!");
-                    manager.costs(res.sum());                    
-                    recycled = false;
-                    canRecycle = true;
-                    fn.checkloans();
+                    if (SettingsManager.Manager.getSettings().disablePlugin)
+                    {
+                        manager.addFlagedVessel(activeVessel);
+                    }
 
-                }
+                    else
+                    {
+                        Debug.LogError("Launching vessel!");
+                        manager.costs(res.sum());
+                        recycled = false;
+                        canRecycle = true;
+                        fn.checkloans();
+                    }
+
+                }              
                 else
                 {
                     Debug.LogError("Launching Test vessel!");
@@ -390,6 +397,7 @@ namespace MissionController
                     recycled = false;
                     canRecycle = true;
                     fn.checkloans();
+                    manager.addFlagedVessel(activeVessel);
                 }
             }
         }

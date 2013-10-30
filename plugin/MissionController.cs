@@ -725,6 +725,12 @@ namespace MissionController
                 GUILayout.Box("HardCore Mode", GUILayout.Height(25));
                 GUILayout.EndHorizontal();
             }
+            if (manager.isVesselFlagged(activeVessel))
+            {
+                GUILayout.BeginHorizontal();
+                GUILayout.Box("Warning This Vessel Is Flagged and Can't Do Missions", GUILayout.Height(25));
+                GUILayout.EndHorizontal();
+            }
             // Show only when the loaded scene is an editor or a vessel is available and its situation is PRELAUNCH
 
             scrollPosition = GUILayout.BeginScrollView(scrollPosition,GUILayout.MaxWidth(365), GUILayout.MaxHeight(550));

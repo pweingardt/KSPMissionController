@@ -48,7 +48,10 @@ namespace MissionController
         /// <param name="vessel">Vessel.</param>
         /// <param name="costs">Costs.</param>
         public void recycleVessel(Vessel vessel, int costs) {
-            recyclereward (costs);
+            if (!manager.isVesselFlagged(vessel))
+            {
+                recyclereward(costs);
+            }    
         }
 
         public void loadProgram(String title) {
@@ -165,6 +168,12 @@ namespace MissionController
             }
         }
 
+        public void addFlagedVessel(Vessel vessel)
+        {
+            currentProgram.add(new FlagSystem(vessel.id.ToString()));
+            saveProgram();
+        }
+
         /// <summary>
         /// Finishes the given mission goal with the given vessel.
         /// Rewards the space program with the reward from mission goal.
@@ -191,11 +200,13 @@ namespace MissionController
         /// <param name="c">goal</param>
         /// <param name="v">vessel</param>
         public bool isMissionGoalAlreadyFinished(MissionGoal c, Vessel v) {
-            if (v == null) {
+            if (v == null) 
+            {
                 return false;
             }
 
-            foreach (GoalStatus con in currentProgram.completedGoals) {
+            foreach (GoalStatus con in currentProgram.completedGoals) 
+            {
                 // this is to help Undock Behave with Vessel Ids
                 if(c.special && con.id.Equals(c.id))
                 {
@@ -208,6 +219,28 @@ namespace MissionController
             }
             return false;
         }
+        
+        /// <summary>
+        /// decides if vessel is flagged for it cannot do missions
+        /// Either launched in Test Mode or Plugin Disabled
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns></returns>
+        public bool isVesselFlagged(Vessel v)
+        {
+            if (v == null)
+            {
+                return false;
+            }
+            foreach (FlagSystem fs in currentProgram.flagSystem)
+            {
+                if (fs.flagVesselGuid.Equals(v.id.ToString()))
+                {
+                    return true;
+                }
+            }
+           return false;
+        }       
 
         /// <summary>
         /// Finishes the given mission with the given vessel.
@@ -568,6 +601,7 @@ namespace MissionController
         /// <returns></returns>
         public int reward(int value)
         {
+            Vessel v = new Vessel();
             if (!SettingsManager.Manager.getSettings().disablePlugin)
             {
                 if(value > 0) // is a reward, not a cost
@@ -592,13 +626,13 @@ namespace MissionController
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public int cleanReward(int value)
+        public void cleanReward(Vessel vessel,int value)
         {
+            Vessel v = new Vessel();
             if (!SettingsManager.Manager.getSettings().disablePlugin)
             { 
                 currentProgram.money += value; 
             }
-            return currentProgram.money;
         }
 
         /// <summary>
@@ -607,6 +641,7 @@ namespace MissionController
         /// <param name="value"></param>
         /// <returns></returns>
         public int recyclereward(int value) {
+            Vessel v = new Vessel();
             if (!SettingsManager.Manager.getSettings().disablePlugin)
             {
                 currentProgram.money += value;
