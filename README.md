@@ -1,4 +1,3 @@
-
 ##Research Tech New To MCE
 Recycling: You have to research the ability to recycle now.
 
@@ -15,6 +14,16 @@ Now if you go into the red with mission controller the bank will be happy to len
 continue your space program. But it will cost you interest. At 25% of Your Mission Payouts until you pay off 
 the loan and get back into the Green.
 
+## New Update On Loans Version MCE .35
+
+New Loan system. Loan system has been changed. There are now 3 levels oh loans.. 
+Default values are. 
+25% Reduction(-1 to -25000), 
+50% (-25001 to -60000) Reduction and 
+75% (-600001 and below)reduction. 
+all three values can be edited in
+MCconfig to your desire.
+
 ##Budgets And Financing: New For .30 and KSP .22
 
 New Finance Screen that tracks the following
@@ -30,8 +39,16 @@ The mod takes care of your budget.. Subtracting Cost of vessels for you.. And pu
 the payments from missions back into your Budget. Can You keep it in the green?
 
 Vessel Cost and Mission Payouts: Design your vessels like normal.. But now when you launch you will be charged
-for it.. Each vessel cost you Crones. You start the Game with 50,000 Crones.. Can you spread this money enough to get your budding Space Program off the ground? If you can't don't worry.. You can go into the red... and mission controller will let you borrow money.. But how far do you go before you decide you can't handle it? Only time will tell.
+for it.. Each vessel cost you Crones. You start the Game with 50,000 Crones.. Can you spread this money enough to 
+get your budding Space 
+Program off the ground? If you can't don't worry.. You can go into the red... and mission controller 
+will let you borrow money.. But how far do you go before you decide you can't handle it? Only time will tell.
 
+
+##New Flaggin System for Flight Test Mode And Plugin Disabled
+If vessels launched in Test Mode Or Disabled Plugin. The vessel will be Flagged
+for the rest of the game save (forever until dead). Flagged vessels cannot finish missions, or collect 
+recycling of any kind.
 
 ##Flight Testing Mode:
 
