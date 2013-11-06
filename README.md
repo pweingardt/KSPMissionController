@@ -2,7 +2,7 @@
 ####Recycling: 
 You have to research the ability to recycle now.
 
-*Fuel Efficiency:  
+####Fuel Efficiency:  
 research a Top End 20% Reduction to how well You Produce Fuels.. (IE Cheaper Fuel Cost)
 
 ####Construction 1: 
