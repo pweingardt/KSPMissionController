@@ -12,7 +12,7 @@ With This Upgrade you bring it back down to Normal MCE.
 *Construction 2:  
 2nd Reduction in Construction Cost with an additional %10 Cut to cost.
 
-#New Research for Version .36
+###New Research for Version .36
 *Payout Levels 2
 With this researched payout levels for all missions increase by 20%
 
