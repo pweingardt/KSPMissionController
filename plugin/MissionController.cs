@@ -667,13 +667,13 @@ namespace MissionController
                 if (settings.gameMode == 1)
                 {
                     GUILayout.Label("All goals accomplished. Deducted For Loans!", styleCaption);
-                    showCostValue("Total Mission Payout:", currentMission.reward * FinanceMode.currentloan, styleValueGreen);
+                    showCostValue("Total Mission Payout:", (currentMission.reward * FinanceMode.currentloan) * PayoutLeveles.TechPayout, styleValueGreen);
                     showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
                 }
                 if (settings.gameMode == 2)
                 {
                     GUILayout.Label("All Goals accomplished. Hardcore and Deducted Loans"); // .75 * .6 = .45
-                    showCostValue("Total Mission Payout:", (currentMission.reward * FinanceMode.currentloan) * .60, styleValueGreen);
+                    showCostValue("Total Mission Payout:", (currentMission.reward * FinanceMode.currentloan * PayoutLeveles.TechPayout) * .60, styleValueGreen);
                     showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
                 }
             }
@@ -682,13 +682,13 @@ namespace MissionController
                 if (settings.gameMode == 1)
                 {
                     GUILayout.Label("All goals accomplished. you can finish the mission now!", styleCaption);
-                    showCostValue("Total Mission Payout:", currentMission.reward, styleValueGreen);
+                    showCostValue("Total Mission Payout:", currentMission.reward * PayoutLeveles.TechPayout, styleValueGreen);
                     showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
                 }
                 if (settings.gameMode == 2)
                 {
                     GUILayout.Label("All goals accomplished. you can finish the mission now: HardCore Mode 40 % Reduction!", styleCaption);
-                    showCostValue("Total Mission Payout:", currentMission.reward * 60 / 100, styleValueGreen);
+                    showCostValue("Total Mission Payout:", (currentMission.reward * PayoutLeveles.TechPayout) * .60, styleValueGreen);
                     showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
                 }
             }
@@ -1033,13 +1033,13 @@ namespace MissionController
                     if (settings.gameMode == 1)
                     {
                         GUILayout.Label("All goals accomplished. You can finish the mission now! Deducted for loans!", styleCaption);
-                        showCostValue("Total Mission Payout:", currentMission.reward * FinanceMode.currentloan, styleValueGreen);
+                        showCostValue("Total Mission Payout:", (currentMission.reward * FinanceMode.currentloan) * PayoutLeveles.TechPayout, styleValueGreen);
                         showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
                     }
                     if (settings.gameMode == 2)
                     {
                         GUILayout.Label("All Goals accomplished. Finish The Mission. Deducted for loans and HardCore mode"); // .75 * .6 = .45
-                        showCostValue("Total Mission Payout:", (currentMission.reward * FinanceMode.currentloan) * 60, styleValueGreen);
+                        showCostValue("Total Mission Payout:", (currentMission.reward * FinanceMode.currentloan * PayoutLeveles.TechPayout) * .60, styleValueGreen);
                         showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
                     }
                 }
@@ -1048,13 +1048,13 @@ namespace MissionController
                     if (settings.gameMode == 1)
                     {
                         GUILayout.Label("All goals accomplished. you can finish the mission now!", styleCaption);
-                        showCostValue("Total Mission Payout:", currentMission.reward, styleValueGreen);
+                        showCostValue("Total Mission Payout:", currentMission.reward * PayoutLeveles.TechPayout, styleValueGreen);
                         showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
                     }
                     if (settings.gameMode == 2)
                     {
                         GUILayout.Label("All goals accomplished. you can finish the mission now: HardCore Mode!", styleCaption);
-                        showCostValue("Total Mission Payout:", currentMission.reward * 60 / 100, styleValueGreen);
+                        showCostValue("Total Mission Payout:", (currentMission.reward * PayoutLeveles.TechPayout) * .60, styleValueGreen);
                         showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
                     }
                 }
