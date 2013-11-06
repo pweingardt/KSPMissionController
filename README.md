@@ -25,12 +25,6 @@ All levels must be completed for next level of Research..For instance.  You can'
 researching Construction 1 first.  Same for other tech levels with Multi Levels.
 
 
-##Loans Bank Loans:
-
-Now if you go into the red with mission controller the bank will be happy to lend you the money you need to 
-continue your space program. But it will cost you interest. At 25% of Your Mission Payouts until you pay off 
-the loan and get back into the Green.
-
 ## New Update On Loans Version MCE .35
 
 New Loan system. Loan system has been changed. There are now 3 levels oh loans.. 
