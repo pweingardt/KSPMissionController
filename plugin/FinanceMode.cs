@@ -38,4 +38,65 @@ namespace MissionController
         }        
     
     }
+    
+    /// <summary>
+    /// sets the payout levels with research.  So payout * payoutlevels = payment.
+    /// </summary>
+    public class PayoutLeveles
+    {  
+      static PayoutLeveles()
+        {
+            payoutmode1 = new double[payoutmode0.Length];
+            payoutmode2 = new double[payoutmode0.Length];
+
+            for (int i = 0; i < payoutmode0.Length; ++i) 
+            {
+                payoutmode1[i] = 1.1 * payoutmode0[i];
+                payoutmode2[i] = 1.2 * payoutmode0[i];
+            }
+        }
+
+        public static readonly double[] payoutmode1;
+        public static readonly double[] payoutmode2;
+
+        public static readonly double[] payoutmode0 = new double[] 
+        {1};
+
+        private static double[] payoutfactors = payoutmode0;
+
+        public static double[] Payoutfactors
+        {
+            get
+            {
+                return payoutfactors;
+            }
+        }
+
+        public static double TechPayout 
+        {
+            get 
+            { 
+                return payoutfactors [0]; 
+            }
+        }
+        
+        public static void payoutlevels(int payout)
+        {
+            switch (payout)
+            {
+                case 0:
+                    payoutfactors = payoutmode0;
+                    break;                  
+                case 1: 
+                    payoutfactors = payoutmode1;
+                    break;
+                case 2:
+                    payoutfactors = payoutmode2;
+                    break;
+                default:
+                    payoutfactors = payoutmode0;
+                    break;                    
+            }
+        }        
+    }
 }

@@ -286,6 +286,7 @@ namespace MissionController
             SettingsManager.Manager.saveSettings();
             FuelMode.fuelinit(manager.GetFuels);
             ConstructionMode.constructinit(manager.GetConstruction);
+            PayoutLeveles.payoutlevels(manager.GetCurrentPayoutLevel);
             FinanceMode fn = new FinanceMode();
             fn.checkloans();
         }
@@ -860,8 +861,7 @@ namespace MissionController
                 GUILayout.EndHorizontal();
                 if (status.missionIsFinishable)
                 {
-
-                    showRandomWindow = true;
+                   
                     finishmissiontoggle = GUILayout.Toggle(finishmissiontoggle, "FINISH THE CURRENT MISSION");
                     if (finishmissiontoggle == false)
                     {
@@ -931,7 +931,7 @@ namespace MissionController
             GUILayout.BeginHorizontal();
             GUILayout.Label("Reward: ", styleValueGreenBold);
             if (settings.gameMode == 1)
-            { GUILayout.Label(mission.reward + CurrencySuffix, styleValueYellow); }
+            { GUILayout.Label(mission.reward * PayoutLeveles.TechPayout + CurrencySuffix, styleValueYellow); }
             if (settings.gameMode == 2)
             { GUILayout.Label(mission.reward * 60 / 100 + CurrencySuffix, styleValueYellow); }
             GUILayout.EndHorizontal();
@@ -980,6 +980,7 @@ namespace MissionController
 
             if (s.missionIsFinishable)
             {
+                showRandomWindow = true;
                 if (manager.budget < 0)
                 {
                     if (settings.gameMode == 1)

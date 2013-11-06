@@ -19,6 +19,9 @@ namespace MissionController
         public bool VConstruction1 = false;
         public bool VConstruction2 = false;
         public double loanmode = 0;
+        public int currentpayoutlevel = 0;
+        public bool missionlevel2 = false;
+        public bool missionlevel3 = false;
 
         public List<MissionStatus> completedMissions = new List<MissionStatus>();
 

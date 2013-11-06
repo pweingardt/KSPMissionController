@@ -70,6 +70,7 @@ namespace MissionController
                 //Difficulty.init(settings.difficulty);
                 FuelMode.fuelinit(manager.GetFuels);
                 ConstructionMode.constructinit(manager.GetConstruction);
+                PayoutLeveles.payoutlevels(manager.GetCurrentPayoutLevel);
                 
                 SettingsManager.Manager.saveSettings();
                 GUISave();

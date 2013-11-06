@@ -72,14 +72,14 @@ namespace MissionController
                 GUILayout.BeginHorizontal(GUILayout.Width(450));
                 if (m.scienceReward != 0)
                 {
-                    if (GUILayout.Button(m.name + "\n" + m.reward + CurrencySuffix + " : " +m.scienceReward + " sp", style, GUILayout.Width(350)))
+                    if (GUILayout.Button(m.name + "\n" + (m.reward * PayoutLeveles.TechPayout) + CurrencySuffix + " : " +m.scienceReward + " sp", style, GUILayout.Width(350)))
                     {
                         currentPreviewMission = manager.reloadMission(m, activeVessel);
                     }
                 }
 
                 else
-                    if (GUILayout.Button(m.name + "\n" + m.reward + CurrencySuffix, style, GUILayout.Width(350)))
+                    if (GUILayout.Button(m.name + "\n" + (m.reward * PayoutLeveles.TechPayout) + CurrencySuffix, style, GUILayout.Width(350)))
                     {
                         currentPreviewMission = manager.reloadMission(m, activeVessel);
                     }       

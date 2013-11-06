@@ -521,8 +521,31 @@ namespace MissionController
         }
         // End Construction Research
 
-
-                    
+        public bool MissionLevel2
+        {
+            get { return currentProgram.missionlevel2; }
+        }
+        public bool MissionLevel3
+        {
+            get { return currentProgram.missionlevel3; }
+        }
+        public bool SetMissionLevel2()
+        {
+            return currentProgram.missionlevel2 = true;
+        }
+        public bool SetMissionLevel3()
+        {
+            return currentProgram.missionlevel3 = true;
+        }
+        public int GetCurrentPayoutLevel
+        {
+            get { return currentProgram.currentpayoutlevel; }
+        }
+        public int SetCurrentPayoutLevel(int num)
+        {
+            return currentProgram.currentpayoutlevel = num;
+        }
+         
         /// <summary>
         /// Checks if the given vessel is controlled by a client.
         /// </summary>
@@ -541,7 +564,7 @@ namespace MissionController
             }
             return false;
         }
-
+      
         /// <summary>
         /// Checks if the given vessel in on a passive mission
         /// </summary>
@@ -612,7 +635,9 @@ namespace MissionController
                     if (settings.gameMode == 2)
                         mult *= 0.6;
                     value = (int)((double)value * mult);
-                }               
+                }
+                int currentlevel = currentProgram.currentpayoutlevel;
+                value = (int)PayoutLeveles.TechPayout * value;
                 latestExpenses = -value;
                 currentProgram.money += value;
                 currentProgram.totalMoney += value;
@@ -628,7 +653,6 @@ namespace MissionController
         /// <returns></returns>
         public void cleanReward(Vessel vessel,int value)
         {
-            Vessel v = new Vessel();
             if (!SettingsManager.Manager.getSettings().disablePlugin)
             { 
                 currentProgram.money += value; 
@@ -641,7 +665,6 @@ namespace MissionController
         /// <param name="value"></param>
         /// <returns></returns>
         public int recyclereward(int value) {
-            Vessel v = new Vessel();
             if (!SettingsManager.Manager.getSettings().disablePlugin)
             {
                 currentProgram.money += value;

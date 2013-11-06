@@ -19,6 +19,8 @@ namespace MissionController
         {
             ConstructionMode CM = new ConstructionMode();
             SpaceProgram sp = new SpaceProgram();
+            Mission ms = new Mission();
+            PayoutLeveles PL = new PayoutLeveles();
            
             GUI.skin = HighLogic.Skin;
             GUILayout.BeginVertical();
@@ -115,7 +117,7 @@ namespace MissionController
             GUILayout.BeginHorizontal();
             GUILayout.Box("Construction 2", GUILayout.Width(160), GUILayout.Height(40));
             GUILayout.Box("500 Science", GUILayout.Width(160), GUILayout.Height(40));
-            if (CM.Science >= 500 && manager.ResearchConstruction2 != true)
+            if (CM.Science >= 500 && manager.ResearchConstruction2 != true && manager.ResearchConstruction1 != false)
             {
                 if (GUILayout.Button("Purchase", GUILayout.Width(160), GUILayout.Height(40)))
                 {
@@ -135,7 +137,59 @@ namespace MissionController
                     GUILayout.Box("NOT AVAILABLE", GUILayout.Width(160), GUILayout.Height(40));
                 }
             }
-            GUILayout.EndHorizontal();       
+            GUILayout.EndHorizontal();
+
+            GUILayout.Space(20);
+            GUILayout.BeginHorizontal();
+            GUILayout.Box("Mission Payouts 2", GUILayout.Width(160), GUILayout.Height(40));
+            GUILayout.Box("600 Science", GUILayout.Width(160), GUILayout.Height(40));
+            if (CM.Science >= 600 && manager.MissionLevel2 != true)
+            {
+                if (GUILayout.Button("Purchase", GUILayout.Width(160), GUILayout.Height(40)))
+                {
+                    CM.DeductScience(600);
+                    manager.SetCurrentPayoutLevel(1);
+                    manager.SetMissionLevel2();
+                }
+            }
+            else
+            {
+                if (manager.MissionLevel2 != false)
+                {
+                    GUILayout.Box("Researched", GUILayout.Width(160), GUILayout.Height(40));
+                }
+                else
+                {
+                    GUILayout.Box("NOT AVAILABLE", GUILayout.Width(160), GUILayout.Height(40));
+                }
+            }
+            GUILayout.EndHorizontal();
+
+            GUILayout.Space(20);
+            GUILayout.BeginHorizontal();
+            GUILayout.Box("Mission Payouts 3", GUILayout.Width(160), GUILayout.Height(40));
+            GUILayout.Box("1000 Science", GUILayout.Width(160), GUILayout.Height(40));
+            if (CM.Science >= 1000 && manager.MissionLevel3 != true && manager.MissionLevel2 != false)
+            {
+                if (GUILayout.Button("Purchase", GUILayout.Width(160), GUILayout.Height(40)))
+                {
+                    CM.DeductScience(1000);
+                    manager.SetCurrentPayoutLevel(2);
+                    manager.SetMissionLevel3();
+                }
+            }
+            else
+            {
+                if (manager.MissionLevel3 != false)
+                {
+                    GUILayout.Box("Researched", GUILayout.Width(160), GUILayout.Height(40));
+                }
+                else
+                {
+                    GUILayout.Box("NOT AVAILABLE", GUILayout.Width(160), GUILayout.Height(40));
+                }
+            }
+            GUILayout.EndHorizontal();
 
             GUILayout.Space(20);
             if (GUILayout.Button("Exit Window"))
@@ -143,10 +197,11 @@ namespace MissionController
 
                 //Difficulty.init(settings.difficulty);                
 
-                SettingsManager.Manager.saveSettings();
-                manager.saveProgram();
+                SettingsManager.Manager.saveSettings();               
                 FuelMode.fuelinit(manager.GetFuels);
                 ConstructionMode.constructinit(manager.GetConstruction);
+                PayoutLeveles.payoutlevels(manager.GetCurrentPayoutLevel);
+                manager.saveProgram();
 
                 ResearchTreeWindow(false);
             }
