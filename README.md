@@ -20,7 +20,7 @@ With this researched payout levels for all missions increase by 20%
 ####payout Levels 3
 With this researched Payout levels for all mission increased by another 20%
 
-**note:
+######note:
 All levels must be completed for next level of Research..For instance.  You can't research Construction 2 without
 researching Construction 1 first.  Same for other tech levels with Multi Levels.
 
