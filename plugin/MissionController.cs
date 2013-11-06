@@ -23,6 +23,7 @@ namespace MissionController
         private bool finishmissiontoggle = true;
         private bool ExpandCost = false;
         private bool ShowMissionGoals = true;
+        private bool canRevert = true;
 
         private AssemblyName assemblyName;
         private String versionCode;
@@ -104,6 +105,7 @@ namespace MissionController
         private bool showRecycleWindow = false;
         private bool showResearchTreeWindow = false;
         public bool showRandomWindow = false;
+        private bool showRevertWindow = false;
 
         public string recycledName = "";
         public string recycledDesc = "";
@@ -567,6 +569,10 @@ namespace MissionController
             {
                 GUILayout.Window(98866, new Rect(Screen.width / 2 - 200, Screen.height / 2 - 100, 400, 100), drawRandomWindow, "Event Window");
             }
+            if (showRevertWindow)
+            {
+                GUILayout.Window(99746, new Rect(Screen.width / 2 - 200, Screen.height / 2 - 100, 400, 100), drawRevertWindow, "Revert Space Program And KSP Window");
+            }
 
             if (showResearchTreeWindow)
             {
@@ -619,6 +625,33 @@ namespace MissionController
             GUI.DragWindow();
         }
 
+        private void drawRevertWindow(int id)
+        {
+            GUI.skin = HighLogic.Skin;
+            GUILayout.BeginVertical();
+
+            GUILayout.Label("Pressing Ok Will Revert Both Mission controller");
+            GUILayout.Label("And KSP To PreLaunch Conditions In The Editor");
+            GUILayout.Label("Do You Want To Continue?");
+            
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("Revert To PreLaunch Conditions", styleButtonWordWrap, GUILayout.Width(200)))
+            {
+                manager.loadProgramBackup(HighLogic.CurrentGame.Title);
+                FlightDriver.RevertToPrelaunch(GameScenes.EDITOR);
+                showRevertWindow = false;
+            }
+            
+            if (GUILayout.Button("Exit Without Reverting", styleButtonWordWrap, GUILayout.Width(200)))
+            {             
+                showRevertWindow = false;
+            }
+            GUILayout.EndHorizontal();
+            
+            GUILayout.EndVertical();
+            GUI.DragWindow();
+        }
+        
         private void drawRandomWindow(int id)
         {
             GUI.skin = HighLogic.Skin;
@@ -676,6 +709,7 @@ namespace MissionController
             }
             GUILayout.EndHorizontal();
             GUILayout.EndVertical();
+            GUI.DragWindow();
         }
 
         /// <summary>
@@ -861,6 +895,7 @@ namespace MissionController
                 }
                 GUILayout.EndVertical();
                 GUILayout.EndHorizontal();
+                GUILayout.BeginVertical();
                 if (status.missionIsFinishable)
                 {
                    
@@ -874,6 +909,16 @@ namespace MissionController
                     }
 
                 }
+                if (FlightDriver.CanRevertToPrelaunch && HighLogic.LoadedSceneIsFlight)
+                {
+                    canRevert = GUILayout.Toggle(canRevert, "Revert To PreFlight");
+                       if (canRevert == false)
+                       {
+                           showRevertWindow = true;
+                           canRevert = true;
+                       }
+                }
+                GUILayout.EndVertical();
                 // NK recycle from tracking station
                 if (pVessel != null && settings.gameMode != 0 && (manager.ResearchRecycle || HighLogic.CurrentGame.Mode != Game.Modes.CAREER))
                 {

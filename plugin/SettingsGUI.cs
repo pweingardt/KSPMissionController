@@ -14,7 +14,7 @@ namespace MissionController
         private String[] resetStrings = new String[] {"Reset the space program!", "Are you sure?"};
 
         private int rewindCount = 0;
-        private String[] rewindStrings = new String[] {"REVERT MCE", "Revert To Before Last SC Visit?"};
+        private String[] rewindStrings = new String[] {"REVERT Space Program", "Revert To Before Last SC Visit?"};
         
         private String[] difficulties = new String[] { "Flight Testing", "Flight Mode","HardCoreMode"};
 
@@ -42,14 +42,19 @@ namespace MissionController
             //settings.constructmode = GUILayout.SelectionGrid(settings.constructmode, constructtech, 3);
            
             GUILayout.Space(10);
-            GUILayout.Box("Revert Your Missions", GUILayout.Height(30));
-            if (GUILayout.Button(rewindStrings[rewindCount], styleGreenButton))
+
+            if (FlightDriver.CanRevertToPrelaunch && HighLogic.LoadedSceneIsFlight)
             {
-                rewindCount++;
-                if (rewindCount >= rewindStrings.Length)
+                GUILayout.Box("Revert Your Missions", GUILayout.Height(30));
+                if (GUILayout.Button(rewindStrings[rewindCount], styleGreenButton))
                 {
-                    rewindCount = 0;
-                    manager.loadProgramBackup(HighLogic.CurrentGame.Title);
+                    rewindCount++;
+                    if (rewindCount >= rewindStrings.Length)
+                    {
+                        rewindCount = 0;
+                        manager.loadProgramBackup(HighLogic.CurrentGame.Title);
+                        FlightDriver.RevertToPrelaunch(GameScenes.EDITOR);
+                    }
                 }
             }
 

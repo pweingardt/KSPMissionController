@@ -454,7 +454,7 @@ namespace MissionController
             if (HighLogic.LoadedScene.Equals(GameScenes.SPACECENTER))
             {
                 manager.saveProgramBackup();
-            }
+            }            
         }
 
         /// <summary>
