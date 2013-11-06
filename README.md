@@ -1,22 +1,23 @@
 ##Research Tech New To MCE
-*Recycling: 
+####Recycling: 
 You have to research the ability to recycle now.
 
 *Fuel Efficiency:  
 research a Top End 20% Reduction to how well You Produce Fuels.. (IE Cheaper Fuel Cost)
 
-*Construction 1: 
+####Construction 1: 
 First Level Of Construction Your Paying Out about 120% more Then Original MCE.. 
 With This Upgrade you bring it back down to Normal MCE.
 
-*Construction 2:  
+####Construction 2:  
 2nd Reduction in Construction Cost with an additional %10 Cut to cost.
 
 ###New Research for Version .36
-*Payout Levels 2
+
+####Payout Levels 2
 With this researched payout levels for all missions increase by 20%
 
-*payout Levels 3
+####payout Levels 3
 With this researched Payout levels for all mission increased by another 20%
 
 **note:
