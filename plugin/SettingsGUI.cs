@@ -14,7 +14,7 @@ namespace MissionController
         private String[] resetStrings = new String[] {"Reset the space program!", "Are you sure?"};
 
         private int rewindCount = 0;
-        private String[] rewindStrings = new String[] {"Rewind", "Are you sure?"};
+        private String[] rewindStrings = new String[] {"REVERT MCE", "Revert To Before Last SC Visit?"};
         
         private String[] difficulties = new String[] { "Flight Testing", "Flight Mode","HardCoreMode"};
 
@@ -49,7 +49,7 @@ namespace MissionController
                 if (rewindCount >= rewindStrings.Length)
                 {
                     rewindCount = 0;
-                    manager.rewind();
+                    manager.loadProgramBackup(HighLogic.CurrentGame.Title);
                 }
             }
 

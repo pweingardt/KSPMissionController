@@ -63,6 +63,16 @@ namespace MissionController
             }
         }
 
+        public void loadProgramBackup(String title)
+        {
+            currentTitle = title;
+            try
+            {
+                spaceProgram = (SpaceProgram)parser.readFile(currntSpaceProgramFileBackup);
+            }
+            catch { spaceProgram = SpaceProgram.generate(); }
+        }
+
         /// <summary>
         /// Discards the given random mission.
         /// Removed it from the random missions list
@@ -154,7 +164,14 @@ namespace MissionController
         /// </summary>
         public void saveProgram() {
             if (spaceProgram != null) {
-                parser.writeObject (spaceProgram, currentSpaceProgramFile);
+                parser.writeObject (spaceProgram, currentSpaceProgramFile);               
+            }
+        }
+
+        public void saveProgramBackup()
+        {
+            if (spaceProgram != null) {
+                parser.writeObject(spaceProgram, currntSpaceProgramFileBackup);
             }
         }
 
@@ -165,6 +182,14 @@ namespace MissionController
         private String currentSpaceProgramFile {
             get {
                 return currentTitle + ".sp";
+            }
+        }
+
+        private String currntSpaceProgramFileBackup
+        {
+            get
+            {
+                return currentTitle + ".backup";
             }
         }
 

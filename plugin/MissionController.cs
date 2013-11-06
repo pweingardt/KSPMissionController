@@ -307,6 +307,7 @@ namespace MissionController
             GameEvents.onPlanetariumTargetChanged.Add(this.onTargeted);
             GameEvents.onVesselCreate.Add(this.onCreate);
             GameEvents.onPartUndock.Add(this.onUndock);
+            GameEvents.onVesselCreate.Add(this.onVesselCreate);
 
             assemblyName = Assembly.GetExecutingAssembly().GetName();
             versionCode = "" + assemblyName.Version.Major + "." + assemblyName.Version.Minor + "." + assemblyName.Version.Build;
@@ -335,6 +336,7 @@ namespace MissionController
             GameEvents.onPlanetariumTargetChanged.Remove(this.onTargeted);
             GameEvents.onVesselCreate.Remove(this.onCreate);
             GameEvents.onPartUndock.Remove(this.onUndock);
+            GameEvents.onVesselCreate.Remove(this.onVesselCreate);
         }
 
         public void GUILoad()

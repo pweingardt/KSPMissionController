@@ -51,8 +51,8 @@ namespace MissionController
 
             for (int i = 0; i < payoutmode0.Length; ++i) 
             {
-                payoutmode1[i] = 1.1 * payoutmode0[i];
-                payoutmode2[i] = 1.2 * payoutmode0[i];
+                payoutmode1[i] = 1.2 * payoutmode0[i];
+                payoutmode2[i] = 1.3 * payoutmode0[i];
             }
         }
 

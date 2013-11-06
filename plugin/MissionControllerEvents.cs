@@ -449,6 +449,14 @@ namespace MissionController
             canRecycle = false; // fix for recycle on load scene/revert
         }
 
+        private void onVesselCreate(Vessel v)
+        {
+            if (HighLogic.LoadedScene.Equals(GameScenes.SPACECENTER))
+            {
+                manager.saveProgramBackup();
+            }
+        }
+
         /// <summary>
         /// If the mission is on a client controlled mission, we disable every incoming input
         /// </summary>
