@@ -1,18 +1,29 @@
 ##Research Tech New To MCE
-Recycling: You have to research the ability to recycle now.
+####Recycling: 
+You have to research the ability to recycle now.
 
-Fuel Efficiency:  research a Top End 20% Reduction to how well You Produce Fuels.. (IE Cheaper Fuel Cost)
+####Fuel Efficiency:  
+research a Top End 20% Reduction to how well You Produce Fuels.. (IE Cheaper Fuel Cost)
 
-Construction 1:  First Level Of Construction Your Paying Out about 120% more Then Original MCE.. 
+####Construction 1: 
+First Level Of Construction Your Paying Out about 120% more Then Original MCE.. 
 With This Upgrade you bring it back down to Normal MCE.
 
-Construction 2:  2nd Reduction in Construction Cost with an additional %10 Cut to cost.
+####Construction 2:  
+2nd Reduction in Construction Cost with an additional %10 Cut to cost.
 
-##Loans Bank Loans:
+###New Research for Version .36
 
-Now if you go into the red with mission controller the bank will be happy to lend you the money you need to 
-continue your space program. But it will cost you interest. At 25% of Your Mission Payouts until you pay off 
-the loan and get back into the Green.
+####Payout Levels 2
+With this researched payout levels for all missions increase by 20%
+
+####payout Levels 3
+With this researched Payout levels for all mission increased by another 20%
+
+######note:
+All levels must be completed for next level of Research..For instance.  You can't research Construction 2 without
+researching Construction 1 first.  Same for other tech levels with Multi Levels.
+
 
 ## New Update On Loans Version MCE .35
 
