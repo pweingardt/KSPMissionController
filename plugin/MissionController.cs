@@ -1161,7 +1161,7 @@ namespace MissionController
 
             if (EditorLogic.fetch != null)
             {
-                EditorLogic.fetch.Lock(true, true, true);
+                EditorLogic.fetch.Lock(true, true, true,".mpkg");
             }
         }
 
@@ -1171,7 +1171,7 @@ namespace MissionController
 
             if (EditorLogic.fetch != null)
             {
-                EditorLogic.fetch.Unlock();
+                EditorLogic.fetch.Unlock(".mpkg");
             }
         }
 
@@ -1224,11 +1224,11 @@ namespace MissionController
             {
                 if (visiblity)
                 {
-                    EditorLogic.fetch.Lock(true, true, true);
+                    EditorLogic.fetch.Lock(true, true, true,"mpkg");
                 }
                 else
                 {
-                    EditorLogic.fetch.Unlock();
+                    EditorLogic.fetch.Unlock(".mpkg");
                 }
             }
         }

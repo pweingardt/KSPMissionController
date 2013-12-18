@@ -105,7 +105,7 @@ namespace MissionController
                             thrust = e.maxThrust;
 
                             bool foundPropMod = false;
-                            foreach(ModuleEngines.Propellant r in e.propellants)
+                            foreach(Propellant r in e.propellants)
                             {
                                 if(mNode.HasValue(r.name))
                                 {

@@ -12,6 +12,7 @@ MissionPackage
         description = A new government initiative has provided Kerbin scientists a chance to explore space, and we've elected you as our lead engineer. Before we can do anything more complex, we'll need to collect some data on Kerbin's upper atmosphere.\n\nConstruct a rocket that is able to leave the atmosphere, collect readings, and return to the surface of Kerbin with the sensors intact so we can collect their recorded data.
     
         reward = 50000
+		scienceReward = 20
         category = ORBIT, PROBE
     
         packageOrder = 1
@@ -48,6 +49,7 @@ MissionPackage
         description = Our scientists have reviewed the last mission's data and have discovered some unexpected anomalies. Radiation levels outside the atmosphere are significantly higher than expected, and they've requested a second mission in order to further explore the radiation levels outside of Kerbal's atmosphere.\n\nModify your previous probe in order to maintain a stable orbit around Kerbin for at least 4 hours before returning to the surface with all sensors and the new data.
     
         reward = 55000
+		scienceReward = 30
         category = ORBIT, PROBE
     
         requiresMission = Sputnik I
@@ -88,6 +90,7 @@ MissionPackage
         description = The data from your second mission has been analyzed and the readings were within the expected range. Additional research on the original craft suggests that its radiation sensors were faulty. We now have sufficient data to authorize a third mission, this time to deliver a permanent satellite to a higher orbert beyond the range of Kerbin's magnetic field.
     
         reward = 60000
+		scienceReward = 35
         category = ORBIT, PROBE
     
         requiresMission = Sputnik II
@@ -126,6 +129,7 @@ MissionPackage
         description = The government is satisfied with your missions thus far, but requires more sensor data on other astronomical objects nearby.\n\nConstruct a rocket that is able to reach the Mun, maintain a stable orbit, and then return to the surface of Kerbin intact.\n\nSince this mission is of a general exploratory nature and to verify our theories on orbital transfers, only a basic set of sensors are required.
     
         reward = 80000
+		scienceReward = 40
         category = ORBIT
     
         requiresMission = Sputnik III
@@ -152,6 +156,7 @@ MissionPackage
         name = Mun II
         description = Your last mission to the Mun was a fantastic success, so we're sending another- this time to land on the surface. This will be a one-way trip with no return voyage required.
         reward = 85000
+		scienceReward = 45
         category = LANDING
     
         requiresMission = Mun I
@@ -171,6 +176,7 @@ MissionPackage
         description = Our top scientists are satisfied with our Mun missions and have requested a mission to Kerbal's second orbiting body: Minmus. Its smaller size and higher orbit limits the amount of data we have about its composition, so this mission will require you to crash a rocket into its surface to collect data on its composition and density. (Yes, crash. Observations from Kerbal will allow us to capture the required data remotely.)
     
         reward = 80000
+		scienceReward = 40
         category = IMPACT
     
         requiresMission = Mun I
@@ -190,6 +196,7 @@ MissionPackage
         description = The Minmus impact probe explosion looked spectacular but proved to be of unexpectedly little scientific value. Send another unmanned probe, this time landing safely on the surface so our instrumentation can perform local analysis. No return trip is required.
     
         reward = 95000
+		scienceReward = 30
         category = LANDING
     
         requiresMission = Minmus I
@@ -209,6 +216,7 @@ MissionPackage
         description = A special mission has been requested by a climate research facility on Kerbin. Limited data is available on the north pole of Kerbin itself, but a space-based probe would provide us a unique opportunity to fully map and analyze its topology.\n\nConstruct such a probe and place it into a circular polar orbit, maintaining stability for at least 2 hours in order to capture sufficient data.
     
         reward = 65000
+		scienceReward = 30
         category = ORBIT, PROBE
     
         requiresMission = Mun I
@@ -270,6 +278,7 @@ MissionPackage
         description = Our scientists are now confident in their understanding of Kerbin and its moons. Our next step is to leave Kerbin's sphere of influence. Our scientists are uncertain what conditions this probe will encounter; take a full sensor package with you. Data will be transmitted back to Kerbal ground stations directly, so a return to the planet will not be required.
     
         reward = 85000
+		scienceReward = 25
         category = ORBIT, PROBE
     
         requiresMission = Sputnik IV
@@ -326,6 +335,7 @@ MissionPackage
         description = A second, similar mission has been planned to explore beyond Kerbin. This time you will also go beyond the orbit of Kerbol, escaping the gravitational force of the sun and launching toward interstellar space.
     
         reward = 60000
+		scienceReward = 25
         category = ORBIT, PROBE
     
         requiresMission = Kerbolo I
@@ -382,6 +392,7 @@ MissionPackage
         description = Since your successful landing on Mun, training has begun to prepare skilled Kerbal astronaunts to man spacecraft. It has been determined that we are now prepared to attempt such a manned mission. Your missions will have an increased cost in krones for astronauts to cover their insurance; a successful return to the surface will return this significant cost to your budget.
     
         reward = 95000
+		scienceReward = 30
         category = ORBIT, MANNED
     
         requiresMission = Kerbolo I
@@ -419,6 +430,7 @@ MissionPackage
         description = The manned suborbital flight was a fantastic success, but our physicians require more data on the effects of long-term space flights on Kerbal physiology. Launch a second mission, this time achieving a stable orbit for at least 6 hours before returning safely to the surface.
     
         reward = 100000
+		scienceReward = 30
         category = ORBIT, MANNED
     
         requiresMission = Vostok I
@@ -464,6 +476,7 @@ MissionPackage
         description = Interplanetary exploration will require sophisticated docking expertise. Before we attempt such docking procedures in the depths of space, we require a test mission for our astronauts to practice a docking procedure in a standard circular orbit around Kerbal.\n\nSimply bring two manned craft together and dock them successfully, and then bring the craft safely back to the surface of the planet.
     
         reward = 195000
+		scienceReward = 35
         category = ORBIT, MANNED
     
         requiresMission = Vostok II
@@ -506,6 +519,7 @@ MissionPackage
         description = Remote observation has given us a view of the planet Duna for centuries, but we only now have the capability of actually reaching it. We'd like to send an initial probe to Duna with a full sensor package and a long range communications dish. Optional secondary missions will provide an extra bonus: achieving a high polar orbit around the planet, and crashing the probe into the surface to provide us with surface composition data.
     
         reward = 150000
+		scienceReward = 50
         category = ORBIT, PROBE
     
         requiresMission = Kerbolo II

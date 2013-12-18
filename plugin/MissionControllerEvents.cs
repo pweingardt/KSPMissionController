@@ -238,7 +238,7 @@ namespace MissionController
                                 // find propellants
                                 List<double> rats = new List<double>();
                                 double ratSum = 0;
-                                foreach (ModuleEngines.Propellant pr in e.propellants)
+                                foreach (Propellant pr in e.propellants)
                                 {
                                     if (!(pr.name.ToLower().Contains("air") || pr.name.ToLower().Contains("electric") || pr.name.ToLower().Contains("coolant")))
                                     {
@@ -252,7 +252,7 @@ namespace MissionController
                                     ratSum = 1.0;
 
                                 // HACK TIME! :)
-                                double nWgt = (rmass + mass) * e.G;
+                                double nWgt = (rmass + mass) * e.g;
                                 if (thrust > nWgt) // don't need > 1.0 TWR to land with jets. But they'll be at 0.5x maxthrust when slow, so...still need 1.0 twr max.
                                     thrust = nWgt;
                                 landing = 1;
@@ -279,7 +279,7 @@ namespace MissionController
                                         thrust += ei.maxThrust;
                                     }
                                 double rmassdry = rmass;
-                                foreach (ModuleEngines.Propellant pr in e.propellants)
+                                foreach (Propellant pr in e.propellants)
                                 {
                                     if (rmasses.Keys.Contains(pr.name))
                                     {
@@ -287,7 +287,7 @@ namespace MissionController
                                         print("Using propellant " + pr.name + "(mass: " + rmasses[pr.name] + ")");
                                     }
                                 }
-                                double TWR = thrust / (mass + rmassdry) / e.G;
+                                double TWR = thrust / (mass + rmassdry) / e.g;
                                 double dV = isp * 9.81 * Math.Log((mass + rmass) / (mass + rmassdry));
                                 print("DeltaV available: " + dV + "(Mass ratio: " + (mass+rmassdry) + " / " + (mass + rmass) + ", TWR " + TWR + ")");
                                 if (dV >= Tools.Setting("deltaVRequired", 1000.0) && TWR >= Tools.Setting("minRocketTWR", 1.5))
