@@ -1161,7 +1161,7 @@ namespace MissionController
 
             if (EditorLogic.fetch != null)
             {
-                EditorLogic.fetch.Lock(true, true, true,".mpkg");
+                EditorLogic.fetch.Lock(true, true, true,".zz9812.");
             }
         }
 
@@ -1171,7 +1171,7 @@ namespace MissionController
 
             if (EditorLogic.fetch != null)
             {
-                EditorLogic.fetch.Unlock(".mpkg");
+                EditorLogic.fetch.Unlock(".zz9812.");
             }
         }
 
@@ -1224,11 +1224,11 @@ namespace MissionController
             {
                 if (visiblity)
                 {
-                    EditorLogic.fetch.Lock(true, true, true,"mpkg");
+                    EditorLogic.fetch.Lock(true, true, true, ".zz9812.");
                 }
                 else
                 {
-                    EditorLogic.fetch.Unlock(".mpkg");
+                    EditorLogic.fetch.Unlock(".zz9812.");
                 }
             }
         }
