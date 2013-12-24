@@ -12,7 +12,7 @@ using KSP.IO;
 namespace MissionController
 {
     [KSPAddonFixed(KSPAddon.Startup.MainMenu, true, typeof(MissionController))]
-    
+
     public partial class MissionController : MonoBehaviour
     {
         public bool recycled = false;
@@ -97,8 +97,20 @@ namespace MissionController
         private Rect financeWindowPosition;
         private Rect researchtreewinpostion;
 
+        Rect Budgetwindowposition;
+        Rect Contractswindowposition;
+        Rect CurrentMissionWindow;
+        
+        Rect VabBudgetWin;
+        Rect VabShipBuildList;
+        Rect VabShipWindow;
 
-        private bool showMainWindow = false;
+        Rect FlightBudgetWin;
+        Rect FlightBuildList;
+        Rect FlightMissionWindow;
+        Rect FlightRevertBut;
+        Rect MissionWindowStatus;
+
         private bool showSettingsWindow = false;
         private bool showMissionPackageBrowser = false;
         private bool showFinanceWindow = false;
@@ -106,6 +118,9 @@ namespace MissionController
         private bool showResearchTreeWindow = false;
         public bool showRandomWindow = false;
         private bool showRevertWindow = false;
+
+        private bool showVabShipWindow = false;
+        private bool showMissionStatusWindow = false;
 
         public string recycledName = "";
         public string recycledDesc = "";
@@ -127,6 +142,7 @@ namespace MissionController
         private GUIStyle styleButton;
         private GUIStyle styleButtonYellow;
         private GUIStyle styleGreenButton, styleRedButton;
+        private GUIStyle styleGreenButtonCenter, styleRedButtonCenter;
         private GUIStyle styleValueName;
         private GUIStyle styleWarning;
         private GUIStyle styleIcon;
@@ -159,7 +175,6 @@ namespace MissionController
                 iconTypeRepair = new Texture2D(0, 0, TextureFormat.ARGB32, false);
 
                 wwwIconFinished.LoadImageIntoTexture(iconFinished);
-                wwwIconMenu.LoadImageIntoTexture(iconMenu);
                 wwwIconDocking.LoadImageIntoTexture(iconTypeDocking);
                 wwwIconOrbit.LoadImageIntoTexture(iconTypeOrbit);
                 wwwIconImpactor.LoadImageIntoTexture(iconTypeImpactor);
@@ -237,7 +252,7 @@ namespace MissionController
             styleButtonYellow = new GUIStyle(HighLogic.Skin.button);
             styleButtonYellow.normal.textColor = Color.yellow;
             styleButtonYellow.fontStyle = FontStyle.Bold;
-            styleButtonYellow.alignment = TextAnchor.MiddleCenter;
+            styleButtonYellow.alignment = TextAnchor.MiddleLeft;
 
             styleButtonWordWrap = new GUIStyle(HighLogic.Skin.button);
             styleButtonWordWrap.normal.textColor = Color.white;
@@ -260,19 +275,24 @@ namespace MissionController
             styleGreenButton.alignment = TextAnchor.MiddleCenter;
             styleGreenButton.wordWrap = true;
 
+            styleGreenButtonCenter = new GUIStyle(HighLogic.Skin.button);
+            styleGreenButtonCenter.normal.textColor = Color.green;
+            styleGreenButtonCenter.alignment = TextAnchor.MiddleLeft;
+            styleGreenButtonCenter.wordWrap = true;
+
             styleRedButton = new GUIStyle(HighLogic.Skin.button);
             styleRedButton.normal.textColor = Color.red;
             styleRedButton.alignment = TextAnchor.MiddleCenter;
             styleRedButton.wordWrap = true;
 
+            styleRedButtonCenter = new GUIStyle(HighLogic.Skin.button);
+            styleRedButtonCenter.normal.textColor = Color.red;
+            styleRedButtonCenter.alignment = TextAnchor.MiddleLeft;
+            styleRedButtonCenter.wordWrap = true;
+
             styleIcon = new GUIStyle();
 
-        }
-
-        public void toggleWindow()
-        {
-            showMainWindow = !showMainWindow;
-        }
+        }        
 
         public void Start()
         {
@@ -311,13 +331,27 @@ namespace MissionController
             GameEvents.onPartUndock.Add(this.onUndock);
             GameEvents.onVesselCreate.Add(this.onVesselCreate);
 
+            Budgetwindowposition = new Rect(Screen.width / 2 + 750, Screen.height - 34, 160, 32);
+            Contractswindowposition = new Rect(Screen.width / 2 + 585, Screen.height - 34, 160, 32);
+            CurrentMissionWindow = new Rect(Screen.width / 2 + 420, Screen.height - 34, 160, 32);
+
+            VabBudgetWin = new Rect(Screen.width / 2 + 278, Screen.height - 1078, 125, 20);
+            VabShipBuildList = new Rect(Screen.width / 2 - 500, Screen.height - 1078, 250, 20);
+            VabShipWindow = new Rect(Screen.width / 2 - 700, Screen.height - 1060, 300, 400);
+
+            FlightBudgetWin = new Rect(Screen.width / 2 + 122, Screen.height - 1080, 90, 20);
+            FlightBuildList = new Rect(Screen.width / 2 + 122, Screen.height - 1060, 90, 20);
+            FlightRevertBut = new Rect(Screen.width / 2 + 122, Screen.height - 1040, 90, 20);
+            FlightMissionWindow = new Rect(Screen.width / 2 - 850, Screen.height - 1080, 125, 20);
+            MissionWindowStatus = new Rect(Screen.width / 2 - 850, Screen.height - 1040, 350, 450);
+
             assemblyName = Assembly.GetExecutingAssembly().GetName();
             versionCode = "" + assemblyName.Version.Major + "." + assemblyName.Version.Minor + "." + assemblyName.Version.Build;
             buildDateTime = new DateTime(2000, 1, 1).Add(new TimeSpan(
                 TimeSpan.TicksPerDay * assemblyName.Version.Build + // days since 1 January 2000
                 TimeSpan.TicksPerSecond * 2 * assemblyName.Version.Revision));
 
-            mainWindowTitle = "Mission Controller Extended " +
+            mainWindowTitle = "Mission Controller Contracts " +
                 versionCode + " (" + buildDateTime.ToShortDateString() + ")";
 
             loadIcons();
@@ -366,7 +400,7 @@ namespace MissionController
             configfile.save();
         }
 
-        
+
 
         /// <summary>
         /// Returns the active vessel if there is one, null otherwise
@@ -419,7 +453,7 @@ namespace MissionController
                 if ((lastPassiveReward == 0.0 || Planetarium.GetUniversalTime() - lastPassiveReward >= 60.0 * 60.0 * 24.0)
                         && Planetarium.GetUniversalTime() != 0.0)
                 {
-                    
+
                     lastPassiveReward = Planetarium.GetUniversalTime();
 
                     // we better make sure that lastPassiveReward is non zero:
@@ -536,16 +570,86 @@ namespace MissionController
                 return;
             }
 
-            if (GUI.Button(new Rect(Screen.width / 3 - 44, Screen.height - 29, 125, 35), iconMenu, styleIcon))
-            { //3-15
-                toggleWindow();
-            }
-
-            if (showMainWindow)
+            if (!HighLogic.LoadedScene.Equals(GameScenes.LOADING) && HighLogic.LoadedScene.Equals(GameScenes.SPACECENTER))
             {
-                mainWindowPosition = GUILayout.Window(98765, mainWindowPosition, drawMainWindow, mainWindowTitle, GUILayout.MinHeight(700), GUILayout.MaxHeight(700), GUILayout.MinWidth(375), GUILayout.MaxWidth(375));
+
+                if (GUI.Button(Budgetwindowposition, "Budget: " + manager.budget + CurrencySuffix, styleGreenButton))
+                {
+                    showFinanceWindow = !showFinanceWindow;
+                }
+                if (GUI.Button(Contractswindowposition, "Packages", styleButton))
+                {
+                    createFileBrowser("Select Mission", selectMissionPackage);
+                }
+                if (currentPackage != null)
+                {
+                    if (GUI.Button(CurrentMissionWindow, "Current Mission", styleButton))
+                    {
+                        packageWindow(true);
+                    }
+                }
+            }
+            if (HighLogic.LoadedScene.Equals(GameScenes.EDITOR))
+            {
+                VesselResources res = new VesselResources(activeVessel);
+                if (GUI.Button(VabBudgetWin, manager.budget + CurrencySuffix, styleGreenButtonCenter))
+                {
+                    showFinanceWindow = !showFinanceWindow;
+                }
+                if (GUI.Button(VabShipBuildList, "Ship Value: " + res.sum(), (res.sum() > manager.budget ? styleRedButtonCenter : styleGreenButtonCenter)))
+                {
+                    showVabShipWindow = !showVabShipWindow; 
+                }                
             }
 
+            if (HighLogic.LoadedSceneIsFlight)
+            {
+                VesselResources res = new VesselResources(activeVessel);
+                Status status = calculateStatus(currentMission, true, activeVessel);
+                if (GUI.Button(FlightBudgetWin, manager.budget + CurrencySuffix, styleGreenButtonCenter))
+                {
+                    showFinanceWindow = !showFinanceWindow;
+                }
+                if (GUI.Button(FlightBuildList, "SV: " + res.sum(), (res.sum() > manager.budget ? styleRedButtonCenter : styleGreenButtonCenter)))
+                {
+                    showVabShipWindow = !showVabShipWindow;
+                }
+                if (GUI.Button(FlightMissionWindow, "Current Mission", styleGreenButtonCenter))
+                {
+                    showMissionStatusWindow = !showMissionStatusWindow;
+                }
+
+                if (FlightDriver.CanRevertToPrelaunch)
+                {
+                    if (GUI.Button(FlightRevertBut, "Revert Flight", styleButtonYellow))
+                    {
+                        showRevertWindow = !showRevertWindow;
+                    }
+                }
+                if (status.missionIsFinishable)
+                {                   
+                        manager.finishMission(currentMission, activeVessel, status.events);
+                        hiddenGoals = new List<MissionGoal>();
+                        currentMission = null;                                      
+                }
+            }
+            
+
+            //if (GUI.Button(new Rect(Screen.width / 3 - 44, Screen.height - 29, 125, 35), iconMenu, styleIcon))
+            //{ //3-15
+            //    toggleWindow();
+            //}
+
+            if (showVabShipWindow)
+            {
+                VabShipWindow = GUILayout.Window(898989, VabShipWindow, drawVabShipWindow, "Ship Breakdown List");
+            }
+
+            if (showMissionStatusWindow)
+            {
+                MissionWindowStatus = GUILayout.Window(898990, MissionWindowStatus, drawMissionInfoWindow, "Current Mission Window");
+            }
+                      
             if (showSettingsWindow)
             {
                 settingsWindowPosition = GUILayout.Window(98763, settingsWindowPosition, drawSettingsWindow, "Settings", GUILayout.MinHeight(300), GUILayout.MinWidth(300));
@@ -633,7 +737,7 @@ namespace MissionController
             GUILayout.Label("Pressing Ok Will Revert Both Mission controller");
             GUILayout.Label("And KSP To PreLaunch Conditions In The Editor");
             GUILayout.Label("Do You Want To Continue?");
-            
+
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("Revert To PreLaunch Conditions", styleButtonWordWrap, GUILayout.Width(200)))
             {
@@ -641,17 +745,17 @@ namespace MissionController
                 FlightDriver.RevertToPrelaunch(GameScenes.EDITOR);
                 showRevertWindow = false;
             }
-            
+
             if (GUILayout.Button("Exit Without Reverting", styleButtonWordWrap, GUILayout.Width(200)))
-            {             
+            {
                 showRevertWindow = false;
             }
             GUILayout.EndHorizontal();
-            
+
             GUILayout.EndVertical();
             GUI.DragWindow();
         }
-        
+
         private void drawRandomWindow(int id)
         {
             GUI.skin = HighLogic.Skin;
@@ -660,8 +764,8 @@ namespace MissionController
             Status status = calculateStatus(currentMission, true, activeVessel);
             Mission mission = new Mission();
 
-            
-            GUILayout.Label("Current Mission: " +mission.name, styleText);
+
+            GUILayout.Label("Current Mission: " + mission.name, styleText);
             if (manager.budget < 0)
             {
                 if (settings.gameMode == 1)
@@ -693,7 +797,7 @@ namespace MissionController
                 }
             }
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Finish And Save The Mission Results", styleButtonWordWrap,GUILayout.Width(275)))
+            if (GUILayout.Button("Finish And Save The Mission Results", styleButtonWordWrap, GUILayout.Width(275)))
             {
                 manager.finishMission(currentMission, activeVessel, status.events);
                 hiddenGoals = new List<MissionGoal>();
@@ -718,6 +822,81 @@ namespace MissionController
         /// </summary>
         /// <param name="id">Identifier.</param>
 
+        private void drawVabShipWindow(int id)
+        {            
+            GUI.skin = HighLogic.Skin;
+            GUILayout.BeginVertical();
+            GUILayout.Space(20);
+
+            VesselResources res = new VesselResources(activeVessel);
+
+            showCostValue("Crew insurance (Launch Pad Only): ", res.crew(), styleValueGreen);
+            if (res.pod() > (0)) { showCostValue("Command Sections:", res.pod(), styleValueGreen); }
+            if (res.ctrl() > (0)) { showCostValue("Avionics and Control:", res.ctrl(), styleValueGreen); } // NOT control surfaces. Those are AERO parts. These are SAS etc
+            if (res.util() > (0)) { showCostValue("Utility Parts:", res.util(), styleValueGreen); }
+            if (res.sci() > (0)) { showCostValue("Science Parts:", res.sci(), styleValueGreen); }
+            if (res.engine() > (0)) { showCostValue("Engines And Cooling: ", res.engine(), styleValueGreen); }
+            if (res.tank() > (0)) { showCostValue("Fuel Tank Cost: ", res.tank(), styleValueGreen); }
+            if (res.stru() > (0)) { showCostValue("Structural Cost:", res.stru(), styleValueGreen); }
+            if (res.aero() > (0)) { showCostValue("Aerodynamic Cost:", res.aero(), styleValueGreen); }
+            // pull from resources
+            if (res.resources.Count > 0)
+            {
+                List<string> resInVessel = res.resources.Keys.ToList();
+                resInVessel.Sort();
+                foreach (string r in resInVessel)
+                    showCostValue(r, Math.Round(res.resources[r], 0), styleValueGreen);
+            }
+            if (res.wet() > (0)) { showCostValue("(Total Cost Of Fuels):", res.wet(), styleValueYellow); }
+            if (res.dry() > (0)) { showCostValue("(Total Cost Of Parts):", res.dry(), styleValueYellow); }
+            showCostValue("Total Cost Vessel:", res.sum(), (res.sum() > manager.budget ? styleValueRedBold : styleValueYellow));
+
+            GUILayout.Space(20);
+            GUILayout.EndVertical();
+            GUI.DragWindow();
+
+
+        }
+
+        private void drawMissionInfoWindow(int id)
+        {
+            Status status = calculateStatus(currentMission, true, activeVessel);
+
+            GUI.skin = HighLogic.Skin;
+            GUILayout.BeginVertical();
+            GUILayout.Space(20);
+
+            if (status.isClientControlled)
+            {
+                MissionStatus s = manager.getClientControlledMission(activeVessel);
+                GUILayout.Label("This vessel is controlled by a client. Do not destroy this vessel! Fine: " + s.punishment + CurrencySuffix, styleWarning);
+                GUILayout.Label("End of life in " + MathTools.formatTime(s.endOfLife - Planetarium.GetUniversalTime()));
+            }
+            else if (status.isOnPassiveMission)
+            {
+                MissionStatus s = manager.getPassiveMission(activeVessel);
+                GUILayout.Label("This vessel is involved in a passive mission. Do not destroy this vessel! Fine: " + s.punishment + CurrencySuffix, styleWarning);
+                GUILayout.Label("End of life in " + MathTools.formatTime(s.endOfLife - Planetarium.GetUniversalTime()));
+            }
+
+            if (currentMission != null)
+            {
+                ShowMissionGoals = GUILayout.Toggle(ShowMissionGoals, "Show Mission Info");
+                if (ShowMissionGoals != false)
+                {
+                    drawMission(currentMission, status);
+                }
+            }
+            if (GUILayout.Button("Change Mission Package", styleButtonWordWrap, GUILayout.Width(200)))
+            {
+                createFileBrowser("Select Contract", selectMissionPackage);
+            }
+
+            GUILayout.Space(20);
+            GUILayout.EndVertical();
+            GUI.DragWindow();
+        }
+        
         private void drawMainWindow(int id)
         {
 
@@ -728,7 +907,7 @@ namespace MissionController
 
             GUILayout.BeginHorizontal();
             GUILayout.Box("Current budget: ", GUILayout.Height(30));
-            GUILayout.Box(manager.budget + CurrencySuffix, GUILayout.Height(30));           
+            GUILayout.Box(manager.budget + CurrencySuffix, GUILayout.Height(30));
             GUILayout.EndHorizontal();
             // Edits malkuth shows the modes that you have the plugin set to from settings .13 added the Borrowing Money mission deduction of %25
             GUILayout.Space(10);
@@ -770,7 +949,7 @@ namespace MissionController
             }
             // Show only when the loaded scene is an editor or a vessel is available and its situation is PRELAUNCH
 
-            scrollPosition = GUILayout.BeginScrollView(scrollPosition,GUILayout.MaxWidth(365), GUILayout.MaxHeight(550));
+            scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.MaxWidth(365), GUILayout.MaxHeight(550));
 
             if (HighLogic.LoadedSceneIsEditor || status.onLaunchPad)
             {
@@ -778,13 +957,13 @@ namespace MissionController
 
                 // .11 Edited malkuth shows only when in Testing Mode.  Plan to add things like Delta V stats and other Helpful testing info
                 if (settings.gameMode == 0)
-                {                    
+                {
                     showCostValue("Flight Testing Cost:", res.dry() * 6 / 100, (res.dry() * 6 / 100 > manager.budget ? styleValueRedBold : styleValueYellow));
                 }
                 else
                 {
-                    
-                    showCostValue("Total Cost Vessel:", res.sum(), (res.sum() > manager.budget ? styleValueRedBold : styleValueYellow));                   
+
+                    showCostValue("Total Cost Vessel:", res.sum(), (res.sum() > manager.budget ? styleValueRedBold : styleValueYellow));
                     ExpandCost = GUILayout.Toggle(ExpandCost, "Expand Cost List");
                     if (ExpandCost != false)
                     {
@@ -798,21 +977,21 @@ namespace MissionController
                         if (res.stru() > (0)) { showCostValue("Structural Cost:", res.stru(), styleValueGreen); }
                         if (res.aero() > (0)) { showCostValue("Aerodynamic Cost:", res.aero(), styleValueGreen); }
                         // pull from resources
-                        if(res.resources.Count > 0)
+                        if (res.resources.Count > 0)
                         {
                             List<string> resInVessel = res.resources.Keys.ToList();
                             resInVessel.Sort();
-                            foreach(string r in resInVessel)
-                                showCostValue(r, Math.Round(res.resources[r],0), styleValueGreen);
+                            foreach (string r in resInVessel)
+                                showCostValue(r, Math.Round(res.resources[r], 0), styleValueGreen);
                         }
                         if (res.wet() > (0)) { showCostValue("(Total Cost Of Fuels):", res.wet(), styleCaption); }
-                        if (res.dry() > (0)) { showCostValue("(Total Cost Of Parts):", res.dry(), styleCaption); }  
+                        if (res.dry() > (0)) { showCostValue("(Total Cost Of Parts):", res.dry(), styleCaption); }
                         GUILayout.Space(20);
                     }
 
                 }
             }
-            
+
             {
 
                 if (status.isClientControlled)
@@ -837,105 +1016,105 @@ namespace MissionController
                     }
                 }
             }
-                GUILayout.Space(30);
-                GUILayout.EndScrollView();
+            GUILayout.Space(30);
+            GUILayout.EndScrollView();
 
-                GUILayout.BeginHorizontal();
-                GUILayout.BeginVertical(GUILayout.Width(125));
-                showSettingsWindow = GUILayout.Toggle(showSettingsWindow, "Settings");
-                GUILayout.EndVertical();
-                GUILayout.BeginVertical(GUILayout.Width(125));
-                showFinanceWindow = GUILayout.Toggle(showFinanceWindow, "Finances");
-                GUILayout.EndVertical();
-                GUILayout.BeginVertical();
-                if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
+            GUILayout.BeginHorizontal();
+            GUILayout.BeginVertical(GUILayout.Width(125));
+            showSettingsWindow = GUILayout.Toggle(showSettingsWindow, "Settings");
+            GUILayout.EndVertical();
+            GUILayout.BeginVertical(GUILayout.Width(125));
+            showFinanceWindow = GUILayout.Toggle(showFinanceWindow, "Finances");
+            GUILayout.EndVertical();
+            GUILayout.BeginVertical();
+            if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
+            {
+                showResearchTreeWindow = GUILayout.Toggle(showResearchTreeWindow, "Research");
+            }
+            GUILayout.EndVertical();
+            GUILayout.EndHorizontal();
+
+
+            //            if (GUILayout.Button ("Draw landing area!", styleButton)) {
+            //                drawLandingArea = !drawLandingArea;
+            //            }
+            GUILayout.BeginHorizontal();
+            GUILayout.BeginVertical(GUILayout.Width(125));
+            FileBrowserBool = GUILayout.Toggle(FileBrowserBool, "Packages");
+
+            if (FileBrowserBool == true)
+            {
+                createFileBrowser("Select mission from package", selectMissionPackage);
+                FileBrowserBool = false;
+            }
+            GUILayout.EndVertical();
+            GUILayout.BeginVertical(GUILayout.Width(125));
+
+            if (currentPackage != null)
+            {
+
+                packageWindowtoggle = GUILayout.Toggle(packageWindowtoggle, "Missions");
+                if (packageWindowtoggle == true)
                 {
-                    showResearchTreeWindow = GUILayout.Toggle(showResearchTreeWindow, "Research");
+                    packageWindow(true);
+                    packageWindowtoggle = false;
                 }
-                GUILayout.EndVertical();    
-                GUILayout.EndHorizontal();
+            }
+            GUILayout.EndVertical();
 
-
-                //            if (GUILayout.Button ("Draw landing area!", styleButton)) {
-                //                drawLandingArea = !drawLandingArea;
-                //            }
-                GUILayout.BeginHorizontal();
-                GUILayout.BeginVertical(GUILayout.Width(125));
-                FileBrowserBool = GUILayout.Toggle(FileBrowserBool, "Packages");
-
-                if (FileBrowserBool == true)
+            GUILayout.BeginVertical();
+            if (currentMission != null)
+            {
+                currentMissiontoggle = GUILayout.Toggle(currentMissiontoggle, "Deselect");
+                if (currentMissiontoggle == true)
                 {
-                    createFileBrowser("Select mission from package", selectMissionPackage);
-                    FileBrowserBool = false;
+                    currentMission = null;
+                    currentMissiontoggle = false;
                 }
-                GUILayout.EndVertical();
-                GUILayout.BeginVertical(GUILayout.Width(125));
+            }
+            GUILayout.EndVertical();
+            GUILayout.EndHorizontal();
+            GUILayout.BeginVertical();
+            if (status.missionIsFinishable)
+            {
 
-                if (currentPackage != null)
+                finishmissiontoggle = GUILayout.Toggle(finishmissiontoggle, "FINISH THE CURRENT MISSION");
+                if (finishmissiontoggle == false)
                 {
-
-                    packageWindowtoggle = GUILayout.Toggle(packageWindowtoggle, "Missions");
-                    if (packageWindowtoggle == true)
-                    {
-                        packageWindow(true);
-                        packageWindowtoggle = false;
-                    }
-                }
-                GUILayout.EndVertical();
-
-                GUILayout.BeginVertical();
-                if (currentMission != null)
-                {
-                    currentMissiontoggle = GUILayout.Toggle(currentMissiontoggle, "Deselect");
-                    if (currentMissiontoggle == true)
-                    {
-                        currentMission = null;
-                        currentMissiontoggle = false;
-                    }
-                }
-                GUILayout.EndVertical();
-                GUILayout.EndHorizontal();
-                GUILayout.BeginVertical();
-                if (status.missionIsFinishable)
-                {
-                   
-                    finishmissiontoggle = GUILayout.Toggle(finishmissiontoggle, "FINISH THE CURRENT MISSION");
-                    if (finishmissiontoggle == false)
-                    {
-                        manager.finishMission(currentMission, activeVessel, status.events);
-                        hiddenGoals = new List<MissionGoal>();
-                        currentMission = null;
-                        finishmissiontoggle = true;
-                    }
-
-                }
-                if (FlightDriver.CanRevertToPrelaunch && HighLogic.LoadedSceneIsFlight)
-                {
-                    canRevert = GUILayout.Toggle(canRevert, "Revert To PreFlight");
-                       if (canRevert == false)
-                       {
-                           showRevertWindow = true;
-                           canRevert = true;
-                       }
-                }
-                GUILayout.EndVertical();
-                // NK recycle from tracking station
-                if (pVessel != null && settings.gameMode != 0 && (manager.ResearchRecycle || HighLogic.CurrentGame.Mode != Game.Modes.CAREER))
-                {
-                    //print("*MC* In TS, pVessel not null");
-                    if (pVessel.situation.Equals(Vessel.Situations.LANDED) || pVessel.situation.Equals(Vessel.Situations.SPLASHED))
-                    {
-                        VesselResources res = new VesselResources(pVessel.vesselRef);
-                        showCostValue("Recyclable value: ", res.recyclable(pVessel.situation.Equals(Vessel.Situations.LANDED) ? 1 : 0), styleCaption);
-                    }
+                    manager.finishMission(currentMission, activeVessel, status.events);
+                    hiddenGoals = new List<MissionGoal>();
+                    currentMission = null;
+                    finishmissiontoggle = true;
                 }
 
-                GUILayout.EndVertical();
-                if (!Input.GetMouseButtonDown(1))
+            }
+            if (FlightDriver.CanRevertToPrelaunch && HighLogic.LoadedSceneIsFlight)
+            {
+                canRevert = GUILayout.Toggle(canRevert, "Revert To PreFlight");
+                if (canRevert == false)
                 {
-                    GUI.DragWindow();
+                    showRevertWindow = true;
+                    canRevert = true;
                 }
-            
+            }
+            GUILayout.EndVertical();
+            // NK recycle from tracking station
+            if (pVessel != null && settings.gameMode != 0 && (manager.ResearchRecycle || HighLogic.CurrentGame.Mode != Game.Modes.CAREER))
+            {
+                //print("*MC* In TS, pVessel not null");
+                if (pVessel.situation.Equals(Vessel.Situations.LANDED) || pVessel.situation.Equals(Vessel.Situations.SPLASHED))
+                {
+                    VesselResources res = new VesselResources(pVessel.vesselRef);
+                    showCostValue("Recyclable value: ", res.recyclable(pVessel.situation.Equals(Vessel.Situations.LANDED) ? 1 : 0), styleCaption);
+                }
+            }
+
+            GUILayout.EndVertical();
+            if (!Input.GetMouseButtonDown(1))
+            {
+                GUI.DragWindow();
+            }
+
         }
 
         /// <summary>
@@ -982,7 +1161,7 @@ namespace MissionController
             if (settings.gameMode == 2)
             { GUILayout.Label(mission.reward * 60 / 100 + CurrencySuffix, styleValueYellow); }
             GUILayout.EndHorizontal();
-            
+
             if (mission.scienceReward != 0)
             {
                 GUILayout.BeginHorizontal();
@@ -1070,7 +1249,7 @@ namespace MissionController
             int index = 1;
 
             foreach (MissionGoal c in mission.goals)
-            {                
+            {
                 {
                     if (hiddenGoals.Contains(c))
                     {
@@ -1161,7 +1340,7 @@ namespace MissionController
 
             if (EditorLogic.fetch != null)
             {
-                EditorLogic.fetch.Lock(true, true, true,".zz9812.");
+                EditorLogic.fetch.Lock(true, true, true, ".zz9812.");
             }
         }
 
