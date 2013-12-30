@@ -8,7 +8,7 @@ namespace MissionController
 
         public bool changed = false;
 
-        public int gameMode = 1;                  
+        public int gameMode = 0;                  
     }
 
     public class SettingsManager 

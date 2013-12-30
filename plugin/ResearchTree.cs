@@ -17,6 +17,7 @@ namespace MissionController
           /// <param name="id"></param>
         private void drawResearchTree(int id)
         {
+            
             ConstructionMode CM = new ConstructionMode();
             SpaceProgram sp = new SpaceProgram();
             Mission ms = new Mission();
@@ -25,173 +26,181 @@ namespace MissionController
             GUI.skin = HighLogic.Skin;
             GUILayout.BeginVertical();
 
-            GUILayout.BeginHorizontal();
-            GUILayout.Box("Current Science", GUILayout.Width(250), GUILayout.Height(40));
-            GUILayout.Box((int) CM.Science + " Science", GUILayout.Width(250), GUILayout.Height(40));
-            GUILayout.EndHorizontal();
-            
-            GUILayout.BeginHorizontal();
-            GUILayout.Box("          MC TechTree", styleValueGreenBold, GUILayout.Width(160), GUILayout.Height(30));
-            GUILayout.Box("          Purchase Cost", styleValueGreenBold, GUILayout.Width(160), GUILayout.Height(30));
-            GUILayout.Box("          Research Status", styleValueGreenBold, GUILayout.Width(160), GUILayout.Height(30));
-            GUILayout.EndHorizontal();
-
-            GUILayout.Space(5);
-            GUILayout.BeginHorizontal();
-            GUILayout.Box("Vessel Recycling", GUILayout.Width(160), GUILayout.Height(40));
-            GUILayout.Box("300 Science", GUILayout.Width(160), GUILayout.Height(40));
-            if (CM.Science >= 300 && !manager.ResearchRecycle)
+            if (HighLogic.CurrentGame.Mode != Game.Modes.CAREER)
             {
-                if (GUILayout.Button("Purchase", GUILayout.Width(160), GUILayout.Height(40)))
-                {
-                    CM.DeductScience(300);
-                    manager.SetResearchRecycle();
-                }
+                GUILayout.Label("Research Not Available In SandboxMode");
             }
             else
             {
-                if (manager.ResearchRecycle != false)
+                GUILayout.BeginHorizontal();
+                GUILayout.Box("Current Science", GUILayout.Width(250), GUILayout.Height(40));
+                GUILayout.Box((int)CM.Science + " Science", GUILayout.Width(250), GUILayout.Height(40));
+                GUILayout.EndHorizontal();
+
+                GUILayout.BeginHorizontal();
+                GUILayout.Box("          MC TechTree", styleValueGreenBold, GUILayout.Width(160), GUILayout.Height(30));
+                GUILayout.Box("          Purchase Cost", styleValueGreenBold, GUILayout.Width(160), GUILayout.Height(30));
+                GUILayout.Box("          Research Status", styleValueGreenBold, GUILayout.Width(160), GUILayout.Height(30));
+                GUILayout.EndHorizontal();
+
+                GUILayout.Space(5);
+                GUILayout.BeginHorizontal();
+                GUILayout.Box("Vessel Recycling", GUILayout.Width(160), GUILayout.Height(40));
+                GUILayout.Box("300 Science", GUILayout.Width(160), GUILayout.Height(40));
+                if (CM.Science >= 300 && !manager.ResearchRecycle)
                 {
-                    GUILayout.Box("Researched", GUILayout.Width(160), GUILayout.Height(40));
+                    if (GUILayout.Button("Purchase", GUILayout.Width(160), GUILayout.Height(40)))
+                    {
+                        CM.DeductScience(300);
+                        manager.SetResearchRecycle();
+                    }
                 }
                 else
                 {
-                    GUILayout.Box("NOT AVAILABLE", GUILayout.Width(160), GUILayout.Height(40));
+                    if (manager.ResearchRecycle != false)
+                    {
+                        GUILayout.Box("Researched", GUILayout.Width(160), GUILayout.Height(40));
+                    }
+                    else
+                    {
+                        GUILayout.Box("NOT AVAILABLE", GUILayout.Width(160), GUILayout.Height(40));
+                    }
                 }
-            }
-            GUILayout.EndHorizontal();
+                GUILayout.EndHorizontal();
 
-            GUILayout.Space(20);
-            GUILayout.BeginHorizontal();
-            GUILayout.Box("Efficient Fuels", GUILayout.Width(160), GUILayout.Height(40));
-            GUILayout.Box(" 500 Science", GUILayout.Width(160), GUILayout.Height(40));
-            if (CM.Science >= 500 && manager.ResearchFuels != true)
-            {
-                if (GUILayout.Button("Purchase", GUILayout.Width(160), GUILayout.Height(40)))
+                GUILayout.Space(20);
+                GUILayout.BeginHorizontal();
+                GUILayout.Box("Efficient Fuels", GUILayout.Width(160), GUILayout.Height(40));
+                GUILayout.Box(" 500 Science", GUILayout.Width(160), GUILayout.Height(40));
+                if (CM.Science >= 500 && manager.ResearchFuels != true)
                 {
-                    CM.DeductScience(500);
-                    manager.SetResearchFuels();
-                    manager.SetFuels();
-                }
-            }
-            else
-            {
-                if (manager.ResearchFuels != false)
-                {
-                    GUILayout.Box("Researched", GUILayout.Width(160), GUILayout.Height(40));
+                    if (GUILayout.Button("Purchase", GUILayout.Width(160), GUILayout.Height(40)))
+                    {
+                        CM.DeductScience(500);
+                        manager.SetResearchFuels();
+                        manager.SetFuels();
+                    }
                 }
                 else
                 {
-                    GUILayout.Box("NOT AVAILABLE", GUILayout.Width(160), GUILayout.Height(40));
+                    if (manager.ResearchFuels != false)
+                    {
+                        GUILayout.Box("Researched", GUILayout.Width(160), GUILayout.Height(40));
+                    }
+                    else
+                    {
+                        GUILayout.Box("NOT AVAILABLE", GUILayout.Width(160), GUILayout.Height(40));
+                    }
                 }
-            }
-            GUILayout.EndHorizontal();
+                GUILayout.EndHorizontal();
 
-            GUILayout.Space(20);
-            GUILayout.BeginHorizontal();
-            GUILayout.Box("Construction 1", GUILayout.Width(160), GUILayout.Height(40));
-            GUILayout.Box("120 Science", GUILayout.Width(160), GUILayout.Height(40));
-            if (CM.Science >= 120 && manager.ResearchConstruction1 != true)
-            {
-                if (GUILayout.Button("Purchase", GUILayout.Width(160), GUILayout.Height(40)))
+                GUILayout.Space(20);
+                GUILayout.BeginHorizontal();
+                GUILayout.Box("Construction 1", GUILayout.Width(160), GUILayout.Height(40));
+                GUILayout.Box("120 Science", GUILayout.Width(160), GUILayout.Height(40));
+                if (CM.Science >= 120 && manager.ResearchConstruction1 != true)
                 {
-                    CM.DeductScience(120);
-                    manager.SetResearchConstruction1();
-                    manager.SetConstruction(1);
-                }
-            }
-            else
-            {
-                if (manager.ResearchConstruction1 != false)
-                {
-                    GUILayout.Box("Researched", GUILayout.Width(160), GUILayout.Height(40));
+                    if (GUILayout.Button("Purchase", GUILayout.Width(160), GUILayout.Height(40)))
+                    {
+                        CM.DeductScience(120);
+                        manager.SetResearchConstruction1();
+                        manager.SetConstruction(1);
+                    }
                 }
                 else
                 {
-                    GUILayout.Box("NOT AVAILABLE", GUILayout.Width(160), GUILayout.Height(40));
+                    if (manager.ResearchConstruction1 != false)
+                    {
+                        GUILayout.Box("Researched", GUILayout.Width(160), GUILayout.Height(40));
+                    }
+                    else
+                    {
+                        GUILayout.Box("NOT AVAILABLE", GUILayout.Width(160), GUILayout.Height(40));
+                    }
                 }
-            }
-            GUILayout.EndHorizontal();
+                GUILayout.EndHorizontal();
 
-            GUILayout.Space(20);
-            GUILayout.BeginHorizontal();
-            GUILayout.Box("Construction 2", GUILayout.Width(160), GUILayout.Height(40));
-            GUILayout.Box("500 Science", GUILayout.Width(160), GUILayout.Height(40));
-            if (CM.Science >= 500 && manager.ResearchConstruction2 != true && manager.ResearchConstruction1 != false)
-            {
-                if (GUILayout.Button("Purchase", GUILayout.Width(160), GUILayout.Height(40)))
+                GUILayout.Space(20);
+                GUILayout.BeginHorizontal();
+                GUILayout.Box("Construction 2", GUILayout.Width(160), GUILayout.Height(40));
+                GUILayout.Box("500 Science", GUILayout.Width(160), GUILayout.Height(40));
+                if (CM.Science >= 500 && manager.ResearchConstruction2 != true && manager.ResearchConstruction1 != false)
                 {
-                    CM.DeductScience(500);
-                    manager.SetResearchConstruction2();
-                    manager.SetConstruction(2);
-                }
-            }
-            else
-            {
-                if (manager.ResearchConstruction2 != false)
-                {
-                    GUILayout.Box("Researched", GUILayout.Width(160), GUILayout.Height(40));
+                    if (GUILayout.Button("Purchase", GUILayout.Width(160), GUILayout.Height(40)))
+                    {
+                        CM.DeductScience(500);
+                        manager.SetResearchConstruction2();
+                        manager.SetConstruction(2);
+                    }
                 }
                 else
                 {
-                    GUILayout.Box("NOT AVAILABLE", GUILayout.Width(160), GUILayout.Height(40));
+                    if (manager.ResearchConstruction2 != false)
+                    {
+                        GUILayout.Box("Researched", GUILayout.Width(160), GUILayout.Height(40));
+                    }
+                    else
+                    {
+                        GUILayout.Box("NOT AVAILABLE", GUILayout.Width(160), GUILayout.Height(40));
+                    }
                 }
-            }
-            GUILayout.EndHorizontal();
+                GUILayout.EndHorizontal();
 
-            GUILayout.Space(20);
-            GUILayout.BeginHorizontal();
-            GUILayout.Box("Mission Payouts 2", GUILayout.Width(160), GUILayout.Height(40));
-            GUILayout.Box("800 Science", GUILayout.Width(160), GUILayout.Height(40));
-            if (CM.Science >= 800 && manager.MissionLevel2 != true)
-            {
-                if (GUILayout.Button("Purchase", GUILayout.Width(160), GUILayout.Height(40)))
+                GUILayout.Space(20);
+                GUILayout.BeginHorizontal();
+                GUILayout.Box("Mission Payouts 2", GUILayout.Width(160), GUILayout.Height(40));
+                GUILayout.Box("800 Science", GUILayout.Width(160), GUILayout.Height(40));
+                if (CM.Science >= 800 && manager.MissionLevel2 != true)
                 {
-                    CM.DeductScience(800);
-                    manager.SetCurrentPayoutLevel(1);
-                    manager.SetMissionLevel2();
-                }
-            }
-            else
-            {
-                if (manager.MissionLevel2 != false)
-                {
-                    GUILayout.Box("Researched", GUILayout.Width(160), GUILayout.Height(40));
+                    if (GUILayout.Button("Purchase", GUILayout.Width(160), GUILayout.Height(40)))
+                    {
+                        CM.DeductScience(800);
+                        manager.SetCurrentPayoutLevel(1);
+                        manager.SetMissionLevel2();
+                    }
                 }
                 else
                 {
-                    GUILayout.Box("NOT AVAILABLE", GUILayout.Width(160), GUILayout.Height(40));
+                    if (manager.MissionLevel2 != false)
+                    {
+                        GUILayout.Box("Researched", GUILayout.Width(160), GUILayout.Height(40));
+                    }
+                    else
+                    {
+                        GUILayout.Box("NOT AVAILABLE", GUILayout.Width(160), GUILayout.Height(40));
+                    }
                 }
-            }
-            GUILayout.EndHorizontal();
+                GUILayout.EndHorizontal();
 
-            GUILayout.Space(20);
-            GUILayout.BeginHorizontal();
-            GUILayout.Box("Mission Payouts 3", GUILayout.Width(160), GUILayout.Height(40));
-            GUILayout.Box("1600 Science", GUILayout.Width(160), GUILayout.Height(40));
-            if (CM.Science >= 1600 && manager.MissionLevel3 != true && manager.MissionLevel2 != false)
-            {
-                if (GUILayout.Button("Purchase", GUILayout.Width(160), GUILayout.Height(40)))
+                GUILayout.Space(20);
+                GUILayout.BeginHorizontal();
+                GUILayout.Box("Mission Payouts 3", GUILayout.Width(160), GUILayout.Height(40));
+                GUILayout.Box("1600 Science", GUILayout.Width(160), GUILayout.Height(40));
+                if (CM.Science >= 1600 && manager.MissionLevel3 != true && manager.MissionLevel2 != false)
                 {
-                    CM.DeductScience(1600);
-                    manager.SetCurrentPayoutLevel(2);
-                    manager.SetMissionLevel3();
-                }
-            }
-            else
-            {
-                if (manager.MissionLevel3 != false)
-                {
-                    GUILayout.Box("Researched", GUILayout.Width(160), GUILayout.Height(40));
+                    if (GUILayout.Button("Purchase", GUILayout.Width(160), GUILayout.Height(40)))
+                    {
+                        CM.DeductScience(1600);
+                        manager.SetCurrentPayoutLevel(2);
+                        manager.SetMissionLevel3();
+                    }
                 }
                 else
                 {
-                    GUILayout.Box("NOT AVAILABLE", GUILayout.Width(160), GUILayout.Height(40));
+                    if (manager.MissionLevel3 != false)
+                    {
+                        GUILayout.Box("Researched", GUILayout.Width(160), GUILayout.Height(40));
+                    }
+                    else
+                    {
+                        GUILayout.Box("NOT AVAILABLE", GUILayout.Width(160), GUILayout.Height(40));
+                    }
                 }
-            }
-            GUILayout.EndHorizontal();
+                GUILayout.EndHorizontal();
 
-            GUILayout.Space(20);
+                GUILayout.Space(20);
+
+            }
             if (GUILayout.Button("Exit Window"))
             {
 

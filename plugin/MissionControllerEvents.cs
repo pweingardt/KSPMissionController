@@ -54,7 +54,7 @@ namespace MissionController
         {
             VesselResources res = new VesselResources(pv.vesselRef);
             recycledName = pv.vesselName;
-            if (!manager.isVesselFlagged(pv.vesselRef) && !HighLogic.LoadedSceneIsEditor && !HighLogic.LoadedSceneIsFlight && settings.gameMode != 0 && (manager.ResearchRecycle || HighLogic.CurrentGame.Mode != Game.Modes.CAREER) && (pv.situation.Equals(Vessel.Situations.LANDED) || pv.situation.Equals(Vessel.Situations.SPLASHED)))
+            if (!manager.isVesselFlagged(pv.vesselRef) && !HighLogic.LoadedSceneIsEditor && !HighLogic.LoadedSceneIsFlight && (manager.ResearchRecycle || HighLogic.CurrentGame.Mode != Game.Modes.CAREER) && (pv.situation.Equals(Vessel.Situations.LANDED) || pv.situation.Equals(Vessel.Situations.SPLASHED)))
             {
                 recycledCost = res.recyclable(pv.situation.Equals(Vessel.Situations.LANDED) ? 1 : 0);
                 print("*MC* Craft " + recycledName + " recovered for " + recycledCost);
@@ -63,7 +63,7 @@ namespace MissionController
                
                 
             }
-            if (!manager.isVesselFlagged(pv.vesselRef) && settings.gameMode != 0 && (pv.situation.Equals(Vessel.Situations.LANDED) || pv.situation.Equals(Vessel.Situations.SPLASHED)))
+            if (!manager.isVesselFlagged(pv.vesselRef) && (pv.situation.Equals(Vessel.Situations.LANDED) || pv.situation.Equals(Vessel.Situations.SPLASHED)))
             {
                 recycledCrewCost = res.crewreturn(pv.situation.Equals(Vessel.Situations.LANDED) ? 1 : 0);
                 manager.cleanReward(pv.vesselRef,recycledCrewCost);
@@ -110,7 +110,7 @@ namespace MissionController
                 if (!manager.isVesselFlagged(activeVessel) &&!HighLogic.LoadedSceneIsEditor && canRecycle && activeVessel != v && !v.isEVA // canRecycle is false iff load requested and haven't returned to flight yet.
                     && v.name.Contains("(Unloaded)") // check make sure it's because we're unloading it
                     && (v.situation == Vessel.Situations.FLYING || v.situation == Vessel.Situations.SUB_ORBITAL) && v.mainBody.GetAltitude(v.CoM) <= 25000 
-                    && v.orbit.referenceBody.bodyName.Equals("Kerbin") && settings.gameMode != 0 && (manager.ResearchRecycle || HighLogic.CurrentGame.Mode != Game.Modes.CAREER))
+                    && v.orbit.referenceBody.bodyName.Equals("Kerbin") && (manager.ResearchRecycle || HighLogic.CurrentGame.Mode != Game.Modes.CAREER))
                 {
                     print("*MC* Checking " + v.name);
                     double mass = 0;
@@ -366,31 +366,31 @@ namespace MissionController
         /// We have to account the space program for the launch
         /// </summary>
         /// <param name="r">The red component.</param>
-        private void onLaunch (EventReport r) {
+        private void onLaunch (EventReport r) 
+        {
             // Apparently this event is even fired when we stage in orbit...
             // Malkuth Edit To match the actual cost of launch with Visual Cost in Display.. (almost missed this one opps)
             if (activeVessel != null && activeVessel.situation == Vessel.Situations.PRELAUNCH)
             {
                 VesselResources res = new VesselResources(activeVessel);
                 FinanceMode fn = new FinanceMode();
-                if (settings.gameMode != 0)
-                {
-                    if (SettingsManager.Manager.getSettings().disablePlugin)
+                
+                if (SettingsManager.Manager.getSettings().disablePlugin)
                     {
                         manager.addFlagedVessel(activeVessel);
                     }
 
-                    else
-                    {
-                        Debug.LogError("Launching vessel!");
-                        manager.costs(res.sum());
-                        recycled = false;
-                        canRecycle = true;
-                        fn.checkloans();
-                    }
+                if (settings.gameMode == 0 && !SettingsManager.Manager.getSettings().disablePlugin)
+                    
+                    Debug.LogError("Launching vessel!");
+                    manager.costs(res.sum());
+                    recycled = false;
+                    canRecycle = true;
+                    fn.checkloans();
 
-                }              
-                else
+
+
+                    if (settings.gameMode == 1 && !SettingsManager.Manager.getSettings().disablePlugin)
                 {
                     Debug.LogError("Launching Test vessel!");
                     manager.costs((res.dry()) * 6 / 100);

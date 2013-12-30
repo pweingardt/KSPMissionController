@@ -86,7 +86,7 @@ namespace MissionController
 
         private List<MissionGoal> hiddenGoals = new List<MissionGoal>();
 
-        public Rect mainWindowPosition;
+        private Rect mainWindowPosition;
         private Rect settingsWindowPosition;
         private Rect packageWindowPosition;
         private Rect financeWindowPosition;
@@ -114,13 +114,13 @@ namespace MissionController
         private bool showFinanceWindow = false;
         private bool showRecycleWindow = false;
         private bool showResearchTreeWindow = false;
-        public bool showRandomWindow = false;
+        private bool showRandomWindow = false;
         private bool showRevertWindow = false;
         private bool showconstructionwindow = false;
         private bool showbudgetamountwindow = false;
 
         private bool showVabShipWindow = false;
-        private bool showMissionStatusWindow = false;
+        private bool showMissionStatusWindow = false;        
 
         public string recycledName = "";
         public string recycledDesc = "";
@@ -132,6 +132,7 @@ namespace MissionController
         private MissionPackage currentPackage = null;
 
         private Vector2 scrollPosition = new Vector2(0, 0);
+        private Vector2 scrollPositionship = new Vector2(0, 0);
         private GUIStyle styleCaption;
         private GUIStyle styleText;
         private GUIStyle styleValueGreen;
@@ -295,8 +296,7 @@ namespace MissionController
         }        
 
         public void Start()
-        {
-            GUILoad();
+        {            
             print("Mission Controller Loaded");
             
             button = ToolbarManager.Instance.add("Test", "Settings1");
@@ -318,7 +318,7 @@ namespace MissionController
             };
 
             MissionSelect = ToolbarManager.Instance.add("Test", "missionsel1");
-            MissionSelect.TexturePath = "MissionController/icons/clipboard";
+            MissionSelect.TexturePath = "MissionController/icons/mission";
             MissionSelect.ToolTip = "Select Current Mission";
             MissionSelect.Visibility = new GameScenesVisibility(GameScenes.SPACECENTER,GameScenes.FLIGHT);
             MissionSelect.OnClick += (e) =>
@@ -333,21 +333,12 @@ namespace MissionController
             VabShipSelect.OnClick += (e) =>
             {
                 showVabShipWindow = !showVabShipWindow;
-            };
+            };          
 
-            RevertSelect = ToolbarManager.Instance.add("Test", "ship2");
-            RevertSelect.TexturePath = "MissionController/icons/blueprints";
-            RevertSelect.ToolTip = "Ship Value BreakDown";
-            RevertSelect.Visibility = new GameScenesVisibility(GameScenes.EDITOR);
-            RevertSelect.OnClick += (e) =>
-            {
-                showVabShipWindow = !showVabShipWindow;
-            };
-
-            ScienceResearch = ToolbarManager.Instance.add("Test", "ship2");
-            ScienceResearch.TexturePath = "MissionController/icons/research"
+            ScienceResearch = ToolbarManager.Instance.add("Test", "ship3");
+            ScienceResearch.TexturePath = "MissionController/icons/research";
             ScienceResearch.ToolTip = "Mission Controller Research Window";
-            ScienceResearch.Visibility = new GameScenesVisibility(GameScenes.SPACECENTER);
+            ScienceResearch.Visibility = new GameScenesVisibility(GameScenes.SPACECENTER,GameScenes.EDITOR);
             ScienceResearch.OnClick += (e) =>
             {
                 showResearchTreeWindow = !showResearchTreeWindow;
@@ -369,8 +360,7 @@ namespace MissionController
         }
 
         void OnLevelWasLoaded()
-        {
-            GUISave();
+        {           
             repairStation.repair = false; // we have to reset the RepairGoal for it can be used again.           
             repairStation.myTime = 5.0f; // Also Reset the Time For RepairGoal For it can be used again in same session.
             SettingsManager.Manager.saveSettings();
@@ -415,7 +405,7 @@ namespace MissionController
                 TimeSpan.TicksPerDay * assemblyName.Version.Build + // days since 1 January 2000
                 TimeSpan.TicksPerSecond * 2 * assemblyName.Version.Revision));
 
-            mainWindowTitle = "Mission Controller Contracts " +
+            mainWindowTitle = "Mission Controller Extended " +
                 versionCode + " (" + buildDateTime.ToShortDateString() + ")";
 
             loadIcons();
@@ -438,32 +428,7 @@ namespace MissionController
             GameEvents.onPartUndock.Remove(this.onUndock);
             GameEvents.onVesselCreate.Remove(this.onVesselCreate);
         }
-
-        public void GUILoad()
-        {
-            KSP.IO.PluginConfiguration configfile = KSP.IO.PluginConfiguration.CreateForType<MissionController>();
-            configfile.load();
-
-            mainWindowPosition = configfile.GetValue<Rect>("maineWindowPostion");
-            settingsWindowPosition = configfile.GetValue<Rect>("settingsWindowPostion");
-            financeWindowPosition = configfile.GetValue<Rect>("finanaceWindowPostion");
-            researchtreewinpostion = configfile.GetValue<Rect>("kerbalnautWindowPostion");
-            packageWindowPosition = configfile.GetValue<Rect>("packageWindowPostion");
-        }
-
-        public void GUISave()
-        {
-            KSP.IO.PluginConfiguration configfile = KSP.IO.PluginConfiguration.CreateForType<MissionController>();
-
-            configfile.SetValue("maineWindowPostion", mainWindowPosition);
-            configfile.SetValue("settingsWindowPostion", settingsWindowPosition);
-            configfile.SetValue("finanaceWindowPostion", financeWindowPosition);
-            configfile.SetValue("kerbalnautWindowPostion", researchtreewinpostion);
-            configfile.SetValue("packageWindowPostion", packageWindowPosition);
-
-            configfile.save();
-        }
-
+       
         /// <summary>
         /// Returns the active vessel if there is one, null otherwise
         /// </summary>
@@ -579,6 +544,10 @@ namespace MissionController
             button.Destroy();
         }
 
+       
+        /// <summary>
+        /// Loads GUIWindows
+        /// </summary>
         public void OnGUI()
         {
             if (!isValidScene())
@@ -629,6 +598,13 @@ namespace MissionController
             loadStyles();
 
             GUI.skin = HighLogic.Skin;
+            
+            // Shows Mission Finsihed Window when done
+            Status status = calculateStatus(currentMission, true, activeVessel);
+            if (status.missionIsFinishable)
+            {
+                showRandomWindow = true;
+            }
 
             // We need to calculate the status in case the windows are not visible
             calculateStatus(currentMission, true, activeVessel);
@@ -649,34 +625,7 @@ namespace MissionController
                 showconstructionwindow = false;
                 showbudgetamountwindow = false;
             }
-
-            if (HighLogic.LoadedSceneIsFlight)
-            {
-                VesselResources res = new VesselResources(activeVessel);
-                Status status = calculateStatus(currentMission, true, activeVessel);
-                if (GUI.Button(FlightBudgetWin, manager.budget + CurrencySuffix, styleGreenButtonCenter))
-                {
-                    showFinanceWindow = !showFinanceWindow;
-                }
-                if (GUI.Button(FlightBuildList, "SV: " + res.sum(), (res.sum() > manager.budget ? styleRedButtonCenter : styleGreenButtonCenter)))
-                {
-                    showVabShipWindow = !showVabShipWindow;
-                }               
-                if (FlightDriver.CanRevertToPrelaunch)
-                {
-                    if (GUI.Button(FlightRevertBut, "Revert Flight", styleButtonYellow))
-                    {
-                        showRevertWindow = !showRevertWindow;
-                    }
-                }
-                if (status.missionIsFinishable)
-                {                   
-                        manager.finishMission(currentMission, activeVessel, status.events);
-                        hiddenGoals = new List<MissionGoal>();
-                        currentMission = null;                                      
-                }
-            }
-
+            
             if (showconstructionwindow)
             { 
                VesselResources res = new VesselResources(activeVessel);
@@ -753,7 +702,7 @@ namespace MissionController
         {
             GUI.skin = HighLogic.Skin;
             GUILayout.BeginVertical();
-            if (settings.gameMode != 0 && (manager.ResearchRecycle || HighLogic.CurrentGame.Mode != Game.Modes.CAREER))
+            if ((manager.ResearchRecycle || HighLogic.CurrentGame.Mode != Game.Modes.CAREER))
             {
                 showCostValue("Vessel " + recycledName + " recyled: ", recycledCost, styleCaption);
                 GUILayout.BeginHorizontal();
@@ -761,7 +710,7 @@ namespace MissionController
                 GUILayout.EndHorizontal();
 
             }
-            if (recycledCrewCost > 0 && settings.gameMode != 0)
+            if (recycledCrewCost > 1)
             {
                 GUILayout.BeginHorizontal();
                 showCostValue("Crew Insurance Returned: ", recycledCrewCost, styleCaption);
@@ -784,17 +733,18 @@ namespace MissionController
 
             GUILayout.Label("Pressing Ok Will Revert Both Mission controller");
             GUILayout.Label("And KSP To PreLaunch Conditions In The Editor");
+            GUILayout.Label("You will Be charged 1000 Credits For Doing this");
             GUILayout.Label("Do You Want To Continue?");
 
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Revert To PreLaunch Conditions", styleButtonWordWrap, GUILayout.Width(200)))
+            if (GUILayout.Button("Revert To PreLaunch", styleButtonWordWrap, GUILayout.Width(200)))
             {
                 manager.loadProgramBackup(HighLogic.CurrentGame.Title);
                 FlightDriver.RevertToPrelaunch(GameScenes.EDITOR);
                 showRevertWindow = false;
             }
 
-            if (GUILayout.Button("Exit Without Reverting", styleButtonWordWrap, GUILayout.Width(200)))
+            if (GUILayout.Button("Do Not Revert", styleButtonWordWrap, GUILayout.Width(200)))
             {
                 showRevertWindow = false;
             }
@@ -816,13 +766,13 @@ namespace MissionController
             GUILayout.Label("Current Mission: " + mission.name, styleText);
             if (manager.budget < 0)
             {
-                if (settings.gameMode == 1)
+                if (settings.gameMode == 0)
                 {
                     GUILayout.Label("All goals accomplished. Deducted For Loans!", styleCaption);
                     showCostValue("Total Mission Payout:", (currentMission.reward * FinanceMode.currentloan) * PayoutLeveles.TechPayout, styleValueGreen);
                     showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
                 }
-                if (settings.gameMode == 2)
+                if (settings.gameMode == 1)
                 {
                     GUILayout.Label("All Goals accomplished. Hardcore and Deducted Loans"); // .75 * .6 = .45
                     showCostValue("Total Mission Payout:", (currentMission.reward * FinanceMode.currentloan * PayoutLeveles.TechPayout) * .60, styleValueGreen);
@@ -831,13 +781,13 @@ namespace MissionController
             }
             else
             {
-                if (settings.gameMode == 1)
+                if (settings.gameMode == 0)
                 {
                     GUILayout.Label("All goals accomplished. you can finish the mission now!", styleCaption);
                     showCostValue("Total Mission Payout:", currentMission.reward * PayoutLeveles.TechPayout, styleValueGreen);
                     showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
                 }
-                if (settings.gameMode == 2)
+                if (settings.gameMode == 1)
                 {
                     GUILayout.Label("All goals accomplished. you can finish the mission now: HardCore Mode 40 % Reduction!", styleCaption);
                     showCostValue("Total Mission Payout:", (currentMission.reward * PayoutLeveles.TechPayout) * .60, styleValueGreen);
@@ -866,6 +816,7 @@ namespace MissionController
         {            
             GUI.skin = HighLogic.Skin;
             GUILayout.BeginVertical();
+            scrollPositionship = GUILayout.BeginScrollView(scrollPositionship, GUILayout.Width(300));
             GUILayout.Space(20);
 
             VesselResources res = new VesselResources(activeVessel);
@@ -890,6 +841,14 @@ namespace MissionController
             if (res.wet() > (0)) { showCostValue("(Total Cost Of Fuels):", res.wet(), styleValueYellow); }
             if (res.dry() > (0)) { showCostValue("(Total Cost Of Parts):", res.dry(), styleValueYellow); }
             showCostValue("Total Cost Vessel:", res.sum(), (res.sum() > manager.budget ? styleValueRedBold : styleValueYellow));
+            GUILayout.EndScrollView();
+
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("Exit Window", styleButtonWordWrap, GUILayout.Width(75)))
+            {
+                showVabShipWindow = false;
+            }
+            GUILayout.EndHorizontal();
 
             GUILayout.Space(20);
             GUILayout.EndVertical();
@@ -902,6 +861,7 @@ namespace MissionController
 
             GUI.skin = HighLogic.Skin;
             GUILayout.BeginVertical();
+            scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.Width(350));
             GUILayout.Space(20);
 
             if (status.isClientControlled)
@@ -925,10 +885,26 @@ namespace MissionController
                     drawMission(currentMission, status);
                 }
             }
-            if (GUILayout.Button("Change Mission Package", styleButtonWordWrap, GUILayout.Width(200)))
+            GUILayout.EndScrollView();
+            
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("Change Package", styleButtonWordWrap, GUILayout.Width(150)))
             {
                 createFileBrowser("Select Contract", selectMissionPackage);
             }
+
+            if (currentPackage != null)
+            {
+                if (GUILayout.Button("Select New Mission", styleButtonWordWrap, GUILayout.Width(150)))
+                {
+                    packageWindow(true);
+                }
+            }
+            if (GUILayout.Button("X", styleButtonWordWrap, GUILayout.Width(25)))
+            {
+                showMissionStatusWindow = false;
+            }
+            GUILayout.EndHorizontal();
 
             GUILayout.Space(20);
             GUILayout.EndVertical();
@@ -948,6 +924,8 @@ namespace MissionController
             GUILayout.EndVertical();
             GUI.DragWindow();
         }
+
+        // End Of WindowGUIs
         
         /// <summary>
         /// Selects the mission in the file
@@ -988,9 +966,9 @@ namespace MissionController
 
             GUILayout.BeginHorizontal();
             GUILayout.Label("Reward: ", styleValueGreenBold);
-            if (settings.gameMode == 1)
+            if (settings.gameMode == 0)
             { GUILayout.Label(mission.reward * PayoutLeveles.TechPayout + CurrencySuffix, styleValueYellow); }
-            if (settings.gameMode == 2)
+            if (settings.gameMode == 1)
             { GUILayout.Label(mission.reward * 60 / 100 + CurrencySuffix, styleValueYellow); }
             GUILayout.EndHorizontal();
 
@@ -1041,13 +1019,13 @@ namespace MissionController
                 showRandomWindow = true;
                 if (manager.budget < 0)
                 {
-                    if (settings.gameMode == 1)
+                    if (settings.gameMode == 0)
                     {
                         GUILayout.Label("All goals accomplished. You can finish the mission now! Deducted for loans!", styleCaption);
                         showCostValue("Total Mission Payout:", (currentMission.reward * FinanceMode.currentloan) * PayoutLeveles.TechPayout, styleValueGreen);
                         showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
                     }
-                    if (settings.gameMode == 2)
+                    if (settings.gameMode == 1)
                     {
                         GUILayout.Label("All Goals accomplished. Finish The Mission. Deducted for loans and HardCore mode"); // .75 * .6 = .45
                         showCostValue("Total Mission Payout:", (currentMission.reward * FinanceMode.currentloan * PayoutLeveles.TechPayout) * .60, styleValueGreen);
@@ -1056,13 +1034,13 @@ namespace MissionController
                 }
                 else
                 {
-                    if (settings.gameMode == 1)
+                    if (settings.gameMode == 0)
                     {
                         GUILayout.Label("All goals accomplished. you can finish the mission now!", styleCaption);
                         showCostValue("Total Mission Payout:", currentMission.reward * PayoutLeveles.TechPayout, styleValueGreen);
                         showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
                     }
-                    if (settings.gameMode == 2)
+                    if (settings.gameMode == 1)
                     {
                         GUILayout.Label("All goals accomplished. you can finish the mission now: HardCore Mode!", styleCaption);
                         showCostValue("Total Mission Payout:", (currentMission.reward * PayoutLeveles.TechPayout) * .60, styleValueGreen);

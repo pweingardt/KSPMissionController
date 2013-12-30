@@ -11,12 +11,12 @@ namespace MissionController
     public partial class MissionController
     {
         private int resetCount = 0;
-        private String[] resetStrings = new String[] {"Reset the space program!", "Are you sure?"};
+        private String[] resetStrings = new String[] {"Reset To Start Values!", "Are you sure?"};
 
         private int rewindCount = 0;
         private String[] rewindStrings = new String[] {"REVERT Space Program", "Revert To Before Last SC Visit?"};
         
-        private String[] difficulties = new String[] { "Flight Testing", "Flight Mode","HardCoreMode"};
+        private String[] difficulties = new String[] {"NormalMode","HardCoreMode"};
 
         //private String[] fueltech = new String[] { "Fuel Level 0", "Fuel Level 1" };
 
@@ -31,7 +31,7 @@ namespace MissionController
 
             GUILayout.Space(10);
             GUILayout.Box("Chose Your Game Modes",GUILayout.Height(30));
-            settings.gameMode = GUILayout.SelectionGrid(settings.gameMode, difficulties, 3);
+            settings.gameMode = GUILayout.SelectionGrid(settings.gameMode, difficulties, 2);
 
             //GUILayout.Space(10);
             //GUILayout.Box("Fuel Modes", GUILayout.Height(30));
@@ -78,7 +78,6 @@ namespace MissionController
                 PayoutLeveles.payoutlevels(manager.GetCurrentPayoutLevel);
                 
                 SettingsManager.Manager.saveSettings();
-                GUISave();
             }
             GUILayout.EndVertical();
             if (!Input.GetMouseButtonDown(1))
