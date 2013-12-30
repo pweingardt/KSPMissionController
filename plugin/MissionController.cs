@@ -105,6 +105,9 @@ namespace MissionController
         private IButton button;
         private IButton BudgetDisplay;
         private IButton MissionSelect;
+        private IButton VabShipSelect;
+        private IButton RevertSelect;
+        private IButton ScienceResearch;
 
         private bool showSettingsWindow = false;
         private bool showMissionPackageBrowser = false;
@@ -299,7 +302,7 @@ namespace MissionController
             button = ToolbarManager.Instance.add("Test", "Settings1");
             button.TexturePath = "MissionController/icons/settings";
             button.ToolTip = "Mission Controller Settings";
-            button.Visibility = new GameScenesVisibility(GameScenes.SPACECENTER);
+            button.Visibility = new GameScenesVisibility(GameScenes.SPACECENTER,GameScenes.EDITOR,GameScenes.FLIGHT);
             button.OnClick += (e) =>
             {
                 showSettingsWindow = !showSettingsWindow;
@@ -308,24 +311,59 @@ namespace MissionController
             BudgetDisplay = ToolbarManager.Instance.add("Test", "money1");
             BudgetDisplay.TexturePath = "MissionController/icons/money";
             BudgetDisplay.ToolTip = "Current Budget: " + manager.budget + CurrencySuffix;
-            BudgetDisplay.Visibility = new GameScenesVisibility(GameScenes.SPACECENTER);
+            BudgetDisplay.Visibility = new GameScenesVisibility(GameScenes.SPACECENTER,GameScenes.EDITOR);
             BudgetDisplay.OnClick += (e) =>
             {
                 showFinanceWindow = !showFinanceWindow;
             };
 
             MissionSelect = ToolbarManager.Instance.add("Test", "missionsel1");
-            MissionSelect.TexturePath = "MissionController/icons/mission";
+            MissionSelect.TexturePath = "MissionController/icons/clipboard";
             MissionSelect.ToolTip = "Select Current Mission";
-            MissionSelect.Visibility = new GameScenesVisibility(GameScenes.SPACECENTER);
+            MissionSelect.Visibility = new GameScenesVisibility(GameScenes.SPACECENTER,GameScenes.FLIGHT);
             MissionSelect.OnClick += (e) =>
              {
                  showMissionStatusWindow = !showMissionStatusWindow;
              };
-            
 
+            VabShipSelect = ToolbarManager.Instance.add("Test", "ship1");
+            VabShipSelect.TexturePath = "MissionController/icons/blueprints";
+            VabShipSelect.ToolTip = "Ship Value BreakDown";
+            VabShipSelect.Visibility = new GameScenesVisibility(GameScenes.EDITOR);
+            VabShipSelect.OnClick += (e) =>
+            {
+                showVabShipWindow = !showVabShipWindow;
+            };
 
+            RevertSelect = ToolbarManager.Instance.add("Test", "ship2");
+            RevertSelect.TexturePath = "MissionController/icons/blueprints";
+            RevertSelect.ToolTip = "Ship Value BreakDown";
+            RevertSelect.Visibility = new GameScenesVisibility(GameScenes.EDITOR);
+            RevertSelect.OnClick += (e) =>
+            {
+                showVabShipWindow = !showVabShipWindow;
+            };
 
+            ScienceResearch = ToolbarManager.Instance.add("Test", "ship2");
+            ScienceResearch.TexturePath = "MissionController/icons/research"
+            ScienceResearch.ToolTip = "Mission Controller Research Window";
+            ScienceResearch.Visibility = new GameScenesVisibility(GameScenes.SPACECENTER);
+            ScienceResearch.OnClick += (e) =>
+            {
+                showResearchTreeWindow = !showResearchTreeWindow;
+            };
+          
+            RevertSelect = ToolbarManager.Instance.add("Test", "ship2");
+            RevertSelect.TexturePath = "MissionController/icons/revert";
+            RevertSelect.ToolTip = "Revert Flight And Missoin Controller To VAB";
+            RevertSelect.Visibility = new GameScenesVisibility(GameScenes.FLIGHT);
+            RevertSelect.OnClick += (e) =>
+              {
+                 if (FlightDriver.CanRevertToPrelaunch)
+                  {
+                     showRevertWindow = !showRevertWindow;
+                  }
+              };    
 
 
         }
@@ -623,12 +661,7 @@ namespace MissionController
                 if (GUI.Button(FlightBuildList, "SV: " + res.sum(), (res.sum() > manager.budget ? styleRedButtonCenter : styleGreenButtonCenter)))
                 {
                     showVabShipWindow = !showVabShipWindow;
-                }
-                if (GUI.Button(FlightMissionWindow, "Current Mission", styleGreenButtonCenter))
-                {
-                    showMissionStatusWindow = !showMissionStatusWindow;
-                }
-
+                }               
                 if (FlightDriver.CanRevertToPrelaunch)
                 {
                     if (GUI.Button(FlightRevertBut, "Revert Flight", styleButtonYellow))
@@ -827,13 +860,7 @@ namespace MissionController
             GUILayout.EndHorizontal();
             GUILayout.EndVertical();
             GUI.DragWindow();
-        }
-
-        /// <summary>
-        /// Draws the main mission window.
-        /// Do not use currentMission.isDone or missionGoal.isDone(), use status instead!!!
-        /// </summary>
-        /// <param name="id">Identifier.</param>
+        }       
 
         private void drawVabShipWindow(int id)
         {            
