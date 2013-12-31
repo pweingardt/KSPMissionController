@@ -1,0 +1,61 @@
+toolbars
+{
+	toolbar
+	{
+		MAINMENU
+		{
+			x = 300
+			y = 300
+			width = 51
+			height = 38
+			autoHide = False
+			drawBorder = True
+			useKSPSkin = False
+			buttonOrder = 
+		}
+		SPACECENTER
+		{
+			x = 1597
+			y = 1035
+			width = 183
+			height = 38
+			autoHide = False
+			drawBorder = False
+			useKSPSkin = True
+			buttonOrder = MC1.missionsel1,MC1.money1,MC1.ship1,MC1.ship2,MC1.ship3,MC1.Settings1,MC1.Hide
+		}
+		EDITOR
+		{
+			x = 1418
+			y = 5
+			width = 183
+			height = 38
+			autoHide = False
+			drawBorder = False
+			useKSPSkin = True
+			buttonOrder = MC1.missionsel1,MC1.money1,MC1.ship1,MC1.ship2,MC1.ship3,MC1.Settings1,MC1.Hide
+		}
+		FLIGHT
+		{
+			x = 1183
+			y = -2
+			width = 500
+			height = 38
+			autoHide = False
+			drawBorder = False
+			useKSPSkin = True
+			buttonOrder = MC1.missionsel1,MC1.money1,MC1.ship1,MC1.Settings1,MC1.ship2,MC1.Hide,MC1.ship3
+		}
+		SPH
+		{
+			x = 1430
+			y = 7
+			width = 500
+			height = 38
+			autoHide = False
+			drawBorder = False
+			useKSPSkin = True
+			buttonOrder = Test.missionsel1,Test.money1,Test.Settings1,Test.ship1,Test.ship2,Test.ship3,Test.Hide
+		}
+	}
+}

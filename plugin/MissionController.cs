@@ -329,7 +329,7 @@ namespace MissionController
             VabShipSelect = ToolbarManager.Instance.add("MC1", "ship1");
             VabShipSelect.TexturePath = "MissionController/icons/blueprints";
             VabShipSelect.ToolTip = "Ship Value BreakDown";
-            VabShipSelect.Visibility = new GameScenesVisibility(GameScenes.EDITOR,GameScenes.SPH);
+            VabShipSelect.Visibility = new GameScenesVisibility(GameScenes.EDITOR,GameScenes.SPH,GameScenes.FLIGHT);
             VabShipSelect.OnClick += (e) =>
             {
                 showVabShipWindow = !showVabShipWindow;
@@ -792,7 +792,10 @@ namespace MissionController
             }
 
             GUILayout.EndVertical();
-            GUI.DragWindow();
+            if (!Input.GetMouseButtonDown(1))
+            {
+                GUI.DragWindow();
+            }
         }
 
         private void drawRevertWindow(int id)
@@ -802,7 +805,7 @@ namespace MissionController
 
             GUILayout.Label("Pressing Ok Will Revert Both Mission controller");
             GUILayout.Label("And KSP To PreLaunch Conditions In The Editor");
-            GUILayout.Label("You will Be charged 1000 Credits For Doing this");
+            GUILayout.Label("You will Be charged 1000 Credits For Doing this",styleValueRed);
             GUILayout.Label("Do You Want To Continue?");
 
             GUILayout.BeginHorizontal();
@@ -823,7 +826,10 @@ namespace MissionController
             GUILayout.EndHorizontal();
 
             GUILayout.EndVertical();
-            GUI.DragWindow();
+            if (!Input.GetMouseButtonDown(1))
+            {
+                GUI.DragWindow();
+            }
         }
 
         private void drawRandomWindow(int id)
@@ -881,7 +887,10 @@ namespace MissionController
             }
             GUILayout.EndHorizontal();
             GUILayout.EndVertical();
-            GUI.DragWindow();
+            if (!Input.GetMouseButtonDown(1))
+            {
+                GUI.DragWindow();
+            }
         }       
 
         private void drawVabShipWindow(int id)
@@ -892,8 +901,7 @@ namespace MissionController
             GUILayout.Space(20);
 
             VesselResources res = new VesselResources(activeVessel);
-
-            showCostValue("Crew insurance (Launch Pad Only): ", res.crew(), styleValueGreen);
+            
             if (res.pod() > (0)) { showCostValue("Command Sections:", res.pod(), styleValueGreen); }
             if (res.ctrl() > (0)) { showCostValue("Avionics and Control:", res.ctrl(), styleValueGreen); } // NOT control surfaces. Those are AERO parts. These are SAS etc
             if (res.util() > (0)) { showCostValue("Utility Parts:", res.util(), styleValueGreen); }
@@ -912,11 +920,12 @@ namespace MissionController
             }
             if (res.wet() > (0)) { showCostValue("(Total Cost Of Fuels):", res.wet(), styleValueYellow); }
             if (res.dry() > (0)) { showCostValue("(Total Cost Of Parts):", res.dry(), styleValueYellow); }
+            showCostValue("Crew insurance (Launch Pad Only): ", res.crew(), styleValueYellow);
             showCostValue("Total Cost Vessel:", res.sum(), (res.sum() > manager.budget ? styleValueRedBold : styleValueYellow));
             GUILayout.EndScrollView();
 
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Exit Window", styleButtonWordWrap, GUILayout.Width(75)))
+            if (GUILayout.Button("Exit Window", styleButtonWordWrap, GUILayout.Width(300)))
             {
                 showVabShipWindow = false;
             }
@@ -924,7 +933,10 @@ namespace MissionController
 
             GUILayout.Space(20);
             GUILayout.EndVertical();
-            GUI.DragWindow();
+            if (!Input.GetMouseButtonDown(1))
+            {
+                GUI.DragWindow();
+            }
         }
 
         private void drawMissionInfoWindow(int id)
@@ -954,6 +966,11 @@ namespace MissionController
                 GUILayout.Label("Vessel Most Likely Launched In Disabled Mode", styleValueRedBold);
             }
 
+            if (settings.disablePlugin == true)
+            {
+                GUILayout.Label("Plugin Disabled", styleValueRed);
+            }           
+
             if (currentMission != null)
             {
                 drawMission(currentMission, status);     
@@ -981,21 +998,30 @@ namespace MissionController
 
             GUILayout.Space(20);
             GUILayout.EndVertical();
-            GUI.DragWindow();
+            if (!Input.GetMouseButtonDown(1))
+            {
+                GUI.DragWindow();
+            }
         }
 
         private void drawbudgetwindow(int id)
         {
             GUILayout.BeginVertical();
             GUILayout.EndVertical();
-            GUI.DragWindow();
+            if (!Input.GetMouseButtonDown(1))
+            {
+                GUI.DragWindow();
+            }
         }
         private void drawconstructioncostwindow(int id)
         {
             VesselResources res = new VesselResources(activeVessel);
             GUILayout.BeginVertical();
             GUILayout.EndVertical();
-            GUI.DragWindow();
+            if (!Input.GetMouseButtonDown(1))
+            {
+                GUI.DragWindow();
+            }
         }
 
         // End Of WindowGUIs
@@ -1042,7 +1068,7 @@ namespace MissionController
             if (settings.gameMode == 0)
             { GUILayout.Label(mission.reward * PayoutLeveles.TechPayout + CurrencySuffix, styleValueYellow); }
             if (settings.gameMode == 1)
-            { GUILayout.Label(mission.reward * 60 / 100 + CurrencySuffix, styleValueYellow); }
+            { GUILayout.Label(mission.reward * PayoutLeveles.TechPayout * .60 + CurrencySuffix, styleValueYellow); }
             GUILayout.EndHorizontal();
 
             if (mission.scienceReward != 0)

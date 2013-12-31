@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<config>
+    <rect name="settingsWindowPostion">
+        <xmin>1500</xmin>
+        <xmax>1742</xmax>
+        <ymin>302</ymin>
+        <ymax>713</ymax>
+    </rect>
+    <rect name="finanaceWindowPostion">
+        <xmin>1256</xmin>
+        <xmax>1575</xmax>
+        <ymin>156</ymin>
+        <ymax>709</ymax>
+    </rect>
+    <rect name="kerbalnautWindowPostion">
+        <xmin>374</xmin>
+        <xmax>1040</xmax>
+        <ymin>200</ymin>
+        <ymax>753</ymax>
+    </rect>
+    <rect name="packageWindowPostion">
+        <xmin>501</xmin>
+        <xmax>1501</xmax>
+        <ymin>116</ymin>
+        <ymax>866</ymax>
+    </rect>
+    <rect name="vabBudgetWin">
+        <xmin>1239</xmin>
+        <xmax>1414</xmax>
+        <ymin>3</ymin>
+        <ymax>23</ymax>
+    </rect>
+    <rect name="vabBudgetWin1">
+        <xmin>1415</xmin>
+        <xmax>1590</xmax>
+        <ymin>1048</ymin>
+        <ymax>1068</ymax>
+    </rect>
+    <rect name="vabBudgetWin2">
+        <xmin>1081</xmin>
+        <xmax>1181</xmax>
+        <ymin>-2</ymin>
+        <ymax>18</ymax>
+    </rect>
+    <rect name="vabBudgetWin3">
+        <xmin>1240</xmin>
+        <xmax>1415</xmax>
+        <ymin>2</ymin>
+        <ymax>22</ymax>
+    </rect>
+    <rect name="VabShipBuildList">
+        <xmin>533</xmin>
+        <xmax>708</xmax>
+        <ymin>2</ymin>
+        <ymax>22</ymax>
+    </rect>
+    <rect name="VabShipBuildList1">
+        <xmin>1081</xmin>
+        <xmax>1181</xmax>
+        <ymin>18</ymin>
+        <ymax>38</ymax>
+    </rect>
+    <rect name="VabShipBuildList2">
+        <xmin>536</xmin>
+        <xmax>711</xmax>
+        <ymin>2</ymin>
+        <ymax>22</ymax>
+    </rect>
+    <rect name="VabShipWindow">
+        <xmin>284</xmin>
+        <xmax>600</xmax>
+        <ymin>61</ymin>
+        <ymax>461</ymax>
+    </rect>
+    <rect name="MissionWindowStatus">
+        <xmin>165</xmin>
+        <xmax>531</xmax>
+        <ymin>114</ymin>
+        <ymax>564</ymax>
+    </rect>
+</config>

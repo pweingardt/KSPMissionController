@@ -661,10 +661,8 @@ namespace MissionController
                         mult *= 0.6;
                     value = (int)((double)value * mult);
                 }
-                int currentlevel = currentProgram.currentpayoutlevel;
-                value = (int)PayoutLeveles.TechPayout * value;
                 latestExpenses = -value;
-                currentProgram.money += value;
+                currentProgram.money += (int)((double)value * PayoutLeveles.TechPayout);
                 currentProgram.totalMoney += value;
             }
             return currentProgram.money;
