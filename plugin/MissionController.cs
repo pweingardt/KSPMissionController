@@ -301,8 +301,8 @@ namespace MissionController
             
             button = ToolbarManager.Instance.add("MC1", "Settings1");
             button.TexturePath = "MissionController/icons/settings";
-            button.ToolTip = "Mission Controller Settings";
-            button.Visibility = new GameScenesVisibility(GameScenes.SPACECENTER,GameScenes.EDITOR,GameScenes.FLIGHT);
+            button.ToolTip = "MCE Settings";
+            button.Visibility = new GameScenesVisibility(GameScenes.SPACECENTER,GameScenes.EDITOR,GameScenes.SPH,GameScenes.FLIGHT);
             button.OnClick += (e) =>
             {
                 showSettingsWindow = !showSettingsWindow;
@@ -310,7 +310,7 @@ namespace MissionController
 
             BudgetDisplay = ToolbarManager.Instance.add("MC1", "money1");
             BudgetDisplay.TexturePath = "MissionController/icons/money";
-            BudgetDisplay.ToolTip = "Current Budget";
+            BudgetDisplay.ToolTip = "MCE Current Budget";
             BudgetDisplay.Visibility = new GameScenesVisibility(GameScenes.SPACECENTER,GameScenes.EDITOR,GameScenes.SPH);
             BudgetDisplay.OnClick += (e) =>
             {
@@ -319,7 +319,7 @@ namespace MissionController
 
             MissionSelect = ToolbarManager.Instance.add("MC1", "missionsel1");
             MissionSelect.TexturePath = "MissionController/icons/mission";
-            MissionSelect.ToolTip = "Select Current Mission";
+            MissionSelect.ToolTip = "MCE Select Current Mission";
             MissionSelect.Visibility = new GameScenesVisibility(GameScenes.SPACECENTER,GameScenes.FLIGHT);
             MissionSelect.OnClick += (e) =>
              {
@@ -328,7 +328,7 @@ namespace MissionController
 
             VabShipSelect = ToolbarManager.Instance.add("MC1", "ship1");
             VabShipSelect.TexturePath = "MissionController/icons/blueprints";
-            VabShipSelect.ToolTip = "Ship Value BreakDown";
+            VabShipSelect.ToolTip = "MCE Ship Value BreakDown";
             VabShipSelect.Visibility = new GameScenesVisibility(GameScenes.EDITOR,GameScenes.SPH,GameScenes.FLIGHT);
             VabShipSelect.OnClick += (e) =>
             {
@@ -337,7 +337,7 @@ namespace MissionController
 
             ScienceResearch = ToolbarManager.Instance.add("MC1", "ship3");
             ScienceResearch.TexturePath = "MissionController/icons/research";
-            ScienceResearch.ToolTip = "Mission Controller Research Window";
+            ScienceResearch.ToolTip = "MCE Research Window";
             ScienceResearch.Visibility = new GameScenesVisibility(GameScenes.SPACECENTER,GameScenes.EDITOR,GameScenes.SPH);
             ScienceResearch.OnClick += (e) =>
             {
@@ -346,7 +346,7 @@ namespace MissionController
 
             RevertSelect = ToolbarManager.Instance.add("MC1", "ship2");
             RevertSelect.TexturePath = "MissionController/icons/revert";
-            RevertSelect.ToolTip = "Revert To VAB Cost 1000 Credits";
+            RevertSelect.ToolTip = "MCE Revert To VAB Cost 1000 Credits";
             RevertSelect.Visibility = new GameScenesVisibility(GameScenes.FLIGHT);
             RevertSelect.OnClick += (e) =>
               {
@@ -358,7 +358,7 @@ namespace MissionController
 
             Hidetoolbars = ToolbarManager.Instance.add("MC1", "Hide");
             Hidetoolbars.TexturePath = "MissionController/icons/hide";
-            Hidetoolbars.ToolTip = "Hide Mission Controller Extra Windows";
+            Hidetoolbars.ToolTip = "Hide MCE Display Windows";
             Hidetoolbars.Visibility = new GameScenesVisibility(GameScenes.SPACECENTER, GameScenes.EDITOR, GameScenes.SPH,GameScenes.FLIGHT);
             Hidetoolbars.OnClick += (e) =>
             {
@@ -430,6 +430,18 @@ namespace MissionController
             GameEvents.onVesselCreate.Remove(this.onVesselCreate);
         }
 
+        public void OnDestroy()
+        {
+            button.Destroy();
+            BudgetDisplay.Destroy();
+            MissionSelect.Destroy();
+            VabShipSelect.Destroy();
+            RevertSelect.Destroy();
+            ScienceResearch.Destroy();
+            Hidetoolbars.Destroy();
+        }
+        
+
         public void GUILoad()
         {
             KSP.IO.PluginConfiguration configfile = KSP.IO.PluginConfiguration.CreateForType<MissionController>();
@@ -437,7 +449,7 @@ namespace MissionController
 
             settingsWindowPosition = configfile.GetValue<Rect>("settingsWindowPostion");
             financeWindowPosition = configfile.GetValue<Rect>("finanaceWindowPostion");
-            researchtreewinpostion = configfile.GetValue<Rect>("kerbalnautWindowPostion");
+            researchtreewinpostion = configfile.GetValue<Rect>("researchtreewinpostion");
             packageWindowPosition = configfile.GetValue<Rect>("packageWindowPostion");
             
             VabBudgetWin = configfile.GetValue<Rect>("vabBudgetWin");
@@ -458,7 +470,7 @@ namespace MissionController
              
             configfile.SetValue("settingsWindowPostion", settingsWindowPosition);
             configfile.SetValue("finanaceWindowPostion", financeWindowPosition);
-            configfile.SetValue("kerbalnautWindowPostion", researchtreewinpostion);
+            configfile.SetValue("researchtreewinpostion", researchtreewinpostion);
             configfile.SetValue("packageWindowPostion", packageWindowPosition);
             configfile.SetValue("vabBudgetWin", VabBudgetWin);
             configfile.SetValue("vabBudgetWin1", VabBudgetWin1);
@@ -583,12 +595,6 @@ namespace MissionController
         }
         bool partsCostCorrected = false; // NK for setting part costs on load
 
-        public void OnDestroy()
-        {            
-            button.Destroy();
-        }
-
-       
         /// <summary>
         /// Loads GUIWindows
         /// </summary>
@@ -663,7 +669,7 @@ namespace MissionController
                 showbudgetamountwindow = true;
             }
 
-            if (HighLogic.LoadedScene.Equals(GameScenes.EDITOR))
+            if (HighLogic.LoadedScene.Equals(GameScenes.EDITOR) || HighLogic.LoadedScene.Equals(GameScenes.SPH))
             {                
                 showconstructionwindow = true;
             }
@@ -706,45 +712,45 @@ namespace MissionController
             }
 
 
-            if (showVabShipWindow)
+            if (showVabShipWindow && hidetoolbarsviews)
             {
                 VabShipWindow = GUILayout.Window(898989, VabShipWindow, drawVabShipWindow, "Ship Breakdown List",GUILayout.MinHeight(400), GUILayout.MinWidth(300));
             }
 
-            if (showMissionStatusWindow)
+            if (showMissionStatusWindow && hidetoolbarsviews)
             {
                 MissionWindowStatus = GUILayout.Window(898990, MissionWindowStatus, drawMissionInfoWindow, "Current Mission Window",GUILayout.MinHeight(450), GUILayout.MinWidth(350));
             }
-                      
-            if (showSettingsWindow)
+
+            if (showSettingsWindow && hidetoolbarsviews)
             {
                 settingsWindowPosition = GUILayout.Window(98763, settingsWindowPosition, drawSettingsWindow, "Settings", GUILayout.MinHeight(225), GUILayout.MinWidth(150));
             }
 
-            if (showMissionPackageBrowser)
+            if (showMissionPackageBrowser && hidetoolbarsviews)
             {
                 packageWindowPosition = GUILayout.Window(98762, packageWindowPosition, drawPackageWindow, currentPackage.name, GUILayout.MinHeight(750), GUILayout.MinWidth(1000));
             }
 
-            if (showFinanceWindow)
+            if (showFinanceWindow && hidetoolbarsviews)
             {
                 financeWindowPosition = GUILayout.Window(98761, financeWindowPosition, drawFinaceWindow, "Finance Window", GUILayout.MinHeight(350), GUILayout.MinWidth(300));
             }
 
-            if (showRecycleWindow)
+            if (showRecycleWindow && hidetoolbarsviews)
             {
                 GUILayout.Window(98766, new Rect(Screen.width / 2 - 200, Screen.height / 2 - 100, 400, 100), drawRecycleWindow, "Recycle Window");
             }
-            if (showRandomWindow)
+            if (showRandomWindow && hidetoolbarsviews)
             {
                 GUILayout.Window(98866, new Rect(Screen.width / 2 - 200, Screen.height / 2 - 100, 400, 100), drawRandomWindow, "Event Window");
             }
-            if (showRevertWindow)
+            if (showRevertWindow && hidetoolbarsviews)
             {
                 GUILayout.Window(99746, new Rect(Screen.width / 2 - 200, Screen.height / 2 - 100, 400, 100), drawRevertWindow, "Revert Space Program And KSP Window");
             }
 
-            if (showResearchTreeWindow)
+            if (showResearchTreeWindow && hidetoolbarsviews)
             {
                 researchtreewinpostion = GUILayout.Window(98760, researchtreewinpostion, drawResearchTree, "Research Window", GUILayout.MinHeight(350), GUILayout.MinWidth(500));
             }
@@ -803,27 +809,78 @@ namespace MissionController
             GUI.skin = HighLogic.Skin;
             GUILayout.BeginVertical();
 
-            GUILayout.Label("Pressing Ok Will Revert Both Mission controller");
-            GUILayout.Label("And KSP To PreLaunch Conditions In The Editor");
-            GUILayout.Label("You will Be charged 1000 Credits For Doing this",styleValueRed);
-            GUILayout.Label("Do You Want To Continue?");
-
-            GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Revert To PreLaunch", styleButtonWordWrap, GUILayout.Width(200)))
+            if (FlightDriver.CanRevertToPrelaunch && activeVessel.situation != Vessel.Situations.PRELAUNCH)
             {
-                manager.loadProgramBackup(HighLogic.CurrentGame.Title);
-                FlightDriver.RevertToPrelaunch(GameScenes.EDITOR);                
-                manager.costs(1000);
-                manager.saveProgramBackup();
+                GUILayout.BeginHorizontal();
+                GUILayout.Label("Pressing Ok Will Revert Both Mission controller", styleCaption);
+                GUILayout.EndHorizontal();
+                GUILayout.BeginHorizontal();
+                GUILayout.Label("And KSP To PreLaunch Conditions In The Editor", styleCaption);
+                GUILayout.EndHorizontal();
+                GUILayout.BeginHorizontal();
+                GUILayout.Label("You will Be charged 1000 Credits For Doing this", styleValueGreenBold);
+                GUILayout.EndHorizontal();
+                GUILayout.BeginHorizontal();
+                GUILayout.Label("Do You Want To Continue?", styleCaption);
+                GUILayout.EndHorizontal();
+               
+                GUILayout.BeginHorizontal();
+                if (GUILayout.Button("Revert To PreLaunch", styleButtonWordWrap, GUILayout.Width(200)))
+                {
+                    manager.loadProgramBackup(HighLogic.CurrentGame.Title);
+                    FlightDriver.RevertToPrelaunch(GameScenes.EDITOR);
+                    manager.costs(1000);
+                    manager.saveProgramBackup();
 
-                showRevertWindow = false;
+                    showRevertWindow = false;
+                }
+
+                if (GUILayout.Button("Do Not Revert", styleButtonWordWrap, GUILayout.Width(200)))
+                {
+                    showRevertWindow = false;
+                }
+                GUILayout.EndHorizontal();
             }
-
-            if (GUILayout.Button("Do Not Revert", styleButtonWordWrap, GUILayout.Width(200)))
+            if (activeVessel.situation == Vessel.Situations.PRELAUNCH)
             {
-                showRevertWindow = false;
+
+                GUILayout.BeginHorizontal();
+                GUILayout.Label("You are in PreLaunch Conditions you",styleCaption);
+                GUILayout.EndHorizontal();
+                GUILayout.BeginHorizontal();
+                GUILayout.Label("Can Revert For Free", styleValueGreenBold);
+                GUILayout.EndHorizontal();
+                GUILayout.BeginHorizontal();
+                GUILayout.Label("Do You Want To Continue?", styleCaption);
+                GUILayout.EndHorizontal();
+
+                GUILayout.BeginHorizontal();
+                if (GUILayout.Button("Revert To PreLaunch", styleButtonWordWrap, GUILayout.Width(200)))
+                {
+                    manager.loadProgramBackup(HighLogic.CurrentGame.Title);
+                    FlightDriver.RevertToPrelaunch(GameScenes.EDITOR);
+                    showRevertWindow = false;
+                }
+
+                if (GUILayout.Button("Do Not Revert", styleButtonWordWrap, GUILayout.Width(200)))
+                {
+                    showRevertWindow = false;
+                }
+                GUILayout.EndHorizontal();
             }
-            GUILayout.EndHorizontal();
+            if (!FlightDriver.CanRevertToPrelaunch && activeVessel.situation != Vessel.Situations.PRELAUNCH)
+            {
+                GUILayout.BeginHorizontal();
+                GUILayout.Label("You Can No Longer Revert With Vessel", styleCaption);
+                GUILayout.EndHorizontal();
+              
+                if (GUILayout.Button("Do Not Revert", styleButtonWordWrap, GUILayout.Width(200)))
+                {
+                    showRevertWindow = false;
+                }
+
+
+            }
 
             GUILayout.EndVertical();
             if (!Input.GetMouseButtonDown(1))
@@ -852,7 +909,7 @@ namespace MissionController
                 }
                 if (settings.gameMode == 1)
                 {
-                    GUILayout.Label("All Goals accomplished. Hardcore and Deducted Loans"); // .75 * .6 = .45
+                    GUILayout.Label("All Goals accomplished. Hardcore and Deducted Loans", styleCaption); // .75 * .6 = .45
                     showCostValue("Total Mission Payout:", (currentMission.reward * FinanceMode.currentloan * PayoutLeveles.TechPayout) * .60, styleValueGreen);
                     showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
                 }
@@ -921,7 +978,7 @@ namespace MissionController
             if (res.wet() > (0)) { showCostValue("(Total Cost Of Fuels):", res.wet(), styleValueYellow); }
             if (res.dry() > (0)) { showCostValue("(Total Cost Of Parts):", res.dry(), styleValueYellow); }
             showCostValue("Crew insurance (Launch Pad Only): ", res.crew(), styleValueYellow);
-            showCostValue("Total Cost Vessel:", res.sum(), (res.sum() > manager.budget ? styleValueRedBold : styleValueYellow));
+            showCostValue("Total Cost Vessel:", res.sum(), (res.sum() > manager.budget ? styleValueRedBold : styleValueGreen));
             GUILayout.EndScrollView();
 
             GUILayout.BeginHorizontal();

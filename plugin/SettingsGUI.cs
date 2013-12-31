@@ -33,6 +33,12 @@ namespace MissionController
             GUILayout.BeginHorizontal();
             GUILayout.Box("Original MC Developer NoBody44", GUILayout.Width(225), GUILayout.Height(30));
             GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Box("ToolBar Mod By Blizzy78", GUILayout.Width(225), GUILayout.Height(30));
+            GUILayout.EndHorizontal();
+
+            GUILayout.Space(10);
             
             GUILayout.BeginHorizontal();
             GUILayout.Box("Plugin Disabled", GUILayout.Width(112), GUILayout.Height(30));
