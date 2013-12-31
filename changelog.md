@@ -1,3 +1,23 @@
+#Version .40
+
+1. Complete new UI change.  Itegrated ToolBar 1.3.0 into Mission Controller Extended.
+2. New Windows and Every Scene has its own savable windows, icons.  Mission Controller will rember were you put them!  And ToolBar does its thing too!
+3. No more main window, everything has been changed to make Mission Controller feel more like its part of Kerbal Space Program!
+4. My own new Custom Icons to use with ToolBar 1.3.0
+5. No More Flight Testing.  Now the mission controller revert button is the new flight test button?  Messed up? No problem REVERT.. It will cost you 1000 Credits though.
+6. Don't worry if you need to revert the normal way you still can, just remember that if you launched already the Mission Controller Revert is the only guarateed way to save you MC info correct.
+7. Fixed the Research Payouts not working correct with payments at end of missons.
+8. Other bug fixes I can't rember after 3 weeks of editing.
+
+ToolBar 1.3.0
+At this time MCE uses ToolBar, doesn't really matter what version you use if it updates, it should be fine to update the toolbar mod byitself.  Its included in this download.
+you can go to the ToolBar Thread at this address: http://forum.kerbalspaceprogram.com/threads/60863-0-23-0-Toolbar-1-3-0-Common-API-for-draggable-resizable-buttons-toolbar.
+
+If for some reason you toolbar does not show up in game for MCE delete the toolbar-settings.dat in the GameData Folder.  I have it set for pretty high resolution and wasn't sure if they would go off screen with 
+lower res rigs.
+
+And if you can't see the mission controller new windows (ie they off screen) then delete the settings.cfg located in \GameData\MissionController\Plugins\PluginData\MissionController
+
 #Changes in .20
 1. 2 new MissionGoals UndockingGoal And RepairGoal
 
