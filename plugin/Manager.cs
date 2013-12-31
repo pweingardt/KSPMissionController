@@ -657,7 +657,7 @@ namespace MissionController
                     double mult = 1.0;
                     if (manager.budget < 0)
                         mult *= FinanceMode.currentloan;
-                    if (settings.gameMode == 2)
+                    if (settings.gameMode == 1)
                         mult *= 0.6;
                     value = (int)((double)value * mult);
                 }

@@ -11,10 +11,7 @@ namespace MissionController
     public partial class MissionController
     {
         private int resetCount = 0;
-        private String[] resetStrings = new String[] {"Reset To Start Values!", "Are you sure?"};
-
-        private int rewindCount = 0;
-        private String[] rewindStrings = new String[] {"REVERT Space Program", "Revert To Before Last SC Visit?"};
+        private String[] resetStrings = new String[] {"Reset MC To Start Values!", "Are you sure?"};
         
         private String[] difficulties = new String[] {"NormalMode","HardCoreMode"};
 
@@ -27,11 +24,49 @@ namespace MissionController
             GUI.skin = HighLogic.Skin;
             GUILayout.BeginVertical();
 
-            settings.disablePlugin = GUILayout.Toggle(settings.disablePlugin, "Disable Plugin");
+            GUILayout.BeginHorizontal();
+            GUILayout.Box("Plugin Disabled", GUILayout.Width(112), GUILayout.Height(40));
+            if (settings.disablePlugin == true)
+            {
+                GUILayout.Box("TRUE", GUILayout.Width(112), GUILayout.Height(40));                
+            }
 
-            GUILayout.Space(10);
-            GUILayout.Box("Chose Your Game Modes",GUILayout.Height(30));
-            settings.gameMode = GUILayout.SelectionGrid(settings.gameMode, difficulties, 2);
+            if (settings.disablePlugin == false)
+            {
+                GUILayout.Box("FALSE", GUILayout.Width(112), GUILayout.Height(40));
+            }
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Box("GameMode: ", GUILayout.Width(112), GUILayout.Height(40));
+            if (settings.gameMode == 0)
+            {
+                GUILayout.Box("Normal", GUILayout.Width(112), GUILayout.Height(40));
+            }
+
+            if (settings.gameMode == 1)
+            {
+                GUILayout.Box("HardCore", GUILayout.Width(112), GUILayout.Height(40));
+            }
+            GUILayout.EndHorizontal();
+
+
+            //settings.disablePlugin = GUILayout.Toggle(settings.disablePlugin, "Disable Plugin");
+            if (GUILayout.Button("Disable Plugin",styleButtonWordWrap))
+            {
+                settings.disablePlugin = !settings.disablePlugin;
+            }
+            //settings.gameMode = GUILayout.SelectionGrid(settings.gameMode, difficulties, 2);
+
+            if (GUILayout.Button("Normal Mode", styleButtonWordWrap))
+            {
+                settings.gameMode = 0;
+            }
+
+            if (GUILayout.Button("HardCore Mode", styleButtonWordWrap))
+            {
+                settings.gameMode = 1;
+            }
 
             //GUILayout.Space(10);
             //GUILayout.Box("Fuel Modes", GUILayout.Height(30));
@@ -41,24 +76,7 @@ namespace MissionController
             //GUILayout.Box("Construction Modes", GUILayout.Height(30));
             //settings.constructmode = GUILayout.SelectionGrid(settings.constructmode, constructtech, 3);
            
-            GUILayout.Space(10);
-
-            if (FlightDriver.CanRevertToPrelaunch && HighLogic.LoadedSceneIsFlight)
-            {
-                GUILayout.Box("Revert Your Missions", GUILayout.Height(30));
-                if (GUILayout.Button(rewindStrings[rewindCount], styleGreenButton))
-                {
-                    rewindCount++;
-                    if (rewindCount >= rewindStrings.Length)
-                    {
-                        rewindCount = 0;
-                        manager.loadProgramBackup(HighLogic.CurrentGame.Title);
-                        FlightDriver.RevertToPrelaunch(GameScenes.EDITOR);
-                    }
-                }
-            }
-
-            if (GUILayout.Button(resetStrings[resetCount],styleGreenButton))
+            if (GUILayout.Button(resetStrings[resetCount],styleButtonWordWrap))
             {
                 resetCount++;
                 if (resetCount >= resetStrings.Length)
@@ -67,16 +85,14 @@ namespace MissionController
                     manager.resetSpaceProgram();
                 }
             }
-            GUILayout.Space(10);
-            GUILayout.Box("Save Your Settings", GUILayout.Height(30));
-            if (GUILayout.Button("Save and Close Settings", styleGreenButton))
+
+            if (GUILayout.Button("Save Settings", styleButtonWordWrap))
             {
                 settingsWindow(false);
                 //Difficulty.init(settings.difficulty);
                 FuelMode.fuelinit(manager.GetFuels);
                 ConstructionMode.constructinit(manager.GetConstruction);
                 PayoutLeveles.payoutlevels(manager.GetCurrentPayoutLevel);
-                
                 SettingsManager.Manager.saveSettings();
             }
             GUILayout.EndVertical();

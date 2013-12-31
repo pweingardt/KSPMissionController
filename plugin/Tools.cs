@@ -53,6 +53,7 @@ namespace MissionController
             //DBG print"*MCEPC key not found: " + name);
             return val;
         }
+
         public static int GetValueDefault(ConfigNode node, string name, int val)
         {
             if (node.HasValue(name))
@@ -60,8 +61,8 @@ namespace MissionController
             // DBG else
             //DBG print"*MCEPC key not found: " + name);
             return val;
-        }
-
+        } 
+       
         public static string spaces(int num)
         {
             string str = "";
@@ -100,6 +101,6 @@ namespace MissionController
             if (MCSettings != null)
                 return GetValueDefault(MCSettings, key, val);
             return val;
-        }
-    }
+        }           
+    }                
 }

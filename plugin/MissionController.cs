@@ -86,20 +86,19 @@ namespace MissionController
 
         private List<MissionGoal> hiddenGoals = new List<MissionGoal>();
 
-        private Rect mainWindowPosition;
         private Rect settingsWindowPosition;
         private Rect packageWindowPosition;
         private Rect financeWindowPosition;
-        private Rect researchtreewinpostion;       
-        
+        private Rect researchtreewinpostion;
+               
         Rect VabBudgetWin;
+        Rect VabBudgetWin1;
+        Rect VabBudgetWin2;
+        Rect VabBudgetWin3;
         Rect VabShipBuildList;
+        Rect VabShipBuildList1;
+        Rect VabShipBuildList2;
         Rect VabShipWindow;
-
-        Rect FlightBudgetWin;
-        Rect FlightBuildList;
-        Rect FlightMissionWindow;
-        Rect FlightRevertBut;
         Rect MissionWindowStatus;
 
         private IButton button;
@@ -108,6 +107,7 @@ namespace MissionController
         private IButton VabShipSelect;
         private IButton RevertSelect;
         private IButton ScienceResearch;
+        private IButton Hidetoolbars;
 
         private bool showSettingsWindow = false;
         private bool showMissionPackageBrowser = false;
@@ -118,10 +118,10 @@ namespace MissionController
         private bool showRevertWindow = false;
         private bool showconstructionwindow = false;
         private bool showbudgetamountwindow = false;
-
+        private bool hidetoolbarsviews = true;
         private bool showVabShipWindow = false;
-        private bool showMissionStatusWindow = false;        
-
+        private bool showMissionStatusWindow = false;
+               
         public string recycledName = "";
         public string recycledDesc = "";
         public int recycledCost = 0;
@@ -299,7 +299,7 @@ namespace MissionController
         {            
             print("Mission Controller Loaded");
             
-            button = ToolbarManager.Instance.add("Test", "Settings1");
+            button = ToolbarManager.Instance.add("MC1", "Settings1");
             button.TexturePath = "MissionController/icons/settings";
             button.ToolTip = "Mission Controller Settings";
             button.Visibility = new GameScenesVisibility(GameScenes.SPACECENTER,GameScenes.EDITOR,GameScenes.FLIGHT);
@@ -308,16 +308,16 @@ namespace MissionController
                 showSettingsWindow = !showSettingsWindow;
             };
 
-            BudgetDisplay = ToolbarManager.Instance.add("Test", "money1");
+            BudgetDisplay = ToolbarManager.Instance.add("MC1", "money1");
             BudgetDisplay.TexturePath = "MissionController/icons/money";
-            BudgetDisplay.ToolTip = "Current Budget: " + manager.budget + CurrencySuffix;
-            BudgetDisplay.Visibility = new GameScenesVisibility(GameScenes.SPACECENTER,GameScenes.EDITOR);
+            BudgetDisplay.ToolTip = "Current Budget";
+            BudgetDisplay.Visibility = new GameScenesVisibility(GameScenes.SPACECENTER,GameScenes.EDITOR,GameScenes.SPH);
             BudgetDisplay.OnClick += (e) =>
             {
                 showFinanceWindow = !showFinanceWindow;
             };
 
-            MissionSelect = ToolbarManager.Instance.add("Test", "missionsel1");
+            MissionSelect = ToolbarManager.Instance.add("MC1", "missionsel1");
             MissionSelect.TexturePath = "MissionController/icons/mission";
             MissionSelect.ToolTip = "Select Current Mission";
             MissionSelect.Visibility = new GameScenesVisibility(GameScenes.SPACECENTER,GameScenes.FLIGHT);
@@ -326,27 +326,27 @@ namespace MissionController
                  showMissionStatusWindow = !showMissionStatusWindow;
              };
 
-            VabShipSelect = ToolbarManager.Instance.add("Test", "ship1");
+            VabShipSelect = ToolbarManager.Instance.add("MC1", "ship1");
             VabShipSelect.TexturePath = "MissionController/icons/blueprints";
             VabShipSelect.ToolTip = "Ship Value BreakDown";
-            VabShipSelect.Visibility = new GameScenesVisibility(GameScenes.EDITOR);
+            VabShipSelect.Visibility = new GameScenesVisibility(GameScenes.EDITOR,GameScenes.SPH);
             VabShipSelect.OnClick += (e) =>
             {
                 showVabShipWindow = !showVabShipWindow;
-            };          
+            };
 
-            ScienceResearch = ToolbarManager.Instance.add("Test", "ship3");
+            ScienceResearch = ToolbarManager.Instance.add("MC1", "ship3");
             ScienceResearch.TexturePath = "MissionController/icons/research";
             ScienceResearch.ToolTip = "Mission Controller Research Window";
-            ScienceResearch.Visibility = new GameScenesVisibility(GameScenes.SPACECENTER,GameScenes.EDITOR);
+            ScienceResearch.Visibility = new GameScenesVisibility(GameScenes.SPACECENTER,GameScenes.EDITOR,GameScenes.SPH);
             ScienceResearch.OnClick += (e) =>
             {
                 showResearchTreeWindow = !showResearchTreeWindow;
             };
-          
-            RevertSelect = ToolbarManager.Instance.add("Test", "ship2");
+
+            RevertSelect = ToolbarManager.Instance.add("MC1", "ship2");
             RevertSelect.TexturePath = "MissionController/icons/revert";
-            RevertSelect.ToolTip = "Revert Flight And Missoin Controller To VAB";
+            RevertSelect.ToolTip = "Revert To VAB Cost 1000 Credits";
             RevertSelect.Visibility = new GameScenesVisibility(GameScenes.FLIGHT);
             RevertSelect.OnClick += (e) =>
               {
@@ -354,13 +354,23 @@ namespace MissionController
                   {
                      showRevertWindow = !showRevertWindow;
                   }
-              };    
+              };
 
+            Hidetoolbars = ToolbarManager.Instance.add("MC1", "Hide");
+            Hidetoolbars.TexturePath = "MissionController/icons/hide";
+            Hidetoolbars.ToolTip = "Hide Mission Controller Extra Windows";
+            Hidetoolbars.Visibility = new GameScenesVisibility(GameScenes.SPACECENTER, GameScenes.EDITOR, GameScenes.SPH,GameScenes.FLIGHT);
+            Hidetoolbars.OnClick += (e) =>
+            {
+                hidetoolbarsviews = !hidetoolbarsviews;
+            };
+
+            GUILoad();
 
         }
 
         void OnLevelWasLoaded()
-        {           
+        {   
             repairStation.repair = false; // we have to reset the RepairGoal for it can be used again.           
             repairStation.myTime = 5.0f; // Also Reset the Time For RepairGoal For it can be used again in same session.
             SettingsManager.Manager.saveSettings();
@@ -369,6 +379,7 @@ namespace MissionController
             PayoutLeveles.payoutlevels(manager.GetCurrentPayoutLevel);
             FinanceMode fn = new FinanceMode();
             fn.checkloans();
+            GUISave();
         }
 
         public void Awake()
@@ -387,17 +398,7 @@ namespace MissionController
             GameEvents.onPlanetariumTargetChanged.Add(this.onTargeted);
             GameEvents.onVesselCreate.Add(this.onCreate);
             GameEvents.onPartUndock.Add(this.onUndock);
-            GameEvents.onVesselCreate.Add(this.onVesselCreate);          
-
-            VabBudgetWin = new Rect(Screen.width / 2 + 278, Screen.height - 1078, 175, 20);
-            VabShipBuildList = new Rect(Screen.width / 2 - 500, Screen.height - 1078, 175, 20);
-            VabShipWindow = new Rect(Screen.width / 2 - 700, Screen.height - 1060, 300, 400);
-
-            FlightBudgetWin = new Rect(Screen.width / 2 + 122, Screen.height - 1080, 90, 20);
-            FlightBuildList = new Rect(Screen.width / 2 + 122, Screen.height - 1060, 90, 20);
-            FlightRevertBut = new Rect(Screen.width / 2 + 122, Screen.height - 1040, 90, 20);
-            FlightMissionWindow = new Rect(Screen.width / 2 - 850, Screen.height - 1080, 125, 20);
-            MissionWindowStatus = new Rect(Screen.width / 2 - 850, Screen.height - 1040, 350, 450);
+            GameEvents.onVesselCreate.Add(this.onVesselCreate);
             
             assemblyName = Assembly.GetExecutingAssembly().GetName();
             versionCode = "" + assemblyName.Version.Major + "." + assemblyName.Version.Minor + "." + assemblyName.Version.Build;
@@ -427,6 +428,49 @@ namespace MissionController
             GameEvents.onVesselCreate.Remove(this.onCreate);
             GameEvents.onPartUndock.Remove(this.onUndock);
             GameEvents.onVesselCreate.Remove(this.onVesselCreate);
+        }
+
+        public void GUILoad()
+        {
+            KSP.IO.PluginConfiguration configfile = KSP.IO.PluginConfiguration.CreateForType<MissionController>();
+            configfile.load();
+
+            settingsWindowPosition = configfile.GetValue<Rect>("settingsWindowPostion");
+            financeWindowPosition = configfile.GetValue<Rect>("finanaceWindowPostion");
+            researchtreewinpostion = configfile.GetValue<Rect>("kerbalnautWindowPostion");
+            packageWindowPosition = configfile.GetValue<Rect>("packageWindowPostion");
+            
+            VabBudgetWin = configfile.GetValue<Rect>("vabBudgetWin");
+            VabBudgetWin1 = configfile.GetValue<Rect>("vabBudgetWin1");
+            VabBudgetWin2 = configfile.GetValue<Rect>("vabBudgetWin2");
+            VabBudgetWin3 = configfile.GetValue<Rect>("vabBudgetWin3");
+            VabShipBuildList = configfile.GetValue<Rect>("VabShipBuildList");
+            VabShipBuildList1 = configfile.GetValue<Rect>("VabShipBuildList1");
+            VabShipBuildList2 = configfile.GetValue<Rect>("VabShipBuildList2");
+            VabShipWindow = configfile.GetValue<Rect>("VabShipWindow");
+            MissionWindowStatus = configfile.GetValue<Rect>("MissionWindowStatus");
+        }
+
+         public void GUISave()
+        {
+             KSP.IO.PluginConfiguration configfile = KSP.IO.PluginConfiguration.CreateForType<MissionController>();
+ 
+             
+            configfile.SetValue("settingsWindowPostion", settingsWindowPosition);
+            configfile.SetValue("finanaceWindowPostion", financeWindowPosition);
+            configfile.SetValue("kerbalnautWindowPostion", researchtreewinpostion);
+            configfile.SetValue("packageWindowPostion", packageWindowPosition);
+            configfile.SetValue("vabBudgetWin", VabBudgetWin);
+            configfile.SetValue("vabBudgetWin1", VabBudgetWin1);
+            configfile.SetValue("vabBudgetWin2", VabBudgetWin2);
+            configfile.SetValue("vabBudgetWin3", VabBudgetWin3);
+            configfile.SetValue("VabShipBuildList", VabShipBuildList);
+            configfile.SetValue("VabShipBuildList1", VabShipBuildList1);
+            configfile.SetValue("VabShipBuildList2", VabShipBuildList2);
+            configfile.SetValue("VabShipWindow", VabShipWindow);
+            configfile.SetValue("MissionWindowStatus", MissionWindowStatus);
+ 
+            configfile.save();
         }
        
         /// <summary>
@@ -613,43 +657,68 @@ namespace MissionController
             {
                 return;
             }
-           
-            if (HighLogic.LoadedScene.Equals(GameScenes.EDITOR))
+
+            if (HighLogic.LoadedScene.Equals(GameScenes.SPACECENTER))
             {
-                VesselResources res = new VesselResources(activeVessel);
                 showbudgetamountwindow = true;
-                showconstructionwindow = true;          
-            }
-            if (!HighLogic.LoadedScene.Equals(GameScenes.EDITOR))
-            {
-                showconstructionwindow = false;
-                showbudgetamountwindow = false;
-            }
-            
-            if (showconstructionwindow)
-            { 
-               VesselResources res = new VesselResources(activeVessel);
-                VabShipBuildList = GUILayout.Window(898992, VabShipBuildList, drawconstructioncostwindow, "Ship Value: " + res.sum(), (res.sum() > manager.budget ? styleRedButtonCenter : styleGreenButtonCenter));
             }
 
-            if (showbudgetamountwindow)
-            {
-                VabBudgetWin = GUILayout.Window(898993, VabBudgetWin, drawbudgetwindow, "Current Budget: " + manager.budget + CurrencySuffix, styleGreenButtonCenter);
+            if (HighLogic.LoadedScene.Equals(GameScenes.EDITOR))
+            {                
+                showconstructionwindow = true;
             }
+
+            if (showconstructionwindow && hidetoolbarsviews)
+            {
+                VesselResources res = new VesselResources(activeVessel);
+                if (HighLogic.LoadedScene.Equals(GameScenes.EDITOR))
+                {               
+                    VabShipBuildList = GUILayout.Window(898992, VabShipBuildList, drawconstructioncostwindow, "Ship Value: " + res.sum(), (res.sum() > manager.budget ? styleRedButtonCenter : styleGreenButtonCenter), GUILayout.MinHeight(20), GUILayout.MinWidth(175));
+                }
+                if (HighLogic.LoadedScene.Equals(GameScenes.FLIGHT))
+                {
+                    VabShipBuildList1 = GUILayout.Window(898992, VabShipBuildList1, drawconstructioncostwindow, "SV : " + res.sum(), (res.sum() > manager.budget ? styleRedButtonCenter : styleGreenButtonCenter), GUILayout.MinHeight(20), GUILayout.MinWidth(100));
+                }
+                if (HighLogic.LoadedScene.Equals(GameScenes.SPH))
+                {
+                    VabShipBuildList2 = GUILayout.Window(898992, VabShipBuildList2, drawconstructioncostwindow, "Ship Value: " + res.sum(), (res.sum() > manager.budget ? styleRedButtonCenter : styleGreenButtonCenter), GUILayout.MinHeight(20), GUILayout.MinWidth(175));
+                }
+            }
+
+            if (showbudgetamountwindow && hidetoolbarsviews)
+            {
+                if (HighLogic.LoadedScene.Equals(GameScenes.EDITOR))
+                {
+                    VabBudgetWin = GUILayout.Window(898993, VabBudgetWin, drawbudgetwindow, "Current Budget: " + manager.budget + CurrencySuffix, styleGreenButtonCenter, GUILayout.MinHeight(20), GUILayout.MinWidth(175));
+                }
+                if (HighLogic.LoadedScene.Equals(GameScenes.SPACECENTER))
+                {
+                    VabBudgetWin1 = GUILayout.Window(898993, VabBudgetWin1, drawbudgetwindow, "Current Budget: " + manager.budget + CurrencySuffix, styleGreenButtonCenter, GUILayout.MinHeight(20), GUILayout.MinWidth(175));
+                }
+                if (HighLogic.LoadedScene.Equals(GameScenes.FLIGHT))
+                {
+                    VabBudgetWin2 = GUILayout.Window(898993, VabBudgetWin2, drawbudgetwindow, "CB " + manager.budget + CurrencySuffix, styleGreenButtonCenter, GUILayout.MinHeight(20), GUILayout.MinWidth(100));
+                }
+                if (HighLogic.LoadedScene.Equals(GameScenes.SPH))
+                {
+                    VabBudgetWin3 = GUILayout.Window(898993, VabBudgetWin3, drawbudgetwindow, "Current Budget: " + manager.budget + CurrencySuffix, styleGreenButtonCenter, GUILayout.MinHeight(20), GUILayout.MinWidth(175));
+                }
+            }
+
 
             if (showVabShipWindow)
             {
-                VabShipWindow = GUILayout.Window(898989, VabShipWindow, drawVabShipWindow, "Ship Breakdown List");
+                VabShipWindow = GUILayout.Window(898989, VabShipWindow, drawVabShipWindow, "Ship Breakdown List",GUILayout.MinHeight(400), GUILayout.MinWidth(300));
             }
 
             if (showMissionStatusWindow)
             {
-                MissionWindowStatus = GUILayout.Window(898990, MissionWindowStatus, drawMissionInfoWindow, "Current Mission Window");
+                MissionWindowStatus = GUILayout.Window(898990, MissionWindowStatus, drawMissionInfoWindow, "Current Mission Window",GUILayout.MinHeight(450), GUILayout.MinWidth(350));
             }
                       
             if (showSettingsWindow)
             {
-                settingsWindowPosition = GUILayout.Window(98763, settingsWindowPosition, drawSettingsWindow, "Settings", GUILayout.MinHeight(300), GUILayout.MinWidth(300));
+                settingsWindowPosition = GUILayout.Window(98763, settingsWindowPosition, drawSettingsWindow, "Settings", GUILayout.MinHeight(225), GUILayout.MinWidth(150));
             }
 
             if (showMissionPackageBrowser)
@@ -740,7 +809,10 @@ namespace MissionController
             if (GUILayout.Button("Revert To PreLaunch", styleButtonWordWrap, GUILayout.Width(200)))
             {
                 manager.loadProgramBackup(HighLogic.CurrentGame.Title);
-                FlightDriver.RevertToPrelaunch(GameScenes.EDITOR);
+                FlightDriver.RevertToPrelaunch(GameScenes.EDITOR);                
+                manager.costs(1000);
+                manager.saveProgramBackup();
+
                 showRevertWindow = false;
             }
 
@@ -876,14 +948,15 @@ namespace MissionController
                 GUILayout.Label("This vessel is involved in a passive mission. Do not destroy this vessel! Fine: " + s.punishment + CurrencySuffix, styleWarning);
                 GUILayout.Label("End of life in " + MathTools.formatTime(s.endOfLife - Planetarium.GetUniversalTime()));
             }
+            if (manager.isVesselFlagged(activeVessel))
+            {
+                GUILayout.Label("Warning Vessel Is Flaged and Can't Do Missions", styleValueRedBold);
+                GUILayout.Label("Vessel Most Likely Launched In Disabled Mode", styleValueRedBold);
+            }
 
             if (currentMission != null)
             {
-                ShowMissionGoals = GUILayout.Toggle(ShowMissionGoals, "Show Mission Info");
-                if (ShowMissionGoals != false)
-                {
-                    drawMission(currentMission, status);
-                }
+                drawMission(currentMission, status);     
             }
             GUILayout.EndScrollView();
             
