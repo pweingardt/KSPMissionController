@@ -93,9 +93,9 @@ namespace MissionController
                 // Check the speed to make sure that we are not moving. In most cases "<0.01" will donate a stationary object.
                 // However, in some cases, that causes flickering of the text as it goes in and out of spec.
                 double speed = MathTools.abs(vessel.horizontalSrfSpeed) + MathTools.abs(vessel.verticalSpeed);
-                if (speed > 0.02)
+                if (speed > 0.10)
                 {
-                    values.Add(new Value("Launch", "", "requires stationary position", false));
+                    values.Add(new Value("Launch", "", "requires stationary position Test Fix, If your still getting message please report.", false));
                 }
             }
             return values;

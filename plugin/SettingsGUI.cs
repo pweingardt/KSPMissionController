@@ -93,6 +93,16 @@ namespace MissionController
 
             }
 
+            //if (GUILayout.Button("Reset Kerbals", styleButtonWordWrap))
+            //{
+            //    manager.addHiredKerbals();
+            //}
+
+            //if (GUILayout.Button("CheckHired Kerbals", styleButtonWordWrap))
+            //{
+            //    manager.isKerbalHired();
+            //}
+
             if (GUILayout.Button("Save Settings", styleButtonWordWrap))
             {
                 settingsWindow(false);

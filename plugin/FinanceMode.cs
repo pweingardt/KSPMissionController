@@ -11,6 +11,7 @@ namespace MissionController
         public static double medloan = (Tools.Setting("medloan", 0.50));
         public static double highloan = (Tools.Setting("highloan", 0.25));
         public static double currentloan = lowloan;
+        public static int KerbalHiredCost = (Tools.Setting("kerbalHireCost", 5000));
 
         private Manager manager
         {

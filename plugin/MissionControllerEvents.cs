@@ -397,7 +397,6 @@ namespace MissionController
                     recycled = false;
                     canRecycle = true;
                     fn.checkloans();
-                    manager.addFlagedVessel(activeVessel);
                 }
             }
         }

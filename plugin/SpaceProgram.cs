@@ -33,9 +33,16 @@ namespace MissionController
 
         public List<FlagSystem> flagSystem = new List<FlagSystem>();
 
+        public List<HiredKerbals> hiredkerbal = new List<HiredKerbals>();
+
         public void add(FlagSystem m)
         {
             flagSystem.Add(m);
+        }
+
+        public void add(HiredKerbals m)
+        {
+            hiredkerbal.Add(m);
         }
 
         public void add(MissionStatus m) {
@@ -55,11 +62,16 @@ namespace MissionController
         }
 
         public static SpaceProgram generate() {
-            SpaceProgram sp = new SpaceProgram ();
+            SpaceProgram sp = new SpaceProgram ();            
             sp.money = 50000;
+            foreach (ProtoCrewMember CrewMember in HighLogic.CurrentGame.CrewRoster)
+            {
+                if (CrewMember.rosterStatus == ProtoCrewMember.RosterStatus.AVAILABLE || CrewMember.rosterStatus == ProtoCrewMember.RosterStatus.ASSIGNED)
+                    sp.add(new HiredKerbals(CrewMember.name));
+            }
             return sp;
         }
-
+        
         public RandomMission findRandomMission(Mission m) {
             foreach (RandomMission rm in randomMissions) {
                 if(rm.missionName.Equals(m.name)) {
@@ -136,6 +148,22 @@ namespace MissionController
         public FlagSystem(String idflagVesselGuid)
         {
             this.flagVesselGuid = idflagVesselGuid;
+        }
+    }
+    /// <summary>
+    /// manages the Hire Of Kerbals and keeps track of names.
+    /// </summary>
+    public class HiredKerbals
+    {
+        public string hiredKerbalName;
+
+        public HiredKerbals()
+        {
+        }
+
+        public HiredKerbals(string kerbalname)            
+        {
+            this.hiredKerbalName = kerbalname;
         }
     }
 }

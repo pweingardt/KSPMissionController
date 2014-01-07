@@ -53,8 +53,8 @@ namespace MissionController
 
             GUILayout.Space(20);
             GUILayout.BeginHorizontal();
-            GUILayout.Box("Kerbonaut insurance cost: ", GUILayout.Height(30));
-            int insuranceCost = Tools.GetValueDefault(Tools.MCSettings,"insurance",5000);
+            GUILayout.Box("Kerbonaut Hire Cost: ", GUILayout.Height(30));
+            int insuranceCost = Tools.GetValueDefault(Tools.MCSettings, "kerbalHireCost", 5000);
             GUILayout.Box(insuranceCost + CurrencySuffix, GUILayout.Width(110), GUILayout.Height(30));
             GUILayout.EndHorizontal();
 

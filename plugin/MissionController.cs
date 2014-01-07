@@ -17,8 +17,7 @@ namespace MissionController
     public partial class MissionController : MonoBehaviour
     {
         public bool recycled = false;
-        private bool drawLandingArea = false;      
-        private bool ShowMissionGoals = true;       
+        private bool drawLandingArea = false;             
 
         private AssemblyName assemblyName;
         private String versionCode;
@@ -126,7 +125,7 @@ namespace MissionController
         public string recycledDesc = "";
         public int recycledCost = 0;
         public int recycledCrewCost = 0;
-
+       
         private FileBrowser fileBrowser = null;
         private Mission currentMission = null;
         private MissionPackage currentPackage = null;
@@ -320,7 +319,7 @@ namespace MissionController
             MissionSelect = ToolbarManager.Instance.add("MC1", "missionsel1");
             MissionSelect.TexturePath = "MissionController/icons/mission";
             MissionSelect.ToolTip = "MCE Select Current Mission";
-            MissionSelect.Visibility = new GameScenesVisibility(GameScenes.SPACECENTER,GameScenes.FLIGHT);
+            MissionSelect.Visibility = new GameScenesVisibility(GameScenes.SPACECENTER,GameScenes.FLIGHT,GameScenes.EDITOR,GameScenes.SPH);
             MissionSelect.OnClick += (e) =>
              {
                  showMissionStatusWindow = !showMissionStatusWindow;
@@ -379,6 +378,7 @@ namespace MissionController
             PayoutLeveles.payoutlevels(manager.GetCurrentPayoutLevel);
             FinanceMode fn = new FinanceMode();
             fn.checkloans();
+            manager.isKerbalHired();
             GUISave();
         }
 
@@ -450,8 +450,7 @@ namespace MissionController
             settingsWindowPosition = configfile.GetValue<Rect>("settingsWindowPostion");
             financeWindowPosition = configfile.GetValue<Rect>("finanaceWindowPostion");
             researchtreewinpostion = configfile.GetValue<Rect>("researchtreewinpostion");
-            packageWindowPosition = configfile.GetValue<Rect>("packageWindowPostion");
-            
+            packageWindowPosition = configfile.GetValue<Rect>("packageWindowPostion");           
             VabBudgetWin = configfile.GetValue<Rect>("vabBudgetWin");
             VabBudgetWin1 = configfile.GetValue<Rect>("vabBudgetWin1");
             VabBudgetWin2 = configfile.GetValue<Rect>("vabBudgetWin2");
@@ -741,6 +740,12 @@ namespace MissionController
             {
                 GUILayout.Window(98766, new Rect(Screen.width / 2 - 200, Screen.height / 2 - 100, 400, 100), drawRecycleWindow, "Recycle Window");
             }
+
+            if (manager.showKerbalHireWindow && hidetoolbarsviews)
+            {
+                GUILayout.Window(987667, new Rect(Screen.width / 2 - 200, Screen.height / 2 - 100, 400, 100), drawKerbalHireWindow, "Kerbal Hired Window");
+            }
+
             if (showRandomWindow && hidetoolbarsviews)
             {
                 GUILayout.Window(98866, new Rect(Screen.width / 2 - 200, Screen.height / 2 - 100, 400, 100), drawRandomWindow, "Event Window");
@@ -773,6 +778,25 @@ namespace MissionController
             }
         }
 
+        private void drawKerbalHireWindow(int id)
+        {
+            GUI.skin = HighLogic.Skin;
+            GUILayout.BeginVertical();
+
+            GUILayout.Label(manager.Kerbalinfo);
+
+            if (GUILayout.Button("OK", styleButtonWordWrap))
+            {
+                manager.showKerbalHireWindow = false;
+            }
+
+            GUILayout.EndVertical();
+            if (!Input.GetMouseButtonDown(1))
+            {
+                GUI.DragWindow();
+            }
+        }
+        
         private void drawRecycleWindow(int id)
         {
             GUI.skin = HighLogic.Skin;
@@ -825,10 +849,21 @@ namespace MissionController
                 GUILayout.EndHorizontal();
                
                 GUILayout.BeginHorizontal();
-                if (GUILayout.Button("Revert To PreLaunch", styleButtonWordWrap, GUILayout.Width(200)))
+                if (GUILayout.Button("Revert To VAB", styleButtonWordWrap, GUILayout.Width(100)))
                 {
+                    LaunchGoal LG = new LaunchGoal();
                     manager.loadProgramBackup(HighLogic.CurrentGame.Title);
-                    FlightDriver.RevertToPrelaunch(GameScenes.EDITOR);
+                    FlightDriver.RevertToPrelaunch(GameScenes.EDITOR);                    
+                    manager.costs(1000);
+                    manager.saveProgramBackup();
+
+                    showRevertWindow = false;
+                }
+                if (GUILayout.Button("Revert To SPH", styleButtonWordWrap, GUILayout.Width(100)))
+                {
+                    LaunchGoal LG = new LaunchGoal();
+                    manager.loadProgramBackup(HighLogic.CurrentGame.Title);
+                    FlightDriver.RevertToPrelaunch(GameScenes.SPH);
                     manager.costs(1000);
                     manager.saveProgramBackup();
 
@@ -855,10 +890,16 @@ namespace MissionController
                 GUILayout.EndHorizontal();
 
                 GUILayout.BeginHorizontal();
-                if (GUILayout.Button("Revert To PreLaunch", styleButtonWordWrap, GUILayout.Width(200)))
+                if (GUILayout.Button("Revert To VAB", styleButtonWordWrap, GUILayout.Width(100)))
                 {
                     manager.loadProgramBackup(HighLogic.CurrentGame.Title);
                     FlightDriver.RevertToPrelaunch(GameScenes.EDITOR);
+                    showRevertWindow = false;
+                }
+                if (GUILayout.Button("Revert To SPH", styleButtonWordWrap, GUILayout.Width(100)))
+                {
+                    manager.loadProgramBackup(HighLogic.CurrentGame.Title);
+                    FlightDriver.RevertToPrelaunch(GameScenes.SPH);
                     showRevertWindow = false;
                 }
 

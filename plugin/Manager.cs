@@ -21,7 +21,11 @@ namespace MissionController
         private SpaceProgram spaceProgram;
         private String currentTitle;
 
-        private int latestExpenses = 0;       
+        private int latestExpenses = 0;
+
+        public string Kerbalinfo = "";
+
+        public bool showKerbalHireWindow = false;
 
         public void resetLatest()
         {
@@ -168,6 +172,9 @@ namespace MissionController
             }
         }
 
+        /// <summary>
+        /// saves a backup of the .sp
+        /// </summary>
         public void saveProgramBackup()
         {
             if (spaceProgram != null) {
@@ -185,6 +192,9 @@ namespace MissionController
             }
         }
 
+        /// <summary>
+        /// This is the Backup file for .sp. Used in the Revert Process
+        /// </summary>
         private String currntSpaceProgramFileBackup
         {
             get
@@ -193,6 +203,10 @@ namespace MissionController
             }
         }
 
+        /// <summary>
+        /// adds flaged vessel to the List
+        /// </summary>
+        /// <param name="vessel"></param>
         public void addFlagedVessel(Vessel vessel)
         {
             currentProgram.add(new FlagSystem(vessel.id.ToString()));
@@ -265,7 +279,32 @@ namespace MissionController
                 }
             }
            return false;
-        }       
+        }
+
+        /// <summary>
+        /// Checks to see if Kerbal Was Hired.  This was inspired by Kerbal Story Missions, with permission from author to use
+        /// </summary>
+        public void isKerbalHired()
+        {
+          
+                foreach (ProtoCrewMember CrewMember in HighLogic.CurrentGame.CrewRoster)
+                {
+                    if (CrewMember.rosterStatus == ProtoCrewMember.RosterStatus.AVAILABLE || CrewMember.rosterStatus == ProtoCrewMember.RosterStatus.ASSIGNED)
+                    {
+
+                        if (!currentProgram.hiredkerbal.Exists(H => H.hiredKerbalName == CrewMember.name))
+                        {
+                            MissionController ms = new MissionController();
+                            currentProgram.add(new HiredKerbals(CrewMember.name));
+                            manager.costs(FinanceMode.KerbalHiredCost);
+                            Kerbalinfo = "Hired Name: " + CrewMember.name + "Amount Charged: " + FinanceMode.KerbalHiredCost;
+                            showKerbalHireWindow = true;
+                        }
+
+                    }
+                }
+                                                                                                           
+        }
 
         /// <summary>
         /// Finishes the given mission with the given vessel.
