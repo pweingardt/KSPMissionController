@@ -22,18 +22,18 @@ namespace MissionController
 
 
             if (seconds < minute)
-                return Seconds + "s";
+                return "Second " + Seconds;
 
             if (seconds < hour)
-                return Minutes + "m " + Seconds + "s";
+                return "Minute " + Minutes + " Second " + Seconds;
 
             if (seconds < day)
-                return Hours + "h " + Minutes + "m";
+                return "Hour " + Hours + " Minute " + Minutes;
 
             if (seconds < year)
-                return Days + "d " + Hours + "h";
+                return "Day " + Days + " Hour " + Hours;
 
-            return Years + "y " + Days + "d";
+            return "Year " + Years +  " Day " + Days;
         }
 
         public static ConfigNode MCSettings = null;

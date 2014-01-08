@@ -294,7 +294,7 @@ namespace MissionController
                
                 GUILayout.BeginHorizontal();
                 GUILayout.Box(hk.hiredKerbalName, GUILayout.Width(200));
-                GUILayout.Box("Test Date", GUILayout.Width(150));
+                GUILayout.Box(Tools.secondsIntoRealTime(hk.DateHired), GUILayout.Width(150));
                 GUILayout.EndHorizontal();
             }
         }
@@ -304,8 +304,10 @@ namespace MissionController
             foreach (MissionStatus ms in currentProgram.completedMissions)
             {
                 GUILayout.BeginHorizontal();;
-                GUILayout.Box(ms.missionName, GUILayout.Width(400));
-                GUILayout.Box(Tools.secondsIntoRealTime(ms.endTime), GUILayout.Width(150));
+                GUILayout.Box(ms.missionName, GUILayout.Width(425));
+                GUILayout.Box(Tools.secondsIntoRealTime(ms.endTime), GUILayout.Width(160));
+                GUILayout.Box(ms.vesselName,GUILayout.Width(275));
+                GUILayout.Box("$ " + ms.payment, GUILayout.Width(155));
                 GUILayout.EndHorizontal();
             }
         }
@@ -336,7 +338,7 @@ namespace MissionController
 
                     if (!currentProgram.hiredkerbal.Exists(H => H.hiredKerbalName == CrewMember.name))
                     {
-                        currentProgram.add(new HiredKerbals(CrewMember.name));
+                        currentProgram.add(new HiredKerbals(CrewMember.name, Planetarium.GetUniversalTime()));
                         manager.kerbCost(FinanceMode.KerbalHiredCost);
                         showKerbalHireWindow = true;
                         currentHires.Add(new CurrentHires(CrewMember.name,FinanceMode.KerbalHiredCost));

@@ -779,7 +779,7 @@ namespace MissionController
 
             if (showMissionLogbookWindow && hidetoolbarsviews)
             {
-                missionLogBookPostion = GUILayout.Window(988889, missionLogBookPostion, drawmMissionLogBook, "Mission Log Book", GUILayout.MinHeight(350), GUILayout.MinWidth(600));
+                missionLogBookPostion = GUILayout.Window(988889, missionLogBookPostion, drawmMissionLogBook, "Mission Log Book", GUILayout.MinHeight(500), GUILayout.MinWidth(1045));
             }
 
             if (fileBrowser != null)
@@ -804,11 +804,13 @@ namespace MissionController
         {
             GUI.skin = HighLogic.Skin;
             GUILayout.BeginVertical();
-            scrollPositionMission = GUILayout.BeginScrollView(scrollPositionMission, GUILayout.Width(580));
+            scrollPositionMission = GUILayout.BeginScrollView(scrollPositionMission, GUILayout.Width(1035));
 
             GUILayout.BeginHorizontal();
-            GUILayout.Box("Mission Name", StyleBoxYellow, GUILayout.Width(400));
-            GUILayout.Box("Date Finished", StyleBoxYellow, GUILayout.Width(150));
+            GUILayout.Box("Mission Name", StyleBoxYellow, GUILayout.Width(425));
+            GUILayout.Box("Date Finished", StyleBoxYellow, GUILayout.Width(160));
+            GUILayout.Box("Vessel Name", StyleBoxYellow, GUILayout.Width(275));
+            GUILayout.Box("Mission Payout", StyleBoxYellow,GUILayout.Width(155));
             GUILayout.EndHorizontal();
             GUILayout.Space(15);
             manager.displayEndedMissionList();           
