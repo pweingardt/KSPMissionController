@@ -115,6 +115,10 @@ namespace MissionController
 
         public String vesselGuid;
         public String missionName;
+        public String vesselName;
+        public int payment = 0;
+        public int goalPayment = 0;
+        public double endTime = 0.0;
         public bool repeatable;
         public bool repeatableSameVessel = false;
 

@@ -7,6 +7,35 @@ namespace MissionController
 {
     class Tools
     {
+        public const double minute = 60;
+        public const double hour = minute * 60;
+        public const double day = hour * 24;
+        public const double year = day * 365;
+        
+        public static string secondsIntoRealTime(double seconds)
+        {
+            int Seconds = (int)(seconds % 60);
+            int Minutes = (int)((seconds / minute) % 60);
+            int Hours = (int)((seconds / hour) % 24);
+            int Days = (int)((seconds / day) % 365);
+            int Years = (int)(seconds / year);
+
+
+            if (seconds < minute)
+                return Seconds + "s";
+
+            if (seconds < hour)
+                return Minutes + "m " + Seconds + "s";
+
+            if (seconds < day)
+                return Hours + "h " + Minutes + "m";
+
+            if (seconds < year)
+                return Days + "d " + Hours + "h";
+
+            return Years + "y " + Days + "d";
+        }
+
         public static ConfigNode MCSettings = null;
 
         public static void FindMCSettings()

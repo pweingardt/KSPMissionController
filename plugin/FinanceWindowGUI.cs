@@ -46,6 +46,11 @@ namespace MissionController
             GUILayout.Box(manager.TotalHiredKerbCost + manager.TotalSpentVechicles + CurrencySuffix, StyleBoxGreen, GUILayout.Width(110), GUILayout.Height(30));
             GUILayout.EndHorizontal();
 
+            if (GUILayout.Button("Kerbal Hire Log",GUILayout.Height(20)))
+            {
+                showKerbalLogbookHire = !showKerbalLogbookHire;
+            }
+
             GUILayout.Space(20);
 
             GUILayout.BeginHorizontal();
@@ -66,6 +71,13 @@ namespace MissionController
             GUILayout.Box(" Total Recyling + Payouts: ", StyleBoxWhite, GUILayout.Width(190), GUILayout.Height(25));
             GUILayout.Box(manager.TotalRecycleMoney + manager.Totalbudget + CurrencySuffix, StyleBoxGreen, GUILayout.Width(110), GUILayout.Height(25));
             GUILayout.EndHorizontal();
+
+ 
+            if (GUILayout.Button("Kerbal Mission Log", GUILayout.Height(20)))
+            {
+                showMissionLogbookWindow = !showMissionLogbookWindow;
+            }
+
 
             GUILayout.Space(20);
 
@@ -100,7 +112,7 @@ namespace MissionController
             scrollPosition2 = GUILayout.BeginScrollView(scrollPosition2, GUILayout.Width(300), GUILayout.Height(100));
             drawPassiveMissions(manager.getActivePassiveMissions());
             GUILayout.EndScrollView();
-            
+
             GUILayout.Space(20);
             if (GUILayout.Button("Exit Window"))
             {

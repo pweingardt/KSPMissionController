@@ -23,7 +23,11 @@ namespace MissionController
 
         private int latestExpenses = 0;
 
-        public string Kerbalinfo = "";
+        public List<CurrentHires> currentHires = new List<CurrentHires>();
+        public void Add(CurrentHires m)
+        {
+            currentHires.Add(m);
+        }
 
         public bool showKerbalHireWindow = false;
 
@@ -283,28 +287,63 @@ namespace MissionController
            return false;
         }
 
+        public void displayKerbalList()
+        {
+            foreach (HiredKerbals hk in currentProgram.hiredkerbal)
+            {
+               
+                GUILayout.BeginHorizontal();
+                GUILayout.Box(hk.hiredKerbalName, GUILayout.Width(200));
+                GUILayout.Box("Test Date", GUILayout.Width(150));
+                GUILayout.EndHorizontal();
+            }
+        }
+
+        public void displayEndedMissionList()
+        {
+            foreach (MissionStatus ms in currentProgram.completedMissions)
+            {
+                GUILayout.BeginHorizontal();;
+                GUILayout.Box(ms.missionName, GUILayout.Width(400));
+                GUILayout.Box(Tools.secondsIntoRealTime(ms.endTime), GUILayout.Width(150));
+                GUILayout.EndHorizontal();
+            }
+        }
+
+        public void displayCurrentHiredList()
+        {
+            foreach (CurrentHires ch in currentHires)
+            {
+                GUILayout.BeginHorizontal();
+                GUILayout.Box("Hired Name");
+                GUILayout.Box(ch.hiredKerbalName);
+                GUILayout.Box("Hired Cost");
+                GUILayout.Box("$ " + ch.hiredCost);
+                GUILayout.EndHorizontal();
+            }
+        }
+      
         /// <summary>
         /// Checks to see if Kerbal Was Hired.  This was inspired by Kerbal Story Missions, with permission from author to use
         /// </summary>
         public void isKerbalHired()
         {
-          
-                foreach (ProtoCrewMember CrewMember in HighLogic.CurrentGame.CrewRoster)
+
+            foreach (ProtoCrewMember CrewMember in HighLogic.CurrentGame.CrewRoster)
+            {
+                if (CrewMember.rosterStatus == ProtoCrewMember.RosterStatus.AVAILABLE || CrewMember.rosterStatus == ProtoCrewMember.RosterStatus.ASSIGNED)
                 {
-                    if (CrewMember.rosterStatus == ProtoCrewMember.RosterStatus.AVAILABLE || CrewMember.rosterStatus == ProtoCrewMember.RosterStatus.ASSIGNED)
+
+                    if (!currentProgram.hiredkerbal.Exists(H => H.hiredKerbalName == CrewMember.name))
                     {
-
-                        if (!currentProgram.hiredkerbal.Exists(H => H.hiredKerbalName == CrewMember.name))
-                        {                           
-                            currentProgram.add(new HiredKerbals(CrewMember.name));
-                            manager.kerbCost(FinanceMode.KerbalHiredCost);
-                            Kerbalinfo = "Hired Name: " + CrewMember.name + "Amount Charged: " + FinanceMode.KerbalHiredCost;
-                            showKerbalHireWindow = true;
-                        }
-
+                        currentProgram.add(new HiredKerbals(CrewMember.name));
+                        manager.kerbCost(FinanceMode.KerbalHiredCost);
+                        showKerbalHireWindow = true;
+                        currentHires.Add(new CurrentHires(CrewMember.name,FinanceMode.KerbalHiredCost));
                     }
+
                 }
-                                                                                                           
+            }
         }
 
         /// <summary>
@@ -319,6 +358,9 @@ namespace MissionController
 
                 status.repeatable = m.repeatable;
                 status.repeatableSameVessel = m.repeatableSameVessel;
+                status.vesselName = vessel.name.ToString();
+                status.endTime = Planetarium.GetUniversalTime();
+                status.payment = m.reward;
 
                 if (m.passiveMission) {
                     status.endOfLife = Planetarium.GetUniversalTime () + m.lifetime;
@@ -498,18 +540,18 @@ namespace MissionController
         {
             get { return currentProgram.totalrecycleMoney; }
         }
-
-        public int TotalHiredKerbCost
-        {
-            get { return currentProgram.TotalSpentKerbals; }
-        }
-
+       
         /// <summary>
         /// Retuns Total Spent On Vehicle Launches
         /// </summary>
         public int TotalSpentVechicles
         {
             get { return currentProgram.totalSpentVessels; }
+        }
+
+        public int TotalHiredKerbCost
+        {
+            get { return currentProgram.TotalSpentKerbals; }
         }
 
        /// <summary>
@@ -775,6 +817,22 @@ namespace MissionController
         {
             currentProgram.TotalSpentKerbals += value;
             return reward(-value);
+        }
+    }
+
+    public class CurrentHires
+    {
+        public string hiredKerbalName;
+        public int hiredCost;
+
+        public CurrentHires()
+        {
+        }
+
+        public CurrentHires(string kerbalname, int value)
+        {
+            this.hiredKerbalName = kerbalname;
+            this.hiredCost = value;
         }
     }
 }

@@ -23,46 +23,46 @@ namespace MissionController
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-            GUILayout.Box("MCE Developer Malkuth74", GUILayout.Width(225), GUILayout.Height(30));
+            GUILayout.Box("MCE Developer Malkuth74",StyleBoxWhite, GUILayout.Width(225), GUILayout.Height(30));
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-            GUILayout.Box("Co Developer NathanKell", GUILayout.Width(225), GUILayout.Height(30));
+            GUILayout.Box("Co Developer NathanKell", StyleBoxWhite, GUILayout.Width(225), GUILayout.Height(30));
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-            GUILayout.Box("Original MC Developer NoBody44", GUILayout.Width(225), GUILayout.Height(30));
+            GUILayout.Box("Original MC Developer NoBody44", StyleBoxWhite, GUILayout.Width(225), GUILayout.Height(30));
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-            GUILayout.Box("ToolBar Mod By Blizzy78", GUILayout.Width(225), GUILayout.Height(30));
+            GUILayout.Box("ToolBar Mod By Blizzy78", StyleBoxWhite, GUILayout.Width(225), GUILayout.Height(30));
             GUILayout.EndHorizontal();
 
-            GUILayout.Space(10);
+            GUILayout.Space(25);
             
             GUILayout.BeginHorizontal();
-            GUILayout.Box("Plugin Disabled", GUILayout.Width(112), GUILayout.Height(30));
+            GUILayout.Box("Plugin Disabled", StyleBoxYellow, GUILayout.Width(112), GUILayout.Height(30));
             if (settings.disablePlugin == true)
             {
-                GUILayout.Box("TRUE", GUILayout.Width(112), GUILayout.Height(30));                
+                GUILayout.Box("TRUE" ,StyleBoxGreen, GUILayout.Width(112), GUILayout.Height(30));                
             }
 
             if (settings.disablePlugin == false)
             {
-                GUILayout.Box("FALSE", GUILayout.Width(112), GUILayout.Height(30));
+                GUILayout.Box("FALSE", StyleBoxYellow, GUILayout.Width(112), GUILayout.Height(30));
             }
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-            GUILayout.Box("GameMode: ", GUILayout.Width(112), GUILayout.Height(30));
+            GUILayout.Box("GameMode: ", StyleBoxYellow, GUILayout.Width(112), GUILayout.Height(30));
             if (settings.gameMode == 0)
             {
-                GUILayout.Box("Normal", GUILayout.Width(112), GUILayout.Height(30));
+                GUILayout.Box("Normal", StyleBoxGreen, GUILayout.Width(112), GUILayout.Height(30));
             }
 
             if (settings.gameMode == 1)
             {
-                GUILayout.Box("HardCore", GUILayout.Width(112), GUILayout.Height(40));
+                GUILayout.Box("HardCore",StyleBoxYellow, GUILayout.Width(112), GUILayout.Height(40));
             }
             GUILayout.EndHorizontal();
 

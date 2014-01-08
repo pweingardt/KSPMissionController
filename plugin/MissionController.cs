@@ -89,6 +89,8 @@ namespace MissionController
         private Rect packageWindowPosition;
         private Rect financeWindowPosition;
         private Rect researchtreewinpostion;
+        private Rect missionLogBookPostion;
+        private Rect kerbalLogBookHirePostion;
                
         Rect VabBudgetWin;
         Rect VabBudgetWin1;
@@ -120,6 +122,8 @@ namespace MissionController
         private bool hidetoolbarsviews = true;
         private bool showVabShipWindow = false;
         private bool showMissionStatusWindow = false;
+        private bool showKerbalLogbookHire = false;
+        private bool showMissionLogbookWindow = false;
                
         public string recycledName = "";
         public string recycledDesc = "";
@@ -130,10 +134,12 @@ namespace MissionController
         private MissionPackage currentPackage = null;
 
         private Vector2 scrollPosition = new Vector2(0, 0);
-        private Vector2 scrollPositionship = new Vector2(0, 0);        
+        private Vector2 scrollPositionship = new Vector2(0, 0);
+        private Vector2 scrollPositionMission = new Vector2(0, 0);
+        private Vector2 scrollPositionHire = new Vector2(0, 0);
         private GUIStyle styleValueRedBold, styleValueRed, styleValueYellow, styleValueGreen, styleText, styleCaption, styleValueGreenBold;       
         private GUIStyle styleButton, styleButtonYellow, styleGreenButton, styleRedButton, styleGreenButtonCenter, styleRedButtonCenter;
-        private GUIStyle StyleBoxGreen, StyleBoxYellow, StyleBoxWhite;
+        public GUIStyle StyleBoxGreen, StyleBoxYellow, StyleBoxWhite;
         private GUIStyle styleValueName, styleWarning,styleIcon,styleButtonWordWrap;        
 
         private EventFlags eventFlags = EventFlags.NONE;
@@ -740,7 +746,7 @@ namespace MissionController
             if (showFinanceWindow && hidetoolbarsviews)
             {
                 financeWindowPosition = GUILayout.Window(98761, financeWindowPosition, drawFinaceWindow, "Finance Window", GUILayout.MinHeight(350), GUILayout.MinWidth(300));
-            }
+            }           
 
             if (showRecycleWindow && hidetoolbarsviews)
             {
@@ -749,7 +755,7 @@ namespace MissionController
 
             if (manager.showKerbalHireWindow && hidetoolbarsviews)
             {
-                GUILayout.Window(987667, new Rect(Screen.width / 2 - 200, Screen.height / 2 - 100, 400, 100), drawKerbalHireWindow, "Kerbal Hired Window");
+                GUILayout.Window(987667, new Rect(Screen.width / 2 - 200, Screen.height / 2 - 100, 400, 100), drawKerbalHireWindow, "Recently Hired Kerbals");
             }
 
             if (showRandomWindow && hidetoolbarsviews)
@@ -764,6 +770,16 @@ namespace MissionController
             if (showResearchTreeWindow && hidetoolbarsviews)
             {
                 researchtreewinpostion = GUILayout.Window(98760, researchtreewinpostion, drawResearchTree, "Research Window", GUILayout.MinHeight(350), GUILayout.MinWidth(500));
+            }
+
+            if (showKerbalLogbookHire && hidetoolbarsviews)
+            {
+                kerbalLogBookHirePostion = GUILayout.Window(98888, kerbalLogBookHirePostion, drawKerbalLogBookHire, "Kerbal Hired Log Book", GUILayout.MinHeight(350), GUILayout.MinWidth(400));
+            }
+
+            if (showMissionLogbookWindow && hidetoolbarsviews)
+            {
+                missionLogBookPostion = GUILayout.Window(988889, missionLogBookPostion, drawmMissionLogBook, "Mission Log Book", GUILayout.MinHeight(350), GUILayout.MinWidth(600));
             }
 
             if (fileBrowser != null)
@@ -784,16 +800,67 @@ namespace MissionController
             }
         }
 
+        private void drawmMissionLogBook(int id)
+        {
+            GUI.skin = HighLogic.Skin;
+            GUILayout.BeginVertical();
+            scrollPositionMission = GUILayout.BeginScrollView(scrollPositionMission, GUILayout.Width(580));
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Box("Mission Name", StyleBoxYellow, GUILayout.Width(400));
+            GUILayout.Box("Date Finished", StyleBoxYellow, GUILayout.Width(150));
+            GUILayout.EndHorizontal();
+            GUILayout.Space(15);
+            manager.displayEndedMissionList();           
+            
+            GUILayout.EndScrollView();
+            if (GUILayout.Button("Exit Mission Log Book"))
+            {
+                showMissionLogbookWindow = false;
+            }
+            GUILayout.EndVertical();
+            if (!Input.GetMouseButtonDown(1))
+            {
+                GUI.DragWindow();
+            }
+        }
+
+        private void drawKerbalLogBookHire(int id)
+        {
+            GUI.skin = HighLogic.Skin;
+            GUILayout.BeginVertical();
+            scrollPositionHire = GUILayout.BeginScrollView(scrollPositionHire, GUILayout.Width(380));
+            
+            GUILayout.BeginHorizontal();
+            GUILayout.Box("Hired Name",StyleBoxYellow, GUILayout.Width(200));
+            GUILayout.Box("Date Hired",StyleBoxYellow, GUILayout.Width(150));
+            GUILayout.EndHorizontal();
+            GUILayout.Space(15);
+            manager.displayKerbalList();            
+            
+            GUILayout.EndScrollView();
+            if (GUILayout.Button("Exit Kerbal Hire Log"))
+            {
+                showKerbalLogbookHire = false;
+            }
+            GUILayout.EndVertical();
+            if (!Input.GetMouseButtonDown(1))
+            {
+                GUI.DragWindow();
+            }
+        }
+        
         private void drawKerbalHireWindow(int id)
         {
             GUI.skin = HighLogic.Skin;
             GUILayout.BeginVertical();
 
-            GUILayout.Label(manager.Kerbalinfo);
-
+            manager.displayCurrentHiredList();
+            
             if (GUILayout.Button("OK", styleButtonWordWrap))
             {
                 manager.showKerbalHireWindow = false;
+                manager.currentHires.Clear();
             }
 
             GUILayout.EndVertical();
