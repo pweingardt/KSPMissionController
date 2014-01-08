@@ -60,19 +60,8 @@ namespace MissionController
                 print("*MC* Craft " + recycledName + " recovered for " + recycledCost);
                 manager.recycleVessel(pv.vesselRef, recycledCost);
                 showRecycleWindow = true;
-               
-                
             }
-            if (!manager.isVesselFlagged(pv.vesselRef) && (pv.situation.Equals(Vessel.Situations.LANDED) || pv.situation.Equals(Vessel.Situations.SPLASHED)))
-            {
-                recycledCrewCost = res.crewreturn(pv.situation.Equals(Vessel.Situations.LANDED) ? 1 : 0);
-                manager.cleanReward(pv.vesselRef,recycledCrewCost);
-                if (!HighLogic.LoadedSceneIsFlight && !manager.ResearchRecycle && HighLogic.CurrentGame.Mode == Game.Modes.CAREER 
-                    && (pv.situation.Equals(Vessel.Situations.LANDED) || pv.situation.Equals(Vessel.Situations.SPLASHED)))
-                    showRecycleWindow = true;
-
-            }
-
+            
             pVessel = null;
         }
 
@@ -314,8 +303,6 @@ namespace MissionController
                                 recycledDesc = landingtype;
                                 print("*MC* Recycling vessel: " + landingtype + " Val: " + recycledCost);
                                 
-                                recycledCrewCost = vr.crewreturn(0);
-                                manager.cleanReward(v,recycledCrewCost);
                                 showRecycleWindow = true;
                                 manager.recycleVessel(v, recycledCost);
 

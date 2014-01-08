@@ -395,10 +395,10 @@ namespace MissionController
                 return (int)(aeroCost * ConstructionMode.TechConstrustion);
             }
 
-            public int crew()
-            {
-                return (Tools.Setting("insurance", 5000) * crewCount);
-            }
+            //public int crew()
+            //{
+            //    return (Tools.Setting("insurance", 5000) * crewCount);
+            //}
             
             public int dry()
             {
@@ -415,7 +415,7 @@ namespace MissionController
 
             public int sum()
             {
-                return wet() + dry() + crew();
+                return wet() + dry();
             }
 
             public int recyclable(int sit)
@@ -432,11 +432,7 @@ namespace MissionController
                     default: // case 0, or any other.
                         return (int)(Tools.Setting("splashedRecycle", 0.65) * dry() + Tools.Setting("landedRecycle", 0.95) * wet());
                 }
-            }
-            public int crewreturn(int sit)
-            {
-                return (int)crew();
-            }
+            }            
         }
     }
 }

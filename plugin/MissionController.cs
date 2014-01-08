@@ -124,29 +124,17 @@ namespace MissionController
         public string recycledName = "";
         public string recycledDesc = "";
         public int recycledCost = 0;
-        public int recycledCrewCost = 0;
        
         private FileBrowser fileBrowser = null;
         private Mission currentMission = null;
         private MissionPackage currentPackage = null;
 
         private Vector2 scrollPosition = new Vector2(0, 0);
-        private Vector2 scrollPositionship = new Vector2(0, 0);
-        private GUIStyle styleCaption;
-        private GUIStyle styleText;
-        private GUIStyle styleValueGreen;
-        private GUIStyle styleValueGreenBold;
-        private GUIStyle styleValueYellow;
-        private GUIStyle styleValueRed;
-        private GUIStyle styleValueRedBold;
-        private GUIStyle styleButton;
-        private GUIStyle styleButtonYellow;
-        private GUIStyle styleGreenButton, styleRedButton;
-        private GUIStyle styleGreenButtonCenter, styleRedButtonCenter;
-        private GUIStyle styleValueName;
-        private GUIStyle styleWarning;
-        private GUIStyle styleIcon;
-        private GUIStyle styleButtonWordWrap;
+        private Vector2 scrollPositionship = new Vector2(0, 0);        
+        private GUIStyle styleValueRedBold, styleValueRed, styleValueYellow, styleValueGreen, styleText, styleCaption, styleValueGreenBold;       
+        private GUIStyle styleButton, styleButtonYellow, styleGreenButton, styleRedButton, styleGreenButtonCenter, styleRedButtonCenter;
+        private GUIStyle StyleBoxGreen, StyleBoxYellow, StyleBoxWhite;
+        private GUIStyle styleValueName, styleWarning,styleIcon,styleButtonWordWrap;        
 
         private EventFlags eventFlags = EventFlags.NONE;
 
@@ -156,7 +144,6 @@ namespace MissionController
         {
             if (iconMenu == null)
             {
-
                 iconMenu = new Texture2D(125, 30, TextureFormat.ARGB32, false);
                 iconFinished = new Texture2D(0, 0, TextureFormat.ARGB32, false);
                 iconTypeProbe = new Texture2D(0, 0, TextureFormat.ARGB32, false);
@@ -289,6 +276,24 @@ namespace MissionController
             styleRedButtonCenter.normal.textColor = Color.red;
             styleRedButtonCenter.alignment = TextAnchor.MiddleLeft;
             styleRedButtonCenter.wordWrap = true;
+
+            StyleBoxGreen = new GUIStyle(HighLogic.Skin.box);
+            StyleBoxGreen.normal.textColor = Color.green;
+            StyleBoxGreen.fontStyle = FontStyle.Bold;
+            StyleBoxGreen.alignment = TextAnchor.MiddleCenter;
+            StyleBoxGreen.wordWrap = true;
+
+            StyleBoxYellow = new GUIStyle(HighLogic.Skin.box);
+            StyleBoxYellow.normal.textColor = Color.yellow;
+            StyleBoxYellow.fontStyle = FontStyle.Bold;
+            StyleBoxYellow.alignment = TextAnchor.MiddleCenter;
+            StyleBoxYellow.wordWrap = true;
+
+            StyleBoxWhite = new GUIStyle(HighLogic.Skin.box);
+            StyleBoxWhite.normal.textColor = Color.white;
+            StyleBoxWhite.fontStyle = FontStyle.Bold;
+            StyleBoxWhite.alignment = TextAnchor.MiddleLeft;
+            StyleBoxWhite.wordWrap = true;
 
             styleIcon = new GUIStyle();
 
@@ -564,6 +569,7 @@ namespace MissionController
                             {
                                 s.lastPassiveRewardTime = time;
                                 manager.reward(daysDiff * s.passiveReward);
+                                manager.totalReward(daysDiff * s.passiveReward);
                             }
                             else
                             {
@@ -807,14 +813,7 @@ namespace MissionController
                 GUILayout.BeginHorizontal();
                 GUILayout.Label("  (" + recycledDesc + ")", styleValueName);
                 GUILayout.EndHorizontal();
-
-            }
-            if (recycledCrewCost > 1)
-            {
-                GUILayout.BeginHorizontal();
-                showCostValue("Crew Insurance Returned: ", recycledCrewCost, styleCaption);
-                GUILayout.EndHorizontal();
-            }
+            }           
 
             if (GUILayout.Button("OK", styleButtonWordWrap))
             {
@@ -1017,8 +1016,7 @@ namespace MissionController
                     showCostValue(r, Math.Round(res.resources[r], 0), styleValueGreen);
             }
             if (res.wet() > (0)) { showCostValue("(Total Cost Of Fuels):", res.wet(), styleValueYellow); }
-            if (res.dry() > (0)) { showCostValue("(Total Cost Of Parts):", res.dry(), styleValueYellow); }
-            showCostValue("Crew insurance (Launch Pad Only): ", res.crew(), styleValueYellow);
+            if (res.dry() > (0)) { showCostValue("(Total Cost Of Parts):", res.dry(), styleValueYellow); }           
             showCostValue("Total Cost Vessel:", res.sum(), (res.sum() > manager.budget ? styleValueRedBold : styleValueGreen));
             GUILayout.EndScrollView();
 

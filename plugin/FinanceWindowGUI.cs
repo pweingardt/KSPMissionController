@@ -21,53 +21,76 @@ namespace MissionController
             GUILayout.BeginVertical();
 
             GUILayout.BeginHorizontal();
-            GUILayout.Box("Current budget: ", GUILayout.Width(190),GUILayout.Height(30));
+            GUILayout.Box(" Current budget: ", StyleBoxWhite, GUILayout.Width(190), GUILayout.Height(30));
             GUILayout.Box(manager.budget + CurrencySuffix, GUILayout.Width(110), GUILayout.Height(30));
-            GUILayout.EndHorizontal();           
-
+            GUILayout.EndHorizontal();
+           
             GUILayout.Space(20);
+
             GUILayout.BeginHorizontal();
-            GUILayout.Box("Total Mission Payouts: ", GUILayout.Width(190), GUILayout.Height(25));
-            GUILayout.Box(manager.Totalbudget + manager.TotalSpentVechicles + CurrencySuffix, GUILayout.Width(110), GUILayout.Height(25));
+            GUILayout.Box("Space Program expenditure's ",StyleBoxYellow, GUILayout.Width(300), GUILayout.Height(25));            
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-            GUILayout.Box("Total Reycling Paid: ", GUILayout.Width(190), GUILayout.Height(25));
-            GUILayout.Box(manager.TotalRecycleMoney + CurrencySuffix, GUILayout.Width(110), GUILayout.Height(25));
-            GUILayout.EndHorizontal();
-
-            GUILayout.BeginHorizontal();
-            GUILayout.Box("Total Payouts Above: ",GUILayout.Width(190), GUILayout.Height(25));
-            GUILayout.Box(manager.TotalRecycleMoney + manager.Totalbudget + manager.TotalSpentVechicles + CurrencySuffix, GUILayout.Width(110), GUILayout.Height(25));
-            GUILayout.EndHorizontal();
-
-            GUILayout.BeginHorizontal();
-            GUILayout.Box("Total Vessel Cost: ", GUILayout.Width(190), GUILayout.Height(25));
+            GUILayout.Box(" Total Spent Vessels: ", StyleBoxWhite, GUILayout.Width(190), GUILayout.Height(25));
             GUILayout.Box(manager.TotalSpentVechicles + CurrencySuffix, GUILayout.Width(110), GUILayout.Height(25));
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-            GUILayout.Box("Total Profits: ", GUILayout.Width(190), GUILayout.Height(25));
-            GUILayout.Box(manager.TotalRecycleMoney + manager.Totalbudget + CurrencySuffix, GUILayout.Width(110), GUILayout.Height(25));
+            GUILayout.Box(" Total Kerbal Hire Cost: ", StyleBoxWhite, GUILayout.Height(30));
+            GUILayout.Box(manager.TotalHiredKerbCost + CurrencySuffix, GUILayout.Width(110), GUILayout.Height(30));
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Box(" Total Expenditure's: ", StyleBoxWhite, GUILayout.Height(30));
+            GUILayout.Box(manager.TotalHiredKerbCost + manager.TotalSpentVechicles + CurrencySuffix, StyleBoxGreen, GUILayout.Width(110), GUILayout.Height(30));
+            GUILayout.EndHorizontal();
+
+            GUILayout.Space(20);
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Box("Space Program Profits", StyleBoxYellow, GUILayout.Width(300), GUILayout.Height(25));
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Box(" Total Mission Payouts: ", StyleBoxWhite, GUILayout.Width(190), GUILayout.Height(25));
+            GUILayout.Box(manager.Totalbudget + CurrencySuffix, GUILayout.Width(110), GUILayout.Height(25));
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Box(" Total Recyling Paid: ", StyleBoxWhite, GUILayout.Width(190), GUILayout.Height(25));
+            GUILayout.Box(manager.TotalRecycleMoney + CurrencySuffix, GUILayout.Width(110), GUILayout.Height(25));
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Box(" Total Recyling + Payouts: ", StyleBoxWhite, GUILayout.Width(190), GUILayout.Height(25));
+            GUILayout.Box(manager.TotalRecycleMoney + manager.Totalbudget + CurrencySuffix, StyleBoxGreen, GUILayout.Width(110), GUILayout.Height(25));
+            GUILayout.EndHorizontal();
+
+            GUILayout.Space(20);
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Box("Net Profits: ", StyleBoxYellow, GUILayout.Width(190), GUILayout.Height(25));
+            GUILayout.Box(manager.TotalRecycleMoney + manager.Totalbudget - manager.TotalSpentVechicles - manager.TotalHiredKerbCost + CurrencySuffix,StyleBoxGreen, GUILayout.Width(110), GUILayout.Height(25));
             GUILayout.EndHorizontal();
 
             GUILayout.Space(20);
             GUILayout.BeginHorizontal();
-            GUILayout.Box("Kerbonaut Hire Cost: ", GUILayout.Height(30));
-            int insuranceCost = Tools.GetValueDefault(Tools.MCSettings, "kerbalHireCost", 5000);
-            GUILayout.Box(insuranceCost + CurrencySuffix, GUILayout.Width(110), GUILayout.Height(30));
+            GUILayout.Box(" Kerbonaut Hire Cost: ", StyleBoxWhite, GUILayout.Height(30));
+            int HC = Tools.GetValueDefault(Tools.MCSettings, "kerbalHireCost", 5000);
+            GUILayout.Box(HC + CurrencySuffix, GUILayout.Width(110), GUILayout.Height(30));
             GUILayout.EndHorizontal();
-
+           
             GUILayout.Space(20);
             if (manager.budget < 0)
             {
-            GUILayout.Box("Borrowing Money", GUILayout.Height(30));
+                GUILayout.Box(" Borrowing Money", StyleBoxWhite, GUILayout.Height(30));
             GUILayout.BeginHorizontal();
-            GUILayout.Box("Current Bank Loan: ", GUILayout.Width(150), GUILayout.Height(25));
+            GUILayout.Box(" Current Bank Loan: ", StyleBoxWhite, GUILayout.Width(150), GUILayout.Height(25));
             GUILayout.Box(manager.budget + CurrencySuffix, GUILayout.Width(150), GUILayout.Height(25));
             GUILayout.EndHorizontal();
             GUILayout.BeginHorizontal();
-            GUILayout.Box(" Mission Payout Rate: ", GUILayout.Width(150), GUILayout.Height(25));
+            GUILayout.Box(" Mission Payout Rate: ", StyleBoxWhite, GUILayout.Width(150), GUILayout.Height(25));
             GUILayout.Box(FinanceMode.currentloan * 100 + "%", GUILayout.Width(150), GUILayout.Height(25));
             GUILayout.EndHorizontal();
              }

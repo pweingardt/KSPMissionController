@@ -224,11 +224,13 @@ namespace MissionController
             {
                 currentProgram.add(new GoalStatus(goal.id));
                 reward(goal.reward);
+                totalReward(goal.reward);
             }
 
             if (!isMissionGoalAlreadyFinished (goal, vessel) && goal.nonPermanent && goal.isDone(vessel, events)) {
                 currentProgram.add(new GoalStatus(vessel.id.ToString(), goal.id));
                 reward (goal.reward);
+                totalReward(goal.reward);
             }
         }
 
@@ -293,10 +295,9 @@ namespace MissionController
                     {
 
                         if (!currentProgram.hiredkerbal.Exists(H => H.hiredKerbalName == CrewMember.name))
-                        {
-                            MissionController ms = new MissionController();
+                        {                           
                             currentProgram.add(new HiredKerbals(CrewMember.name));
-                            manager.costs(FinanceMode.KerbalHiredCost);
+                            manager.kerbCost(FinanceMode.KerbalHiredCost);
                             Kerbalinfo = "Hired Name: " + CrewMember.name + "Amount Charged: " + FinanceMode.KerbalHiredCost;
                             showKerbalHireWindow = true;
                         }
@@ -333,6 +334,7 @@ namespace MissionController
 
                 currentProgram.add(status);
                 reward (m.reward);
+                totalReward(m.reward);
 
                 if (m.scienceReward != 0)
                 {
@@ -495,6 +497,11 @@ namespace MissionController
         public int TotalRecycleMoney
         {
             get { return currentProgram.totalrecycleMoney; }
+        }
+
+        public int TotalHiredKerbCost
+        {
+            get { return currentProgram.TotalSpentKerbals; }
         }
 
         /// <summary>
@@ -702,23 +709,33 @@ namespace MissionController
                 }
                 latestExpenses = -value;
                 currentProgram.money += (int)((double)value * PayoutLeveles.TechPayout);
-                currentProgram.totalMoney += value;
+                
             }
             return currentProgram.money;
         }
 
-        
         /// <summary>
-        /// 2 opitons with this one pays out Insurance Cost.. And also only payout option that is CLEAN.. IE no % losses etc.
+        /// Used Only To Keep Track Of Total Payouts to Budget
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public void cleanReward(Vessel vessel,int value)
+        public int totalReward(int value)
         {
+            Vessel v = new Vessel();
             if (!SettingsManager.Manager.getSettings().disablePlugin)
-            { 
-                currentProgram.money += value; 
+            {
+                if (value > 0) // is a reward, not a cost
+                {
+                    double mult = 1.0;
+                    if (manager.budget < 0)
+                        mult *= FinanceMode.currentloan;
+                    if (settings.gameMode == 1)
+                        mult *= 0.6;
+                    value = (int)((double)value * mult);
+                }
+                currentProgram.totalMoney += (int)((double)value * PayoutLeveles.TechPayout);
             }
+            return currentProgram.totalMoney;
         }
 
         /// <summary>
@@ -752,6 +769,12 @@ namespace MissionController
         {
             currentProgram.totalSpentVessels += value;
             return reward (-value);            
+        }
+
+        public int kerbCost(int value)
+        {
+            currentProgram.TotalSpentKerbals += value;
+            return reward(-value);
         }
     }
 }

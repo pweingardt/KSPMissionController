@@ -11,6 +11,7 @@ namespace MissionController
 		public int money;
         public int totalMoney;
         public int totalSpentVessels;
+        public int TotalSpentKerbals;
         public int totalrecycleMoney;
         public int fuelmode = 0;
         public int constructmode = 0;
@@ -64,6 +65,7 @@ namespace MissionController
         public static SpaceProgram generate() {
             SpaceProgram sp = new SpaceProgram ();            
             sp.money = 50000;
+            sp.totalMoney = 50000;
             foreach (ProtoCrewMember CrewMember in HighLogic.CurrentGame.CrewRoster)
             {
                 if (CrewMember.rosterStatus == ProtoCrewMember.RosterStatus.AVAILABLE || CrewMember.rosterStatus == ProtoCrewMember.RosterStatus.ASSIGNED)
