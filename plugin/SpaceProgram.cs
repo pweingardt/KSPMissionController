@@ -69,7 +69,7 @@ namespace MissionController
             foreach (ProtoCrewMember CrewMember in HighLogic.CurrentGame.CrewRoster)
             {
                 if (CrewMember.rosterStatus == ProtoCrewMember.RosterStatus.AVAILABLE || CrewMember.rosterStatus == ProtoCrewMember.RosterStatus.ASSIGNED)
-                    sp.add(new HiredKerbals(CrewMember.name, Planetarium.GetUniversalTime()));
+                    sp.add(new HiredKerbals(CrewMember.name, Planetarium.GetUniversalTime(), CrewMember.rosterStatus.ToString()));
             }
             return sp;
         }
@@ -163,15 +163,17 @@ namespace MissionController
     {
         public string hiredKerbalName;
         public double DateHired;
+        public string statusKerbal;
 
         public HiredKerbals()
         {
         }
 
-        public HiredKerbals(string kerbalname, double date)            
+        public HiredKerbals(string kerbalname, double date, string status)            
         {
             this.hiredKerbalName = kerbalname;
             this.DateHired = date;
+            this.statusKerbal = status;
         }
     }
 }

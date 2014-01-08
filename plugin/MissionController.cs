@@ -774,7 +774,7 @@ namespace MissionController
 
             if (showKerbalLogbookHire && hidetoolbarsviews)
             {
-                kerbalLogBookHirePostion = GUILayout.Window(98888, kerbalLogBookHirePostion, drawKerbalLogBookHire, "Kerbal Hired Log Book", GUILayout.MinHeight(350), GUILayout.MinWidth(400));
+                kerbalLogBookHirePostion = GUILayout.Window(98888, kerbalLogBookHirePostion, drawKerbalLogBookHire, "Kerbal Hired Log Book", GUILayout.MinHeight(350), GUILayout.MinWidth(540));
             }
 
             if (showMissionLogbookWindow && hidetoolbarsviews)
@@ -810,7 +810,7 @@ namespace MissionController
             GUILayout.Box("Mission Name", StyleBoxYellow, GUILayout.Width(425));
             GUILayout.Box("Date Finished", StyleBoxYellow, GUILayout.Width(160));
             GUILayout.Box("Vessel Name", StyleBoxYellow, GUILayout.Width(275));
-            GUILayout.Box("Mission Payout", StyleBoxYellow,GUILayout.Width(155));
+            GUILayout.Box("Mission Payout", StyleBoxYellow,GUILayout.Width(140));
             GUILayout.EndHorizontal();
             GUILayout.Space(15);
             manager.displayEndedMissionList();           
@@ -831,11 +831,12 @@ namespace MissionController
         {
             GUI.skin = HighLogic.Skin;
             GUILayout.BeginVertical();
-            scrollPositionHire = GUILayout.BeginScrollView(scrollPositionHire, GUILayout.Width(380));
+            scrollPositionHire = GUILayout.BeginScrollView(scrollPositionHire, GUILayout.Width(520));
             
             GUILayout.BeginHorizontal();
             GUILayout.Box("Hired Name",StyleBoxYellow, GUILayout.Width(200));
             GUILayout.Box("Date Hired",StyleBoxYellow, GUILayout.Width(150));
+            GUILayout.Box("Status", StyleBoxYellow, GUILayout.Width(125));
             GUILayout.EndHorizontal();
             GUILayout.Space(15);
             manager.displayKerbalList();            
@@ -856,6 +857,12 @@ namespace MissionController
         {
             GUI.skin = HighLogic.Skin;
             GUILayout.BeginVertical();
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Box("Hired Name",StyleBoxYellow, GUILayout.Width(200));
+            GUILayout.Box("Hired Cost", StyleBoxYellow, GUILayout.Width(200));
+            GUILayout.EndHorizontal();
+            GUILayout.Space(15);
 
             manager.displayCurrentHiredList();
             
@@ -878,9 +885,17 @@ namespace MissionController
             GUILayout.BeginVertical();
             if ((manager.ResearchRecycle || HighLogic.CurrentGame.Mode != Game.Modes.CAREER))
             {
-                showCostValue("Vessel " + recycledName + " recyled: ", recycledCost, styleCaption);
+
                 GUILayout.BeginHorizontal();
-                GUILayout.Label("  (" + recycledDesc + ")", styleValueName);
+                GUILayout.Box("Vessel Name",StyleBoxYellow, GUILayout.Width(150));
+                GUILayout.Box("Cost Returned", StyleBoxYellow, GUILayout.Width(150));
+                GUILayout.Box("Description", StyleBoxYellow, GUILayout.Width(250));
+                GUILayout.EndHorizontal();
+                
+                GUILayout.BeginHorizontal();
+                GUILayout.Box(recycledName, GUILayout.Width(150));
+                GUILayout.Box("$ " + recycledCost, GUILayout.Width(150));
+                GUILayout.Box("  (" + recycledDesc + ")", GUILayout.Width(250));
                 GUILayout.EndHorizontal();
             }           
 

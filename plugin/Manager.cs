@@ -295,6 +295,7 @@ namespace MissionController
                 GUILayout.BeginHorizontal();
                 GUILayout.Box(hk.hiredKerbalName, GUILayout.Width(200));
                 GUILayout.Box(Tools.secondsIntoRealTime(hk.DateHired), GUILayout.Width(150));
+                GUILayout.Box(hk.statusKerbal, GUILayout.Width(125));
                 GUILayout.EndHorizontal();
             }
         }
@@ -307,7 +308,7 @@ namespace MissionController
                 GUILayout.Box(ms.missionName, GUILayout.Width(425));
                 GUILayout.Box(Tools.secondsIntoRealTime(ms.endTime), GUILayout.Width(160));
                 GUILayout.Box(ms.vesselName,GUILayout.Width(275));
-                GUILayout.Box("$ " + ms.payment, GUILayout.Width(155));
+                GUILayout.Box("$ " + ms.payment, GUILayout.Width(140));
                 GUILayout.EndHorizontal();
             }
         }
@@ -317,10 +318,8 @@ namespace MissionController
             foreach (CurrentHires ch in currentHires)
             {
                 GUILayout.BeginHorizontal();
-                GUILayout.Box("Hired Name");
-                GUILayout.Box(ch.hiredKerbalName);
-                GUILayout.Box("Hired Cost");
-                GUILayout.Box("$ " + ch.hiredCost);
+                GUILayout.Box(ch.hiredKerbalName, GUILayout.Width(200));
+                GUILayout.Box("$ " + ch.hiredCost, GUILayout.Width(200));
                 GUILayout.EndHorizontal();
             }
         }
@@ -338,7 +337,7 @@ namespace MissionController
 
                     if (!currentProgram.hiredkerbal.Exists(H => H.hiredKerbalName == CrewMember.name))
                     {
-                        currentProgram.add(new HiredKerbals(CrewMember.name, Planetarium.GetUniversalTime()));
+                        currentProgram.add(new HiredKerbals(CrewMember.name, Planetarium.GetUniversalTime(), CrewMember.rosterStatus.ToString()));
                         manager.kerbCost(FinanceMode.KerbalHiredCost);
                         showKerbalHireWindow = true;
                         currentHires.Add(new CurrentHires(CrewMember.name,FinanceMode.KerbalHiredCost));
@@ -357,10 +356,9 @@ namespace MissionController
         public void finishMission(Mission m, Vessel vessel, GameEvent events) {
             if (!isMissionAlreadyFinished (m, vessel) && m.isDone(vessel, events)) {
                 MissionStatus status = new MissionStatus (m.name, vessel.id.ToString ());
-
                 status.repeatable = m.repeatable;
                 status.repeatableSameVessel = m.repeatableSameVessel;
-                status.vesselName = vessel.name.ToString();
+                status.vesselName = vessel.GetName();
                 status.endTime = Planetarium.GetUniversalTime();
                 status.payment = m.reward;
 
