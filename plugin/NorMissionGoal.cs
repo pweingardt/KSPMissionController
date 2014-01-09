@@ -44,7 +44,7 @@ namespace MissionController
         }
 
         public override String getType() {
-            return "Normission";
+            return "Do Not Allow These Goals";
         }
     }
 }

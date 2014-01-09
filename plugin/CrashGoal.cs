@@ -30,5 +30,33 @@ namespace MissionController
             return "Crashing";
         }
     }
+
+    public class noCrewGoal : MissionGoal
+    {
+        protected override List<Value> values(Vessel vessel, GameEvent events)
+        {
+            List<Value> v = new List<Value>();
+            if (vessel == null)
+            {
+                v.Add(new Value("noCrew", "true"));
+            }
+            else
+            {
+                bool noCrew = true;
+                int count = vessel.GetCrewCount();
+                if (count != 0)
+                {
+                    noCrew = false;
+                }
+
+                v.Add(new Value("noCrew", "true", "" + noCrew, noCrew));
+            }
+            return v;
+        }
+        public override string getType()
+        {
+            return "NoCrew";
+        }
+    }    
 }
 

@@ -44,7 +44,7 @@ namespace MissionController
         }
 
         public override String getType() {
-            return "Ormission";
+            return "Or Mission Goals";
         }
     }
 }

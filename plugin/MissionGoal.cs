@@ -36,7 +36,11 @@ namespace MissionController
         /// <summary>
         /// The minimal crew count needed for this mission goal
         /// </summary>
-        public int crewCount = 0;
+        public int crewCount;
+
+        /// <summary>
+        /// Use this to set the mission not to have any crew
+        /// </summary>
 
         /// <summary>
         /// If true, the vessel needs to be throttled down in order to finish this mission goal
@@ -117,8 +121,8 @@ namespace MissionController
         /// <returns>The values.</returns>
         /// <param name="vessel">current vessel</param>
         public List<Value> getValues(Vessel vessel, GameEvent events) {
-            List<Value> vs = values (vessel, events);
-
+            List<Value> vs = values (vessel, events);           
+            
             if (crewCount != 0) {
                 if(vessel == null) {
                     vs.Add (new Value ("Crew count", "" + crewCount));
