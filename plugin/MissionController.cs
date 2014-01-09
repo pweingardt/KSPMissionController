@@ -474,6 +474,9 @@ namespace MissionController
             VabShipBuildList2 = configfile.GetValue<Rect>("VabShipBuildList2");
             VabShipWindow = configfile.GetValue<Rect>("VabShipWindow");
             MissionWindowStatus = configfile.GetValue<Rect>("MissionWindowStatus");
+            missionLogBookPostion = configfile.GetValue<Rect>("missionLogBookPostion");
+            kerbalLogBookHirePostion = configfile.GetValue<Rect>("kerbalLogBookHirePostion");
+            shipLogBook = configfile.GetValue<Rect>("shipLogBook");
         }
 
          public void GUISave()
@@ -493,7 +496,10 @@ namespace MissionController
             configfile.SetValue("VabShipBuildList1", VabShipBuildList1);
             configfile.SetValue("VabShipBuildList2", VabShipBuildList2);
             configfile.SetValue("VabShipWindow", VabShipWindow);
+            configfile.SetValue("missionLogBookPostion", missionLogBookPostion);
             configfile.SetValue("MissionWindowStatus", MissionWindowStatus);
+            configfile.SetValue("kerbalLogBookHirePostion", kerbalLogBookHirePostion);
+            configfile.SetValue("shipLogBook", shipLogBook);
  
             configfile.save();
         }
