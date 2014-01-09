@@ -362,7 +362,15 @@ namespace MissionController
 
         public void recordVesselInfo(Mission m, Vessel vessel)
         {
-            currentProgram.add(new VesselsMade(vessel.GetName(), latestExpenses, m.name, vessel.GetCrewCount()));
+            if (m == null)
+            {
+                string missionName = "Player Launched Mission";
+                currentProgram.add(new VesselsMade(vessel.GetName(), latestExpenses, missionName, vessel.GetCrewCount()));
+            }
+            else
+            {
+                currentProgram.add(new VesselsMade(vessel.GetName(), latestExpenses, m.name, vessel.GetCrewCount()));
+            }
         }
 
         /// <summary>
