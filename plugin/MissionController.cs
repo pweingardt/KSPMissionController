@@ -689,16 +689,16 @@ namespace MissionController
             {
                 VesselResources res = new VesselResources(activeVessel);
                 if (HighLogic.LoadedScene.Equals(GameScenes.EDITOR))
-                {               
-                    VabShipBuildList = GUILayout.Window(898992, VabShipBuildList, drawconstructioncostwindow, "Ship Value: " + res.sum(), (res.sum() > manager.budget ? styleRedButtonCenter : styleGreenButtonCenter), GUILayout.MinHeight(20), GUILayout.MinWidth(175));
+                {
+                    VabShipBuildList = GUILayout.Window(898992, VabShipBuildList, drawconstructioncostwindow, "Ship Value: " + CurrencySuffix + res.sum().ToString("N2"), (res.sum() > manager.budget ? styleRedButtonCenter : styleGreenButtonCenter), GUILayout.MinHeight(20), GUILayout.MinWidth(175));
                 }
                 if (HighLogic.LoadedScene.Equals(GameScenes.FLIGHT))
                 {
-                    VabShipBuildList1 = GUILayout.Window(898992, VabShipBuildList1, drawconstructioncostwindow, "SV : " + res.sum(), (res.sum() > manager.budget ? styleRedButtonCenter : styleGreenButtonCenter), GUILayout.MinHeight(20), GUILayout.MinWidth(100));
+                    VabShipBuildList1 = GUILayout.Window(898992, VabShipBuildList1, drawconstructioncostwindow, "SV : " + CurrencySuffix + res.sum().ToString("N2"), (res.sum() > manager.budget ? styleRedButtonCenter : styleGreenButtonCenter), GUILayout.MinHeight(20), GUILayout.MinWidth(125));
                 }
                 if (HighLogic.LoadedScene.Equals(GameScenes.SPH))
                 {
-                    VabShipBuildList2 = GUILayout.Window(898992, VabShipBuildList2, drawconstructioncostwindow, "Ship Value: " + res.sum(), (res.sum() > manager.budget ? styleRedButtonCenter : styleGreenButtonCenter), GUILayout.MinHeight(20), GUILayout.MinWidth(175));
+                    VabShipBuildList2 = GUILayout.Window(898992, VabShipBuildList2, drawconstructioncostwindow, "Ship Value: " + CurrencySuffix + res.sum().ToString("N2"), (res.sum() > manager.budget ? styleRedButtonCenter : styleGreenButtonCenter), GUILayout.MinHeight(20), GUILayout.MinWidth(175));
                 }
             }
 
@@ -706,19 +706,19 @@ namespace MissionController
             {
                 if (HighLogic.LoadedScene.Equals(GameScenes.EDITOR))
                 {
-                    VabBudgetWin = GUILayout.Window(898993, VabBudgetWin, drawbudgetwindow, "Current Budget: " + manager.budget + CurrencySuffix, styleGreenButtonCenter, GUILayout.MinHeight(20), GUILayout.MinWidth(175));
+                    VabBudgetWin = GUILayout.Window(898993, VabBudgetWin, drawbudgetwindow, "Current Budget: " + CurrencySuffix + manager.budget.ToString("N2"), styleGreenButtonCenter, GUILayout.MinHeight(20), GUILayout.MinWidth(200));
                 }
                 if (HighLogic.LoadedScene.Equals(GameScenes.SPACECENTER))
                 {
-                    VabBudgetWin1 = GUILayout.Window(898993, VabBudgetWin1, drawbudgetwindow, "Current Budget: " + manager.budget + CurrencySuffix, styleGreenButtonCenter, GUILayout.MinHeight(20), GUILayout.MinWidth(175));
+                    VabBudgetWin1 = GUILayout.Window(898993, VabBudgetWin1, drawbudgetwindow, "Current Budget: " + CurrencySuffix + manager.budget.ToString("N2"), styleGreenButtonCenter, GUILayout.MinHeight(20), GUILayout.MinWidth(200));
                 }
                 if (HighLogic.LoadedScene.Equals(GameScenes.FLIGHT))
                 {
-                    VabBudgetWin2 = GUILayout.Window(898993, VabBudgetWin2, drawbudgetwindow, "CB " + manager.budget + CurrencySuffix, styleGreenButtonCenter, GUILayout.MinHeight(20), GUILayout.MinWidth(100));
+                    VabBudgetWin2 = GUILayout.Window(898993, VabBudgetWin2, drawbudgetwindow, "CB " + CurrencySuffix + manager.budget.ToString("N2"), styleGreenButtonCenter, GUILayout.MinHeight(20), GUILayout.MinWidth(125));
                 }
                 if (HighLogic.LoadedScene.Equals(GameScenes.SPH))
                 {
-                    VabBudgetWin3 = GUILayout.Window(898993, VabBudgetWin3, drawbudgetwindow, "Current Budget: " + manager.budget + CurrencySuffix, styleGreenButtonCenter, GUILayout.MinHeight(20), GUILayout.MinWidth(175));
+                    VabBudgetWin3 = GUILayout.Window(898993, VabBudgetWin3, drawbudgetwindow, "Current Budget: " + CurrencySuffix + manager.budget.ToString("N2"), styleGreenButtonCenter, GUILayout.MinHeight(20), GUILayout.MinWidth(200));
                 }
             }
 
@@ -894,7 +894,7 @@ namespace MissionController
                 
                 GUILayout.BeginHorizontal();
                 GUILayout.Box(recycledName, GUILayout.Width(150));
-                GUILayout.Box("$ " + recycledCost, GUILayout.Width(150));
+                GUILayout.Box("$ " + recycledCost.ToString("N2"), GUILayout.Width(150));
                 GUILayout.Box("  (" + recycledDesc + ")", GUILayout.Width(250));
                 GUILayout.EndHorizontal();
             }           
@@ -1020,6 +1020,10 @@ namespace MissionController
 
             Status status = calculateStatus(currentMission, true, activeVessel);
             Mission mission = new Mission();
+            double rewardFinanced = (currentMission.reward * FinanceMode.currentloan) * PayoutLeveles.TechPayout;
+            double rewardFinancedHard = (currentMission.reward * FinanceMode.currentloan * PayoutLeveles.TechPayout) * .60;
+            double rewardnormal = currentMission.reward * PayoutLeveles.TechPayout;
+            double rewardHard = (currentMission.reward * PayoutLeveles.TechPayout) * .60;
 
 
             GUILayout.Label("Current Mission: " + mission.name, styleText);
@@ -1028,14 +1032,14 @@ namespace MissionController
                 if (settings.gameMode == 0)
                 {
                     GUILayout.Label("All goals accomplished. Deducted For Loans!", styleCaption);
-                    showCostValue("Total Mission Payout:", (currentMission.reward * FinanceMode.currentloan) * PayoutLeveles.TechPayout, styleValueGreen);
-                    showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
+                    GUILayout.Label("Total Mission Payout:" + rewardFinanced.ToString("N2"), styleValueGreen);
+                    GUILayout.Label("Total Science Paid: " + currentMission.scienceReward, styleValueGreen);
                 }
                 if (settings.gameMode == 1)
                 {
                     GUILayout.Label("All Goals accomplished. Hardcore and Deducted Loans", styleCaption); // .75 * .6 = .45
-                    showCostValue("Total Mission Payout:", (currentMission.reward * FinanceMode.currentloan * PayoutLeveles.TechPayout) * .60, styleValueGreen);
-                    showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
+                    GUILayout.Label("Total Mission Payout:" + rewardFinancedHard.ToString("N2"), styleValueGreen);
+                    GUILayout.Label("Total Science Paid: " +currentMission.scienceReward, styleValueGreen);
                 }
             }
             else
@@ -1043,14 +1047,14 @@ namespace MissionController
                 if (settings.gameMode == 0)
                 {
                     GUILayout.Label("All goals accomplished. you can finish the mission now!", styleCaption);
-                    showCostValue("Total Mission Payout:", currentMission.reward * PayoutLeveles.TechPayout, styleValueGreen);
-                    showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
+                    GUILayout.Label("Total Mission Payout:" + rewardnormal.ToString("N2"), styleValueGreen);
+                    GUILayout.Label("Total Science Paid: " + currentMission.scienceReward, styleValueGreen);
                 }
                 if (settings.gameMode == 1)
                 {
                     GUILayout.Label("All goals accomplished. you can finish the mission now: HardCore Mode 40 % Reduction!", styleCaption);
-                    showCostValue("Total Mission Payout:", (currentMission.reward * PayoutLeveles.TechPayout) * .60, styleValueGreen);
-                    showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
+                    GUILayout.Label("Total Mission Payout:" + rewardHard.ToString("N2"), styleValueGreen);
+                    GUILayout.Label("Total Science Paid: " + currentMission.scienceReward, styleValueGreen);
                 }
             }
             GUILayout.BeginHorizontal();
@@ -1079,33 +1083,110 @@ namespace MissionController
             GUI.skin = HighLogic.Skin;
             GUILayout.BeginVertical();
             scrollPositionship = GUILayout.BeginScrollView(scrollPositionship, GUILayout.Width(300));
-            GUILayout.Space(20);
+            GUILayout.Space(10);
 
             VesselResources res = new VesselResources(activeVessel);
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Box("Parts", StyleBoxYellow, GUILayout.Width(150));
+            GUILayout.Box("Cost", StyleBoxYellow, GUILayout.Width(100));
+            GUILayout.EndHorizontal();
+            GUILayout.Space(20);
             
-            if (res.pod() > (0)) { showCostValue("Command Sections:", res.pod(), styleValueGreen); }
-            if (res.ctrl() > (0)) { showCostValue("Avionics and Control:", res.ctrl(), styleValueGreen); } // NOT control surfaces. Those are AERO parts. These are SAS etc
-            if (res.util() > (0)) { showCostValue("Utility Parts:", res.util(), styleValueGreen); }
-            if (res.sci() > (0)) { showCostValue("Science Parts:", res.sci(), styleValueGreen); }
-            if (res.engine() > (0)) { showCostValue("Engines And Cooling: ", res.engine(), styleValueGreen); }
-            if (res.tank() > (0)) { showCostValue("Fuel Tank Cost: ", res.tank(), styleValueGreen); }
-            if (res.stru() > (0)) { showCostValue("Structural Cost:", res.stru(), styleValueGreen); }
-            if (res.aero() > (0)) { showCostValue("Aerodynamic Cost:", res.aero(), styleValueGreen); }
+            if (res.pod() > (0)) 
+            {
+                GUILayout.BeginHorizontal();
+                GUILayout.Box("Command Sections", StyleBoxWhite, GUILayout.Width(150));
+                GUILayout.Box(CurrencySuffix + res.pod().ToString("N2"), GUILayout.Width(100));
+                GUILayout.EndHorizontal();
+            }
+            if (res.ctrl() > (0))
+            {
+                GUILayout.BeginHorizontal();
+                GUILayout.Box("Control & SAS", StyleBoxWhite, GUILayout.Width(150));
+                GUILayout.Box(CurrencySuffix + res.ctrl().ToString("N2"), GUILayout.Width(100)); 
+                GUILayout.EndHorizontal();
+            } 
+            if (res.util() > (0))
+            {
+                GUILayout.BeginHorizontal();
+                GUILayout.Box("Utility Parts", StyleBoxWhite, GUILayout.Width(150));
+                GUILayout.Box(CurrencySuffix + res.util().ToString("N2"), GUILayout.Width(100));
+                GUILayout.EndHorizontal();
+            }
+            if (res.sci() > (0))
+            {
+                GUILayout.BeginHorizontal();
+                GUILayout.Box("Science Parts", StyleBoxWhite, GUILayout.Width(150));
+                GUILayout.Box(CurrencySuffix + res.sci().ToString("N2"), GUILayout.Width(100));
+                GUILayout.EndHorizontal();
+            }
+            if (res.engine() > (0)) 
+            {
+                GUILayout.BeginHorizontal();
+                GUILayout.Box("Engines", StyleBoxWhite, GUILayout.Width(150));
+                GUILayout.Box(CurrencySuffix + res.engine().ToString("N2"), GUILayout.Width(100));
+                GUILayout.EndHorizontal();
+            }
+            if (res.tank() > (0))
+            { 
+                GUILayout.BeginHorizontal();
+                GUILayout.Box("Fuel Tank", StyleBoxWhite, GUILayout.Width(150));
+                GUILayout.Box(CurrencySuffix + res.tank().ToString("N2"), GUILayout.Width(100));
+                GUILayout.EndHorizontal();
+            }
+            if (res.stru() > (0))
+            { 
+                GUILayout.BeginHorizontal();
+                GUILayout.Box("Structural", StyleBoxWhite, GUILayout.Width(150));
+                GUILayout.Box(CurrencySuffix + res.stru().ToString("N2"), GUILayout.Width(100));
+                GUILayout.EndHorizontal();
+            }
+            if (res.aero() > (0))
+            {
+                GUILayout.BeginHorizontal();
+                GUILayout.Box("Aerodynamic", StyleBoxWhite, GUILayout.Width(150));
+                GUILayout.Box(CurrencySuffix + res.aero().ToString("N2"), GUILayout.Width(100)); 
+                GUILayout.EndHorizontal();
+                GUILayout.Space(10);
+            }
             // pull from resources
             if (res.resources.Count > 0)
             {
                 List<string> resInVessel = res.resources.Keys.ToList();
                 resInVessel.Sort();
                 foreach (string r in resInVessel)
-                    showCostValue(r, Math.Round(res.resources[r], 0), styleValueGreen);
+                {
+                    GUILayout.BeginHorizontal();
+                    GUILayout.Box(r, StyleBoxWhite, GUILayout.Width(150));
+                    GUILayout.Box(CurrencySuffix + Math.Round(res.resources[r], 0.00), GUILayout.Width(100));
+                    GUILayout.EndHorizontal();
+                }
             }
-            if (res.wet() > (0)) { showCostValue("(Total Cost Of Fuels):", res.wet(), styleValueYellow); }
-            if (res.dry() > (0)) { showCostValue("(Total Cost Of Parts):", res.dry(), styleValueYellow); }           
-            showCostValue("Total Cost Vessel:", res.sum(), (res.sum() > manager.budget ? styleValueRedBold : styleValueGreen));
+            if (res.wet() > (0))
+            {
+                GUILayout.Space(20);
+                GUILayout.BeginHorizontal();
+                GUILayout.Box("(Total Cost Of Fuels)", StyleBoxYellow, GUILayout.Width(150));
+                GUILayout.Box(CurrencySuffix + res.wet().ToString("N2"), GUILayout.Width(100));
+                GUILayout.EndHorizontal();
+            }
+            if (res.dry() > (0)) 
+            { 
+                GUILayout.BeginHorizontal();
+                GUILayout.Box("(Total Cost Of Parts)", StyleBoxYellow, GUILayout.Width(150));
+                GUILayout.Box(CurrencySuffix + res.dry().ToString("N2"), GUILayout.Width(100));
+                GUILayout.EndHorizontal();
+                GUILayout.Space(20);
+            }           
+            GUILayout.BeginHorizontal();
+            GUILayout.Box("Total Cost Vessel", StyleBoxYellow, GUILayout.Width(150));
+            GUILayout.Box(CurrencySuffix + res.sum().ToString("N2"), StyleBoxGreen, GUILayout.Width(100));
+            GUILayout.EndHorizontal();
             GUILayout.EndScrollView();
 
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Exit Window", styleButtonWordWrap, GUILayout.Width(300)))
+            if (GUILayout.Button("Exit Window", styleButtonWordWrap, GUILayout.Height(20)))
             {
                 showVabShipWindow = false;
             }
@@ -1131,13 +1212,13 @@ namespace MissionController
             if (status.isClientControlled)
             {
                 MissionStatus s = manager.getClientControlledMission(activeVessel);
-                GUILayout.Label("This vessel is controlled by a client. Do not destroy this vessel! Fine: " + s.punishment + CurrencySuffix, styleWarning);
+                GUILayout.Label("This vessel is controlled by a client. Do not destroy this vessel! Fine: " + CurrencySuffix + s.punishment, styleWarning);
                 GUILayout.Label("End of life in " + MathTools.formatTime(s.endOfLife - Planetarium.GetUniversalTime()));
             }
             else if (status.isOnPassiveMission)
             {
                 MissionStatus s = manager.getPassiveMission(activeVessel);
-                GUILayout.Label("This vessel is involved in a passive mission. Do not destroy this vessel! Fine: " + s.punishment + CurrencySuffix, styleWarning);
+                GUILayout.Label("This vessel is involved in a passive mission. Do not destroy this vessel! Fine: " + CurrencySuffix + s.punishment, styleWarning);
                 GUILayout.Label("End of life in " + MathTools.formatTime(s.endOfLife - Planetarium.GetUniversalTime()));
             }
             if (manager.isVesselFlagged(activeVessel))
@@ -1246,9 +1327,9 @@ namespace MissionController
             GUILayout.BeginHorizontal();
             GUILayout.Label("Reward: ", styleValueGreenBold);
             if (settings.gameMode == 0)
-            { GUILayout.Label(mission.reward * PayoutLeveles.TechPayout + CurrencySuffix, styleValueYellow); }
+            { GUILayout.Label(CurrencySuffix + mission.reward * PayoutLeveles.TechPayout, styleValueYellow); }
             if (settings.gameMode == 1)
-            { GUILayout.Label(mission.reward * PayoutLeveles.TechPayout * .60 + CurrencySuffix, styleValueYellow); }
+            { GUILayout.Label(CurrencySuffix + mission.reward * PayoutLeveles.TechPayout * .60, styleValueYellow); }
             GUILayout.EndHorizontal();
 
             if (mission.scienceReward != 0)
@@ -1263,7 +1344,7 @@ namespace MissionController
             {
                 GUILayout.BeginHorizontal();
                 GUILayout.Label("Reward every day: ", styleValueYellow);
-                GUILayout.Label(mission.passiveReward + CurrencySuffix, styleValueGreen);
+                GUILayout.Label(CurrencySuffix + (mission.passiveReward), styleValueGreen);
                 GUILayout.EndHorizontal();
             }
 
@@ -1503,7 +1584,7 @@ namespace MissionController
 
         private void showCostValue(String name, double value, GUIStyle style)
         {
-            showStringValue(name, String.Format("{0:N0}{1}", value, CurrencySuffix), style);
+            showStringValue(name, String.Format("{0:N0}{1}", CurrencySuffix, value), style);
         }
 
         private void showDoubleValue(String name, double value, GUIStyle style)
@@ -1536,7 +1617,7 @@ namespace MissionController
             return false;
         }
 
-        private const String CurrencySuffix = " ₭";
+        private const String CurrencySuffix = "$";
     }
     /// <summary>
     /// KSPAddon with equality checking using an additional type parameter. Fixes the issue where AddonLoader prevents multiple start-once addons with the same start scene.

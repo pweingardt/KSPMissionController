@@ -308,7 +308,7 @@ namespace MissionController
                 GUILayout.Box(ms.missionName, GUILayout.Width(425));
                 GUILayout.Box(Tools.secondsIntoRealTime(ms.endTime), GUILayout.Width(160));
                 GUILayout.Box(ms.vesselName,GUILayout.Width(275));
-                GUILayout.Box("$ " + ms.payment, GUILayout.Width(140));
+                GUILayout.Box("$ " + ms.payment.ToString("N2"), GUILayout.Width(140));
                 GUILayout.EndHorizontal();
             }
         }
@@ -319,7 +319,7 @@ namespace MissionController
             {
                 GUILayout.BeginHorizontal();
                 GUILayout.Box(ch.hiredKerbalName, GUILayout.Width(200));
-                GUILayout.Box("$ " + ch.hiredCost, GUILayout.Width(200));
+                GUILayout.Box("$ " + ch.hiredCost.ToString("N2"), GUILayout.Width(200));
                 GUILayout.EndHorizontal();
             }
         }

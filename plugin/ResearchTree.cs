@@ -175,7 +175,7 @@ namespace MissionController
                 GUILayout.Space(20);
                 GUILayout.BeginHorizontal();
                 GUILayout.Box("Mission Payouts 3", GUILayout.Width(160), GUILayout.Height(40));
-                GUILayout.Box("1600 Science", GUILayout.Width(160), GUILayout.Height(40));
+                GUILayout.Box("1,600 Science", GUILayout.Width(160), GUILayout.Height(40));
                 if (CM.Science >= 1600 && manager.MissionLevel3 != true && manager.MissionLevel2 != false)
                 {
                     if (GUILayout.Button("Purchase", GUILayout.Width(160), GUILayout.Height(40)))

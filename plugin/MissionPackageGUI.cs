@@ -53,6 +53,7 @@ namespace MissionController
 
             foreach (Mission m in currentPackage.Missions) {
                 Status s = calculateStatus (m, false, null);
+                double payoutTotal = m.reward * PayoutLeveles.TechPayout;
 
                 GUIStyle style = styleButton;
 
@@ -71,15 +72,15 @@ namespace MissionController
 
                 GUILayout.BeginHorizontal(GUILayout.Width(450));
                 if (m.scienceReward != 0)
-                {
-                    if (GUILayout.Button(m.name + "\n" + (m.reward * PayoutLeveles.TechPayout) + CurrencySuffix + " : " +m.scienceReward + " sp", style, GUILayout.Width(350)))
+                {                    
+                    if (GUILayout.Button(m.name + "\n" + CurrencySuffix + payoutTotal.ToString("N2") + " : " + m.scienceReward + " sp", style, GUILayout.Width(350)))
                     {
                         currentPreviewMission = manager.reloadMission(m, activeVessel);
                     }
                 }
 
                 else
-                    if (GUILayout.Button(m.name + "\n" + (m.reward * PayoutLeveles.TechPayout) + CurrencySuffix, style, GUILayout.Width(350)))
+                    if (GUILayout.Button(m.name + "\n" + CurrencySuffix + payoutTotal.ToString("N2"), style, GUILayout.Width(350)))
                     {
                         currentPreviewMission = manager.reloadMission(m, activeVessel);
                     }       
@@ -123,7 +124,7 @@ namespace MissionController
                     packageWindow (false);
                 }
 
-                if (currentPreviewMission.randomized && GUILayout.Button ("New Random Mission", styleButtonYellow)) {
+                if (currentPreviewMission.randomized && GUILayout.Button ("New Random Mission")) {
                     manager.discardRandomMission (currentPreviewMission);
                     currentPreviewMission = manager.reloadMission (currentPreviewMission, activeVessel);
                 }

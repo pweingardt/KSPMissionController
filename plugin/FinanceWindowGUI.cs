@@ -17,12 +17,16 @@ namespace MissionController
         private Vector2 scrollPosition2 = new Vector2(0, 0);
         private void drawFinaceWindow(int id)
         {
+            int netProfit = (manager.TotalRecycleMoney + manager.Totalbudget) - manager.TotalSpentVechicles - manager.TotalHiredKerbCost;
+            int totalexpenditures = manager.TotalHiredKerbCost + manager.TotalSpentVechicles;
+            int totalpayouts = manager.TotalRecycleMoney + manager.Totalbudget;
+
             GUI.skin = HighLogic.Skin;
             GUILayout.BeginVertical();
 
             GUILayout.BeginHorizontal();
             GUILayout.Box(" Current budget: ", StyleBoxWhite, GUILayout.Width(190), GUILayout.Height(30));
-            GUILayout.Box(manager.budget + CurrencySuffix, GUILayout.Width(110), GUILayout.Height(30));
+            GUILayout.Box(CurrencySuffix + manager.budget.ToString("N2"), GUILayout.Width(110), GUILayout.Height(30));
             GUILayout.EndHorizontal();
            
             GUILayout.Space(20);
@@ -33,17 +37,17 @@ namespace MissionController
 
             GUILayout.BeginHorizontal();
             GUILayout.Box(" Total Spent Vessels: ", StyleBoxWhite, GUILayout.Width(190), GUILayout.Height(25));
-            GUILayout.Box(manager.TotalSpentVechicles + CurrencySuffix, GUILayout.Width(110), GUILayout.Height(25));
+            GUILayout.Box(CurrencySuffix + manager.TotalSpentVechicles.ToString("N2"), GUILayout.Width(110), GUILayout.Height(25));
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
             GUILayout.Box(" Total Kerbal Hire Cost: ", StyleBoxWhite, GUILayout.Height(30));
-            GUILayout.Box(manager.TotalHiredKerbCost + CurrencySuffix, GUILayout.Width(110), GUILayout.Height(30));
+            GUILayout.Box(CurrencySuffix + manager.TotalHiredKerbCost.ToString("N2"), GUILayout.Width(110), GUILayout.Height(30));
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
             GUILayout.Box(" Total Expenditure's: ", StyleBoxWhite, GUILayout.Height(30));
-            GUILayout.Box(manager.TotalHiredKerbCost + manager.TotalSpentVechicles + CurrencySuffix, StyleBoxGreen, GUILayout.Width(110), GUILayout.Height(30));
+            GUILayout.Box(CurrencySuffix + totalexpenditures.ToString("N2"), StyleBoxGreen, GUILayout.Width(110), GUILayout.Height(30));
             GUILayout.EndHorizontal();
 
             if (GUILayout.Button("Kerbal Hire Log",GUILayout.Height(20)))
@@ -59,17 +63,17 @@ namespace MissionController
 
             GUILayout.BeginHorizontal();
             GUILayout.Box(" Total Mission Payouts: ", StyleBoxWhite, GUILayout.Width(190), GUILayout.Height(25));
-            GUILayout.Box(manager.Totalbudget + CurrencySuffix, GUILayout.Width(110), GUILayout.Height(25));
+            GUILayout.Box(CurrencySuffix + manager.Totalbudget.ToString("N2"), GUILayout.Width(110), GUILayout.Height(25));
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
             GUILayout.Box(" Total Recyling Paid: ", StyleBoxWhite, GUILayout.Width(190), GUILayout.Height(25));
-            GUILayout.Box(manager.TotalRecycleMoney + CurrencySuffix, GUILayout.Width(110), GUILayout.Height(25));
+            GUILayout.Box(CurrencySuffix + manager.TotalRecycleMoney.ToString("N2"), GUILayout.Width(110), GUILayout.Height(25));
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
             GUILayout.Box(" Total Recyling + Payouts: ", StyleBoxWhite, GUILayout.Width(190), GUILayout.Height(25));
-            GUILayout.Box(manager.TotalRecycleMoney + manager.Totalbudget + CurrencySuffix, StyleBoxGreen, GUILayout.Width(110), GUILayout.Height(25));
+            GUILayout.Box(CurrencySuffix + totalpayouts.ToString("N2"), StyleBoxGreen, GUILayout.Width(110), GUILayout.Height(25));
             GUILayout.EndHorizontal();
 
  
@@ -79,18 +83,18 @@ namespace MissionController
             }
 
 
-            GUILayout.Space(20);
+            GUILayout.Space(20);            
 
             GUILayout.BeginHorizontal();
             GUILayout.Box("Net Profits: ", StyleBoxYellow, GUILayout.Width(190), GUILayout.Height(25));
-            GUILayout.Box(manager.TotalRecycleMoney + manager.Totalbudget - manager.TotalSpentVechicles - manager.TotalHiredKerbCost + CurrencySuffix,StyleBoxGreen, GUILayout.Width(110), GUILayout.Height(25));
+            GUILayout.Box("$" + netProfit.ToString("N2"), StyleBoxGreen, GUILayout.Width(110), GUILayout.Height(25));
             GUILayout.EndHorizontal();
 
             GUILayout.Space(20);
             GUILayout.BeginHorizontal();
             GUILayout.Box(" Kerbonaut Hire Cost: ", StyleBoxWhite, GUILayout.Height(30));
             int HC = Tools.GetValueDefault(Tools.MCSettings, "kerbalHireCost", 5000);
-            GUILayout.Box(HC + CurrencySuffix, GUILayout.Width(110), GUILayout.Height(30));
+            GUILayout.Box(CurrencySuffix + HC, GUILayout.Width(110), GUILayout.Height(30));
             GUILayout.EndHorizontal();
            
             GUILayout.Space(20);
@@ -99,7 +103,7 @@ namespace MissionController
                 GUILayout.Box(" Borrowing Money", StyleBoxWhite, GUILayout.Height(30));
             GUILayout.BeginHorizontal();
             GUILayout.Box(" Current Bank Loan: ", StyleBoxWhite, GUILayout.Width(150), GUILayout.Height(25));
-            GUILayout.Box(manager.budget + CurrencySuffix, GUILayout.Width(150), GUILayout.Height(25));
+            GUILayout.Box(CurrencySuffix + manager.budget, GUILayout.Width(150), GUILayout.Height(25));
             GUILayout.EndHorizontal();
             GUILayout.BeginHorizontal();
             GUILayout.Box(" Mission Payout Rate: ", StyleBoxWhite, GUILayout.Width(150), GUILayout.Height(25));
@@ -145,7 +149,7 @@ namespace MissionController
                 {
                     GUILayout.BeginHorizontal();
                     GUILayout.Label(m.missionName, styleValueName);
-                    GUILayout.Label(m.passiveReward + CurrencySuffix, styleValueGreen);
+                    GUILayout.Label(CurrencySuffix + m.passiveReward, styleValueGreen);
                     GUILayout.EndHorizontal();
                     total += m.passiveReward;
                 }
@@ -154,7 +158,7 @@ namespace MissionController
 
                 GUILayout.BeginHorizontal();
                 GUILayout.Label("Total", styleValueName);
-                GUILayout.Label(total + CurrencySuffix, styleValueGreen);
+                GUILayout.Label(CurrencySuffix + total, styleValueGreen);
                 GUILayout.EndHorizontal();
             }
         }
