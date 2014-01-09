@@ -91,6 +91,7 @@ namespace MissionController
         private Rect researchtreewinpostion;
         private Rect missionLogBookPostion;
         private Rect kerbalLogBookHirePostion;
+        private Rect shipLogBook;
                
         Rect VabBudgetWin;
         Rect VabBudgetWin1;
@@ -124,6 +125,7 @@ namespace MissionController
         private bool showMissionStatusWindow = false;
         private bool showKerbalLogbookHire = false;
         private bool showMissionLogbookWindow = false;
+        private bool showShipLogBookWindow = false;
                
         public string recycledName = "";
         public string recycledDesc = "";
@@ -136,6 +138,7 @@ namespace MissionController
         private Vector2 scrollPosition = new Vector2(0, 0);
         private Vector2 scrollPositionship = new Vector2(0, 0);
         private Vector2 scrollPositionMission = new Vector2(0, 0);
+        private Vector2 scrollPositionShip = new Vector2(0, 0);
         private Vector2 scrollPositionHire = new Vector2(0, 0);
         private GUIStyle styleValueRedBold, styleValueRed, styleValueYellow, styleValueGreen, styleText, styleCaption, styleValueGreenBold;       
         private GUIStyle styleButton, styleButtonYellow, styleGreenButton, styleRedButton, styleGreenButtonCenter, styleRedButtonCenter;
@@ -782,6 +785,11 @@ namespace MissionController
                 missionLogBookPostion = GUILayout.Window(988889, missionLogBookPostion, drawmMissionLogBook, "Mission Log Book", GUILayout.MinHeight(500), GUILayout.MinWidth(1045));
             }
 
+            if (showShipLogBookWindow && hidetoolbarsviews)
+            {
+                shipLogBook = GUILayout.Window(988889, shipLogBook, drawShipLogBook, "Ship Log Book ", GUILayout.MinHeight(500), GUILayout.MinWidth(960));
+            }
+
             if (fileBrowser != null)
             {
                 GUI.skin = HighLogic.Skin;
@@ -827,6 +835,33 @@ namespace MissionController
             }
         }
 
+        private void drawShipLogBook(int id)
+        {
+            GUI.skin = HighLogic.Skin;
+            GUILayout.BeginVertical();
+            scrollPositionShip = GUILayout.BeginScrollView(scrollPositionShip, GUILayout.Width(940));
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Box("Vessel Name", StyleBoxYellow, GUILayout.Width(250));
+            GUILayout.Box("Vessels Mission", StyleBoxYellow, GUILayout.Width(400));
+            GUILayout.Box("Number Of Crew", StyleBoxYellow, GUILayout.Width(125));
+            GUILayout.Box("Vessel Cost", StyleBoxYellow, GUILayout.Width(125));
+            GUILayout.EndHorizontal();
+            GUILayout.Space(15);
+            manager.displayShipList();
+
+
+            GUILayout.EndScrollView();
+            if (GUILayout.Button("Exit Ship Log Book"))
+            {
+                showShipLogBookWindow = false;
+            }
+            GUILayout.EndVertical();
+            if (!Input.GetMouseButtonDown(1))
+            {
+                GUI.DragWindow();
+            }
+        }
         private void drawKerbalLogBookHire(int id)
         {
             GUI.skin = HighLogic.Skin;
@@ -887,14 +922,14 @@ namespace MissionController
             {
 
                 GUILayout.BeginHorizontal();
-                GUILayout.Box("Vessel Name",StyleBoxYellow, GUILayout.Width(150));
-                GUILayout.Box("Cost Returned", StyleBoxYellow, GUILayout.Width(150));
+                GUILayout.Box("Vessel Name",StyleBoxYellow, GUILayout.Width(250));
+                GUILayout.Box("Cost Returned", StyleBoxYellow, GUILayout.Width(100));
                 GUILayout.Box("Description", StyleBoxYellow, GUILayout.Width(250));
                 GUILayout.EndHorizontal();
                 
                 GUILayout.BeginHorizontal();
-                GUILayout.Box(recycledName, GUILayout.Width(150));
-                GUILayout.Box("$ " + recycledCost.ToString("N2"), GUILayout.Width(150));
+                GUILayout.Box(recycledName, GUILayout.Width(250));
+                GUILayout.Box("$ " + recycledCost.ToString("N2"), GUILayout.Width(100));
                 GUILayout.Box("  (" + recycledDesc + ")", GUILayout.Width(250));
                 GUILayout.EndHorizontal();
             }           

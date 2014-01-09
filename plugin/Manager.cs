@@ -323,6 +323,19 @@ namespace MissionController
                 GUILayout.EndHorizontal();
             }
         }
+
+        public void displayShipList()
+        {
+            foreach (VesselsMade vm in currentProgram.vesselsMade)
+            {
+                GUILayout.BeginHorizontal(); ;
+                GUILayout.Box(vm.vesselName, GUILayout.Width(250));
+                GUILayout.Box(vm.MissionName, GUILayout.Width(400));
+                GUILayout.Box("" + vm.crewNumber, GUILayout.Width(125));
+                GUILayout.Box("$ " + vm.vesselCost.ToString("N2"), GUILayout.Width(125));
+                GUILayout.EndHorizontal();
+            }
+        }
       
         /// <summary>
         /// Checks to see if Kerbal Was Hired.  This was inspired by Kerbal Story Missions, with permission from author to use
@@ -345,6 +358,11 @@ namespace MissionController
 
                 }
             }
+        }
+
+        public void recordVesselInfo(Mission m, Vessel vessel)
+        {
+            currentProgram.add(new VesselsMade(vessel.GetName(), latestExpenses, m.name, vessel.GetCrewCount()));
         }
 
         /// <summary>

@@ -54,6 +54,10 @@ namespace MissionController
             {
                 showKerbalLogbookHire = !showKerbalLogbookHire;
             }
+            if (GUILayout.Button("Ships Built Log", GUILayout.Height(20)))
+            {
+                showShipLogBookWindow = !showShipLogBookWindow;
+            }
 
             GUILayout.Space(20);
 
@@ -111,11 +115,11 @@ namespace MissionController
             GUILayout.EndHorizontal();
              }
 
-            GUILayout.Space(20);
-            GUILayout.Box("Current Passive Mission Payouts");
-            scrollPosition2 = GUILayout.BeginScrollView(scrollPosition2, GUILayout.Width(300), GUILayout.Height(100));
-            drawPassiveMissions(manager.getActivePassiveMissions());
-            GUILayout.EndScrollView();
+            //GUILayout.Space(20);
+            //GUILayout.Box("Current Passive Mission Payouts");
+            //scrollPosition2 = GUILayout.BeginScrollView(scrollPosition2, GUILayout.Width(300), GUILayout.Height(100));
+            //drawPassiveMissions(manager.getActivePassiveMissions());
+            //GUILayout.EndScrollView();
 
             GUILayout.Space(20);
             if (GUILayout.Button("Exit Window"))
@@ -135,32 +139,32 @@ namespace MissionController
         /// Draws the currently active passive missions
         /// </summary>
         /// <param name="missions">Missions.</param>
-        private void drawPassiveMissions(List<MissionStatus> missions)
-        {
-            if (missions.Count > 0)
-            {
-                GUILayout.BeginHorizontal();
-                GUILayout.Label("Next payment in", styleValueName);
-                GUILayout.Label(MathTools.formatTime(60.0 * 60.0 * 24.0 - (Planetarium.GetUniversalTime() - lastPassiveReward)), styleValueGreen);
-                GUILayout.EndHorizontal();
+        //private void drawPassiveMissions(List<MissionStatus> missions)
+        //{
+        //    if (missions.Count > 0)
+        //    {
+        //        GUILayout.BeginHorizontal();
+        //        GUILayout.Label("Next payment in", styleValueName);
+        //        GUILayout.Label(MathTools.formatTime(60.0 * 60.0 * 24.0 - (Planetarium.GetUniversalTime() - lastPassiveReward)), styleValueGreen);
+        //        GUILayout.EndHorizontal();
 
-                int total = 0;
-                foreach (MissionStatus m in missions)
-                {
-                    GUILayout.BeginHorizontal();
-                    GUILayout.Label(m.missionName, styleValueName);
-                    GUILayout.Label(CurrencySuffix + m.passiveReward, styleValueGreen);
-                    GUILayout.EndHorizontal();
-                    total += m.passiveReward;
-                }
+        //        int total = 0;
+        //        foreach (MissionStatus m in missions)
+        //        {
+        //            GUILayout.BeginHorizontal();
+        //            GUILayout.Label(m.missionName, styleValueName);
+        //            GUILayout.Label(CurrencySuffix + m.passiveReward, styleValueGreen);
+        //            GUILayout.EndHorizontal();
+        //            total += m.passiveReward;
+        //        }
 
-                GUILayout.Space(20);
+        //        GUILayout.Space(20);
 
-                GUILayout.BeginHorizontal();
-                GUILayout.Label("Total", styleValueName);
-                GUILayout.Label(CurrencySuffix + total, styleValueGreen);
-                GUILayout.EndHorizontal();
-            }
-        }
+        //        GUILayout.BeginHorizontal();
+        //        GUILayout.Label("Total", styleValueName);
+        //        GUILayout.Label(CurrencySuffix + total, styleValueGreen);
+        //        GUILayout.EndHorizontal();
+        //    }
+        //}
     }
 }

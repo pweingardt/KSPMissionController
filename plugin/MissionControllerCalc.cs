@@ -74,7 +74,7 @@ namespace MissionController
                     eventFlags = eventFlags.Remove(EventFlags.DOCKED);
                     s.events.docked = true;
                 }
-                
+
                 eventFlags = EventFlags.NONE;
             }
 
@@ -174,7 +174,7 @@ namespace MissionController
 
         // edited .11 add some new values.. .12 edit by malkuth to add support for Iron Cross Mod and Modular fuel tanks
         const double costmultiplier = 1.0;
-        
+
         private class VesselResources
         {
 
@@ -237,8 +237,8 @@ namespace MissionController
                                 {
                                     //if (e.propellants.Where(r => r.name.Equals("SolidFuel")).Count() == 0)
                                     //{
-                                        engineCost += cst;
-                                        isEngine = true;
+                                    engineCost += cst;
+                                    isEngine = true;
                                     //}
                                 }
                                 if (!isEngine)
@@ -399,10 +399,10 @@ namespace MissionController
             //{
             //    return (Tools.Setting("insurance", 5000) * crewCount);
             //}
-            
+
             public int dry()
             {
-                return  pod() + tank() + engine() + ctrl() + util() + sci() + stru() + aero();               
+                return pod() + tank() + engine() + ctrl() + util() + sci() + stru() + aero();
             }
             public int wet()
             {
@@ -410,7 +410,7 @@ namespace MissionController
                 foreach (double v in resources.Values)
                     val += v;
 
-                return (int)Math.Round(val,0);
+                return (int)Math.Round(val, 0);
             }
 
             public int sum()
@@ -420,19 +420,19 @@ namespace MissionController
 
             public int recyclable(int sit)
             {
-                switch(sit)
+                switch (sit)
                 {
                     case 1: // landed
-                        return (int)(Tools.Setting("landedRecycle", 0.85) * dry() + Tools.Setting("fuelRecycle", 0.95) * wet()); 
+                        return (int)(Tools.Setting("landedRecycle", 0.85) * dry() + Tools.Setting("fuelRecycle", 0.95) * wet());
                     // case 2: // landed on runway
                     case 3: // autorecycle with fuel
-                        return (int)(Tools.Setting("autoRecycle", 0.63) * (Tools.Setting("runwayRecycle", 0.95) * dry() + Tools.Setting("fuelRecycle", 0.95) * wet())); 
+                        return (int)(Tools.Setting("autoRecycle", 0.63) * (Tools.Setting("runwayRecycle", 0.95) * dry() + Tools.Setting("fuelRecycle", 0.95) * wet()));
                     case 4: // autorecycle without fuel
-                        return (int)(Tools.Setting("autoRecycle", 0.63) * (Tools.Setting("runwayRecycle", 0.95) * dry())); 
+                        return (int)(Tools.Setting("autoRecycle", 0.63) * (Tools.Setting("runwayRecycle", 0.95) * dry()));
                     default: // case 0, or any other.
                         return (int)(Tools.Setting("splashedRecycle", 0.65) * dry() + Tools.Setting("landedRecycle", 0.95) * wet());
                 }
-            }            
+            }
         }
     }
 }

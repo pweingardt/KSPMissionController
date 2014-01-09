@@ -36,9 +36,16 @@ namespace MissionController
 
         public List<HiredKerbals> hiredkerbal = new List<HiredKerbals>();
 
+        public List<VesselsMade> vesselsMade = new List<VesselsMade>();
+
         public void add(FlagSystem m)
         {
             flagSystem.Add(m);
+        }
+
+        public void add(VesselsMade m)
+        {
+            vesselsMade.Add(m);
         }
 
         public void add(HiredKerbals m)
@@ -165,6 +172,7 @@ namespace MissionController
         public double DateHired;
         public string statusKerbal;
 
+
         public HiredKerbals()
         {
         }
@@ -174,6 +182,29 @@ namespace MissionController
             this.hiredKerbalName = kerbalname;
             this.DateHired = date;
             this.statusKerbal = status;
+        }
+    }
+
+    /// <summary>
+    /// Manages The List for Vessel names used in missions and there cost
+    /// </summary>
+    public class VesselsMade
+    {
+        public string vesselName;
+        public int vesselCost;
+        public string MissionName = "Player Mission";
+        public int crewNumber;
+            
+        public VesselsMade()
+        {
+        }
+
+        public VesselsMade(string vName, int cost, string mName, int cNum)
+        {
+            this.vesselName = vName;
+            this.vesselCost = cost;
+            this.MissionName = mName;
+            this.crewNumber = cNum;
         }
     }
 }

@@ -373,6 +373,7 @@ namespace MissionController
                     manager.costs(res.sum());
                     recycled = false;
                     canRecycle = true;
+                    manager.recordVesselInfo(currentMission, activeVessel);
                     fn.checkloans();
 
 
@@ -383,6 +384,7 @@ namespace MissionController
                     manager.costs((res.dry()) * 6 / 100);
                     recycled = false;
                     canRecycle = true;
+                    manager.recordVesselInfo(currentMission, activeVessel);
                     fn.checkloans();
                 }
             }
