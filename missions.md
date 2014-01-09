@@ -137,7 +137,7 @@ That do save the Vessel ID.. Then by default they will have the vessel ID also f
 Dock In another SubMission.  (be warned)
 ### Mission Goals
 
-Currently there are 11 mission goals:
+Currently there are 12 mission goals:
 
 1. OrbitGoal to define an orbit
 2. LandingGoal to define a landing site
@@ -150,6 +150,7 @@ Currently there are 11 mission goals:
 9. UnDockingGoal to undock from a vessel.. For start Missions.. Or other ideas (Read Important Info Below)
 10. RepairGoal Places a part on vessel.. That can be used to set RepairGoal
 11. LaunchGoal launch from Runway or any Planet Body
+12. noCrewGoal mission cannot have any crew onboard vessel.  Flags true when crew are not onboard, false when present.
 
 ### Common mission goal fields (available in *all* mission goals)
 
