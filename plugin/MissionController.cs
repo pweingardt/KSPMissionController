@@ -12,12 +12,12 @@ using Toolbar;
 /// </summary>
 namespace MissionController
 {
-    [KSPAddonFixed(KSPAddon.Startup.MainMenu, true, typeof(MissionController))]
+    [KSPAddonFixed(KSPAddon.Startup.SpaceCentre, true, typeof(MissionController))]
 
     public partial class MissionController : MonoBehaviour
     {
         public bool recycled = false;
-        private bool drawLandingArea = false;             
+        //private bool drawLandingArea = false;             
 
         private AssemblyName assemblyName;
         private String versionCode;
@@ -649,14 +649,14 @@ namespace MissionController
 
             }
 
-            if (drawLandingArea)
-            {
-                CelestialBody kerbin = FlightGlobals.Bodies.Find(b => b.bodyName.Equals("Kerbin"));
-                if (kerbin != null)
-                {
-                    //                    GLUtils.drawLandingArea (kerbin, 80, 90, -170.0, 170.0, new Color(1.0f, 0.0f, 0.0f, 0.5f));
-                }
-            }
+            //if (drawLandingArea)
+            //{
+            //    CelestialBody kerbin = FlightGlobals.Bodies.Find(b => b.bodyName.Equals("Kerbin"));
+            //    if (kerbin != null)
+            //    {
+            //        //                    GLUtils.drawLandingArea (kerbin, 80, 90, -170.0, 170.0, new Color(1.0f, 0.0f, 0.0f, 0.5f));
+            //    }
+            //}
 
             loadIcons();
             loadStyles();
@@ -684,7 +684,7 @@ namespace MissionController
             }
 
             if (HighLogic.LoadedScene.Equals(GameScenes.EDITOR) || HighLogic.LoadedScene.Equals(GameScenes.SPH))
-            {                
+            {
                 showconstructionwindow = true;
             }
 
