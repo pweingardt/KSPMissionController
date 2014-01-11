@@ -12,7 +12,7 @@ using Toolbar;
 /// </summary>
 namespace MissionController
 {
-    [KSPAddonFixed(KSPAddon.Startup.SpaceCentre, true, typeof(MissionController))]
+    [KSPAddonFixed(KSPAddon.Startup.SpaceCentre, false, typeof(MissionController))]
 
     public partial class MissionController : MonoBehaviour
     {
@@ -311,6 +311,7 @@ namespace MissionController
         public void Start()
         {            
             print("Mission Controller Loaded");
+            manager.loadProgram(HighLogic.CurrentGame.Title);
             
             button = ToolbarManager.Instance.add("MC1", "Settings1");
             button.TexturePath = "MissionController/icons/settings";
@@ -754,12 +755,12 @@ namespace MissionController
 
             if (showRecycleWindow && hidetoolbarsviews)
             {
-                GUILayout.Window(98766, new Rect(Screen.width / 2 - 200, Screen.height / 2 - 100, 400, 100), drawRecycleWindow, "Recycle Window");
+                GUILayout.Window(98766, new Rect(Screen.width / 2 - 200, Screen.height / 2 - 100, 600, 400), drawRecycleWindow, "Recycle Window");
             }
 
             if (manager.showKerbalHireWindow && hidetoolbarsviews)
             {
-                GUILayout.Window(987667, new Rect(Screen.width / 2 - 200, Screen.height / 2 - 100, 400, 100), drawKerbalHireWindow, "Recently Hired Kerbals");
+                GUILayout.Window(987667, new Rect(Screen.width / 2 - 200, Screen.height / 2 - 100, 425, 150), drawKerbalHireWindow, "Recently Hired Kerbals");
             }
 
             if (showRandomWindow && hidetoolbarsviews)
@@ -906,6 +907,7 @@ namespace MissionController
             {
                 manager.showKerbalHireWindow = false;
                 manager.currentHires.Clear();
+                manager.saveProgramBackup();
             }
 
             GUILayout.EndVertical();
