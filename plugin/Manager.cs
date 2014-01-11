@@ -237,7 +237,7 @@ namespace MissionController
                 totalReward(goal.reward);
             }
         }
-
+        
         /// <summary>
         /// Returns true, if the given mission goal has been finish in another game with the given vessel, false otherwise
         /// </summary>
@@ -403,11 +403,11 @@ namespace MissionController
                 currentProgram.add(status);
                 reward (m.reward);
                 totalReward(m.reward);
-
-                if (m.scienceReward != 0)
-                {
-                    sciencereward(m.scienceReward);
-                }
+                sciencereward(m.scienceReward);
+      
+                
+                    
+                
                 
                 // finish unfinished goals
                 foreach(MissionGoal goal in m.goals) {

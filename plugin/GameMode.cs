@@ -20,14 +20,14 @@ namespace MissionController
             
             for (int i = 0; i < fuelmode0.Length; ++i) 
             {
-                fuelmode1[i] = .8 * fuelmode0[i];
+                fuelmode1[i] = Tools.Setting("fuelmode1", .8) * fuelmode0[i];
             }
         }
 
         public static readonly double[] fuelmode1;
 
         public static readonly double[] fuelmode0 = new double[] 
-        {1};
+        {Tools.Setting("fuelmode0", 1)};
 
         private static double[] fuelfactors = fuelmode0;
 
@@ -104,6 +104,17 @@ namespace MissionController
             }
         }
 
+        public float ScienceCap
+        {
+            get { return ResearchAndDevelopment.Instance.ScienceCap; }
+            set
+            {
+                float previous = ResearchAndDevelopment.Instance.ScienceCap;
+                ResearchAndDevelopment.Instance.ScienceCap = value;
+                Debug.LogError("Mission Controller Changed ScienceCap by " + (ResearchAndDevelopment.Instance.ScienceCap - previous) + " to " + ResearchAndDevelopment.Instance.ScienceCap + ".");
+            }
+        }
+
         /// <summary>
         /// Deducts Science from the Player Saved Game Persistent file
         /// </summary>
@@ -121,8 +132,8 @@ namespace MissionController
             
             for (int i = 0; i < construction0.Length; ++i) 
             {
-                construction1[i] = .84 * construction0[i];
-                construction2[i] = .74 * construction0[i];
+                construction1[i] = Tools.Setting("construction1", .84) * construction0[i];
+                construction2[i] = Tools.Setting("construction2", .74) * construction0[i];
             }
         }
 
@@ -133,7 +144,7 @@ namespace MissionController
         public static readonly double[] construction2;
 
         public static readonly double[] construction0 = new double[] 
-        {1.0};
+        {Tools.Setting("construction0", 1.0)};
 
         private static double[] constructionfactors = construction0;
 

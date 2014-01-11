@@ -53,8 +53,8 @@ namespace MissionController
 
             for (int i = 0; i < payoutmode0.Length; ++i) 
             {
-                payoutmode1[i] = 1.2 * payoutmode0[i];
-                payoutmode2[i] = 1.4 * payoutmode0[i];
+                payoutmode1[i] = (Tools.Setting("payoutmode1", 1.2)) * payoutmode0[i];
+                payoutmode2[i] = (Tools.Setting("payoutmode2", 1.4)) * payoutmode0[i];
             }
         }
 
@@ -62,7 +62,7 @@ namespace MissionController
         public static readonly double[] payoutmode2;
 
         public static readonly double[] payoutmode0 = new double[] 
-        {1};
+        {Tools.Setting("payoutmode0",1)};
 
         private static double[] payoutfactors = payoutmode0;
 

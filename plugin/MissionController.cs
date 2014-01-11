@@ -315,7 +315,6 @@ namespace MissionController
             button = ToolbarManager.Instance.add("MC1", "Settings1");
             button.TexturePath = "MissionController/icons/settings";
             button.ToolTip = "MCE Settings";
-            button.Visibility = new GameScenesVisibility(GameScenes.SPACECENTER,GameScenes.EDITOR,GameScenes.SPH,GameScenes.FLIGHT);
             button.OnClick += (e) =>
             {
                 showSettingsWindow = !showSettingsWindow;
@@ -324,7 +323,6 @@ namespace MissionController
             BudgetDisplay = ToolbarManager.Instance.add("MC1", "money1");
             BudgetDisplay.TexturePath = "MissionController/icons/money";
             BudgetDisplay.ToolTip = "MCE Current Budget";
-            BudgetDisplay.Visibility = new GameScenesVisibility(GameScenes.SPACECENTER,GameScenes.EDITOR,GameScenes.SPH);
             BudgetDisplay.OnClick += (e) =>
             {
                 showFinanceWindow = !showFinanceWindow;
@@ -333,7 +331,6 @@ namespace MissionController
             MissionSelect = ToolbarManager.Instance.add("MC1", "missionsel1");
             MissionSelect.TexturePath = "MissionController/icons/mission";
             MissionSelect.ToolTip = "MCE Select Current Mission";
-            MissionSelect.Visibility = new GameScenesVisibility(GameScenes.SPACECENTER,GameScenes.FLIGHT,GameScenes.EDITOR,GameScenes.SPH);
             MissionSelect.OnClick += (e) =>
              {
                  showMissionStatusWindow = !showMissionStatusWindow;
@@ -351,7 +348,6 @@ namespace MissionController
             ScienceResearch = ToolbarManager.Instance.add("MC1", "ship3");
             ScienceResearch.TexturePath = "MissionController/icons/research";
             ScienceResearch.ToolTip = "MCE Research Window";
-            ScienceResearch.Visibility = new GameScenesVisibility(GameScenes.SPACECENTER,GameScenes.EDITOR,GameScenes.SPH);
             ScienceResearch.OnClick += (e) =>
             {
                 showResearchTreeWindow = !showResearchTreeWindow;
@@ -372,7 +368,6 @@ namespace MissionController
             Hidetoolbars = ToolbarManager.Instance.add("MC1", "Hide");
             Hidetoolbars.TexturePath = "MissionController/icons/hide";
             Hidetoolbars.ToolTip = "Hide MCE Display Windows";
-            Hidetoolbars.Visibility = new GameScenesVisibility(GameScenes.SPACECENTER, GameScenes.EDITOR, GameScenes.SPH,GameScenes.FLIGHT);
             Hidetoolbars.OnClick += (e) =>
             {
                 hidetoolbarsviews = !hidetoolbarsviews;
@@ -928,15 +923,15 @@ namespace MissionController
             {
 
                 GUILayout.BeginHorizontal();
-                GUILayout.Box("Vessel Name",StyleBoxYellow, GUILayout.Width(250));
+                GUILayout.Box("Vessel Name",StyleBoxYellow, GUILayout.Width(350));
                 GUILayout.Box("Cost Returned", StyleBoxYellow, GUILayout.Width(100));
-                GUILayout.Box("Description", StyleBoxYellow, GUILayout.Width(250));
+                GUILayout.Box("Description", StyleBoxYellow, GUILayout.Width(300));
                 GUILayout.EndHorizontal();
                 
                 GUILayout.BeginHorizontal();
-                GUILayout.Box(recycledName, GUILayout.Width(250));
+                GUILayout.Box(recycledName, GUILayout.Width(350));
                 GUILayout.Box("$ " + recycledCost.ToString("N2"), GUILayout.Width(100));
-                GUILayout.Box("  (" + recycledDesc + ")", GUILayout.Width(250));
+                GUILayout.Box("  (" + recycledDesc + ")", GUILayout.Width(300));
                 GUILayout.EndHorizontal();
             }           
 
@@ -1067,35 +1062,43 @@ namespace MissionController
             double rewardHard = (currentMission.reward * PayoutLeveles.TechPayout) * .60;
 
 
-            GUILayout.Label("Current Mission: " + mission.name, styleText);
+            GUILayout.Box("Current Mission: " + mission.name, StyleBoxYellow,GUILayout.Width(600));
             if (manager.budget < 0)
             {
                 if (settings.gameMode == 0)
                 {
-                    GUILayout.Label("All goals accomplished. Deducted For Loans!", styleCaption);
-                    GUILayout.Label("Total Mission Payout:" + rewardFinanced.ToString("N2"), styleValueGreen);
-                    GUILayout.Label("Total Science Paid: " + currentMission.scienceReward, styleValueGreen);
+                    GUILayout.Box("All goals accomplished. Deducted For Loans!", StyleBoxWhite, GUILayout.Width(600));
+                    GUILayout.BeginHorizontal();
+                    GUILayout.Box("Total Mission Payout:" + rewardFinanced.ToString("N2"),StyleBoxYellow, GUILayout.Width(300));
+                    GUILayout.Box("Total Science Paid: " + currentMission.scienceReward, StyleBoxYellow, GUILayout.Width(300));
+                    GUILayout.EndHorizontal();
                 }
                 if (settings.gameMode == 1)
                 {
-                    GUILayout.Label("All Goals accomplished. Hardcore and Deducted Loans", styleCaption); // .75 * .6 = .45
-                    GUILayout.Label("Total Mission Payout:" + rewardFinancedHard.ToString("N2"), styleValueGreen);
-                    GUILayout.Label("Total Science Paid: " +currentMission.scienceReward, styleValueGreen);
+                    GUILayout.Box("All Goals accomplished. Hardcore and Deducted Loans", StyleBoxWhite, GUILayout.Width(600)); // .75 * .6 = .45
+                    GUILayout.BeginHorizontal();
+                    GUILayout.Box("Total Mission Payout:" + rewardFinancedHard.ToString("N2"), StyleBoxYellow, GUILayout.Width(300));
+                    GUILayout.Box("Total Science Paid: " + currentMission.scienceReward, StyleBoxYellow, GUILayout.Width(300));
+                    GUILayout.EndHorizontal();
                 }
             }
             else
             {
                 if (settings.gameMode == 0)
                 {
-                    GUILayout.Label("All goals accomplished. you can finish the mission now!", styleCaption);
-                    GUILayout.Label("Total Mission Payout:" + rewardnormal.ToString("N2"), styleValueGreen);
-                    GUILayout.Label("Total Science Paid: " + currentMission.scienceReward, styleValueGreen);
+                    GUILayout.Box("All goals accomplished. you can finish the mission now!", StyleBoxWhite, GUILayout.Width(600));
+                    GUILayout.BeginHorizontal();
+                    GUILayout.Box("Total Mission Payout:" + rewardnormal.ToString("N2"), StyleBoxYellow, GUILayout.Width(300));
+                    GUILayout.Box("Total Science Paid: " + currentMission.scienceReward, StyleBoxYellow, GUILayout.Width(300));
+                    GUILayout.EndHorizontal();
                 }
                 if (settings.gameMode == 1)
                 {
-                    GUILayout.Label("All goals accomplished. you can finish the mission now: HardCore Mode 40 % Reduction!", styleCaption);
-                    GUILayout.Label("Total Mission Payout:" + rewardHard.ToString("N2"), styleValueGreen);
-                    GUILayout.Label("Total Science Paid: " + currentMission.scienceReward, styleValueGreen);
+                    GUILayout.Box("All goals accomplished. you can finish the mission now: HardCore Mode 40 % Reduction!", StyleBoxWhite, GUILayout.Width(600));
+                    GUILayout.BeginHorizontal();
+                    GUILayout.Box("Total Mission Payout:" + rewardHard.ToString("N2"), StyleBoxYellow, GUILayout.Width(300));
+                    GUILayout.Box("Total Science Paid: " + currentMission.scienceReward, StyleBoxYellow, GUILayout.Width(300));
+                    GUILayout.EndHorizontal();
                 }
             }
             GUILayout.BeginHorizontal();
@@ -1200,7 +1203,7 @@ namespace MissionController
                 {
                     GUILayout.BeginHorizontal();
                     GUILayout.Box(r, StyleBoxWhite, GUILayout.Width(150));
-                    GUILayout.Box(CurrencySuffix + Math.Round(res.resources[r], 0.00), GUILayout.Width(100));
+                    GUILayout.Box(CurrencySuffix + Math.Round(res.resources[r], 0), GUILayout.Width(100));
                     GUILayout.EndHorizontal();
                 }
             }

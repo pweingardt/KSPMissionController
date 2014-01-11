@@ -39,6 +39,8 @@ namespace MissionController
             GUILayout.EndHorizontal();
 
             GUILayout.Space(25);
+
+            ConstructionMode CM = new ConstructionMode();         
             
             GUILayout.BeginHorizontal();
             GUILayout.Box("Plugin Disabled", StyleBoxYellow, GUILayout.Width(112), GUILayout.Height(30));

@@ -38,24 +38,24 @@ namespace MissionController
             List<Value> v = new List<Value>();
             if (vessel == null)
             {
-                v.Add(new Value("noCrew", "true"));
+                v.Add(new Value("noCrewGoal", "true"));
             }
             else
             {
-                bool noCrew = true;
+                bool noCrewGoal = true;
                 int count = vessel.GetCrewCount();
                 if (count != 0)
                 {
-                    noCrew = false;
+                    noCrewGoal = false;
                 }
 
-                v.Add(new Value("noCrew", "true", "" + noCrew, noCrew));
+                v.Add(new Value("noCrew", "true", "" + noCrewGoal, noCrewGoal));
             }
             return v;
         }
         public override string getType()
         {
-            return "NoCrew";
+            return "NoCrewGoal";
         }
     }    
 }

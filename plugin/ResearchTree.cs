@@ -35,7 +35,7 @@ namespace MissionController
                 GUILayout.BeginHorizontal();
                 GUILayout.Box("Current Science", GUILayout.Width(250), GUILayout.Height(40));
                 GUILayout.Box((int)CM.Science + " Science", GUILayout.Width(250), GUILayout.Height(40));
-                GUILayout.EndHorizontal();
+                GUILayout.EndHorizontal();               
 
                 GUILayout.BeginHorizontal();
                 GUILayout.Box("          MC TechTree", styleValueGreenBold, GUILayout.Width(160), GUILayout.Height(30));
