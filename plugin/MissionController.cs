@@ -380,8 +380,6 @@ namespace MissionController
 
         void OnLevelWasLoaded()
         {   
-            repairStation.repair = false; // we have to reset the RepairGoal for it can be used again.           
-            repairStation.myTime = 5.0f; // Also Reset the Time For RepairGoal For it can be used again in same session.
             SettingsManager.Manager.saveSettings();
             FuelMode.fuelinit(manager.GetFuels);
             ConstructionMode.constructinit(manager.GetConstruction);

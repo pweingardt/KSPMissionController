@@ -4,40 +4,63 @@ using UnityEngine;
 
 namespace MissionController
 {
-    /// <summary>
-    /// Mission Goal For Repair Vessel
-    /// Part is loaded in class repairSation and loaded. The Player can Right Click part and set the RepairGoal To True.. 
-    /// Once True the RepairGoal Class takes over and finishes the mission
-    /// </summary>
-
+    
     public class repairStation : PartModule
     {
 
+        [KSPField(isPersistant = false)]
+        public static bool repair = false;
+
+        [KSPField(isPersistant = false)]
+        public static bool dooropen = false;
+
         [KSPField(isPersistant = true)]
-        public static bool repair;
+        public double currentRepair = 0;
 
-        public static float myTime = 1.0f;
+        [KSPField(isPersistant = false)]
+        public double repairRate = .1;
 
-        void timercount()
-        {
-            if (myTime > 0)
-            {
-                myTime -= Time.deltaTime;
-                print("Repair Countdown: " + myTime);
-            }
-            if (myTime <= 0)
-            {
-                print("Time Has Ended");
-                repair = true;
-                CancelInvoke("timercount");
-            }
-        }
+        [KSPField(isPersistant = false, guiActive = true, guiName = "Ready To Repair")]
+        public bool readyRep = false;
 
-        [KSPEvent(unfocusedRange = 4f, guiActiveUnfocused = true, guiActive = false, guiName = "Start Repair", active = true)]
+        [KSPEvent(externalToEVAOnly = true,unfocusedRange = 4f, guiActiveUnfocused = true, guiActive = false, guiName = "Start Repairs", active = true)]
         public void EnableRepair()
         {
-            InvokeRepeating("timercount", 1, 1);
+            dooropen = true;
+        }              
+
+        [KSPAction("Start repair")]
+        public void ToggleAction(KSPActionParam param)
+        {
+            EnableRepair();
+        }          
+
+        public override void OnStart(PartModule.StartState state)
+        {
+            this.part.force_activate();
         }
+
+        public override void OnFixedUpdate()
+        {
+            if (currentRepair > 0)
+            {
+                readyRep = !readyRep;
+            }
+
+            if (dooropen.Equals(true))
+            {
+                currentRepair = this.part.Resources.Get(PartResourceLibrary.Instance.GetDefinition("repairParts").id).amount;
+                this.part.RequestResource("repairParts", repairRate);
+                if (currentRepair > 0)
+                { repair = true; }
+                if (currentRepair == 0)
+                {
+                    repair = false;
+                }
+            }
+        }
+
+       
     }
 
         public class RepairGoal : MissionGoal
@@ -60,7 +83,6 @@ namespace MissionController
                 else
                 {
                     values2.Add(new Value("Repaired", "True", "" + repairStation.repair, repairStation.repair));
-                    values2.Add(new Value("Repair Time", (double)repairStation.myTime));
                 }
 
                 return values2;
