@@ -392,6 +392,7 @@ namespace MissionController
             manager.isKerbalHired();
             GUISave();
             manager.checkClockTiime();
+            manager.findVeselWithRepairPart();
         }
 
         public void Awake()
@@ -1495,11 +1496,16 @@ namespace MissionController
             GUILayout.Label("Current Contract: ", styleValueGreenBold);
             GUILayout.Label(mission.name, styleText);
             GUILayout.Label("Company Name", styleValueGreenBold);
-            GUILayout.Label("Place Holder Name", styleText);
+            GUILayout.Label("Not Yet Implemented", styleText);
             GUILayout.Label("Description: ", styleValueGreenBold);
             GUILayout.Label(mission.description, styleText);
             GUILayout.Label("Contract Binding Terms If Fail", styleValueGreenBold);
-            GUILayout.Label("Contract Payout + 10%",styleText);
+            GUILayout.Label("Contract Payout + 10% (Note Not Yet Implemented - Malkuth)",styleText);
+            if (mission.vesselName != false)
+            {
+                GUILayout.Label("Vessel Name To Repair", styleValueGreenBold);
+                GUILayout.Label(manager.GetShowVesselRepairName, styleText);
+            }
 
             GUILayout.BeginHorizontal();
             GUILayout.Label(" Contract Payout: ", styleValueGreenBold);

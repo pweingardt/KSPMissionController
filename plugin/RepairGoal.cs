@@ -69,6 +69,7 @@ namespace MissionController
             {
                 this.vesselIndenpendent = true;
             }
+            Manager m = new Manager();
 
             protected override List<Value> values(Vessel vessel, GameEvent ev)
             {

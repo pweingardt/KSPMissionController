@@ -36,6 +36,8 @@ namespace MissionController
         /// </summary>
         public int reward = 100;
 
+        public bool vesselName = false;
+
         /// <summary>
         /// science reward for finishing the mission
         /// </summary>

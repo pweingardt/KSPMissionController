@@ -95,10 +95,16 @@ namespace MissionController
 
             }
 
-            if (GUILayout.Button("Test Mission Types", styleButtonWordWrap))
+            if (GUILayout.Button("Find Vessels RepairParts", styleButtonWordWrap))
             {
                 manager.StartRandomsystem();
                 manager.getContractType();
+                manager.findVeselWithRepairPart();
+            }
+
+            if (GUILayout.Button("Chose Vessels RepairParts", styleButtonWordWrap))
+            {
+                manager.chooseVesselRepairFromList();                                      
             }
 
             //if (GUILayout.Button("Reset Kerbals", styleButtonWordWrap))

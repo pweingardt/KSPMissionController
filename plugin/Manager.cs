@@ -16,7 +16,7 @@ namespace MissionController
 
         public static Manager instance {get { return manager; } }
 
-        public static Settings settings = SettingsManager.Manager.getSettings();
+        public static Settings settings = SettingsManager.Manager.getSettings();       
 
         Randomizator3000.Item<int>[] contractslist;
 
@@ -29,6 +29,12 @@ namespace MissionController
         public void Add(CurrentHires m)
         {
             currentHires.Add(m);
+        }
+
+        public List<RepairVesselsList> repairvesselList = new List<RepairVesselsList>();
+        public void Add(RepairVesselsList m)
+        {
+            repairvesselList.Add(m);
         }
 
         public bool showKerbalHireWindow = false;
@@ -240,22 +246,42 @@ namespace MissionController
             }
         }
 
+        /// <summary>
+        /// the randomizer used to pick which contract type to use
+        /// in future you can doulbe this, or make another one to have
+        /// more than 1 contract type available at time.  Based on Weights.
+        /// The higher the weight the more chance to select that option.
+        /// As long as = 100 in weights in total.
+        /// </summary>
         public void StartRandomsystem()
         {
-            contractslist = new Randomizator3000.Item<int>[3];
+            contractslist = new Randomizator3000.Item<int>[5];
             contractslist[0] = new Randomizator3000.Item<int>();
-            contractslist[0].weight = 30;
+            contractslist[0].weight = 20;
             contractslist[0].value = 0;
 
             contractslist[1] = new Randomizator3000.Item<int>();
-            contractslist[1].weight = 20;
+            contractslist[1].weight = 10;
             contractslist[1].value = 1;
 
             contractslist[2] = new Randomizator3000.Item<int>();
-            contractslist[2].weight = 50;
+            contractslist[2].weight = 30;
             contractslist[2].value = 2;
+
+            contractslist[3] = new Randomizator3000.Item<int>();
+            contractslist[3].weight = 20;
+            contractslist[3].value = 3;
+
+            contractslist[4] = new Randomizator3000.Item<int>();
+            contractslist[4].weight = 20;
+            contractslist[4].value = 4;
+
+
         }
 
+        /// <summary>
+        /// sets the contract type, randomly
+        /// </summary>
         public void getContractType()
         {
             SetCurrentContract(Randomizator3000.PickOne<int>(contractslist));
@@ -264,6 +290,9 @@ namespace MissionController
 
         }
 
+        /// <summary>
+        /// display view for contracts
+        /// </summary>
         public void DisplayContractType()
         {
             GUILayout.BeginHorizontal();
@@ -271,6 +300,10 @@ namespace MissionController
             GUILayout.EndHorizontal();
         }
 
+        /// <summary>
+        /// This is used to set the next time a contract 
+        /// will be rerolled.  in seconds.
+        /// </summary>
         public void SetClockCountdown()
         {
             if (currentProgram.nextTimeCheck == 0)
@@ -278,21 +311,65 @@ namespace MissionController
                 double currentTime;
                 currentTime = Planetarium.GetUniversalTime();
                 currentProgram.nextTimeCheck = currentTime + 86400;
+                findVeselWithRepairPart();
                 Debug.Log("next contract check on date: " + MathTools.secondsIntoRealTime(currentProgram.nextTimeCheck));
             }
         }
-
+        /// <summary>
+        /// checks the saved time vs. the current universal time to
+        /// check if its time to Reroll Contracts
+        /// </summary>
         public void checkClockTiime()
         {
             double currentTime;
             currentTime = Planetarium.GetUniversalTime();
             if (currentTime >= currentProgram.nextTimeCheck)
             {
+                chooseVesselRepairFromList();
+                StartRandomsystem();
                 getContractType();
                 currentProgram.nextTimeCheck = 0;
                 SetClockCountdown();
                 Debug.Log(GetCurrentContract + " This is current Contract Type Chosen by Random System On Date: " + MathTools.secondsIntoRealTime(currentProgram.nextTimeCheck));
             }
+        }
+
+        /// <summary>
+        /// Used To Find Vessels With repairStation Modules
+        /// I used modules because in future repairparts might be just a module added to 
+        /// existing parts.. Maybe unmanned pods?
+        /// </summary>
+       
+        public void findVeselWithRepairPart()
+        {
+            foreach (Vessel vs in FlightGlobals.Vessels)
+            {
+                foreach (ProtoPartSnapshot p in vs.protoVessel.protoPartSnapshots)
+                {
+                    foreach (ProtoPartModuleSnapshot m in p.modules)
+                    {
+                        if (m.moduleName.Equals("repairStation"))
+                        {
+                            repairvesselList.Clear();
+                            repairvesselList.Add(new RepairVesselsList(vs.name));
+                            Debug.Log("MCE***" + vs.name + vs.id + " Loaded Vessels With RepairStation Parts");
+                        }
+                    }
+                }
+            }
+            
+        }
+
+        public void chooseVesselRepairFromList()
+        {
+            System.Random rnd = new System.Random();
+
+            foreach (RepairVesselsList rp in manager.repairvesselList)
+            {
+                RepairVesselsList random = repairvesselList[rnd.Next(repairvesselList.Count)];
+                SetShowVesselRepairName(random.vesselName.ToString());
+                Debug.Log("Random Vessel Loaded" + random.vesselName);
+            } 
         }
        
         /// <summary>
@@ -751,6 +828,14 @@ namespace MissionController
         {
             return currentProgram.currentpayoutlevel = num;
         }
+        public string GetShowVesselRepairName
+        {
+            get { return currentProgram.showRepairVesselName; }
+        }
+        public string SetShowVesselRepairName(string name)
+        {
+            return currentProgram.showRepairVesselName = name;
+        }
          
         /// <summary>
         /// Checks if the given vessel is controlled by a client.
@@ -927,6 +1012,20 @@ namespace MissionController
             this.hiredKerbalName = kerbalname;
             this.hiredCost = value;
         }
+    }
+
+    public class RepairVesselsList
+    {
+        public string vesselName;
+        public RepairVesselsList()
+        {
+        }
+        public RepairVesselsList(string name)
+        {
+            this.vesselName = name;
+        }
+           
+
     }
 }
 
