@@ -377,6 +377,7 @@ namespace MissionController
             };
 
             GUILoad();
+            manager.SetClockCountdown();
 
         }
 
@@ -390,6 +391,7 @@ namespace MissionController
             fn.checkloans();
             manager.isKerbalHired();
             GUISave();
+            manager.checkClockTiime();
         }
 
         public void Awake()
@@ -626,7 +628,9 @@ namespace MissionController
                 manager.resetLatest();
 
             if (!HighLogic.LoadedSceneIsFlight)
-                canRecycle = true; // reenable once exit flight
+            {
+                canRecycle = true; // reenable once exit flight               
+            }           
             // NK
             if (!partsCostCorrected)
             {

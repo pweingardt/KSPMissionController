@@ -80,6 +80,16 @@ namespace MissionController
                 {
                     showContractSelection = false;
                 }
+                if (manager.GetCurrentContract != 0)
+                {
+                    if (GUILayout.Button("Decline Current Contract", styleButtonWordWrap))
+                    {
+                        manager.SetCurrentContract(0);
+                        showContractSelection = false;
+                        currentMission = null;
+                        Debug.Log("MCE*** CurrentContract Reset to 0: " + manager.GetCurrentContract);
+                    }
+                }
                 GUILayout.EndHorizontal();
                 
                       

@@ -244,16 +244,16 @@ namespace MissionController
         {
             contractslist = new Randomizator3000.Item<int>[3];
             contractslist[0] = new Randomizator3000.Item<int>();
-            contractslist[0].weight = 10;
-            contractslist[0].value = 1;
+            contractslist[0].weight = 30;
+            contractslist[0].value = 0;
 
             contractslist[1] = new Randomizator3000.Item<int>();
-            contractslist[1].weight = 60;
-            contractslist[1].value = 2;
+            contractslist[1].weight = 20;
+            contractslist[1].value = 1;
 
             contractslist[2] = new Randomizator3000.Item<int>();
-            contractslist[2].weight = 30;
-            contractslist[2].value = 3;
+            contractslist[2].weight = 50;
+            contractslist[2].value = 2;
         }
 
         public void getContractType()
@@ -269,6 +269,30 @@ namespace MissionController
             GUILayout.BeginHorizontal();
             GUILayout.Box("" + GetCurrentContract, GUILayout.Width(225), GUILayout.Height(30));
             GUILayout.EndHorizontal();
+        }
+
+        public void SetClockCountdown()
+        {
+            if (currentProgram.nextTimeCheck == 0)
+            {
+                double currentTime;
+                currentTime = Planetarium.GetUniversalTime();
+                currentProgram.nextTimeCheck = currentTime + 86400;
+                Debug.Log("next contract check on date: " + MathTools.secondsIntoRealTime(currentProgram.nextTimeCheck));
+            }
+        }
+
+        public void checkClockTiime()
+        {
+            double currentTime;
+            currentTime = Planetarium.GetUniversalTime();
+            if (currentTime >= currentProgram.nextTimeCheck)
+            {
+                getContractType();
+                currentProgram.nextTimeCheck = 0;
+                SetClockCountdown();
+                Debug.Log(GetCurrentContract + " This is current Contract Type Chosen by Random System On Date: " + MathTools.secondsIntoRealTime(currentProgram.nextTimeCheck));
+            }
         }
        
         /// <summary>
