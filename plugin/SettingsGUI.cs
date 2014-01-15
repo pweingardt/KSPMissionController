@@ -95,6 +95,12 @@ namespace MissionController
 
             }
 
+            if (GUILayout.Button("Test Mission Types", styleButtonWordWrap))
+            {
+                manager.StartRandomsystem();
+                manager.getContractType();
+            }
+
             //if (GUILayout.Button("Reset Kerbals", styleButtonWordWrap))
             //{
             //    manager.addHiredKerbals();

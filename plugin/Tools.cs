@@ -6,47 +6,18 @@ using System.Linq;
 namespace MissionController
 {
     class Tools
-    {
-        public const double minute = 60;
-        public const double hour = minute * 60;
-        public const double day = hour * 24;
-        public const double year = day * 365;
-        
-        public static string secondsIntoRealTime(double seconds)
-        {
-            int Seconds = (int)(seconds % 60);
-            int Minutes = (int)((seconds / minute) % 60);
-            int Hours = (int)((seconds / hour) % 24);
-            int Days = (int)((seconds / day) % 365);
-            int Years = (int)(seconds / year);
-
-
-            if (seconds < minute)
-                return  Seconds + " Seconds ";
-
-            if (seconds < hour)
-                return   Minutes + " Minutes " + Seconds + " Seconds";
-
-            if (seconds < day)
-                return   Hours + " Hours "  + Minutes + " Minutes";
-
-            if (seconds < year)
-                return  Days + " Days " + Hours + " Hours";
-
-            return Years + " Years " + Days + " Days";
-        }
-
+    {      
         public static ConfigNode MCSettings = null;
 
         public static void FindMCSettings()
         {
             foreach (ConfigNode node in GameDatabase.Instance.GetConfigNodes("MISSIONCONTROLLER"))
                 MCSettings = node;
-            
+          
             if (MCSettings == null)
                 throw new UnityException("*MC* MCSettings not found!");
         }
-
+      
         public static double atod(string a)
         {
             double o;

@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="ContractsWindowGUI.cs" />
     <Compile Include="FinanceMode.cs" />
     <Compile Include="FinanceWindowGUI.cs" />
     <Compile Include="LaunchGoal.cs" />

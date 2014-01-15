@@ -18,6 +18,8 @@ namespace MissionController
 
         public static Settings settings = SettingsManager.Manager.getSettings();
 
+        Randomizator3000.Item<int>[] contractslist;
+
         private SpaceProgram spaceProgram;
         private String currentTitle;
 
@@ -237,7 +239,38 @@ namespace MissionController
                 totalReward(goal.reward);
             }
         }
-        
+
+        public void StartRandomsystem()
+        {
+            contractslist = new Randomizator3000.Item<int>[3];
+            contractslist[0] = new Randomizator3000.Item<int>();
+            contractslist[0].weight = 10;
+            contractslist[0].value = 1;
+
+            contractslist[1] = new Randomizator3000.Item<int>();
+            contractslist[1].weight = 60;
+            contractslist[1].value = 2;
+
+            contractslist[2] = new Randomizator3000.Item<int>();
+            contractslist[2].weight = 30;
+            contractslist[2].value = 3;
+        }
+
+        public void getContractType()
+        {
+            SetCurrentContract(Randomizator3000.PickOne<int>(contractslist));
+            Debug.Log(GetCurrentContract + "This is current Contract Type Chosen by Random System");
+            saveProgram();
+
+        }
+
+        public void DisplayContractType()
+        {
+            GUILayout.BeginHorizontal();
+            GUILayout.Box("" + GetCurrentContract, GUILayout.Width(225), GUILayout.Height(30));
+            GUILayout.EndHorizontal();
+        }
+       
         /// <summary>
         /// Returns true, if the given mission goal has been finish in another game with the given vessel, false otherwise
         /// </summary>
@@ -294,7 +327,7 @@ namespace MissionController
                
                 GUILayout.BeginHorizontal();
                 GUILayout.Box(hk.hiredKerbalName, GUILayout.Width(200));
-                GUILayout.Box(Tools.secondsIntoRealTime(hk.DateHired), GUILayout.Width(150));
+                GUILayout.Box(MathTools.secondsIntoRealTime(hk.DateHired), GUILayout.Width(150));
                 GUILayout.Box(hk.statusKerbal, GUILayout.Width(125));
                 GUILayout.EndHorizontal();
             }
@@ -306,7 +339,7 @@ namespace MissionController
             {
                 GUILayout.BeginHorizontal();;
                 GUILayout.Box(ms.missionName, GUILayout.Width(425));
-                GUILayout.Box(Tools.secondsIntoRealTime(ms.endTime), GUILayout.Width(160));
+                GUILayout.Box(MathTools.secondsIntoRealTime(ms.endTime), GUILayout.Width(160));
                 GUILayout.Box(ms.vesselName,GUILayout.Width(275));
                 GUILayout.Box("$ " + ms.payment.ToString("N2"), GUILayout.Width(140));
                 GUILayout.EndHorizontal();
@@ -628,6 +661,16 @@ namespace MissionController
             return currentProgram.loanmode = value;
         }
         // End Research Fuels
+
+        public int GetCurrentContract
+        {
+            get { return currentProgram.currentcontractType; }
+        }
+
+        public int SetCurrentContract(int value)
+        {
+            return currentProgram.currentcontractType = value;
+        }
 
         /// <summary>
         /// Research For Construction Levels

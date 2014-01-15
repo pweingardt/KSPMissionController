@@ -26,7 +26,7 @@ namespace MissionController
 
         public static string root = KSPUtil.ApplicationRootPath.Replace("\\", "/");
         public static string pluginFolder = root + "GameData/MissionController/";
-        public static string missionFolder = pluginFolder + "Plugins/PluginData/MissionController";
+        public static string missionFolder = pluginFolder + "Plugins/PluginData/MissionController/";
 
         private WWW wwwIconFinished = new WWW("file://" + pluginFolder + "icons/flightavailible.png");
         private WWW wwwIconMenu = new WWW("file://" + pluginFolder + "icons/FlightSceneButtonT4.png");
@@ -87,6 +87,7 @@ namespace MissionController
 
         private Rect settingsWindowPosition;
         private Rect packageWindowPosition;
+        private Rect contractWindowPosition;
         private Rect financeWindowPosition;
         private Rect researchtreewinpostion;
         private Rect missionLogBookPostion;
@@ -113,6 +114,7 @@ namespace MissionController
 
         private bool showSettingsWindow = false;
         private bool showMissionPackageBrowser = false;
+        private bool showContractSelection = false;
         private bool showFinanceWindow = false;
         private bool showRecycleWindow = false;
         private bool showResearchTreeWindow = false;
@@ -746,6 +748,11 @@ namespace MissionController
                 packageWindowPosition = GUILayout.Window(98762, packageWindowPosition, drawPackageWindow, currentPackage.name, GUILayout.MinHeight(750), GUILayout.MinWidth(1000));
             }
 
+            if (showContractSelection && hidetoolbarsviews)
+            {
+                contractWindowPosition = GUILayout.Window(234321, contractWindowPosition, drawContractsWindow, currentPackage.name, GUILayout.MinHeight(700), GUILayout.MinWidth(520));
+            }
+
             if (showFinanceWindow && hidetoolbarsviews)
             {
                 financeWindowPosition = GUILayout.Window(98761, financeWindowPosition, drawFinaceWindow, "Finance Window", GUILayout.MinHeight(350), GUILayout.MinWidth(300));
@@ -1283,14 +1290,19 @@ namespace MissionController
             GUILayout.EndScrollView();
             
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Change Package", styleButtonWordWrap, GUILayout.Width(150)))
+            if (GUILayout.Button("Package", styleButtonWordWrap, GUILayout.Width(100)))
             {
-                createFileBrowser("Select Contract", selectMissionPackage);
+                createFileBrowser("Contract", selectMissionPackage);
+            }
+
+            if (GUILayout.Button("Contracts", styleButtonWordWrap, GUILayout.Width(100)))
+            {
+                selectContracts("Plugins/PluginData/MissionController/MCContracts.cfg");
             }
 
             if (currentPackage != null)
             {
-                if (GUILayout.Button("Select New Mission", styleButtonWordWrap, GUILayout.Width(150)))
+                if (GUILayout.Button("Select New Mission", styleButtonWordWrap, GUILayout.Width(125)))
                 {
                     packageWindow(true);
                 }
@@ -1352,6 +1364,25 @@ namespace MissionController
             }
             currentSort = (currentPackage.ownOrder ? SortBy.PACKAGE_ORDER : SortBy.NAME);
         }
+
+        private void selectContracts(String file)
+        {
+            destroyFileBrowser();
+
+            if (file == null)
+            {
+                return;
+            }
+
+            currentPackage = manager.loadMissionPackage(file);
+            currentPreviewMission = null;
+            if (currentPackage != null)
+            {
+                showContractSelection = !showContractSelection;
+            }
+            currentSort = (currentPackage.ownOrder ? SortBy.PACKAGE_ORDER : SortBy.NAME);
+        }
+
 
         /// <summary>
         /// Draws the mission parameters
@@ -1416,6 +1447,78 @@ namespace MissionController
                                  mission.requiresMission + "\" first, before you proceed.", styleWarning);
             }
 
+            drawMissionGoals(mission, s);
+
+            if (s.missionIsFinishable)
+            {
+                showRandomWindow = true;
+                if (manager.budget < 0)
+                {
+                    if (settings.gameMode == 0)
+                    {
+                        GUILayout.Label("All goals accomplished. You can finish the mission now! Deducted for loans!", styleCaption);
+                        showCostValue("Total Mission Payout:", (currentMission.reward * FinanceMode.currentloan) * PayoutLeveles.TechPayout, styleValueGreen);
+                        showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
+                    }
+                    if (settings.gameMode == 1)
+                    {
+                        GUILayout.Label("All Goals accomplished. Finish The Mission. Deducted for loans and HardCore mode"); // .75 * .6 = .45
+                        showCostValue("Total Mission Payout:", (currentMission.reward * FinanceMode.currentloan * PayoutLeveles.TechPayout) * .60, styleValueGreen);
+                        showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
+                    }
+                }
+                else
+                {
+                    if (settings.gameMode == 0)
+                    {
+                        GUILayout.Label("All goals accomplished. you can finish the mission now!", styleCaption);
+                        showCostValue("Total Mission Payout:", currentMission.reward * PayoutLeveles.TechPayout, styleValueGreen);
+                        showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
+                    }
+                    if (settings.gameMode == 1)
+                    {
+                        GUILayout.Label("All goals accomplished. you can finish the mission now: HardCore Mode!", styleCaption);
+                        showCostValue("Total Mission Payout:", (currentMission.reward * PayoutLeveles.TechPayout) * .60, styleValueGreen);
+                        showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
+                    }
+                }
+            }
+        }
+
+        private void drawContracts(Mission mission, Status s)
+        {
+            
+            GUILayout.Label("Current Contract: ", styleValueGreenBold);
+            GUILayout.Label(mission.name, styleText);
+            GUILayout.Label("Company Name", styleValueGreenBold);
+            GUILayout.Label("Place Holder Name", styleText);
+            GUILayout.Label("Description: ", styleValueGreenBold);
+            GUILayout.Label(mission.description, styleText);
+            GUILayout.Label("Contract Binding Terms If Fail", styleValueGreenBold);
+            GUILayout.Label("Contract Payout + 10%",styleText);
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Label(" Contract Payout: ", styleValueGreenBold);
+            if (settings.gameMode == 0)
+            { GUILayout.Label(CurrencySuffix + mission.reward * PayoutLeveles.TechPayout, styleValueYellow); }
+            if (settings.gameMode == 1)
+            { GUILayout.Label(CurrencySuffix + mission.reward * PayoutLeveles.TechPayout * .60, styleValueYellow); }
+            GUILayout.EndHorizontal();
+
+            if (mission.scienceReward != 0)
+            {
+                GUILayout.BeginHorizontal();
+                GUILayout.Label("Science Reward: ", styleValueGreenBold);
+                GUILayout.Label(mission.scienceReward + " sp", styleValueYellow);
+                GUILayout.EndHorizontal();
+            } 
+           
+
+            if (mission.clientControlled)
+            {
+                GUILayout.Label("At The End Of Contract All Company Assets Will Revert To Company Control", styleWarning);
+            }
+           
             drawMissionGoals(mission, s);
 
             if (s.missionIsFinishable)
@@ -1543,6 +1646,83 @@ namespace MissionController
             }
         }
 
+        private void drawContractsGoals(Mission mission, Status s)
+        {
+            int index = 1;
+
+            foreach (MissionGoal c in mission.goals)
+            {
+                {
+                    if (hiddenGoals.Contains(c))
+                    {
+                        index++;
+                        continue;
+                    }
+
+                    if (c is SubMissionGoal)
+                    {
+                        GUILayout.Label((index++) + ". Contract goal (complete all):" + (c.optional ? " (optional)" : ""), styleValueGreenBold);
+                    }
+                    else if (c is OrMissionGoal)
+                    {
+                        GUILayout.Label((index++) + ". Contract goal (complete any):" + (c.optional ? " (optional)" : ""), styleValueGreenBold);
+                    }
+                    else if (c is OrMissionGoal)
+                    {
+                        GUILayout.Label((index++) + ". Contract goal (complete none):" + (c.optional ? " (optional)" : ""), styleValueGreenBold);
+                    }
+                    else
+                    {
+                        GUILayout.Label((index++) + ". Contract goal: " + c.getType() + (c.optional ? " (optional)" : ""), styleValueGreenBold);
+                    }
+
+                    if (c.description.Length != 0)
+                    {
+                        GUILayout.Label("Contract Description: ", styleCaption);
+                        GUILayout.Label(c.description, styleText);
+                    }                   
+
+                    List<Value> values = c.getValues(activeVessel, s.events);
+
+                    foreach (Value v in values)
+                    {
+                        GUILayout.BeginHorizontal();
+                        GUILayout.Label(v.name, styleValueName);
+                        if (v.currentlyIs.Length == 0)
+                        {
+                            GUILayout.Label(v.shouldBe, styleValueGreen);
+                        }
+                        else
+                        {
+                            GUILayout.Label(v.shouldBe + " : " + v.currentlyIs, (v.done ? styleValueGreen : styleValueRed));
+                        }
+                        GUILayout.EndHorizontal();
+                    }
+
+                    if (activeVessel != null)
+                    {
+                        if (s.finishableGoals.ContainsKey(c.id) && s.finishableGoals[c.id])
+                        {
+                            if (GUILayout.Button("Hide finished goal"))
+                            {
+                                hiddenGoals.Add(c);
+                            }
+                        }
+                        else
+                        {
+                            if (c.optional)
+                            {
+                                if (GUILayout.Button("Hide optional goal"))
+                                {
+                                    hiddenGoals.Add(c);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         // Create the file browser
         private void createFileBrowser(string title, FileBrowser.FinishedCallback callback)
         {
@@ -1551,6 +1731,7 @@ namespace MissionController
             fileBrowser.CurrentDirectory = missionFolder;
             fileBrowser.disallowDirectoryChange = true;
             fileBrowser.SelectionPattern = "*.mpkg";
+            fileBrowser.hideFileExtensions = true;
 
             if (EditorLogic.fetch != null)
             {

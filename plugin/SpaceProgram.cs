@@ -23,6 +23,7 @@ namespace MissionController
         public int currentpayoutlevel = 0;
         public bool missionlevel2 = false;
         public bool missionlevel3 = false;
+        public int currentcontractType = 0;
 
         public List<MissionStatus> completedMissions = new List<MissionStatus>();
 
@@ -38,17 +39,10 @@ namespace MissionController
 
         public List<VesselsMade> vesselsMade = new List<VesselsMade>();
 
-        public List<TimeStamp> timeStamp = new List<TimeStamp>();
-
         public void add(FlagSystem m)
         {
             flagSystem.Add(m);
-        }
-
-        public void add(TimeStamp m)
-        {
-            timeStamp.Add(m);
-        }
+        }      
 
         public void add(VesselsMade m)
         {
@@ -213,24 +207,6 @@ namespace MissionController
             this.MissionName = mName;
             this.crewNumber = cNum;
         }
-    }
-
-    public class TimeStamp
-    {
-        public string missionName;
-        public string flagVesselGuid;
-        public double timegoalstamp;
-
-        public TimeStamp()
-        {
-        }
-
-        public TimeStamp(string name, string vID, double sTime)
-        {
-            this.flagVesselGuid = vID;
-            this.timegoalstamp = sTime;
-            this.missionName = name;
-        }
-    }
+    }   
 }
 

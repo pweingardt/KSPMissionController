@@ -68,6 +68,8 @@ namespace MissionController
         /// </summary>
         public int packageOrder = 1000;
 
+        public int contractAvailable = 0;
+
         /// <summary>
         /// If true, then this mission is a passive mission with a lifetime and income gerneration
         /// </summary>

@@ -117,6 +117,8 @@ namespace MissionController
 
             public bool missionAlreadyFinished = false;
 
+            public string contractsOpen = "none";
+
             public bool missionIsFinishable = false;
 
             public bool recyclable = false;
