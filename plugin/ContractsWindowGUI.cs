@@ -35,7 +35,7 @@ namespace MissionController
                 }
                 if (m.contractAvailable == manager.GetCurrentContract)
                 {
-                    if (GUILayout.Button(m.name + "\n" + CurrencySuffix + payoutTotal.ToString("N2") + " : " + m.scienceReward + " sp", style, GUILayout.Width(450), GUILayout.Height(60)))
+                    if (GUILayout.Button(m.name, style, GUILayout.Width(450), GUILayout.Height(60)))
                     {
                         currentPreviewMission2 = manager.reloadMission(m, activeVessel);
                     }

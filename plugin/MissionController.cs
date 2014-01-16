@@ -315,7 +315,9 @@ namespace MissionController
         }        
 
         public void Start()
-        {            
+        {
+            manager.findVeselWithRepairPart();
+
             print("Mission Controller Loaded");
             manager.loadProgram(HighLogic.CurrentGame.Title);
             
@@ -1325,7 +1327,7 @@ namespace MissionController
 
             if (currentPackage != null)
             {
-                if (GUILayout.Button("Select New Mission", styleButtonWordWrap, GUILayout.Width(125)))
+                if (GUILayout.Button("Select New Mission", styleButtonWordWrap))
                 {
                     packageWindow(true);
                 }
@@ -1387,7 +1389,7 @@ namespace MissionController
 
             if (GUILayout.Button("X", styleButtonWordWrap, GUILayout.Width(25)))
             {
-                showMissionStatusWindow = false;
+                showContractStatusWindow = false;
             }
             GUILayout.EndHorizontal();
 
@@ -1566,9 +1568,9 @@ namespace MissionController
         private void drawContracts(Mission mission, Status s)
         {
 
-            string compName = Tools.GetValueDefault(Tools.MCSettings.GetNode("COMA"), "name", "Default");
-            double comppayout = Tools.GetValueDefault(Tools.MCSettings.GetNode("COMA"), "payout", 1.0);
-            double compscience = Tools.GetValueDefault(Tools.MCSettings.GetNode("COMA"), "science", 1.0);
+            string compName = Tools.GetValueDefault(Tools.MCSettings.GetNode(manager.GetCompanyInfoString), "name", "Default");
+            double comppayout = Tools.GetValueDefault(Tools.MCSettings.GetNode(manager.GetCompanyInfoString), "payout", 1.0);
+            double compscience = Tools.GetValueDefault(Tools.MCSettings.GetNode(manager.GetCompanyInfoString), "science", 1.0);
 
             GUILayout.Label("pay" + comppayout);
             GUILayout.Label("sci" + compscience);

@@ -20,6 +20,8 @@ namespace MissionController
 
         Randomizator3000.Item<int>[] contractslist;
 
+        Randomizator3000.Item<string>[] companyListRandom;
+
         private SpaceProgram spaceProgram;
         private String currentTitle;
 
@@ -285,15 +287,41 @@ namespace MissionController
 
         }
 
+        public void StartCompanyRandomizer()
+        {
+            companyListRandom = new Randomizator3000.Item<string>[4];
+            companyListRandom[0] = new Randomizator3000.Item<string>();
+            companyListRandom[0].weight = 25;
+            companyListRandom[0].value = "COMA";
+
+            companyListRandom[1] = new Randomizator3000.Item<string>();
+            companyListRandom[1].weight = 25;
+            companyListRandom[1].value = "COMB";
+
+            companyListRandom[2] = new Randomizator3000.Item<string>();
+            companyListRandom[2].weight = 25;
+            companyListRandom[2].value = "COMC";
+
+            companyListRandom[3] = new Randomizator3000.Item<string>();
+            companyListRandom[3].weight = 25;
+            companyListRandom[3].value = "COMD";
+        }
+
         /// <summary>
         /// sets the contract type, randomly
         /// </summary>
-        public void getContractType()
+        public void setContractType()
         {
             SetCurrentContract(Randomizator3000.PickOne<int>(contractslist));
             Debug.Log(GetCurrentContract + "This is current Contract Type Chosen by Random System");
             saveProgram();
 
+        }
+
+        public void setCompanyName()
+        {
+            SetCompanyInfoString(Randomizator3000.PickOne<string>(companyListRandom));
+            Debug.Log(GetCompanyInfoString + " This is Current Company Info Chosen By Random System");
         }
 
         /// <summary>
@@ -314,6 +342,7 @@ namespace MissionController
         {
             if (currentProgram.nextTimeCheck == 0)
             {
+                findVeselWithRepairPart();
                 double currentTime;
                 currentTime = Planetarium.GetUniversalTime();
                 currentProgram.nextTimeCheck = currentTime + 86400;               
@@ -331,11 +360,12 @@ namespace MissionController
             currentTime = Planetarium.GetUniversalTime();
             if (currentTime >= currentProgram.nextTimeCheck)
             {
-                findVeselWithRepairPart();
                 StartRandomsystem();
-                getContractType();
+                StartCompanyRandomizer();
+                setContractType();
                 currentProgram.nextTimeCheck = 0;
                 SetClockCountdown();
+                setCompanyName();
                 saveProgram();
                 Debug.Log(GetCurrentContract + " This is current Contract Type Chosen by Random System On Date: " + MathTools.secondsIntoRealTime(currentProgram.nextTimeCheck));
             }
@@ -542,11 +572,19 @@ namespace MissionController
                 status.clientControlled = m.clientControlled;
 
                 currentProgram.add(status);
-                reward (m.reward);
-                totalReward(m.reward);
-                sciencereward(m.scienceReward);
-      
-                
+
+                if (m.IsContract == false)
+                {
+                    reward(m.reward);
+                    totalReward(m.reward);
+                    sciencereward(m.scienceReward);
+                }
+                else
+                {                                       
+                    contractReward(m.reward);
+                    totalReward(m.reward);
+                    sciencereward(m.scienceReward);
+                }
                     
                 
                 
@@ -734,9 +772,14 @@ namespace MissionController
             return currentProgram.VRecylce = true;
         }
 
-        public int GetCompanyInfo
+        public string GetCompanyInfoString
         {
             get { return currentProgram.showCompanyAvailable; }
+        }
+
+        public string SetCompanyInfoString(string name)
+        {
+            return currentProgram.showCompanyAvailable = name;
         }
         // End Research Recycle
 
@@ -946,6 +989,30 @@ namespace MissionController
             return currentProgram.money;
         }
 
+        public int contractReward(int value)
+        {
+            Vessel v = new Vessel();
+            double comppayout = Tools.GetValueDefault(Tools.MCSettings.GetNode(GetCompanyInfoString), "payout", 1.0);
+            if (!SettingsManager.Manager.getSettings().disablePlugin)
+            {
+                if (value > 0) // is a reward, not a cost
+                {
+
+                    double mult = 1.0;
+                    if (manager.budget < 0)
+                        mult *= FinanceMode.currentloan;
+                    if (settings.gameMode == 1)
+                        mult *= 0.6;
+                    value = (int)((double)value * mult * comppayout);
+                }
+                latestExpenses = -value;
+                currentProgram.money += (int)((double)value * PayoutLeveles.TechPayout);
+                currentProgram.totalMoney += (int)((double)value * PayoutLeveles.TechPayout);
+
+            }
+            return currentProgram.money;
+        }
+
         /// <summary>
         /// Used Only To Keep Track Of Total Payouts to Budget
         /// </summary>
@@ -993,8 +1060,15 @@ namespace MissionController
         public float sciencereward(float value)
         {
             ConstructionMode cn = new ConstructionMode();
-            return cn.Science += value; 
-            
+            return cn.Science += value;            
+        }
+
+        public float Contractsciencereward(float value)
+        {
+            double compscience = Tools.GetValueDefault(Tools.MCSettings.GetNode(GetCompanyInfoString), "science", 1.0);
+            ConstructionMode cn = new ConstructionMode();
+            value = (int)((double)value * compscience);
+            return cn.Science += value;
         }
 
         public int costs(int value) 

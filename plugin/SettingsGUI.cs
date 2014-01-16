@@ -95,14 +95,16 @@ namespace MissionController
 
             }
 
-            if (GUILayout.Button("Find Vessels RepairParts", styleButtonWordWrap))
+            if (GUILayout.Button("Set Values Randoms + Find Vessel", styleButtonWordWrap))
             {
                 manager.StartRandomsystem();
-                manager.getContractType();
+                manager.StartCompanyRandomizer();
+                manager.setContractType();
+                manager.setCompanyName();
                 manager.findVeselWithRepairPart();
             }
 
-            if (GUILayout.Button("Chose Vessels RepairParts", styleButtonWordWrap))
+            if (GUILayout.Button("Set Vessel Repair To Save", styleButtonWordWrap))
             {
                 manager.chooseVesselRepairFromList();                                      
             }          

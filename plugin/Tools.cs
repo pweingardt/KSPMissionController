@@ -47,6 +47,12 @@ namespace MissionController
             int.TryParse(a, out o);
             return o;
         }
+        public static float atof(string a)
+        {
+            float o;
+            float.TryParse(a, out o);
+                return o;
+        }
         
         public static double GetValueDefault(ConfigNode node, string name, double val)
         {
@@ -81,6 +87,15 @@ namespace MissionController
              else
              Debug.Log("*MCEPC key not found: " + name);
             return vale;
+        }
+
+        public static float GetValueDefault(ConfigNode node, string name, float val)
+        {
+            if (node.HasValue(name))
+                val = atof(node.GetValue(name));
+            // DBG else
+            //DBG print"*MCEPC key not found: " + name);
+            return val;
         }
        
         public static string spaces(int num)
