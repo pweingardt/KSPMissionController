@@ -105,7 +105,7 @@ namespace MissionController
             if (GUILayout.Button("Chose Vessels RepairParts", styleButtonWordWrap))
             {
                 manager.chooseVesselRepairFromList();                                      
-            }
+            }          
 
             //if (GUILayout.Button("Reset Kerbals", styleButtonWordWrap))
             //{

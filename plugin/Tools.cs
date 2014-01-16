@@ -17,6 +17,17 @@ namespace MissionController
             if (MCSettings == null)
                 throw new UnityException("*MC* MCSettings not found!");
         }
+
+        public static ConfigNode MCCompanies = null;
+
+        public static void findMCCompanies()
+        {
+            foreach (ConfigNode node in GameDatabase.Instance.GetConfigNodes("MISSIONCONTROLLERB"))        
+                MCCompanies = node;
+
+                if (MCCompanies == null)
+                    throw new UnityException("**MC* MCCompanies not found!");
+        }
       
         public static double atod(string a)
         {
@@ -36,7 +47,7 @@ namespace MissionController
             int.TryParse(a, out o);
             return o;
         }
-
+        
         public static double GetValueDefault(ConfigNode node, string name, double val)
         {
             if (node.HasValue(name))
@@ -61,7 +72,16 @@ namespace MissionController
             // DBG else
             //DBG print"*MCEPC key not found: " + name);
             return val;
-        } 
+        }
+
+        public static string GetValueDefault(ConfigNode node, string name, string vale)
+        {
+            if (node.HasValue(name))
+                vale = (node.GetValue(name));
+             else
+             Debug.Log("*MCEPC key not found: " + name);
+            return vale;
+        }
        
         public static string spaces(int num)
         {

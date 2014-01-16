@@ -38,6 +38,8 @@ namespace MissionController
 
         public bool vesselName = false;
 
+        public bool IsContract = false;
+
         /// <summary>
         /// science reward for finishing the mission
         /// </summary>

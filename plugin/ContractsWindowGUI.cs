@@ -8,13 +8,13 @@ namespace MissionController
 {
     public partial class MissionController
     {
-
         private Vector2 contractScrollPosition = new Vector2();
         private Vector2 previewContractScrollPosition = new Vector2();
         private Mission currentPreviewMission2 = null;
 
         private void drawContractsWindow(int id)
         {
+           
             GUI.skin = HighLogic.Skin;
             GUILayout.BeginVertical();          
 
@@ -64,7 +64,7 @@ namespace MissionController
                 GUILayout.BeginHorizontal();
                 if (currentPreviewMission2 != null)
                 {
-                    if (GUILayout.Button("Select mission"))
+                    if (GUILayout.Button("Accept Contract"))
                     {
                         // we also reset the hiddenGoals field
                         hiddenGoals = new List<MissionGoal>();

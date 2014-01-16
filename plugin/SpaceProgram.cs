@@ -26,6 +26,7 @@ namespace MissionController
         public int currentcontractType = 0;
         public double nextTimeCheck = 0;
         public string showRepairVesselName = "";
+        public int showCompanyAvailable = 1;
 
         public List<MissionStatus> completedMissions = new List<MissionStatus>();
 

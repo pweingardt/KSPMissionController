@@ -101,7 +101,7 @@ namespace MissionController
                     currentProgram.randomMissions.Remove (rm);
                 }
             }
-        }
+        }       
 
         /// <summary>
         /// Loads the given mission package
@@ -158,6 +158,12 @@ namespace MissionController
 
             return m;
         }
+
+        private int RandomNumber(int min, int max)
+        {
+            System.Random random = new System.Random();
+            return random.Next(min, max);
+        }        
 
         /// <summary>
         /// Returns the current space program.
@@ -310,8 +316,8 @@ namespace MissionController
             {
                 double currentTime;
                 currentTime = Planetarium.GetUniversalTime();
-                currentProgram.nextTimeCheck = currentTime + 86400;
-                findVeselWithRepairPart();
+                currentProgram.nextTimeCheck = currentTime + 86400;               
+                chooseVesselRepairFromList();
                 Debug.Log("next contract check on date: " + MathTools.secondsIntoRealTime(currentProgram.nextTimeCheck));
             }
         }
@@ -325,11 +331,12 @@ namespace MissionController
             currentTime = Planetarium.GetUniversalTime();
             if (currentTime >= currentProgram.nextTimeCheck)
             {
-                chooseVesselRepairFromList();
+                findVeselWithRepairPart();
                 StartRandomsystem();
                 getContractType();
                 currentProgram.nextTimeCheck = 0;
                 SetClockCountdown();
+                saveProgram();
                 Debug.Log(GetCurrentContract + " This is current Contract Type Chosen by Random System On Date: " + MathTools.secondsIntoRealTime(currentProgram.nextTimeCheck));
             }
         }
@@ -726,6 +733,11 @@ namespace MissionController
         {
             return currentProgram.VRecylce = true;
         }
+
+        public int GetCompanyInfo
+        {
+            get { return currentProgram.showCompanyAvailable; }
+        }
         // End Research Recycle
 
         /// <summary>
@@ -772,7 +784,7 @@ namespace MissionController
         {
             return currentProgram.currentcontractType = value;
         }
-
+        
         /// <summary>
         /// Research For Construction Levels
         /// Set Construction True

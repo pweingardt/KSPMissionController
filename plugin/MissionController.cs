@@ -93,6 +93,7 @@ namespace MissionController
         private Rect missionLogBookPostion;
         private Rect kerbalLogBookHirePostion;
         private Rect shipLogBook;
+        private Rect ContractWindowStatus;
                
         Rect VabBudgetWin;
         Rect VabBudgetWin1;
@@ -111,6 +112,7 @@ namespace MissionController
         private IButton RevertSelect;
         private IButton ScienceResearch;
         private IButton Hidetoolbars;
+        private IButton ContractSelect;
 
         private bool showSettingsWindow = false;
         private bool showMissionPackageBrowser = false;
@@ -125,6 +127,7 @@ namespace MissionController
         private bool hidetoolbarsviews = true;
         private bool showVabShipWindow = false;
         private bool showMissionStatusWindow = false;
+        private bool showContractStatusWindow = false;
         private bool showKerbalLogbookHire = false;
         private bool showMissionLogbookWindow = false;
         private bool showShipLogBookWindow = false;
@@ -142,6 +145,7 @@ namespace MissionController
         private Vector2 scrollPositionMission = new Vector2(0, 0);
         private Vector2 scrollPositionShip = new Vector2(0, 0);
         private Vector2 scrollPositionHire = new Vector2(0, 0);
+        private Vector2 scrollPosition22 = new Vector2(0, 0);
         private GUIStyle styleValueRedBold, styleValueRed, styleValueYellow, styleValueGreen, styleText, styleCaption, styleValueGreenBold;       
         private GUIStyle styleButton, styleButtonYellow, styleGreenButton, styleRedButton, styleGreenButtonCenter, styleRedButtonCenter;
         public GUIStyle StyleBoxGreen, StyleBoxYellow, StyleBoxWhite;
@@ -338,6 +342,14 @@ namespace MissionController
              {
                  showMissionStatusWindow = !showMissionStatusWindow;
              };
+
+            ContractSelect = ToolbarManager.Instance.add("MC1", "contractsel1");
+            ContractSelect.TexturePath = "MissionController/icons/contract";
+            ContractSelect.ToolTip = "Takes You To Contract Selection Screen";
+            ContractSelect.OnClick += (e) =>
+            {
+                showContractStatusWindow = !showContractStatusWindow;
+            };
 
             VabShipSelect = ToolbarManager.Instance.add("MC1", "ship1");
             VabShipSelect.TexturePath = "MissionController/icons/blueprints";
@@ -741,6 +753,11 @@ namespace MissionController
             if (showMissionStatusWindow && hidetoolbarsviews)
             {
                 MissionWindowStatus = GUILayout.Window(898990, MissionWindowStatus, drawMissionInfoWindow, "Current Mission Window",GUILayout.MinHeight(450), GUILayout.MinWidth(350));
+            }
+
+            if (showContractStatusWindow && hidetoolbarsviews)
+            {
+                ContractWindowStatus = GUILayout.Window(888991, ContractWindowStatus, drawContractInfoWindow, "Available Contracts", GUILayout.MinHeight(450), GUILayout.MinWidth(350));
             }
 
             if (showSettingsWindow && hidetoolbarsviews)
@@ -1258,7 +1275,13 @@ namespace MissionController
 
         private void drawMissionInfoWindow(int id)
         {
+            if (showMissionStatusWindow == true)
+                showContractStatusWindow = false;
+
+
             Status status = calculateStatus(currentMission, true, activeVessel);
+
+            
 
             GUI.skin = HighLogic.Skin;
             GUILayout.BeginVertical();
@@ -1288,7 +1311,7 @@ namespace MissionController
                 GUILayout.Label("Plugin Disabled", styleValueRed);
             }           
 
-            if (currentMission != null)
+            if (currentMission != null && currentMission.IsContract != true)
             {
                 drawMission(currentMission, status);     
             }
@@ -1298,12 +1321,7 @@ namespace MissionController
             if (GUILayout.Button("Package", styleButtonWordWrap, GUILayout.Width(100)))
             {
                 createFileBrowser("Contract", selectMissionPackage);
-            }
-
-            if (GUILayout.Button("Contracts", styleButtonWordWrap, GUILayout.Width(100)))
-            {
-                selectContracts("Plugins/PluginData/MissionController/MCContracts.cfg");
-            }
+            }            
 
             if (currentPackage != null)
             {
@@ -1312,6 +1330,61 @@ namespace MissionController
                     packageWindow(true);
                 }
             }
+            if (GUILayout.Button("X", styleButtonWordWrap, GUILayout.Width(25)))
+            {
+                showMissionStatusWindow = false;
+            }
+            GUILayout.EndHorizontal();
+
+            GUILayout.Space(20);
+            GUILayout.EndVertical();
+            if (!Input.GetMouseButtonDown(1))
+            {
+                GUI.DragWindow();
+            }
+        }
+
+        private void drawContractInfoWindow(int id)
+        {
+            if (showContractStatusWindow == true)
+                showMissionStatusWindow = false;
+            
+            Status status = calculateStatus(currentMission, true, activeVessel);
+
+            GUI.skin = HighLogic.Skin;
+            GUILayout.BeginVertical();
+            scrollPosition22 = GUILayout.BeginScrollView(scrollPosition22, GUILayout.Width(350));
+            GUILayout.Space(20);          
+
+            if (settings.disablePlugin == true)
+            {
+                GUILayout.Label("Plugin Disabled", styleValueRed);
+            }
+
+            if (currentMission != null && currentMission.IsContract != false)
+            {
+                drawContracts(currentMission, status);
+            }
+            GUILayout.EndScrollView();
+
+            GUILayout.BeginHorizontal();          
+
+            if (GUILayout.Button("Contracts", styleButtonWordWrap, GUILayout.Width(100)))
+            {
+                selectContracts("Plugins/PluginData/MissionController/MCContracts.cfg");
+            }
+
+            if (manager.GetCurrentContract != 0)
+            {
+                if (GUILayout.Button("Decline Current Contract", styleButtonWordWrap))
+                {
+                    manager.SetCurrentContract(0);
+                    showContractSelection = false;
+                    currentMission = null;
+                    Debug.Log("MCE*** CurrentContract Reset to 0: " + manager.GetCurrentContract);
+                }
+            }
+
             if (GUILayout.Button("X", styleButtonWordWrap, GUILayout.Width(25)))
             {
                 showMissionStatusWindow = false;
@@ -1492,11 +1565,17 @@ namespace MissionController
 
         private void drawContracts(Mission mission, Status s)
         {
-            
+
+            string compName = Tools.GetValueDefault(Tools.MCSettings.GetNode("COMA"), "name", "Default");
+            double comppayout = Tools.GetValueDefault(Tools.MCSettings.GetNode("COMA"), "payout", 1.0);
+            double compscience = Tools.GetValueDefault(Tools.MCSettings.GetNode("COMA"), "science", 1.0);
+
+            GUILayout.Label("pay" + comppayout);
+            GUILayout.Label("sci" + compscience);
             GUILayout.Label("Current Contract: ", styleValueGreenBold);
             GUILayout.Label(mission.name, styleText);
             GUILayout.Label("Company Name", styleValueGreenBold);
-            GUILayout.Label("Not Yet Implemented", styleText);
+            GUILayout.Label(compName, styleText);
             GUILayout.Label("Description: ", styleValueGreenBold);
             GUILayout.Label(mission.description, styleText);
             GUILayout.Label("Contract Binding Terms If Fail", styleValueGreenBold);
@@ -1510,16 +1589,16 @@ namespace MissionController
             GUILayout.BeginHorizontal();
             GUILayout.Label(" Contract Payout: ", styleValueGreenBold);
             if (settings.gameMode == 0)
-            { GUILayout.Label(CurrencySuffix + mission.reward * PayoutLeveles.TechPayout, styleValueYellow); }
+            { GUILayout.Label(CurrencySuffix + mission.reward * comppayout * PayoutLeveles.TechPayout, styleValueYellow); }
             if (settings.gameMode == 1)
-            { GUILayout.Label(CurrencySuffix + mission.reward * PayoutLeveles.TechPayout * .60, styleValueYellow); }
+            { GUILayout.Label(CurrencySuffix + mission.reward * comppayout * PayoutLeveles.TechPayout * .60, styleValueYellow); }
             GUILayout.EndHorizontal();
 
             if (mission.scienceReward != 0)
             {
                 GUILayout.BeginHorizontal();
                 GUILayout.Label("Science Reward: ", styleValueGreenBold);
-                GUILayout.Label(mission.scienceReward + " sp", styleValueYellow);
+                GUILayout.Label(mission.scienceReward * compscience + " sp", styleValueYellow);
                 GUILayout.EndHorizontal();
             } 
            
@@ -1528,8 +1607,8 @@ namespace MissionController
             {
                 GUILayout.Label("At The End Of Contract All Company Assets Will Revert To Company Control", styleWarning);
             }
-           
-            drawMissionGoals(mission, s);
+
+            drawContractsGoals(mission, s);
 
             if (s.missionIsFinishable)
             {
