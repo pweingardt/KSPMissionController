@@ -229,6 +229,11 @@ Fields:
 * maxLatitude: minimal latitude of landing spot (default: 0, ignored)
 * minLongitude: minimal longitude of landing spot (default: 0, ignored)
 * maxLongitude: maximal longitude of landing spot (default: 0, ignored)
+* targetLatitude: latitude of the target (default: 0)
+* targetLongitude: longitude of the target (default: 0)
+* targetName: name of the target at the given coordinates (default: "")
+* targetMinDistance: the minimum distance to the target needed for the goal to be met (default: -1, ignored)
+* targetMaxDistance: the maximum distance to the target needed for the goal to be met (default: -1, ignored)
 
 
 ### ResourceGoal

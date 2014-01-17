@@ -95,6 +95,16 @@ namespace MissionController
             }
         }
 
+        public static String formatDistance(double meters) {
+            if (meters < 0)
+                return String.Format ("{0:N1}cm", meters * 100);
+             
+            if (meters < 1000)
+                return String.Format ("{0:N1}m", meters);
+
+            return String.Format ("{0:N1}km", meters / 1000);
+        }
+
         public static double calculateLongitude(double value) {
             while (value > 180.0) {
                 value -= 360.0;
