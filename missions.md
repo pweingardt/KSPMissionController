@@ -229,12 +229,16 @@ Fields:
 * maxLatitude: minimal latitude of landing spot (default: 0, ignored)
 * minLongitude: minimal longitude of landing spot (default: 0, ignored)
 * maxLongitude: maximal longitude of landing spot (default: 0, ignored)
+<<<<<<< HEAD
 * targetLatitude: latitude of the target (default: 0)
 * targetLongitude: longitude of the target (default: 0)
 * targetName: name of the target at the given coordinates (default: "")
 * targetMinDistance: the minimum distance to the target needed for the goal to be met (default: -1, ignored)
 * targetMaxDistance: the maximum distance to the target needed for the goal to be met (default: -1, ignored)
 
+=======
+* biome: the name of the biome at which the vessel must land (default: "", ignored)
+>>>>>>> 7ae5b410c467943b6b56b54291fe2d73d9b7126c
 
 ### ResourceGoal
 
