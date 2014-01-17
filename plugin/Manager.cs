@@ -583,14 +583,20 @@ namespace MissionController
                 {
                     reward(m.reward);
                     totalReward(m.reward);
-                    sciencereward(m.scienceReward);
+                    if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
+                    {
+                        sciencereward(m.scienceReward);
+                    }
                     Debug.Log("rewarded Contract Mission Award");
                 }
                 if (m.IsContract == true)
                 {                                       
                     contractReward(m.reward);
                     totalReward(m.reward);
-                    Contractsciencereward(m.scienceReward);
+                    if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
+                    {
+                        Contractsciencereward(m.scienceReward);
+                    }                   
                     Debug.Log("Rewared Normal Mission Award");
                 }
                     

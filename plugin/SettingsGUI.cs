@@ -95,29 +95,29 @@ namespace MissionController
 
             }
 
-            if (GUILayout.Button("Set Values Randoms + Find Vessel", styleButtonWordWrap))
-            {
-                manager.StartRandomsystem();
-                manager.StartCompanyRandomizer();
-                manager.setContractType();
-                manager.setCompanyName();
-                manager.findVeselWithRepairPart();
-            }
+            //if (GUILayout.Button("Set Values Randoms + Find Vessel", styleButtonWordWrap))
+            //{
+            //    manager.StartRandomsystem();
+            //    manager.StartCompanyRandomizer();
+            //    manager.setContractType();
+            //    manager.setCompanyName();
+            //    manager.findVeselWithRepairPart();
+            //}
 
-            if (GUILayout.Button("Set Vessel Repair To Save", styleButtonWordWrap))
-            {
-                manager.chooseVesselRepairFromList();
-            }
+            //if (GUILayout.Button("Set Vessel Repair To Save", styleButtonWordWrap))
+            //{
+            //    manager.chooseVesselRepairFromList();
+            //}
 
-            if (GUILayout.Button("Show Work Window (Finish Mission)", styleButtonWordWrap))
-            {
-                showRandomWindow = !showRandomWindow;
-            }           
+            //if (GUILayout.Button("Show Work Window (Finish Mission)", styleButtonWordWrap))
+            //{
+            //    showRandomWindow = !showRandomWindow;
+            //}           
 
-            if (GUILayout.Button("CheckHired Kerbals", styleButtonWordWrap))
-            {
-                manager.isKerbalHired();
-            }
+            //if (GUILayout.Button("CheckHired Kerbals", styleButtonWordWrap))
+            //{
+            //    manager.isKerbalHired();
+            //}
 
             if (GUILayout.Button("Save Settings", styleButtonWordWrap))
             {

@@ -1106,7 +1106,10 @@ namespace MissionController
                         GUILayout.Box("All goals accomplished. Deducted For Loans!", StyleBoxWhite, GUILayout.Width(600),GUILayout.Height(30));
                         GUILayout.BeginHorizontal();
                         GUILayout.Box("Total Mission Payout: " + rewardFinanced.ToString("N2"), StyleBoxYellow, GUILayout.Width(300), GUILayout.Height(30));
-                        GUILayout.Box("Total Science Paid: " + currentMission.scienceReward, StyleBoxYellow, GUILayout.Width(300),GUILayout.Height(30));
+                        if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
+                        {
+                            GUILayout.Box("Total Science Paid: " + currentMission.scienceReward, StyleBoxYellow, GUILayout.Width(300), GUILayout.Height(30));
+                        }
                         GUILayout.EndHorizontal();
                     }
                     if (settings.gameMode == 1)
@@ -1114,7 +1117,10 @@ namespace MissionController
                         GUILayout.Box("All Goals accomplished. Hardcore and Deducted Loans", StyleBoxWhite, GUILayout.Width(600),GUILayout.Height(30)); // .75 * .6 = .45
                         GUILayout.BeginHorizontal();
                         GUILayout.Box("Total Mission Payout: " + rewardFinancedHard.ToString("N2"), StyleBoxYellow, GUILayout.Width(300),GUILayout.Height(30));
-                        GUILayout.Box("Total Science Paid: " + currentMission.scienceReward, StyleBoxYellow, GUILayout.Width(300),GUILayout.Height(30));
+                        if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
+                        {
+                            GUILayout.Box("Total Science Paid: " + currentMission.scienceReward, StyleBoxYellow, GUILayout.Width(300), GUILayout.Height(30));
+                        }
                         GUILayout.EndHorizontal();
                     }
                 }
@@ -1125,15 +1131,20 @@ namespace MissionController
                         GUILayout.Box("All goals accomplished. you can finish the mission now!", StyleBoxWhite, GUILayout.Width(600),GUILayout.Height(30));
                         GUILayout.BeginHorizontal();
                         GUILayout.Box("Total Mission Payout: " + rewardnormal.ToString("N2"), StyleBoxYellow, GUILayout.Width(300),GUILayout.Height(30));
-                        GUILayout.Box("Total Science Paid: " + currentMission.scienceReward, StyleBoxYellow, GUILayout.Width(300),GUILayout.Height(30));
+                        if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
+                        {
+                            GUILayout.Box("Total Science Paid: " + currentMission.scienceReward, StyleBoxYellow, GUILayout.Width(300), GUILayout.Height(30));
+                        }
                         GUILayout.EndHorizontal();
                     }
                     if (settings.gameMode == 1)
                     {
                         GUILayout.Box("All goals accomplished. you can finish the mission now: HardCore Mode 40 % Reduction!", StyleBoxWhite, GUILayout.Width(600));
                         GUILayout.BeginHorizontal();
-                        GUILayout.Box("Total Mission Payout: " + rewardHard.ToString("N2"), StyleBoxYellow, GUILayout.Width(300),GUILayout.Height(30));
-                        GUILayout.Box("Total Science Paid: " + currentMission.scienceReward, StyleBoxYellow, GUILayout.Width(300),GUILayout.Height(30));
+                        GUILayout.Box("Total Mission Payout: " + rewardHard.ToString("N2"), StyleBoxYellow, GUILayout.Width(300), GUILayout.Height(30));
+                        {
+                            GUILayout.Box("Total Science Paid: " + currentMission.scienceReward, StyleBoxYellow, GUILayout.Width(300), GUILayout.Height(30));
+                        }
                         GUILayout.EndHorizontal();
                     }
                 }
@@ -1172,7 +1183,10 @@ namespace MissionController
                         GUILayout.Box("Contract accomplished. Deducted For Loans!", StyleBoxWhite, GUILayout.Width(600),GUILayout.Height(30));
                         GUILayout.BeginHorizontal();
                         GUILayout.Box("Contract Payout: " + rewardFinanced.ToString("N2"), StyleBoxYellow, GUILayout.Width(300),GUILayout.Height(30));
-                        GUILayout.Box("Science Learned: " + ScienceReward, StyleBoxYellow, GUILayout.Width(300), GUILayout.Height(30));
+                        if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
+                        {
+                            GUILayout.Box("Science Learned: " + ScienceReward, StyleBoxYellow, GUILayout.Width(300), GUILayout.Height(30));
+                        }
                         GUILayout.EndHorizontal();
                     }
                     if (settings.gameMode == 1)
@@ -1180,7 +1194,10 @@ namespace MissionController
                         GUILayout.Box("Contract accomplished. Hardcore and Deducted Loans", StyleBoxWhite, GUILayout.Width(600),GUILayout.Height(30)); // .75 * .6 = .45
                         GUILayout.BeginHorizontal();
                         GUILayout.Box("Contract Payout: " + rewardFinancedHard.ToString("N2"), StyleBoxYellow, GUILayout.Width(300),GUILayout.Height(30));
-                        GUILayout.Box("Science Learned: " + ScienceReward, StyleBoxYellow, GUILayout.Width(300),GUILayout.Height(30));
+                        if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
+                        {
+                            GUILayout.Box("Science Learned: " + ScienceReward, StyleBoxYellow, GUILayout.Width(300), GUILayout.Height(30));
+                        }
                         GUILayout.EndHorizontal();
                     }
                 }
@@ -1191,7 +1208,10 @@ namespace MissionController
                         GUILayout.Box("Contract accomplished. you can finish the mission now!", StyleBoxWhite, GUILayout.Width(600),GUILayout.Height(30));
                         GUILayout.BeginHorizontal();
                         GUILayout.Box("Contract Payout: " + rewardnormal.ToString("N2"), StyleBoxYellow, GUILayout.Width(300),GUILayout.Height(30));
-                        GUILayout.Box("Science Learned: " + ScienceReward, StyleBoxYellow, GUILayout.Width(300), GUILayout.Height(30));
+                        if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
+                        {
+                            GUILayout.Box("Science Learned: " + ScienceReward, StyleBoxYellow, GUILayout.Width(300), GUILayout.Height(30));
+                        }
                         GUILayout.EndHorizontal();
                     }
                     if (settings.gameMode == 1)
@@ -1199,7 +1219,10 @@ namespace MissionController
                         GUILayout.Box("Contract accomplished. you can finish the mission now: HardCore Mode 40 % Reduction!", StyleBoxWhite, GUILayout.Width(600),GUILayout.Height(30));
                         GUILayout.BeginHorizontal();
                         GUILayout.Box("Contract Payout:" + rewardHard.ToString("N2"), StyleBoxYellow, GUILayout.Width(300),GUILayout.Height(30));
-                        GUILayout.Box("Scinece Learned: " + ScienceReward, StyleBoxYellow, GUILayout.Width(300), GUILayout.Height(30));
+                        if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
+                        {
+                            GUILayout.Box("Scinece Learned: " + ScienceReward, StyleBoxYellow, GUILayout.Width(300), GUILayout.Height(30));
+                        }
                         GUILayout.EndHorizontal();
                     }
                 }
@@ -1540,7 +1563,7 @@ namespace MissionController
             { GUILayout.Label(CurrencySuffix + mission.reward * PayoutLeveles.TechPayout * .60, styleValueYellow); }
             GUILayout.EndHorizontal();
 
-            if (mission.scienceReward != 0)
+            if (mission.scienceReward != 0 && HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
             {
                 GUILayout.BeginHorizontal();
                 GUILayout.Label("Science Reward: ", styleValueGreenBold);
@@ -1591,13 +1614,19 @@ namespace MissionController
                     {
                         GUILayout.Label("All goals accomplished. You can finish the mission now! Deducted for loans!", styleCaption);
                         showCostValue("Total Mission Payout:", (currentMission.reward * FinanceMode.currentloan) * PayoutLeveles.TechPayout, styleValueGreen);
-                        showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
+                        if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
+                        {
+                            showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
+                        }
                     }
                     if (settings.gameMode == 1)
                     {
                         GUILayout.Label("All Goals accomplished. Finish The Mission. Deducted for loans and HardCore mode"); // .75 * .6 = .45
                         showCostValue("Total Mission Payout:", (currentMission.reward * FinanceMode.currentloan * PayoutLeveles.TechPayout) * .60, styleValueGreen);
-                        showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
+                        if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
+                        {
+                            showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
+                        }
                     }
                 }
                 else
@@ -1606,13 +1635,19 @@ namespace MissionController
                     {
                         GUILayout.Label("All goals accomplished. you can finish the mission now!", styleCaption);
                         showCostValue("Total Mission Payout:", currentMission.reward * PayoutLeveles.TechPayout, styleValueGreen);
-                        showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
+                        if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
+                        {
+                            showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
+                        }
                     }
                     if (settings.gameMode == 1)
                     {
                         GUILayout.Label("All goals accomplished. you can finish the mission now: HardCore Mode!", styleCaption);
                         showCostValue("Total Mission Payout:", (currentMission.reward * PayoutLeveles.TechPayout) * .60, styleValueGreen);
-                        showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
+                        if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
+                        {
+                            showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
+                        }
                     }
                 }
             }
@@ -1625,8 +1660,8 @@ namespace MissionController
             double comppayout = Tools.GetValueDefault(Tools.MCSettings.GetNode(manager.GetCompanyInfoString), "payout", 1.0);
             double compscience = Tools.GetValueDefault(Tools.MCSettings.GetNode(manager.GetCompanyInfoString), "science", 1.0);
 
-            GUILayout.Label("pay" + comppayout);
-            GUILayout.Label("sci" + compscience);
+            //GUILayout.Label("pay" + comppayout);
+            //GUILayout.Label("sci" + compscience);
             GUILayout.Label("Current Contract: ", styleValueGreenBold);
             GUILayout.Label(mission.name, styleText);
             GUILayout.Label("Company Name", styleValueGreenBold);
@@ -1649,7 +1684,7 @@ namespace MissionController
             { GUILayout.Label(CurrencySuffix + mission.reward * comppayout * PayoutLeveles.TechPayout * .60, styleValueYellow); }
             GUILayout.EndHorizontal();
 
-            if (mission.scienceReward != 0)
+            if (mission.scienceReward != 0 && HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
             {
                 GUILayout.BeginHorizontal();
                 GUILayout.Label("Science Reward: ", styleValueGreenBold);
@@ -1674,13 +1709,19 @@ namespace MissionController
                     {
                         GUILayout.Label("All goals accomplished. You can finish the mission now! Deducted for loans!", styleCaption);
                         showCostValue("Total Mission Payout:", (currentMission.reward * FinanceMode.currentloan) * PayoutLeveles.TechPayout, styleValueGreen);
-                        showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
+                        if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
+                        {
+                            showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
+                        }
                     }
                     if (settings.gameMode == 1)
                     {
                         GUILayout.Label("All Goals accomplished. Finish The Mission. Deducted for loans and HardCore mode"); // .75 * .6 = .45
                         showCostValue("Total Mission Payout:", (currentMission.reward * FinanceMode.currentloan * PayoutLeveles.TechPayout) * .60, styleValueGreen);
-                        showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
+                        if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
+                        {
+                            showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
+                        }
                     }
                 }
                 else
@@ -1689,13 +1730,19 @@ namespace MissionController
                     {
                         GUILayout.Label("All goals accomplished. you can finish the mission now!", styleCaption);
                         showCostValue("Total Mission Payout:", currentMission.reward * PayoutLeveles.TechPayout, styleValueGreen);
-                        showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
+                        if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
+                        {
+                            showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
+                        }
                     }
                     if (settings.gameMode == 1)
                     {
                         GUILayout.Label("All goals accomplished. you can finish the mission now: HardCore Mode!", styleCaption);
                         showCostValue("Total Mission Payout:", (currentMission.reward * PayoutLeveles.TechPayout) * .60, styleValueGreen);
-                        showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
+                        if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
+                        {
+                            showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
+                        }
                     }
                 }
             }

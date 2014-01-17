@@ -243,30 +243,7 @@ MissionPackage
                 partName = longAntenna
                 partCount = 3
             }
-    
-            PartGoal
-            {
-                partName = sensorAccelerometer
-                partCount = 1
-            }
-    
-            PartGoal
-            {
-                partName = sensorBarometer
-                partCount = 1
-            }
-    
-            PartGoal
-            {
-                partName = sensorGravimeter
-                partCount = 1
-            }
-    
-            PartGoal
-            {
-                partName = sensorThermometer
-                partCount = 1
-            }
+              
         }
     }
 
@@ -299,31 +276,8 @@ MissionPackage
             {
                 partName = longAntenna
                 partCount = 3
-            }
-    
-            PartGoal
-            {
-                partName = sensorAccelerometer
-                partCount = 1
-            }
-    
-            PartGoal
-            {
-                partName = sensorBarometer
-                partCount = 1
-            }
-    
-            PartGoal
-            {
-                partName = sensorGravimeter
-                partCount = 1
-            }
-    
-            PartGoal
-            {
-                partName = sensorThermometer
-                partCount = 1
-            }
+            }   
+          
         }
     }
 
@@ -356,31 +310,8 @@ MissionPackage
             {
                 partName = longAntenna
                 partCount = 3
-            }
-    
-            PartGoal
-            {
-                partName = sensorAccelerometer
-                partCount = 1
-            }
-    
-            PartGoal
-            {
-                partName = sensorBarometer
-                partCount = 1
-            }
-    
-            PartGoal
-            {
-                partName = sensorGravimeter
-                partCount = 1
-            }
-    
-            PartGoal
-            {
-                partName = sensorThermometer
-                partCount = 1
-            }
+            }    
+            
         }
     }
 
@@ -550,33 +481,10 @@ MissionPackage
     
             PartGoal
             {
-                partName = commDish
+                partName = longAntenna
                 partCount = 1
             }
-    
-            PartGoal
-            {
-                partName = sensorAccelerometer
-                partCount = 1
-            }
-    
-            PartGoal
-            {
-                partName = sensorBarometer
-                partCount = 1
-            }
-    
-            PartGoal
-            {
-                partName = sensorGravimeter
-                partCount = 1
-            }
-    
-            PartGoal
-            {
-                partName = sensorThermometer
-                partCount = 1
-            }
+                
         }
     
         CrashGoal

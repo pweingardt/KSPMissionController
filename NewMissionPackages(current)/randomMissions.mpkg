@@ -1,17 +1,18 @@
 MissionPackage
 {
 	name = Random Missions Package
-	description = These Are The Random Missions.  They are stock missions that generate random Mission Goals Within There Own Mission Goals.. IE Orbit Goals will have random AP and PE. These Are not tested yet, but they should work. They are pretty simple in how they work.. The only thing that might be off is The orbits.. Some might be wonky.. If so please report them as bugs.
+	description = These Are The Random Missions.  They are stock missions that generate random Mission Goals Within There Own Mission Goals.. IE Orbit Goals will have random AP and PE. 
 	ownOrder = true
 
 Mission
 {
     name = 1 - Early Manned Missions Rocket Basics
-    description = Our Early Years are all about the learning of Rockets.  We have to launch them to learn anything.. Lets go. 
+    description = Our Early Years are all about the learning of Rockets.  We have to launch them to learn anything..\n\n Lets go Optional Height Goals Have Been Supplied for those that can reach for the stars. 
 	category = MANNED
-    reward = 24000
+    reward = 31000
 	randomized = true
 	repeatable = true
+	vesselIndependent = false
 	packageOrder = 1
 
 	SubMissionGoal
@@ -21,15 +22,35 @@ Mission
 		OrbitGoal
 		{
         body = Kerbin
-        minAltitude = RANDOM(50000,70000)		
+        minAltitude = RANDOM(50000,70000)
 		crewCount = 1
 		}
-		PartGoal
-            {
-                partName = longAntenna
-                partCount = 1
-            }					
+		
 	}
+	OrbitGoal
+	{
+		optional = true		
+		reward = 5000
+		body = Kerbin
+		minAltitude = 150000
+	}
+	
+	OrbitGoal
+	{
+		optional = true
+		reward = 10000
+		body = Kerbin
+		minAltitude = 250000
+	}
+	
+	OrbitGoal
+	{
+		optional = true
+		reward = 15000
+		body = Kerbin
+		minAltitude = 350000
+	}
+	
 	LandingGoal
         {
             body = Kerbin
@@ -53,9 +74,8 @@ Mission
 		OrbitGoal
 		{
         body = Kerbin
-        minApA = RANDOM(70000,120000)
-        maxApA = ADD(minApA, 20000)
-		maxEccentricity = RANDOM(0.01, 0.08)
+        minPeA = RANDOM(50000,75000)
+		maxApA = ADD(minPeA, 10000)
 		crewCount = 1
 		}
 		PartGoal
@@ -72,13 +92,51 @@ Mission
 
 Mission
 {
-    name = 3 - Early Missions Manned EVA Mission
+    name = 3 - Early Missions Fuel Trials
+    description = We need to learn ways to bring larger amounts of Fuels into Low Kerbin Orbit, you are tasked in this mission to Bring a Certain amount fuel into orbit safely. 
+	category = MANNED, ORBIT
+    reward = 70000
+	randomized = true
+	repeatable = true
+	packageOrder = 3
+
+	SubMissionGoal
+	
+	{
+    
+		OrbitGoal
+		{
+        body = Kerbin
+        maxApA = RANDOM(70000,120000)
+		maxEccentricity = RANDOM(0.01, 0.08)
+		crewCount = 1
+		}
+		PartGoal
+            {
+                partName = longAntenna
+                partCount = 1
+            }
+		ResourceGoal
+			{
+				name = LiquidFuel
+				minAmount = 75
+			}
+	}
+	LandingGoal
+        {
+            body = Kerbin
+        }
+}
+
+Mission
+{
+    name = 4 - Early Missions Manned EVA Mission
     description = Launch A manned Vessel Into Kerbin Orbit and Perform an EVA, Then Return To Kerbin Safely. 
 	category = MANNED, EVA
     reward = 52000
 	randomized = true
 	repeatable = true
-	packageOrder = 3
+	packageOrder = 4
 
 	SubMissionGoal
 	{
@@ -86,8 +144,8 @@ Mission
 		OrbitGoal
 			{
 			body = Kerbin
-			minApA = RANDOM(200000,300000)
-			maxApA = ADD(minApA, 10000)
+			maxApA = RANDOM(200000,300000)
+			maxEccentricity = RANDOM(0.01, 0.08)
 			crewCount = 1
 			}
 			
@@ -107,13 +165,14 @@ Mission
 
 	Mission
 {
-    name = 4 - Early Missions explore Kerbin Polar Regions 
+    name = 5 - Early Missions explore Kerbin Polar Regions 
     description = Our Early Years are all about the learning of Rockets.  Send a probe to explore the polar regions of the home planet kerbin. 
 	category = PROBE
     reward = 50000
+	scienceReward = 25
 	randomized = true
 	repeatable = true
-	packageOrder = 4
+	packageOrder = 5
 
 	SubMissionGoal
 	
@@ -148,13 +207,14 @@ Mission
 
 	Mission
 {
-    name = 5 - Early Missions explore Kerbin Crater 
+    name = 6 - Early Missions explore Kerbin Crater 
     description = Our Early Years are all about the learning of Rockets.  Send a probe to explore the strange crator like land formation located on Kerbin. 
 	category = PROBE
     reward = 65000
+	scienceReward = 25
 	randomized = true
 	repeatable = true
-	packageOrder = 5
+	packageOrder = 6
 
 	SubMissionGoal
 	
@@ -185,17 +245,55 @@ Mission
         {
             body = Kerbin
         }
-}	
+}
+
+	Mission
+{
+    name = 7 - Early Missions Landing Trails
+    description = On the ToDo list is the ability to land a lander on solid ground in one piece.  Use this mission to practice that ability on Kerbin. 
+	category = MANNED, LANDING
+    reward = 85000
+	randomized = true
+	repeatable = true
+	packageOrder = 7
+
+	SubMissionGoal	
+	{
+    
+		OrbitGoal
+		{
+        body = Kerbin
+        minPeA = RANDOM(70000,85000)
+		maxEccentricity = RANDOM(0.01, 0.08)
+		crewCount = 1
+		}
+		PartGoal
+            {
+                partName = longAntenna
+                partCount = 1
+            }
+		PartGoal
+			{
+				partName = landingLeg1
+				partCount = 2
+		    }	
+		
+	}	
+	LandingGoal
+        {
+            body = Kerbin
+        }
+}
 
   Mission
 {
-    name = 6 - Early Manned Missions FlyBy Of Moon
+    name = 8 - Early Manned Missions FlyBy Of Moon
     description = Our Early Years are all about the learning of Rockets.  Today we are going to do a flyby of the Mun and do some science. 
 	category = MANNED
     reward = 150000
 	randomized = true
 	repeatable = true
-	packageOrder = 6
+	packageOrder = 8
 
 	SubMissionGoal
 	
@@ -204,7 +302,7 @@ Mission
 		OrbitGoal
 		{
         body = Mun
-        maxApa = RANDOM(60000,200000)		
+        minPeA = RANDOM(20000,120000)		
 		crewCount = 1
 		}
 		PartGoal
@@ -227,13 +325,13 @@ Mission
 
 Mission
 {
-    name = 7 - Early Manned Missions Landing Mun
+    name = 9 - Early Manned Missions Landing Mun
     description = Our Early Years are all about the learning of Rockets.  Today It's time to land on the Mun.
 	category = MANNED, LANDING
     reward = 230000
 	scienceReward = 5
 	repeatable = true
-	packageOrder = 7
+	packageOrder = 9
 
 	LandingGoal
         {
@@ -247,13 +345,13 @@ Mission
 
 Mission
 {
-    name = 8 - Early Manned Missions FlyBy Of Minmus
+    name = 10 - Early Manned Missions FlyBy Of Minmus
     description = Our Early Years are all about the learning of Rockets.  Today we are going to do a flyby of the Minmus and do some science. 
 	category = MANNED
     reward = 140000
 	randomized = true
 	repeatable = true
-	packageOrder = 8
+	packageOrder = 10
 
 	SubMissionGoal
 	
@@ -262,7 +360,7 @@ Mission
 		OrbitGoal
 		{
         body = Minmus
-        maxApa = RANDOM(20000,120000)		
+        minPeA = RANDOM(20000,120000)		
 		crewCount = 1
 		}
 		PartGoal
@@ -280,13 +378,13 @@ Mission
 
 Mission
 {
-    name = 9 - Early Manned Missions Landing Minmus
+    name = 11 - Early Manned Missions Landing Minmus
     description = Our Early Years are all about the learning of Rockets.  Today It's time to land on the Minmus.
 	category = MANNED, LANDING
     reward = 200000
 	scienceReward = 5
 	repeatable = true
-	packageOrder = 9
+	packageOrder = 11
 
 	LandingGoal
         {
@@ -300,13 +398,75 @@ Mission
 
 Mission
 {
-    name = 10 - Mid Years Large Manned Orbits
+    name = 12 - Early Missions Crashing Into The Mun
+    description = We would like to study the effect of a probe crashing into the Mun.  We think it will be very interesting to see the kind of explosion we can produce.  Science rewards could be huge.
+	category = PROBE, IMPACT
+    reward = 100000
+	scienceReward = 50
+	repeatable = false
+	packageOrder = 12
+
+	SubMissionGoal
+	{
+		OrbitGoal
+		{
+			body = Mun
+			minPeA = 15000
+			maxApA = 60000			
+		
+		}		
+		description = This vessel can't have any crew!
+		noCrewGoal
+		{
+		}	
+	}
+	CrashGoal
+        {
+            body = Mun
+        }
+	
+}
+
+Mission
+{
+    name = 13 - Early Missions Crashing Into The Minmus
+    description = We would like to study the effect of a probe crashing into the Mun.  We think it will be very interesting to see the kind of explosion we can produce.  Science rewards could be huge.
+	category = PROBE, IMPACT
+    reward = 110000
+	scienceReward = 55
+	repeatable = false
+	packageOrder = 13
+
+	SubMissionGoal
+	{
+		OrbitGoal
+		{
+			body = Minmus
+			minPeA = 20000
+			maxApA = 40000			
+		
+		}		
+		description = This vessel can't have any crew!
+		noCrewGoal
+		{
+		}	
+	}
+	CrashGoal
+        {
+            body = Minmus
+        }
+	
+}
+
+Mission
+{
+    name = 14 - Mid Years Large Manned Orbits
     description = Its time we started delivering more Kerbals at once to space.  Use this mission to bring Larger 3 man Pods to space and back.
 	category = MANNED
     reward = 250000
 	randomized = true
 	repeatable = true
-	packageOrder = 10
+	packageOrder = 14
 
 	SubMissionGoal
 	
@@ -340,12 +500,12 @@ Mission
 
 Mission
 {
-    name = 11 - Mid Years Station Construction
+    name = 15 - Mid Years Station Construction
     description = Our Middle years of the space program have started.  Today we will begin the construction of a Space Station.
 	category = ORBIT
     reward = 250000
 	repeatable = true
-	packageOrder = 11
+	packageOrder = 15
 
 	SubMissionGoal		
 	{
@@ -372,12 +532,12 @@ Mission
 
 Mission
 {
-    name = 12 - Mid Years Station Construction Basic Modules
+    name = 16 - Mid Years Station Construction Basic Modules
     description = Our Middle years of the space program have started.  With the core in orbit, now its time to add your choice of Basic modules.
 	category = ORBIT, DOCKING
     reward = 250000
 	repeatable = true
-	packageOrder = 12
+	packageOrder = 16
 	requiresMission = 11 - Mid Years Station Construction
 
 	SubMissionGoal		
@@ -399,12 +559,12 @@ Mission
 
 Mission
 {
-    name = 13 - Mid Years Station Construction Fuel Modules
+    name = 17 - Mid Years Station Construction Fuel Modules
     description = Our Middle years of the space program have started.  With the core in orbit, now its time to add your choice of Fuel modules.
 	category = ORBIT, DOCKING
     reward = 300000
 	repeatable = true
-	packageOrder = 13
+	packageOrder = 17
 	requiresMission = 11 - Mid Years Station Construction
 
 	SubMissionGoal		
@@ -432,12 +592,12 @@ Mission
 
 Mission
 {
-    name = 14 - Mid Years Orbital Optics System
+    name = 18 - Mid Years Orbital Optics System
     description = Our Middle years of the space program have started.  Launch an orbital Telescope into a Very High Kerbal Orbit.
 	category = ORBIT
     reward = 150000
 	repeatable = true
-	packageOrder = 14
+	packageOrder = 18
 
 	SubMissionGoal		
 	{
@@ -469,13 +629,13 @@ Mission
 
 Mission
 {
-    name = 15 - Mid Years Large Manned Mission Mun
+    name = 19 - Mid Years Large Manned Mission Mun
     description = Our Early Years are all about the learning of Rockets.  We have sent a Kerbal to Mun and other places. Now its time to send a large crew to the Mun
 	category = MANNED, LANDING
     reward = 450000
 	scienceReward = 20
 	repeatable = true
-	packageOrder = 15
+	packageOrder = 19
 	requiresMission = 7 - Early Manned Missions Landing Mun
 
 	LandingGoal
@@ -493,13 +653,13 @@ Mission
 
 	Mission
 {
-    name = 16 - Mid Years Large Manned Mission Minmus
+    name = 20 - Mid Years Large Manned Mission Minmus
     description = Our Early Years are all about the learning of Rockets.  We have sent a Kerbal to minmus and other places. Now its time to send a large crew to the Minmus
 	category = MANNED, LANDING
     reward = 400000
 	scienceReward = 20
 	repeatable = true
-	packageOrder = 16
+	packageOrder = 20
 	requiresMission = 9 - Early Manned Missions Landing Minmus
 
 	LandingGoal
@@ -515,13 +675,13 @@ Mission
 }
 Mission
 {
-    name = 17 - Random Probe Low Orbit Mission
-    description = Bring a probe into the defined orbit 
-	category = PROBE
-    reward = 60000
+    name = 21 - Mid Years Random Satellite Low Orbit Mission.
+    description = Bring a Satellite into the defined orbit 
+	category = SATELLITE
+    reward = 75000
 	randomized = true
 	repeatable = true
-	packageOrder = 17
+	packageOrder = 21
 
 	SubMissionGoal
 	
@@ -530,7 +690,7 @@ Mission
 		OrbitGoal
 		{
         body = Kerbin
-        minApA = RANDOM(70000,120000)
+        minApA = RANDOM(70000,250000)
         maxApA = ADD(minApA, 20000)
 		maxEccentricity = RANDOM(0.01, 0.08)
 		}
@@ -539,59 +699,102 @@ Mission
                 partName = longAntenna
                 partCount = 1
             }
-			
-		PartGoal
-			{
-				partName = GooExperiment
-				partCount = 1
-			}
 	}
 }
 
 Mission
 {
-    name = 18 - Random Probe High Orbit Mission
-    description = Bring a Probe into the defined High orbit 
-	category = PROBE
-    reward = 80000
+    name = 22 -  Mid Years Random Satellite High Orbit Mission.
+    description = Bring a Satellite into the defined High orbit 
+	category = SATELLITE
+    reward = 85000
 	randomized = true
 	repeatable = true
-	packageOrder = 18
+	packageOrder = 22
 
     SubMissionGoal
 	{
 		OrbitGoal
 		{
 		body = Kerbin
-		minApA = RANDOM(120000,250000)
+		minApA = RANDOM(250000,500000)
 		maxApA = ADD(minApA, 10000)
-		maxEccentricity = RANDOM(0.01, 0.07)
-		minInclination = RANDOM(0,15)
-		maxInclination = ADD(minInclination, 5)
+		maxEccentricity = RANDOM(0.01, 0.07)		
 		}
 		PartGoal
             {
                 partName = longAntenna
                 partCount = 1
             }
-			
-		PartGoal
-			{
-				partName = GooExperiment
-				partCount = 1
-			}
+					
 	}
 }
 
 Mission
 {
-    name = 19 - Random Manned EVA Mission (Mun)
-    description = Launch A manned Vessel Into Kerbin Orbit and Perform a EVA, Then Return To Kerbin Safely. 
-	category = MANNED, EVA
-    reward = 120000
+    name = 23 -  Mid Years Random Satellite Mun coverage.
+    description = Bring a Satellite into the defined Mun orbit 
+	category = SATELLITE
+    reward = 130000
 	randomized = true
 	repeatable = true
-	packageOrder = 19
+	packageOrder = 23
+
+    SubMissionGoal
+	{
+		OrbitGoal
+		{
+		body = Mun
+		minApA = RANDOM(80000,150000)
+		maxApA = ADD(minApA, 10000)
+		maxEccentricity = RANDOM(0.01, 0.07)		
+		}
+		PartGoal
+            {
+                partName = longAntenna
+                partCount = 1
+            }
+					
+	}
+}
+
+Mission
+{
+    name = 24 -  Mid Years Random Satellite Minmus coverage.
+    description = Bring a Satellite into the defined Minmus orbit 
+	category = SATELLITE
+    reward = 135000
+	randomized = true
+	repeatable = true
+	packageOrder = 24
+
+    SubMissionGoal
+	{
+		OrbitGoal
+		{
+		body = Mun
+		minApA = RANDOM(80000,150000)
+		maxApA = ADD(minApA, 10000)
+		maxEccentricity = RANDOM(0.01, 0.07)		
+		}
+		PartGoal
+            {
+                partName = longAntenna
+                partCount = 1
+            }
+					
+	}
+}
+
+Mission
+{
+    name = 25 - Mid Years Manned EVA Mission (Mun)
+    description = Launch A manned Vessel Into Kerbin Orbit and Perform a EVA, Then Return To Kerbin Safely. 
+	category = MANNED, EVA
+    reward = 140000
+	randomized = true
+	repeatable = true
+	packageOrder = 25
 
 	SubMissionGoal
 	{
@@ -599,8 +802,8 @@ Mission
 		OrbitGoal
 			{
 			body = Mun
-			minApA = RANDOM(50000,75000)
-			maxApA = ADD(minApA, 10000)
+			minPeA = RANDOM(50000,75000)
+			maxApA = ADD(minPeA, 10000)
 			crewCount = 1
 			}
 			
@@ -631,13 +834,13 @@ Mission
 	  
 Mission
 {
-    name = 20 - Random Mun Probe
+    name = 26 - Random Mun Probe
     description = Launch A Small Probe To The Mun At These Desired Parameters. 
 	category = ORBIT, PROBE
     reward = 120000
 	randomized = true
 	repeatable = true
-	packageOrder = 20
+	packageOrder = 26
 
 	SubMissionGoal
 	{
@@ -668,13 +871,13 @@ Mission
 
 Mission
 {
-    name = 21 - Random Minmus Probe
+    name = 27 - Random Minmus Probe
     description = Launch A Small Probe To Minmus At These Desired Parameters. 
 	category = ORBIT, PROBE
     reward = 110000
 	randomized = true
 	repeatable = true
-	packageOrder = 21
+	packageOrder = 27
 
 	SubMissionGoal
 	{
@@ -702,13 +905,13 @@ Mission
 
 Mission
 {
-    name = 22 - Random Eve Probe
+    name = 28 - Random Eve Probe
     description = Its Time To explore other Planets.  This probe is contracted to explore Eve.  
 	category = ORBIT, PROBE
     reward = 300000
 	randomized = true
 	repeatable = true
-	packageOrder = 22
+	packageOrder = 28
 
 	SubMissionGoal
 	{
@@ -739,13 +942,13 @@ Mission
 
 Mission
 {
-    name = 23 - Random Duna Probe
+    name = 29 - Random Duna Probe
     description = Its Time To explore other Planets.  This probe is contracted to explore Duna.  
 	category = ORBIT, PROBE
     reward = 300000
 	randomized = true
 	repeatable = true
-	packageOrder = 23
+	packageOrder = 29
 
 	SubMissionGoal
 	{
@@ -776,13 +979,13 @@ Mission
 
 Mission
 {
-    name = 24 - Random Dres Probe
+    name = 30 - Random Dres Probe
     description = Its Time To explore other Planets.  This probe is contracted to explore Dres.  
 	category = ORBIT, PROBE
     reward = 500000
 	randomized = true
 	repeatable = true
-	packageOrder = 24
+	packageOrder = 30
 
 	SubMissionGoal
 	{
@@ -813,13 +1016,13 @@ Mission
 
 Mission
 {
-    name = 25 - Random Moho Probe
+    name = 31 - Random Moho Probe
     description = Its Time To explore other Planets.  This probe is contracted to explore Moho.  
 	category = ORBIT, PROBE
     reward = 700000
 	randomized = true
 	repeatable = true
-	packageOrder = 25
+	packageOrder = 31
 
 	SubMissionGoal
 	{
@@ -850,13 +1053,13 @@ Mission
 
 Mission
 {
-    name = 26 - Random Jool Exploration Expedition
+    name = 32 - Random Jool Exploration Expedition
     description = This planet has so many moons that many expeditions might be needed to explore them.  The contract calls for an Orbit of Jool.. After that its up to you to decide where to go.  
 	category = ORBIT, PROBE
     reward = 600000
 	randomized = true
 	repeatable = true
-	packageOrder = 26
+	packageOrder = 32
 	
 	SubMissionGoal
 	{
@@ -885,13 +1088,13 @@ Mission
 
 Mission
 {
-    name = 27 - Launch Satellite Into High Orbit
+    name = 33 - Launch Satellite Into High Orbit
     description = Launch A Satellite Into High Orbit For Local Company 
 	category = SATELLITE
     reward = 90000
 	randomized = true
 	repeatable = true
-	packageOrder = 27
+	packageOrder = 33
 
 	SubMissionGoal
 	
@@ -919,13 +1122,13 @@ Mission
 
 Mission
 {
-    name = 28 - New Repair Mission 
+    name = 34 - New Repair Mission 
     description = Repair Mission.  You must have previously launched a vessel with the Repair Part on it to Finish This Vessel.
     reward = 60000
 	category = REPAIR
 	repeatable = true
 	requiresMission = 27 - Launch Satellite Into High Orbit
-	packageOrder = 28
+	packageOrder = 34
 
 	
 	SubMissionGoal
@@ -949,13 +1152,13 @@ Mission
 
 Mission
 {
-    name = 29 - Late years. Manned mission to Duna
+    name = 35 - Late years. Manned mission to Duna
     description = In the later years of our Space Program we decided to venture out of Kerbins SOI.  We are going to Duna my friends.
 	category = MANNED, LANDING
     reward = 650000
 	scienceReward = 10
 	repeatable = true
-	packageOrder = 29
+	packageOrder = 35
 	requiresMission = 15 - Mid Years Large Manned Mission Mun
 
 	LandingGoal
@@ -972,13 +1175,13 @@ Mission
 
 Mission
 {
-    name = 30 - Late years. Manned mission to Moho
+    name = 36 - Late years. Manned mission to Moho
     description = In the later years of our Space Program we decided to venture out of Kerbins SOI.  Moho is very close to our home star.  Lets get some boots on the ground!
 	category = MANNED, LANDING
     reward = 850000
 	scienceReward = 15
 	repeatable = true
-	packageOrder = 30
+	packageOrder = 36
 	requiresMission = 15 - Mid Years Large Manned Mission Mun
 
 	LandingGoal
@@ -995,13 +1198,13 @@ Mission
 
 Mission
 {
-    name = 31 - Late years. Manned mission to Dres
+    name = 37 - Late years. Manned mission to Dres
     description = In the later years of our Space Program we decided to venture out of Kerbins SOI.  Dres will be a difficult target to land on. But we need to try!
 	category = MANNED, LANDING
     reward = 1400000
 	scienceReward = 20
 	repeatable = true
-	packageOrder = 31
+	packageOrder = 37
 	requiresMission = 15 - Mid Years Large Manned Mission Mun
 
 	LandingGoal
@@ -1018,13 +1221,13 @@ Mission
 
 Mission
 {
-    name = 32 - Late years. Manned mission to Laythe
+    name = 38 - Late years. Manned mission to Laythe
     description = In the later years of our Space Program we decided to venture out of Kerbins SOI.  The moon Laythe seems to be an interesting place to try a landing.
 	category = MANNED, LANDING
     reward = 1000000
 	scienceReward = 25
 	repeatable = true
-	packageOrder = 32
+	packageOrder = 38
 	requiresMission = 15 - Mid Years Large Manned Mission Mun
 
 	LandingGoal
@@ -1041,13 +1244,13 @@ Mission
 
 Mission
 {
-    name = 33 - Late years. Manned mission to Eeloo
+    name = 39 - Late years. Manned mission to Eeloo
     description = In the later years of our Space Program we decided to venture out of Kerbins SOI.  This small piece of dirt at the end of our solar system looks interesting.  Time to go and see what it is!
 	category = MANNED, LANDING
     reward = 2500000
 	scienceReward = 50
 	repeatable = true
-	packageOrder = 33
+	packageOrder = 39
 	requiresMission = 15 - Mid Years Large Manned Mission Mun
 
 	LandingGoal
@@ -1064,13 +1267,13 @@ Mission
 
 Mission
 {
-	name = 34 - Late Years, research sun
+	name = 40 - Late Years, research sun
 	description = In the later years of our Space Program we decided to venture out of Kerbins SOI.  Time to find out what is up with the Sun. Send a Probe to study the effects of sun.  Get into solar orbit.
 	category = ORBIT
 	reward = 250000
 	scienceReward = 100
 	repeatable = true
-	packageOrder = 34
+	packageOrder = 40
 	requiresMission = 15 - Mid Years Large Manned Mission Mun
 	
 	OrbitGoal
