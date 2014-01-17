@@ -229,7 +229,7 @@ Fields:
 * maxLatitude: minimal latitude of landing spot (default: 0, ignored)
 * minLongitude: minimal longitude of landing spot (default: 0, ignored)
 * maxLongitude: maximal longitude of landing spot (default: 0, ignored)
-
+* biome: the name of the biome at which the vessel must land (default: "", ignored)
 
 ### ResourceGoal
 

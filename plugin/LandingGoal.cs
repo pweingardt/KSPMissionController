@@ -17,6 +17,8 @@ namespace MissionController
         public double minLongitude = 0.0;
         public double maxLongitude = 0.0;
 
+        public String biome = "";
+
         protected override List<Value> values(Vessel vessel, GameEvent events) {
 
             List<Value> values = new List<Value> ();
@@ -45,6 +47,15 @@ namespace MissionController
                     values.Add(new Value("Longitude", String.Format(MathTools.MinMaxValue, minLongitude, maxLongitude), 
                                      String.Format(MathTools.SingleDoubleValue, MathTools.calculateLongitude(vessel.longitude)), 
                                      MathTools.inMinMax(minLongitude, maxLongitude, MathTools.calculateLongitude(vessel.longitude))));
+                }
+            }
+
+            if (biome != "") {
+                if (vessel == null) {
+                    values.Add (new Value ("Biome", biome));
+                } else {
+                    CBAttributeMap.MapAttribute currentBiome = vessel.mainBody.BiomeMap.GetAtt (vessel.latitude * Math.PI / 180d, vessel.longitude * Math.PI / 180d);
+                    values.Add (new Value ("Biome", biome, currentBiome.name, biome == currentBiome.name));
                 }
             }
 
