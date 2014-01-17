@@ -33,13 +33,13 @@ namespace MissionController
                 {
                     style = styleGreenButton;
                 }
-                if (m.contractAvailable == manager.GetCurrentContract)
-                {
-                    if (GUILayout.Button(m.name, style, GUILayout.Width(450), GUILayout.Height(60)))
-                    {
-                        currentPreviewMission2 = manager.reloadMission(m, activeVessel);
-                    }
-                }
+                //if (m.contractAvailable == manager.GetCurrentContract)
+                //{
+                //    if (GUILayout.Button(m.name, style, GUILayout.Width(450), GUILayout.Height(60)))
+                //    {
+                //        currentPreviewMission2 = manager.reloadMission(m, activeVessel);
+                //    }
+                //}
             }
             GUILayout.EndScrollView();
             GUILayout.EndHorizontal();
@@ -71,6 +71,7 @@ namespace MissionController
                         currentMission = currentPreviewMission2;
                         currentPreviewMission2 = null;
                         packageWindow(false);
+                        showContractSelection = false;
                     }
 
                     
@@ -80,16 +81,16 @@ namespace MissionController
                 {
                     showContractSelection = false;
                 }
-                if (manager.GetCurrentContract != 0)
-                {
-                    if (GUILayout.Button("Decline Current Contract", styleButtonWordWrap))
-                    {
-                        manager.SetCurrentContract(0);
-                        showContractSelection = false;
-                        currentMission = null;
-                        Debug.Log("MCE*** CurrentContract Reset to 0: " + manager.GetCurrentContract);
-                    }
-                }
+                //if (manager.GetCurrentContract != 0)
+                //{
+                //    if (GUILayout.Button("Decline Current Contract", styleButtonWordWrap))
+                //    {
+                //        manager.SetCurrentContract(0);
+                //        showContractSelection = false;
+                //        currentMission = null;
+                //        Debug.Log("MCE*** CurrentContract Reset to 0: " + manager.GetCurrentContract);
+                //    }
+                //}
                 GUILayout.EndHorizontal();
                 
                       

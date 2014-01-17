@@ -176,7 +176,6 @@ namespace MissionController
         public double DateHired;
         public string statusKerbal;
 
-
         public HiredKerbals()
         {
         }

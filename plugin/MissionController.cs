@@ -12,7 +12,7 @@ using Toolbar;
 /// </summary>
 namespace MissionController
 {
-    [KSPAddonFixed(KSPAddon.Startup.SpaceCentre, false, typeof(MissionController))]
+    [KSPAddonFixed(KSPAddon.Startup.SpaceCentre, true, typeof(MissionController))]
 
     public partial class MissionController : MonoBehaviour
     {
@@ -407,6 +407,8 @@ namespace MissionController
             GUISave();
             manager.checkClockTiime();
             manager.findVeselWithRepairPart();
+            repairStation.repair = false;
+            repairStation.dooropen = false;
         }
 
         public void Awake()
@@ -954,15 +956,15 @@ namespace MissionController
             {
 
                 GUILayout.BeginHorizontal();
-                GUILayout.Box("Vessel Name",StyleBoxYellow, GUILayout.Width(350));
-                GUILayout.Box("Cost Returned", StyleBoxYellow, GUILayout.Width(100));
-                GUILayout.Box("Description", StyleBoxYellow, GUILayout.Width(300));
+                GUILayout.Box("Vessel Name", StyleBoxYellow, GUILayout.Width(350), GUILayout.Height(30));
+                GUILayout.Box("Cost Returned", StyleBoxYellow, GUILayout.Width(100), GUILayout.Height(30));
+                GUILayout.Box("Description", StyleBoxYellow, GUILayout.Width(300), GUILayout.Height(30));
                 GUILayout.EndHorizontal();
                 
                 GUILayout.BeginHorizontal();
-                GUILayout.Box(recycledName, GUILayout.Width(350));
-                GUILayout.Box("$ " + recycledCost.ToString("N2"), GUILayout.Width(100));
-                GUILayout.Box("  (" + recycledDesc + ")", GUILayout.Width(300));
+                GUILayout.Box(recycledName, GUILayout.Width(350), GUILayout.Height(30));
+                GUILayout.Box("$ " + recycledCost.ToString("N2"), GUILayout.Width(100), GUILayout.Height(30));
+                GUILayout.Box("  (" + recycledDesc + ")", GUILayout.Width(300), GUILayout.Height(30));
                 GUILayout.EndHorizontal();
             }           
 
@@ -1087,65 +1089,137 @@ namespace MissionController
 
             Status status = calculateStatus(currentMission, true, activeVessel);
             Mission mission = new Mission();
-            double rewardFinanced = (currentMission.reward * FinanceMode.currentloan) * PayoutLeveles.TechPayout;
-            double rewardFinancedHard = (currentMission.reward * FinanceMode.currentloan * PayoutLeveles.TechPayout) * .60;
-            double rewardnormal = currentMission.reward * PayoutLeveles.TechPayout;
-            double rewardHard = (currentMission.reward * PayoutLeveles.TechPayout) * .60;
+            
 
-
-            GUILayout.Box("Current Mission: " + mission.name, StyleBoxYellow,GUILayout.Width(600));
-            if (manager.budget < 0)
+            if (currentMission.IsContract != true)
             {
-                if (settings.gameMode == 0)
+                double rewardFinanced = (currentMission.reward * FinanceMode.currentloan) * PayoutLeveles.TechPayout;
+                double rewardFinancedHard = (currentMission.reward * FinanceMode.currentloan * PayoutLeveles.TechPayout) * .60;
+                double rewardnormal = currentMission.reward * PayoutLeveles.TechPayout;
+                double rewardHard = (currentMission.reward * PayoutLeveles.TechPayout) * .60;
+
+                GUILayout.Box("Current Mission: " + mission.name, StyleBoxYellow, GUILayout.Width(600),GUILayout.Height(30));
+                if (manager.budget < 0)
                 {
-                    GUILayout.Box("All goals accomplished. Deducted For Loans!", StyleBoxWhite, GUILayout.Width(600));
-                    GUILayout.BeginHorizontal();
-                    GUILayout.Box("Total Mission Payout:" + rewardFinanced.ToString("N2"),StyleBoxYellow, GUILayout.Width(300));
-                    GUILayout.Box("Total Science Paid: " + currentMission.scienceReward, StyleBoxYellow, GUILayout.Width(300));
-                    GUILayout.EndHorizontal();
+                    if (settings.gameMode == 0)
+                    {
+                        GUILayout.Box("All goals accomplished. Deducted For Loans!", StyleBoxWhite, GUILayout.Width(600),GUILayout.Height(30));
+                        GUILayout.BeginHorizontal();
+                        GUILayout.Box("Total Mission Payout: " + rewardFinanced.ToString("N2"), StyleBoxYellow, GUILayout.Width(300), GUILayout.Height(30));
+                        GUILayout.Box("Total Science Paid: " + currentMission.scienceReward, StyleBoxYellow, GUILayout.Width(300),GUILayout.Height(30));
+                        GUILayout.EndHorizontal();
+                    }
+                    if (settings.gameMode == 1)
+                    {
+                        GUILayout.Box("All Goals accomplished. Hardcore and Deducted Loans", StyleBoxWhite, GUILayout.Width(600),GUILayout.Height(30)); // .75 * .6 = .45
+                        GUILayout.BeginHorizontal();
+                        GUILayout.Box("Total Mission Payout: " + rewardFinancedHard.ToString("N2"), StyleBoxYellow, GUILayout.Width(300),GUILayout.Height(30));
+                        GUILayout.Box("Total Science Paid: " + currentMission.scienceReward, StyleBoxYellow, GUILayout.Width(300),GUILayout.Height(30));
+                        GUILayout.EndHorizontal();
+                    }
                 }
-                if (settings.gameMode == 1)
+                else
                 {
-                    GUILayout.Box("All Goals accomplished. Hardcore and Deducted Loans", StyleBoxWhite, GUILayout.Width(600)); // .75 * .6 = .45
-                    GUILayout.BeginHorizontal();
-                    GUILayout.Box("Total Mission Payout:" + rewardFinancedHard.ToString("N2"), StyleBoxYellow, GUILayout.Width(300));
-                    GUILayout.Box("Total Science Paid: " + currentMission.scienceReward, StyleBoxYellow, GUILayout.Width(300));
-                    GUILayout.EndHorizontal();
+                    if (settings.gameMode == 0)
+                    {
+                        GUILayout.Box("All goals accomplished. you can finish the mission now!", StyleBoxWhite, GUILayout.Width(600),GUILayout.Height(30));
+                        GUILayout.BeginHorizontal();
+                        GUILayout.Box("Total Mission Payout: " + rewardnormal.ToString("N2"), StyleBoxYellow, GUILayout.Width(300),GUILayout.Height(30));
+                        GUILayout.Box("Total Science Paid: " + currentMission.scienceReward, StyleBoxYellow, GUILayout.Width(300),GUILayout.Height(30));
+                        GUILayout.EndHorizontal();
+                    }
+                    if (settings.gameMode == 1)
+                    {
+                        GUILayout.Box("All goals accomplished. you can finish the mission now: HardCore Mode 40 % Reduction!", StyleBoxWhite, GUILayout.Width(600));
+                        GUILayout.BeginHorizontal();
+                        GUILayout.Box("Total Mission Payout: " + rewardHard.ToString("N2"), StyleBoxYellow, GUILayout.Width(300),GUILayout.Height(30));
+                        GUILayout.Box("Total Science Paid: " + currentMission.scienceReward, StyleBoxYellow, GUILayout.Width(300),GUILayout.Height(30));
+                        GUILayout.EndHorizontal();
+                    }
                 }
+
+                GUILayout.BeginHorizontal();
+                if (GUILayout.Button("Finish And Save The Mission Results", styleButtonWordWrap, GUILayout.Width(275)))
+                {
+                    manager.finishMission(currentMission, activeVessel, status.events);
+                    hiddenGoals = new List<MissionGoal>();
+                    currentMission = null;
+                    showRandomWindow = false;                   
+                }
+                if (GUILayout.Button("X", styleButtonWordWrap, GUILayout.Width(25)))
+                {
+                    currentMission = null;
+                    showRandomWindow = false;
+                }
+                GUILayout.EndHorizontal();
             }
             else
             {
-                if (settings.gameMode == 0)
+                double comppayout = Tools.GetValueDefault(Tools.MCSettings.GetNode(manager.GetCompanyInfoString), "payout", 1.0);
+                double compscience = Tools.GetValueDefault(Tools.MCSettings.GetNode(manager.GetCompanyInfoString), "science", 1.0);
+
+                double rewardFinanced = currentMission.reward * FinanceMode.currentloan * comppayout * PayoutLeveles.TechPayout;
+                double rewardFinancedHard = currentMission.reward * FinanceMode.currentloan * comppayout * PayoutLeveles.TechPayout * .60;
+                double rewardnormal = currentMission.reward * PayoutLeveles.TechPayout * comppayout;
+                double rewardHard = currentMission.reward * PayoutLeveles.TechPayout * comppayout * .60;
+                double ScienceReward = currentMission.scienceReward * compscience;
+
+                GUILayout.Box("Current Contract: " + mission.name, StyleBoxYellow, GUILayout.Width(600),GUILayout.Height(30));
+                if (manager.budget < 0)
                 {
-                    GUILayout.Box("All goals accomplished. you can finish the mission now!", StyleBoxWhite, GUILayout.Width(600));
-                    GUILayout.BeginHorizontal();
-                    GUILayout.Box("Total Mission Payout:" + rewardnormal.ToString("N2"), StyleBoxYellow, GUILayout.Width(300));
-                    GUILayout.Box("Total Science Paid: " + currentMission.scienceReward, StyleBoxYellow, GUILayout.Width(300));
-                    GUILayout.EndHorizontal();
+                    if (settings.gameMode == 0)
+                    {
+                        GUILayout.Box("Contract accomplished. Deducted For Loans!", StyleBoxWhite, GUILayout.Width(600),GUILayout.Height(30));
+                        GUILayout.BeginHorizontal();
+                        GUILayout.Box("Contract Payout: " + rewardFinanced.ToString("N2"), StyleBoxYellow, GUILayout.Width(300),GUILayout.Height(30));
+                        GUILayout.Box("Science Learned: " + ScienceReward, StyleBoxYellow, GUILayout.Width(300), GUILayout.Height(30));
+                        GUILayout.EndHorizontal();
+                    }
+                    if (settings.gameMode == 1)
+                    {
+                        GUILayout.Box("Contract accomplished. Hardcore and Deducted Loans", StyleBoxWhite, GUILayout.Width(600),GUILayout.Height(30)); // .75 * .6 = .45
+                        GUILayout.BeginHorizontal();
+                        GUILayout.Box("Contract Payout: " + rewardFinancedHard.ToString("N2"), StyleBoxYellow, GUILayout.Width(300),GUILayout.Height(30));
+                        GUILayout.Box("Science Learned: " + ScienceReward, StyleBoxYellow, GUILayout.Width(300),GUILayout.Height(30));
+                        GUILayout.EndHorizontal();
+                    }
                 }
-                if (settings.gameMode == 1)
+                else
                 {
-                    GUILayout.Box("All goals accomplished. you can finish the mission now: HardCore Mode 40 % Reduction!", StyleBoxWhite, GUILayout.Width(600));
-                    GUILayout.BeginHorizontal();
-                    GUILayout.Box("Total Mission Payout:" + rewardHard.ToString("N2"), StyleBoxYellow, GUILayout.Width(300));
-                    GUILayout.Box("Total Science Paid: " + currentMission.scienceReward, StyleBoxYellow, GUILayout.Width(300));
-                    GUILayout.EndHorizontal();
+                    if (settings.gameMode == 0)
+                    {
+                        GUILayout.Box("Contract accomplished. you can finish the mission now!", StyleBoxWhite, GUILayout.Width(600),GUILayout.Height(30));
+                        GUILayout.BeginHorizontal();
+                        GUILayout.Box("Contract Payout: " + rewardnormal.ToString("N2"), StyleBoxYellow, GUILayout.Width(300),GUILayout.Height(30));
+                        GUILayout.Box("Science Learned: " + ScienceReward, StyleBoxYellow, GUILayout.Width(300), GUILayout.Height(30));
+                        GUILayout.EndHorizontal();
+                    }
+                    if (settings.gameMode == 1)
+                    {
+                        GUILayout.Box("Contract accomplished. you can finish the mission now: HardCore Mode 40 % Reduction!", StyleBoxWhite, GUILayout.Width(600),GUILayout.Height(30));
+                        GUILayout.BeginHorizontal();
+                        GUILayout.Box("Contract Payout:" + rewardHard.ToString("N2"), StyleBoxYellow, GUILayout.Width(300),GUILayout.Height(30));
+                        GUILayout.Box("Scinece Learned: " + ScienceReward, StyleBoxYellow, GUILayout.Width(300), GUILayout.Height(30));
+                        GUILayout.EndHorizontal();
+                    }
                 }
-            }
-            GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Finish And Save The Mission Results", styleButtonWordWrap, GUILayout.Width(275)))
-            {
-                manager.finishMission(currentMission, activeVessel, status.events);
-                hiddenGoals = new List<MissionGoal>();
-                currentMission = null;
-                showRandomWindow = false;
-            }
-            if (GUILayout.Button("X", styleButtonWordWrap, GUILayout.Width(25)))
-            {
-                currentMission = null;
-                showRandomWindow = false;
-            }
-            GUILayout.EndHorizontal();
+                GUILayout.BeginHorizontal();
+                if (GUILayout.Button("Finish And Save The Mission Results", styleButtonWordWrap, GUILayout.Width(275)))
+                {
+                    manager.finishMission(currentMission, activeVessel, status.events);
+                    hiddenGoals = new List<MissionGoal>();
+                    currentMission = null;
+                    showRandomWindow = false;
+                    manager.SetCurrentContract(0);                    
+                }
+                if (GUILayout.Button("X", styleButtonWordWrap, GUILayout.Width(25)))
+                {
+                    currentMission = null;
+                    showRandomWindow = false;
+                }
+                GUILayout.EndHorizontal();
+            }                                          
+            
             GUILayout.EndVertical();
             if (!Input.GetMouseButtonDown(1))
             {
@@ -1280,11 +1354,8 @@ namespace MissionController
             if (showMissionStatusWindow == true)
                 showContractStatusWindow = false;
 
-
             Status status = calculateStatus(currentMission, true, activeVessel);
-
-            
-
+          
             GUI.skin = HighLogic.Skin;
             GUILayout.BeginVertical();
             scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.Width(350));
@@ -1323,15 +1394,8 @@ namespace MissionController
             if (GUILayout.Button("Package", styleButtonWordWrap, GUILayout.Width(100)))
             {
                 createFileBrowser("Contract", selectMissionPackage);
-            }            
-
-            if (currentPackage != null)
-            {
-                if (GUILayout.Button("Select New Mission", styleButtonWordWrap))
-                {
-                    packageWindow(true);
-                }
             }
+            
             if (GUILayout.Button("X", styleButtonWordWrap, GUILayout.Width(25)))
             {
                 showMissionStatusWindow = false;
@@ -1374,18 +1438,7 @@ namespace MissionController
             if (GUILayout.Button("Contracts", styleButtonWordWrap, GUILayout.Width(100)))
             {
                 selectContracts("Plugins/PluginData/MissionController/MCContracts.cfg");
-            }
-
-            if (manager.GetCurrentContract != 0)
-            {
-                if (GUILayout.Button("Decline Current Contract", styleButtonWordWrap))
-                {
-                    manager.SetCurrentContract(0);
-                    showContractSelection = false;
-                    currentMission = null;
-                    Debug.Log("MCE*** CurrentContract Reset to 0: " + manager.GetCurrentContract);
-                }
-            }
+            }           
 
             if (GUILayout.Button("X", styleButtonWordWrap, GUILayout.Width(25)))
             {

@@ -160,13 +160,7 @@ namespace MissionController
 
             return m;
         }
-
-        private int RandomNumber(int min, int max)
-        {
-            System.Random random = new System.Random();
-            return random.Next(min, max);
-        }        
-
+      
         /// <summary>
         /// Returns the current space program.
         /// </summary>
@@ -286,7 +280,9 @@ namespace MissionController
 
 
         }
-
+        /// <summary>
+        /// This is the randomizer for Company Info.  Company Amounts is limited by this check.  The values can be changed in MCConfig though!
+        /// </summary>
         public void StartCompanyRandomizer()
         {
             companyListRandom = new Randomizator3000.Item<string>[4];
@@ -314,10 +310,11 @@ namespace MissionController
         {
             SetCurrentContract(Randomizator3000.PickOne<int>(contractslist));
             Debug.Log(GetCurrentContract + "This is current Contract Type Chosen by Random System");
-            saveProgram();
-
         }
 
+        /// <summary>
+        /// Does the Random Check For Company Info. Then sets it to save file
+        /// </summary>
         public void setCompanyName()
         {
             SetCompanyInfoString(Randomizator3000.PickOne<string>(companyListRandom));
@@ -333,11 +330,7 @@ namespace MissionController
             GUILayout.Box("" + GetCurrentContract, GUILayout.Width(225), GUILayout.Height(30));
             GUILayout.EndHorizontal();
         }
-
-        /// <summary>
-        /// This is used to set the next time a contract 
-        /// will be rerolled.  in seconds.
-        /// </summary>
+       
         public void SetClockCountdown()
         {
             if (currentProgram.nextTimeCheck == 0)
@@ -366,7 +359,6 @@ namespace MissionController
                 currentProgram.nextTimeCheck = 0;
                 SetClockCountdown();
                 setCompanyName();
-                saveProgram();
                 Debug.Log(GetCurrentContract + " This is current Contract Type Chosen by Random System On Date: " + MathTools.secondsIntoRealTime(currentProgram.nextTimeCheck));
             }
         }
@@ -396,7 +388,9 @@ namespace MissionController
             }
             
         }
-
+        /// <summary>
+        /// This choses the Repair Vessel target.. The random part does not really work yet have to work on it. Think it only picks the first value in list.
+        /// </summary>
         public void chooseVesselRepairFromList()
         {
             System.Random rnd = new System.Random();
@@ -458,6 +452,9 @@ namespace MissionController
            return false;
         }
 
+        /// <summary>
+        /// displays kerbalList Info For Hired Kerbals.
+        /// </summary>
         public void displayKerbalList()
         {
             foreach (HiredKerbals hk in currentProgram.hiredkerbal)
@@ -471,6 +468,9 @@ namespace MissionController
             }
         }
 
+        /// <summary>
+        /// displays the Mission List that is stored in save file
+        /// </summary>
         public void displayEndedMissionList()
         {
             foreach (MissionStatus ms in currentProgram.completedMissions)
@@ -484,6 +484,9 @@ namespace MissionController
             }
         }
 
+        /// <summary>
+        /// Displays current hired Kerbals in a list. this is the pop up that says you hired a kerbal!
+        /// </summary>
         public void displayCurrentHiredList()
         {
             foreach (CurrentHires ch in currentHires)
@@ -495,6 +498,9 @@ namespace MissionController
             }
         }
 
+        /// <summary>
+        /// Displays Current Ships Purchased for missions and contracts! 
+        /// </summary>
         public void displayShipList()
         {
             foreach (VesselsMade vm in currentProgram.vesselsMade)
@@ -578,12 +584,14 @@ namespace MissionController
                     reward(m.reward);
                     totalReward(m.reward);
                     sciencereward(m.scienceReward);
+                    Debug.Log("rewarded Contract Mission Award");
                 }
-                else
+                if (m.IsContract == true)
                 {                                       
                     contractReward(m.reward);
                     totalReward(m.reward);
-                    sciencereward(m.scienceReward);
+                    Contractsciencereward(m.scienceReward);
+                    Debug.Log("Rewared Normal Mission Award");
                 }
                     
                 
@@ -783,11 +791,6 @@ namespace MissionController
         }
         // End Research Recycle
 
-        /// <summary>
-        /// Research For Fuels
-        /// Set Fuels True
-        /// Set Switch Fuels to 1
-        /// </summary>
         public bool ResearchFuels
         {
             get { return currentProgram.VFuels; }
@@ -818,11 +821,18 @@ namespace MissionController
         }
         // End Research Fuels
 
+        /// <summary>
+        /// Get the current contract value.  this is what determines what contract is available.
+        /// </summary>
         public int GetCurrentContract
         {
             get { return currentProgram.currentcontractType; }
         }
-
+        /// <summary>
+        /// sets the Random Contract number to save file.  This is what determines what contract is available. 0 sets the contracts to not be shown.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public int SetCurrentContract(int value)
         {
             return currentProgram.currentcontractType = value;
@@ -983,8 +993,7 @@ namespace MissionController
                     value = (int)((double)value * mult);
                 }
                 latestExpenses = -value;
-                currentProgram.money += (int)((double)value * PayoutLeveles.TechPayout);
-                
+                currentProgram.money += (int)((double)value * PayoutLeveles.TechPayout);                
             }
             return currentProgram.money;
         }
@@ -1000,15 +1009,16 @@ namespace MissionController
 
                     double mult = 1.0;
                     if (manager.budget < 0)
+                    {
                         mult *= FinanceMode.currentloan;
+                    }
                     if (settings.gameMode == 1)
+                    {
                         mult *= 0.6;
-                    value = (int)((double)value * mult * comppayout);
+                        value = (int)((double)value * mult);
+                    }
                 }
-                latestExpenses = -value;
-                currentProgram.money += (int)((double)value * PayoutLeveles.TechPayout);
-                currentProgram.totalMoney += (int)((double)value * PayoutLeveles.TechPayout);
-
+                currentProgram.money += (int)((double)value * comppayout * PayoutLeveles.TechPayout);
             }
             return currentProgram.money;
         }
@@ -1027,10 +1037,14 @@ namespace MissionController
                 {
                     double mult = 1.0;
                     if (manager.budget < 0)
+                    {
                         mult *= FinanceMode.currentloan;
+                    }
                     if (settings.gameMode == 1)
+                    {
                         mult *= 0.6;
-                    value = (int)((double)value * mult);
+                        value = (int)((double)value * mult);
+                    }
                 }
                 currentProgram.totalMoney += (int)((double)value * PayoutLeveles.TechPayout);
             }

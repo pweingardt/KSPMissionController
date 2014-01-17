@@ -106,18 +106,18 @@ namespace MissionController
 
             if (GUILayout.Button("Set Vessel Repair To Save", styleButtonWordWrap))
             {
-                manager.chooseVesselRepairFromList();                                      
-            }          
+                manager.chooseVesselRepairFromList();
+            }
 
-            //if (GUILayout.Button("Reset Kerbals", styleButtonWordWrap))
-            //{
-            //    manager.addHiredKerbals();
-            //}
+            if (GUILayout.Button("Show Work Window (Finish Mission)", styleButtonWordWrap))
+            {
+                showRandomWindow = !showRandomWindow;
+            }           
 
-            //if (GUILayout.Button("CheckHired Kerbals", styleButtonWordWrap))
-            //{
-            //    manager.isKerbalHired();
-            //}
+            if (GUILayout.Button("CheckHired Kerbals", styleButtonWordWrap))
+            {
+                manager.isKerbalHired();
+            }
 
             if (GUILayout.Button("Save Settings", styleButtonWordWrap))
             {

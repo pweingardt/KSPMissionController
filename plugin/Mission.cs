@@ -36,9 +36,20 @@ namespace MissionController
         /// </summary>
         public int reward = 100;
 
+        /// <summary>
+        /// Displays the vessel name for Repair Missions See IsRepair For other checks!
+        /// </summary>
         public bool vesselName = false;
 
+        /// <summary>
+        /// This helps Hide contracts from the Regular Missions
+        /// </summary>
         public bool IsContract = false;
+
+        /// <summary>
+        /// checks if repair mission if so, another check is made to see if Vessel Has RepairParts.  If both are true Repair Contract Will Show.
+        /// </summary>
+        public bool IsRepair = false;
 
         /// <summary>
         /// science reward for finishing the mission
@@ -72,6 +83,9 @@ namespace MissionController
         /// </summary>
         public int packageOrder = 1000;
 
+        /// <summary>
+        /// Sets the contract Number that the randomizer checks for.  Each contract can only be 1 number. If repeat both contracts will show at same time, no matter what.  Limited by Randomizer weight System.
+        /// </summary>
         public int contractAvailable = 0;
 
         /// <summary>

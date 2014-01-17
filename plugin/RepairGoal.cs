@@ -56,6 +56,7 @@ namespace MissionController
                 if (currentRepair == 0)
                 {
                     repair = false;
+                    dooropen = false;
                 }
             }
         }
@@ -65,10 +66,7 @@ namespace MissionController
 
         public class RepairGoal : MissionGoal
         {
-            public RepairGoal()
-            {
-                this.vesselIndenpendent = true;
-            }
+            
             Manager m = new Manager();
 
             protected override List<Value> values(Vessel vessel, GameEvent ev)

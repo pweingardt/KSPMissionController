@@ -36,11 +36,7 @@ namespace MissionController
         /// <summary>
         /// The minimal crew count needed for this mission goal
         /// </summary>
-        public int crewCount;
-
-        /// <summary>
-        /// Use this to set the mission not to have any crew
-        /// </summary>
+        public int crewCount;      
 
         /// <summary>
         /// If true, the vessel needs to be throttled down in order to finish this mission goal
