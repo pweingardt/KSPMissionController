@@ -32,7 +32,7 @@ namespace MissionController
             GUILayout.Space(20);
 
             GUILayout.BeginHorizontal();
-            GUILayout.Box("Space Program expenditure's ",StyleBoxYellow, GUILayout.Width(300), GUILayout.Height(25));            
+            GUILayout.Box("Space Program Expenditures ",StyleBoxYellow, GUILayout.Width(300), GUILayout.Height(25));
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
@@ -46,7 +46,7 @@ namespace MissionController
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-            GUILayout.Box(" Total Expenditure's: ", StyleBoxWhite, GUILayout.Height(30));
+            GUILayout.Box(" Total Expenditures: ", StyleBoxWhite, GUILayout.Height(30));
             GUILayout.Box(CurrencySuffix + totalexpenditures.ToString("N2"), StyleBoxGreen, GUILayout.Width(110), GUILayout.Height(30));
             GUILayout.EndHorizontal();
 
