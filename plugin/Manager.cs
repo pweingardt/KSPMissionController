@@ -763,7 +763,7 @@ namespace MissionController
         /// <summary>
         /// Retuns Total Spent On Vehicle Launches
         /// </summary>
-        public int TotalSpentVechicles
+        public int TotalSpentVehicles
         {
             get { return currentProgram.totalSpentVessels; }
         }

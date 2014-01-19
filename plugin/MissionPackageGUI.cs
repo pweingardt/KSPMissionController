@@ -45,7 +45,7 @@ namespace MissionController
             showFinishedMissions = GUILayout.Toggle(showFinishedMissions, "Show Finished");
             GUILayout.EndVertical();
             GUILayout.BeginVertical();
-            showUnavailableMissions = GUILayout.Toggle(showUnavailableMissions, "Show Unavailalbe");
+            showUnavailableMissions = GUILayout.Toggle(showUnavailableMissions, "Show Unavailable");
             GUILayout.EndVertical();
             GUILayout.EndHorizontal();
 
