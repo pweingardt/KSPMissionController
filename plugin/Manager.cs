@@ -20,6 +20,8 @@ namespace MissionController
 
         Randomizator3000.Item<int>[] contractslist;
 
+        Randomizator3000.Item<int>[] contractslist2;
+
         Randomizator3000.Item<string>[] companyListRandom;
 
         private SpaceProgram spaceProgram;
@@ -255,28 +257,56 @@ namespace MissionController
         /// The higher the weight the more chance to select that option.
         /// As long as = 100 in weights in total.
         /// </summary>
-        public void StartRandomsystem()
+        public void StartContractType1Random()
         {
-            contractslist = new Randomizator3000.Item<int>[5];
+            contractslist = new Randomizator3000.Item<int>[4];
             contractslist[0] = new Randomizator3000.Item<int>();
-            contractslist[0].weight = 20;
+            contractslist[0].weight = 65;
             contractslist[0].value = 0;
 
             contractslist[1] = new Randomizator3000.Item<int>();
-            contractslist[1].weight = 10;
+            contractslist[1].weight = 5;
             contractslist[1].value = 1;
 
             contractslist[2] = new Randomizator3000.Item<int>();
-            contractslist[2].weight = 30;
+            contractslist[2].weight = 15;
             contractslist[2].value = 2;
 
             contractslist[3] = new Randomizator3000.Item<int>();
-            contractslist[3].weight = 20;
-            contractslist[3].value = 3;
+            contractslist[3].weight = 10;
+            contractslist[3].value = 3;            
 
-            contractslist[4] = new Randomizator3000.Item<int>();
-            contractslist[4].weight = 20;
-            contractslist[4].value = 4;
+        }
+        public void StartContractType2Random()
+        {
+            contractslist2 = new Randomizator3000.Item<int>[7];
+            contractslist2[0] = new Randomizator3000.Item<int>();
+            contractslist2[0].weight = 40;
+            contractslist2[0].value = 0;
+
+            contractslist2[1] = new Randomizator3000.Item<int>();
+            contractslist2[1].weight = 20;
+            contractslist2[1].value = 5;
+
+            contractslist2[2] = new Randomizator3000.Item<int>();
+            contractslist2[2].weight = 15;
+            contractslist2[2].value = 6;
+
+            contractslist2[3] = new Randomizator3000.Item<int>();
+            contractslist2[3].weight = 10;
+            contractslist2[3].value = 7;
+
+            contractslist2[4] = new Randomizator3000.Item<int>();
+            contractslist2[4].weight = 5;
+            contractslist2[4].value = 8;
+
+            contractslist2[5] = new Randomizator3000.Item<int>();
+            contractslist2[5].weight = 5;
+            contractslist2[5].value = 9;
+
+            contractslist2[6] = new Randomizator3000.Item<int>();
+            contractslist2[6].weight = 5;
+            contractslist2[6].value = 10;
 
 
         }
@@ -285,7 +315,7 @@ namespace MissionController
         /// </summary>
         public void StartCompanyRandomizer()
         {
-            companyListRandom = new Randomizator3000.Item<string>[4];
+            companyListRandom = new Randomizator3000.Item<string>[6];
             companyListRandom[0] = new Randomizator3000.Item<string>();
             companyListRandom[0].weight = 25;
             companyListRandom[0].value = "COMA";
@@ -301,6 +331,14 @@ namespace MissionController
             companyListRandom[3] = new Randomizator3000.Item<string>();
             companyListRandom[3].weight = 25;
             companyListRandom[3].value = "COMD";
+
+            companyListRandom[4] = new Randomizator3000.Item<string>();
+            companyListRandom[4].weight = 15;
+            companyListRandom[4].value = "COME";
+
+            companyListRandom[5] = new Randomizator3000.Item<string>();
+            companyListRandom[5].weight = 10;
+            companyListRandom[5].value = "COMF";
         }
 
         /// <summary>
@@ -309,7 +347,12 @@ namespace MissionController
         public void setContractType()
         {
             SetCurrentContract(Randomizator3000.PickOne<int>(contractslist));
-            Debug.Log(GetCurrentContract + "This is current Contract Type Chosen by Random System");
+            Debug.Log(GetCurrentContract + "This is current Contract Type 1 Chosen by Random System");
+        }
+        public void setContractType2()
+        {
+            SetCurrentContract2(Randomizator3000.PickOne<int>(contractslist2));
+            Debug.Log(GetCurrentContract2 + "This is current Contract Type 2 Chosen by Random System");
         }
 
         /// <summary>
@@ -341,7 +384,7 @@ namespace MissionController
                 currentProgram.nextTimeCheck = currentTime + 86400;               
                 chooseVesselRepairFromList();
                 Debug.Log("next contract check on date: " + MathTools.secondsIntoRealTime(currentProgram.nextTimeCheck));
-            }
+            }          
         }
         /// <summary>
         /// checks the saved time vs. the current universal time to
@@ -353,14 +396,17 @@ namespace MissionController
             currentTime = Planetarium.GetUniversalTime();
             if (currentTime >= currentProgram.nextTimeCheck)
             {
-                StartRandomsystem();
+                StartContractType1Random();
                 StartCompanyRandomizer();
                 setContractType();
+                StartContractType2Random();
+                setContractType2();
                 currentProgram.nextTimeCheck = 0;
                 SetClockCountdown();
                 setCompanyName();
-                Debug.Log(GetCurrentContract + " This is current Contract Type Chosen by Random System On Date: " + MathTools.secondsIntoRealTime(currentProgram.nextTimeCheck));
-            }
+                Debug.Log(GetCurrentContract + " This is current Contract Type 1 Chosen by Random System On Date: " + MathTools.secondsIntoRealTime(currentProgram.nextTimeCheck));
+                Debug.Log(GetCurrentContract2 + " This is current Contract Type 2 Chosen by Random System On Date: " + MathTools.secondsIntoRealTime(currentProgram.nextTimeCheck));
+            }           
         }
 
         /// <summary>
@@ -834,6 +880,14 @@ namespace MissionController
         {
             get { return currentProgram.currentcontractType; }
         }
+        public int GetCurrentContract1
+        {
+            get { return currentProgram.currentcontractytpe2; }
+        }
+        public int GetCurrentContract2
+        {
+            get { return currentProgram.currentcontracttype3; }
+        }
         /// <summary>
         /// sets the Random Contract number to save file.  This is what determines what contract is available. 0 sets the contracts to not be shown.
         /// </summary>
@@ -842,6 +896,14 @@ namespace MissionController
         public int SetCurrentContract(int value)
         {
             return currentProgram.currentcontractType = value;
+        }
+        public int SetCurrentContract1(int value)
+        {
+            return currentProgram.currentcontractytpe2 = value;
+        }
+        public int SetCurrentContract2(int value)
+        {
+            return currentProgram.currentcontracttype3 = value;
         }
         
         /// <summary>

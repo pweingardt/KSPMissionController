@@ -24,6 +24,8 @@ namespace MissionController
         public bool missionlevel2 = false;
         public bool missionlevel3 = false;
         public int currentcontractType = 0;
+        public int currentcontractytpe2 = 0;
+        public int currentcontracttype3 = 0;
         public double nextTimeCheck = 0;
         public string showRepairVesselName = "NONE";
         public string showCompanyAvailable = "COMA";
