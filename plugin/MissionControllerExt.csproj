@@ -102,6 +102,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Tools.cs" />
+    <Compile Include="userContractWindowGUI.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

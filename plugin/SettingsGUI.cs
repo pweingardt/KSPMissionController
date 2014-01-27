@@ -95,16 +95,16 @@ namespace MissionController
 
             }
 
-            if (GUILayout.Button("Set Values Randoms + Find Vessel", styleButtonWordWrap))
-            {
-                manager.StartContractType1Random();
-                manager.StartContractType2Random();
-                manager.StartCompanyRandomizer();
-                manager.setContractType();
-                manager.setContractType2();
-                manager.setCompanyName();
-                manager.findVeselWithRepairPart();
-            }
+            //if (GUILayout.Button("Set Values Randoms + Find Vessel", styleButtonWordWrap))
+            //{
+            //    manager.StartContractType1Random();
+            //    manager.StartContractType2Random();
+            //    manager.StartCompanyRandomizer();
+            //    manager.setContractType();
+            //    manager.setContractType2();
+            //    manager.setCompanyName();
+            //    manager.findVeselWithRepairPart();
+            //}
 
             //if (GUILayout.Button("Set Vessel Repair To Save", styleButtonWordWrap))
             //{

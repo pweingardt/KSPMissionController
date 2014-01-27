@@ -94,6 +94,7 @@ namespace MissionController
         private Rect kerbalLogBookHirePostion;
         private Rect shipLogBook;
         private Rect ContractWindowStatus;
+        private Rect userContractWindowStatus;
                
         Rect VabBudgetWin;
         Rect VabBudgetWin1;
@@ -124,13 +125,14 @@ namespace MissionController
         private bool showRevertWindow = false;
         private bool showconstructionwindow = false;
         private bool showbudgetamountwindow = false;
-        private bool hidetoolbarsviews = true;
+        private bool hideMCtoolbarsviews = true;
         private bool showVabShipWindow = false;
         private bool showMissionStatusWindow = false;
         private bool showContractStatusWindow = false;
         private bool showKerbalLogbookHire = false;
         private bool showMissionLogbookWindow = false;
         private bool showShipLogBookWindow = false;
+        private bool showUserContractWindowStatus = false;
                
         public string recycledName = "";
         public string recycledDesc = "";
@@ -387,7 +389,7 @@ namespace MissionController
             Hidetoolbars.ToolTip = "Hide MCE Display Windows";
             Hidetoolbars.OnClick += (e) =>
             {
-                hidetoolbarsviews = !hidetoolbarsviews;
+                hideMCtoolbarsviews = !hideMCtoolbarsviews;
             };
 
             GUILoad();
@@ -711,7 +713,7 @@ namespace MissionController
                 showconstructionwindow = true;
             }
 
-            if (showconstructionwindow && hidetoolbarsviews)
+            if (showconstructionwindow && hideMCtoolbarsviews)
             {
                 VesselResources res = new VesselResources(activeVessel);
                 if (HighLogic.LoadedScene.Equals(GameScenes.EDITOR))
@@ -720,15 +722,15 @@ namespace MissionController
                 }
                 if (HighLogic.LoadedScene.Equals(GameScenes.FLIGHT))
                 {
-                    VabShipBuildList1 = GUILayout.Window(898992, VabShipBuildList1, drawconstructioncostwindow, "SV : " + CurrencySuffix + res.sum().ToString("N2"), (res.sum() > manager.budget ? styleRedButtonCenter : styleGreenButtonCenter), GUILayout.MinHeight(20), GUILayout.MinWidth(125));
+                    VabShipBuildList1 = GUILayout.Window(898991, VabShipBuildList1, drawconstructioncostwindow, "SV : " + CurrencySuffix + res.sum().ToString("N2"), (res.sum() > manager.budget ? styleRedButtonCenter : styleGreenButtonCenter), GUILayout.MinHeight(20), GUILayout.MinWidth(125));
                 }
                 if (HighLogic.LoadedScene.Equals(GameScenes.SPH))
                 {
-                    VabShipBuildList2 = GUILayout.Window(898992, VabShipBuildList2, drawconstructioncostwindow, "Ship Value: " + CurrencySuffix + res.sum().ToString("N2"), (res.sum() > manager.budget ? styleRedButtonCenter : styleGreenButtonCenter), GUILayout.MinHeight(20), GUILayout.MinWidth(175));
+                    VabShipBuildList2 = GUILayout.Window(898990, VabShipBuildList2, drawconstructioncostwindow, "Ship Value: " + CurrencySuffix + res.sum().ToString("N2"), (res.sum() > manager.budget ? styleRedButtonCenter : styleGreenButtonCenter), GUILayout.MinHeight(20), GUILayout.MinWidth(175));
                 }
             }
 
-            if (showbudgetamountwindow && hidetoolbarsviews)
+            if (showbudgetamountwindow && hideMCtoolbarsviews)
             {
                 if (HighLogic.LoadedScene.Equals(GameScenes.EDITOR))
                 {
@@ -736,89 +738,93 @@ namespace MissionController
                 }
                 if (HighLogic.LoadedScene.Equals(GameScenes.SPACECENTER))
                 {
-                    VabBudgetWin1 = GUILayout.Window(898993, VabBudgetWin1, drawbudgetwindow, "Current Budget: " + CurrencySuffix + manager.budget.ToString("N2"), styleGreenButtonCenter, GUILayout.MinHeight(20), GUILayout.MinWidth(200));
+                    VabBudgetWin1 = GUILayout.Window(898994, VabBudgetWin1, drawbudgetwindow, "Current Budget: " + CurrencySuffix + manager.budget.ToString("N2"), styleGreenButtonCenter, GUILayout.MinHeight(20), GUILayout.MinWidth(200));
                 }
                 if (HighLogic.LoadedScene.Equals(GameScenes.FLIGHT))
                 {
-                    VabBudgetWin2 = GUILayout.Window(898993, VabBudgetWin2, drawbudgetwindow, "CB " + CurrencySuffix + manager.budget.ToString("N2"), styleGreenButtonCenter, GUILayout.MinHeight(20), GUILayout.MinWidth(125));
+                    VabBudgetWin2 = GUILayout.Window(898995, VabBudgetWin2, drawbudgetwindow, "CB " + CurrencySuffix + manager.budget.ToString("N2"), styleGreenButtonCenter, GUILayout.MinHeight(20), GUILayout.MinWidth(125));
                 }
                 if (HighLogic.LoadedScene.Equals(GameScenes.SPH))
                 {
-                    VabBudgetWin3 = GUILayout.Window(898993, VabBudgetWin3, drawbudgetwindow, "Current Budget: " + CurrencySuffix + manager.budget.ToString("N2"), styleGreenButtonCenter, GUILayout.MinHeight(20), GUILayout.MinWidth(200));
+                    VabBudgetWin3 = GUILayout.Window(898996, VabBudgetWin3, drawbudgetwindow, "Current Budget: " + CurrencySuffix + manager.budget.ToString("N2"), styleGreenButtonCenter, GUILayout.MinHeight(20), GUILayout.MinWidth(200));
                 }
             }
 
+            if (showUserContractWindowStatus && hideMCtoolbarsviews)
+            {
+                userContractWindowStatus = GUILayout.Window(912311, userContractWindowStatus, drawUserContractWindow, "Player Custom Contracts", GUILayout.MinHeight(700), GUILayout.MinWidth(400));
+            }
 
-            if (showVabShipWindow && hidetoolbarsviews)
+            if (showVabShipWindow && hideMCtoolbarsviews)
             {
                 VabShipWindow = GUILayout.Window(898989, VabShipWindow, drawVabShipWindow, "Ship Breakdown List",GUILayout.MinHeight(400), GUILayout.MinWidth(300));
             }
 
-            if (showMissionStatusWindow && hidetoolbarsviews)
+            if (showMissionStatusWindow && hideMCtoolbarsviews)
             {
                 MissionWindowStatus = GUILayout.Window(898990, MissionWindowStatus, drawMissionInfoWindow, "Current Mission Window",GUILayout.MinHeight(450), GUILayout.MinWidth(350));
             }
 
-            if (showContractStatusWindow && hidetoolbarsviews)
+            if (showContractStatusWindow && hideMCtoolbarsviews)
             {
                 ContractWindowStatus = GUILayout.Window(888991, ContractWindowStatus, drawContractInfoWindow, "Available Contracts", GUILayout.MinHeight(450), GUILayout.MinWidth(350));
             }
 
-            if (showSettingsWindow && hidetoolbarsviews)
+            if (showSettingsWindow && hideMCtoolbarsviews)
             {
                 settingsWindowPosition = GUILayout.Window(98763, settingsWindowPosition, drawSettingsWindow, "Settings", GUILayout.MinHeight(225), GUILayout.MinWidth(150));
             }
 
-            if (showMissionPackageBrowser && hidetoolbarsviews)
+            if (showMissionPackageBrowser && hideMCtoolbarsviews)
             {
                 packageWindowPosition = GUILayout.Window(98762, packageWindowPosition, drawPackageWindow, currentPackage.name, GUILayout.MinHeight(750), GUILayout.MinWidth(1000));
             }
 
-            if (showContractSelection && hidetoolbarsviews)
+            if (showContractSelection && hideMCtoolbarsviews)
             {
                 contractWindowPosition = GUILayout.Window(234321, contractWindowPosition, drawContractsWindow, currentPackage.name, GUILayout.MinHeight(700), GUILayout.MinWidth(520));
             }
 
-            if (showFinanceWindow && hidetoolbarsviews)
+            if (showFinanceWindow && hideMCtoolbarsviews)
             {
                 financeWindowPosition = GUILayout.Window(98761, financeWindowPosition, drawFinaceWindow, "Finance Window", GUILayout.MinHeight(350), GUILayout.MinWidth(300));
             }           
 
-            if (showRecycleWindow && hidetoolbarsviews)
+            if (showRecycleWindow && hideMCtoolbarsviews)
             {
                 GUILayout.Window(98766, new Rect(Screen.width / 2 - 200, Screen.height / 2 - 100, 600, 400), drawRecycleWindow, "Recycle Window");
             }
 
-            if (manager.showKerbalHireWindow && hidetoolbarsviews)
+            if (manager.showKerbalHireWindow && hideMCtoolbarsviews)
             {
                 GUILayout.Window(987667, new Rect(Screen.width / 2 - 200, Screen.height / 2 - 100, 425, 150), drawKerbalHireWindow, "Recently Hired Kerbals");
             }
 
-            if (showRandomWindow && hidetoolbarsviews)
+            if (showRandomWindow && hideMCtoolbarsviews)
             {
                 GUILayout.Window(98866, new Rect(Screen.width / 2 - 200, Screen.height / 2 - 100, 400, 100), drawRandomWindow, "Event Window");
             }
-            if (showRevertWindow && hidetoolbarsviews)
+            if (showRevertWindow && hideMCtoolbarsviews)
             {
                 GUILayout.Window(99746, new Rect(Screen.width / 2 - 200, Screen.height / 2 - 100, 400, 100), drawRevertWindow, "Revert Space Program And KSP Window");
             }
 
-            if (showResearchTreeWindow && hidetoolbarsviews)
+            if (showResearchTreeWindow && hideMCtoolbarsviews)
             {
                 researchtreewinpostion = GUILayout.Window(98760, researchtreewinpostion, drawResearchTree, "Research Window", GUILayout.MinHeight(350), GUILayout.MinWidth(500));
             }
 
-            if (showKerbalLogbookHire && hidetoolbarsviews)
+            if (showKerbalLogbookHire && hideMCtoolbarsviews)
             {
                 kerbalLogBookHirePostion = GUILayout.Window(98888, kerbalLogBookHirePostion, drawKerbalLogBookHire, "Kerbal Hired Log Book", GUILayout.MinHeight(350), GUILayout.MinWidth(540));
             }
 
-            if (showMissionLogbookWindow && hidetoolbarsviews)
+            if (showMissionLogbookWindow && hideMCtoolbarsviews)
             {
                 missionLogBookPostion = GUILayout.Window(988889, missionLogBookPostion, drawmMissionLogBook, "Mission Log Book", GUILayout.MinHeight(500), GUILayout.MinWidth(1045));
             }
 
-            if (showShipLogBookWindow && hidetoolbarsviews)
+            if (showShipLogBookWindow && hideMCtoolbarsviews)
             {
                 shipLogBook = GUILayout.Window(988889, shipLogBook, drawShipLogBook, "Ship Log Book ", GUILayout.MinHeight(500), GUILayout.MinWidth(960));
             }
@@ -1461,7 +1467,12 @@ namespace MissionController
             if (GUILayout.Button("Contracts", styleButtonWordWrap, GUILayout.Width(100)))
             {
                 selectContracts("Plugins/PluginData/MissionController/MCContracts.cfg");
-            }           
+            }
+
+            if (GUILayout.Button("User Contrancts", styleButtonWordWrap, GUILayout.Width(150)))
+            {
+                showUserContractWindowStatus = !showUserContractWindowStatus;
+            }
 
             if (GUILayout.Button("X", styleButtonWordWrap, GUILayout.Width(25)))
             {
@@ -1479,6 +1490,7 @@ namespace MissionController
 
         private void drawbudgetwindow(int id)
         {
+            GUI.skin = HighLogic.Skin;
             GUILayout.BeginVertical();
             GUILayout.EndVertical();
             if (!Input.GetMouseButtonDown(1))
@@ -1488,7 +1500,7 @@ namespace MissionController
         }
         private void drawconstructioncostwindow(int id)
         {
-            VesselResources res = new VesselResources(activeVessel);
+            GUI.skin = HighLogic.Skin;
             GUILayout.BeginVertical();
             GUILayout.EndVertical();
             if (!Input.GetMouseButtonDown(1))

@@ -52,6 +52,6 @@ namespace MissionController
         /// <returns>the new budget</returns>
         /// <param name="value">Value.</param>
         int costs(int value);
-    }
+    }   
 }
 
