@@ -80,6 +80,7 @@ namespace MissionController
         private bool isdocking = false;
 
         private int goalpayment = 0;
+        private int TotalPayout = 0;
         
         private int body = 1;
         private int goal = 1;
@@ -88,16 +89,11 @@ namespace MissionController
         private double orbitApA = 0;
         private double orbitPeA = 0;
 
-        private Vector2 previewContractScrollPosition2 = new Vector2();
-        private Mission currentPreviewMission3 = null;
+        Dictionary<int, PlanetInfo> dictplanetinfo = new Dictionary<int, PlanetInfo>();
+        Dictionary<int, GoalInfo> dictGoalInfo = new Dictionary<int, GoalInfo>();
 
-        UserContracts UserC = new UserContracts();
-        
-        private void drawUserContractWindow(int id)
+        public void LoadDictionary()
         {
-            Dictionary<int, PlanetInfo> dictplanetinfo = new Dictionary<int, PlanetInfo>();
-            Dictionary<int, GoalInfo> dictGoalInfo = new Dictionary<int, GoalInfo>(); 
-
             dictGoalInfo.Add(GoalInfo1.ID, GoalInfo1);
             dictGoalInfo.Add(GoalInfo2.ID, GoalInfo2);
             dictGoalInfo.Add(GoalInfo3.ID, GoalInfo3);
@@ -107,9 +103,25 @@ namespace MissionController
             dictplanetinfo.Add(PlanetInfo2.ID, PlanetInfo2);
             dictplanetinfo.Add(PlanetInfo3.ID, PlanetInfo3);
             dictplanetinfo.Add(PlanetInfo4.ID, PlanetInfo4);
+        }
+
+        public void LoadUserContranct()
+        {
+            selectUserContract(HighLogic.CurrentGame.Title + "UserContracts.cfg");
+        }
+
+        private Vector2 previewContractScrollPosition2 = new Vector2();
+        private Mission currentPreviewMission3 = null;
+
+        UserContracts UserC = new UserContracts();
+        
+        private void drawUserContractWindow(int id)
+        {                       
 
             PlanetInfo splanet = dictplanetinfo[body];
-            GoalInfo sgoal = dictGoalInfo[goal];           
+            GoalInfo sgoal = dictGoalInfo[goal];
+            int sgoalamount = sgoal.Gamount;
+            int splanetamount = splanet.Gamount;
 
             GUI.skin = HighLogic.Skin;
             GUILayout.BeginVertical();
@@ -121,18 +133,25 @@ namespace MissionController
             if (goal == 1 || body == 1){ orbitApA = 0; orbitPeA = 0;}
             if (GUILayout.Button("-", styleButtonWordWrap, GUILayout.Width(25))) { goal--; if (goal < 1) { goal = 1; }}
             if (GUILayout.Button("+", styleButtonWordWrap, GUILayout.Width(25))) { goal++; if (goal > 4) { goal = 1; }}
-            GUILayout.Box("Goal Type?", GUILayout.Width(150), GUILayout.Height(30));
+            GUILayout.Box("Goal Type? ", GUILayout.Width(150), GUILayout.Height(30));
             GUILayout.Box("" + sgoal.Gname, GUILayout.Width(150), GUILayout.Height(30));
             if (goal == 2 && body != 1 && IsOrbit != true)
             {
                 if (GUILayout.Button("Set OrbitGoal", styleButtonWordWrap, GUILayout.Width(120)))
                 {
-                    goalpayment = splanet.Gamount + sgoal.Gamount;
-                    usercontracts.reward = usercontracts.reward + goalpayment;
-                    usercontracts.ucOrbitGoal.Add(new UCOrbitGoal(splanet.Planet.ToString(), orbitApA, orbitPeA));
+                    goalpayment = splanetamount + sgoalamount;
+                    TotalPayout = goalpayment + usercontracts.reward;
+                    Debug.Log("planet amount" + splanetamount + "GoalAmount" + sgoalamount);
+                    usercontracts.reward = TotalPayout;
+                    Debug.Log(TotalPayout);
+                    Debug.Log(usercontracts.reward);
+                    usercontracts.ucOrbitGoal.Add(new UCOrbitGoal(splanet.Planet.ToString(), orbitApA, orbitPeA));                   
+                    goalpayment = 0;
+                    TotalPayout = 0;
                     goal = 1;
                     IsOrbit = true;
-                    goalpayment = 0;
+                    managUserContracts.saveUserContracts();
+                    LoadUserContranct();
                 }
             }
             if (goal == 3 && body != 1 && islanding != true)
@@ -140,23 +159,31 @@ namespace MissionController
                 if (GUILayout.Button("Set LadingGoal", styleButtonWordWrap, GUILayout.Width(120)))
                 {
                     goalpayment = splanet.Gamount + sgoal.Gamount;
-                    usercontracts.reward = usercontracts.reward + goalpayment;
-                    usercontracts.ucLandingGoal.Add(new UCLandingGoal(splanet.Planet.ToString()));
+                    TotalPayout = goalpayment + usercontracts.reward;
+                    usercontracts.reward = TotalPayout;
+                    usercontracts.ucLandingGoal.Add(new UCLandingGoal(splanet.Planet.ToString()));                    
+                    goalpayment = 0;
+                    TotalPayout = 0;
                     goal = 1;
                     islanding = true;
-                    goalpayment = 0;
+                    managUserContracts.saveUserContracts();
+                    LoadUserContranct();
                 }
             }
-            if (goal == 4 && isdocking != true)
+            if (goal == 4 && isdocking != true && IsOrbit != false)
             {
                 if (GUILayout.Button("Set DockingGoal", styleButtonWordWrap, GUILayout.Width(120)))
                 {
                     goalpayment = sgoal.Gamount;
-                    usercontracts.reward = usercontracts.reward + goalpayment;
-                    usercontracts.ucDockingGoal.Add(new UCDockingGoal("Dock At Vessel"));
+                    TotalPayout = goalpayment + usercontracts.reward;
+                    usercontracts.reward = TotalPayout;
+                    usercontracts.ucDockingGoal.Add(new UCDockingGoal("Dock At Vessel"));                   
+                    goalpayment = 0;
+                    TotalPayout = 0;
                     goal = 1;
                     isdocking = true;
-                    goalpayment = 0;
+                    managUserContracts.saveUserContracts();
+                    LoadUserContranct();
                 }
             }
             GUILayout.EndHorizontal();
@@ -214,24 +241,27 @@ namespace MissionController
             }
             GUILayout.EndScrollView();
             GUILayout.EndHorizontal();
-
-            if (GUILayout.Button("Exit", styleButtonWordWrap, GUILayout.Width(75))){showUserContractWindowStatus = false;}
-            if (GUILayout.Button("Save Contract", styleButtonWordWrap, GUILayout.Width(100)))
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("Load User Contract", styleButtonWordWrap, GUILayout.Width(150)))
+            {
+                LoadUserContranct();
+                currentPreviewMission3 = currentMission;
+            }
+            if (GUILayout.Button("Save Contract", styleButtonWordWrap, GUILayout.Width(140)))
             {
                 managUserContracts.saveUserContracts();
             }           
-            if (GUILayout.Button("Reset Contracts", styleButtonWordWrap, GUILayout.Width(100)))
+            if (GUILayout.Button("Reset Contracts", styleButtonWordWrap, GUILayout.Width(140)))
             {
                 usercontracts.resetUserContracts();
                 IsOrbit = false;
                 islanding = false;
                 isdocking = false;
-            }
-            if (GUILayout.Button("Load User Contract", styleButtonWordWrap, GUILayout.Width(120)))
-            {
-                selectUserContract(HighLogic.CurrentGame.Title + "UserContracts.cfg");
-                currentPreviewMission3 = currentMission;
-            }
+                managUserContracts.saveUserContracts();
+                LoadUserContranct();
+            }            
+            if (GUILayout.Button("Exit", styleButtonWordWrap, GUILayout.Width(60))) { showUserContractWindowStatus = false; }
+            GUILayout.EndHorizontal();
             GUILayout.EndVertical();
             
             if (!Input.GetMouseButtonDown(1)){GUI.DragWindow();}
@@ -240,8 +270,8 @@ namespace MissionController
 
     public class UserContracts
     {       
-        public string name = " Test Mission ";
-        public string description = "Test";
+        public string name = " Place Mission Name ";
+        public string description = "A Small Description of Mission";
         public int reward = 0;
         public float scienceReward = 0;
         public List<UCOrbitGoal> ucOrbitGoal = new List<UCOrbitGoal>();

@@ -316,6 +316,7 @@ namespace MissionController
             manager.findVeselWithRepairPart();
             print("Mission Controller Loaded");
             manager.loadProgram(HighLogic.CurrentGame.Title);
+            LoadDictionary();
             
             
             
