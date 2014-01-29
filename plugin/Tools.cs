@@ -8,6 +8,7 @@ namespace MissionController
     class Tools
     {      
         public static ConfigNode MCSettings = null;
+        public static ConfigNode UserContracts = null;
 
         public static void FindMCSettings()
         {
@@ -16,7 +17,13 @@ namespace MissionController
           
             if (MCSettings == null)
                 throw new UnityException("*MC* MCSettings not found!");
-        }       
+        }
+
+        public static void FindUserContracts()
+        {
+            foreach (ConfigNode node in GameDatabase.Instance.GetConfigNodes(MissionController.missionFolder, "Mission"))
+                UserContracts = node;
+        }
       
         public static double atod(string a)
         {

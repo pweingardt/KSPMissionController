@@ -130,8 +130,7 @@ namespace MissionController
         public override string ToString ()
         {
             return name;
-        }
-
+        }      
         /// <summary>
         /// Checks if the mission is finishable with the vessel
         /// </summary>

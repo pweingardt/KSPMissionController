@@ -54,6 +54,8 @@ namespace MissionController
 
         public String body = "Kerbin";
 
+        public OrbitGoal() { }
+      
         protected override List<Value> values(Vessel vessel, GameEvent events) {
             List<Value> values = new List<Value> ();
 

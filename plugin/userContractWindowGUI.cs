@@ -71,6 +71,7 @@ namespace MissionController
         public int goal = 1;
         public double orbitApA = 0;
         public double orbitPeA = 0;
+      
         
         private void drawUserContractWindow(int id)
         {
@@ -88,7 +89,6 @@ namespace MissionController
             dictplanetinfo.Add(PlanetInfo4.ID, PlanetInfo4);
 
             PlanetInfo splanet = dictplanetinfo[body];
-
             GoalInfo sgoal = dictGoalInfo[goal];
 
             GUI.skin = HighLogic.Skin;
@@ -97,23 +97,20 @@ namespace MissionController
             GUILayout.BeginHorizontal();
 
             if (goal != 2 && goal != 3){body = 1;}
-            if (goal <= 1){goal = 1;}
-            if (goal >= 5){goal = 1;}
+                       
             if (goal == 1 || body == 1){ orbitApA = 0; orbitPeA = 0;}
-            if (GUILayout.Button("-", styleButtonWordWrap, GUILayout.Width(25))){goal--;}
-            if (GUILayout.Button("+", styleButtonWordWrap, GUILayout.Width(25))){goal++;}
-            GUILayout.Box("Goal Type?: " + sgoal.Gname, GUILayout.Width(250), GUILayout.Height(30));
+            if (GUILayout.Button("-", styleButtonWordWrap, GUILayout.Width(25))) { goal--; if (goal < 1) { goal = 1; }}
+            if (GUILayout.Button("+", styleButtonWordWrap, GUILayout.Width(25))) { goal++; if (goal > 4) { goal = 1; }}
+            GUILayout.Box("Goal Type?", GUILayout.Width(250), GUILayout.Height(30));
             GUILayout.Box("" + sgoal.Gname, GUILayout.Width(250), GUILayout.Height(30));
             GUILayout.EndHorizontal();
             
             if (goal == 2 || goal == 3)
             {
-                if (body <= 1){body = 1;}
-                if (body >= 5){body = 1;}
                 GUILayout.BeginHorizontal();
-                if (GUILayout.Button("-", styleButtonWordWrap, GUILayout.Width(25))){body--;}
-                if (GUILayout.Button("+", styleButtonWordWrap, GUILayout.Width(25))){body++;}   
-                GUILayout.Box("Body Name?: " + splanet.Planet, GUILayout.Width(250), GUILayout.Height(30));
+                if (GUILayout.Button("-", styleButtonWordWrap, GUILayout.Width(25))) { body--; orbitApA = 0; orbitPeA = 0; if (body < 1) { body = 1; }}
+                if (GUILayout.Button("+", styleButtonWordWrap, GUILayout.Width(25))) { body++; orbitApA = 0; orbitPeA = 0; if (body > 4) { body = 1; }}   
+                GUILayout.Box("Body Name?", GUILayout.Width(250), GUILayout.Height(30));
                 GUILayout.Box("" + splanet.Planet, GUILayout.Width(250), GUILayout.Height(30));
                 GUILayout.EndHorizontal();
 
@@ -146,12 +143,90 @@ namespace MissionController
                 }
             }
 
-                if (GUILayout.Button("Exit", styleButtonWordWrap, GUILayout.Width(100))){showUserContractWindowStatus = false;}
-                GUILayout.EndVertical();
+            if (GUILayout.Button("Exit", styleButtonWordWrap, GUILayout.Width(100))){showUserContractWindowStatus = false;}
+            if (GUILayout.Button("Save Contract", styleButtonWordWrap, GUILayout.Width(100))) { ManageUserContracts.UCManager.saveUserContracts(); }
+            if (GUILayout.Button("Set Goal", styleButtonWordWrap, GUILayout.Width(100))) { UserContracts.ucOrbitGoal.Add(new UCOrbitGoal(splanet.Planet.ToString(), orbitApA, orbitPeA)); }
+            GUILayout.EndVertical();
             
             if (!Input.GetMouseButtonDown(1)){GUI.DragWindow();}
         }
     }
+
+    public class UserContracts
+    {
+        public static string name = "This is a Test File For User Contracts";
+        public static string description = "test this too";
+        public static int reward = 0;
+        public static float scienceReward = 0;
+        public static List<UCOrbitGoal> ucOrbitGoal = new List<UCOrbitGoal>();
+        public void add(UCOrbitGoal m)
+        {
+            ucOrbitGoal.Add(m);
+        }
+    }
+
+    public class ManageUserContracts
+    {
+        private static ManageUserContracts ucmanager = new ManageUserContracts();
+
+        public static ManageUserContracts UCManager 
+        { 
+            get
+            { return ucmanager; } 
+        }
+
+        private UserContracts uc = new UserContracts();
+
+        public UserContracts getUserContractSettings()
+        {
+            return ucmanager.uc;
+        }
+
+        private Parser parser;
+
+        private ManageUserContracts()
+        {
+            parser = new Parser();
+            loadUserContracts();
+        }
+
+        public void loadUserContracts() 
+        {
+            try 
+            {
+                uc = (UserContracts)parser.readFile("UserContracts.cfg");
+            } 
+            catch 
+            {
+                uc = new UserContracts();
+            }          
+            
+        }
+
+        public void saveUserContracts()
+        {
+            parser.writeContract(uc, "UserContracts.cfg");
+        }
+
+    }
+
+    public class UCOrbitGoal
+    {
+        public string body;
+        public double maxApA;
+        public double minPeA;
+        public UCOrbitGoal()
+        {
+        }
+
+        public UCOrbitGoal(string name, double MaxApa, double MinPea)
+        {
+            this.body = name;
+            this.maxApA = MaxApa;
+            this.minPeA = MinPea;
+        }
+    }
+
     public class PlanetInfo
     {
         public int ID { get; set; }

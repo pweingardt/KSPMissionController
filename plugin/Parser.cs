@@ -28,6 +28,13 @@ namespace MissionController
             writer.Close ();
         }
 
+        public void writeContract(object obj, String path)
+        {
+            KSP.IO.TextWriter writer = KSP.IO.TextWriter.CreateForType<MissionController>(path);
+            writeContract(writer, obj);
+            writer.Close();
+        }
+
         private void writeObject(KSP.IO.TextWriter writer, object obj) {
             Type t = obj.GetType ();
             writer.WriteLine (t.Name);
@@ -72,6 +79,71 @@ namespace MissionController
                 }
             }
             writer.WriteLine ("}");
+        }
+
+        private void writeContract(KSP.IO.TextWriter writer, object obj)
+        {
+            Type t = obj.GetType();
+            if (t.Name == "UserContracts")
+            {
+                writer.WriteLine("Mission");
+            }
+            if (t.Name == "UCOrbitGoal")
+            {
+                writer.WriteLine("OrbitGoal");
+            }
+            
+            writer.WriteLine("{");
+            foreach (FieldInfo info in t.GetFields())
+            {
+                object o = info.GetValue(obj);
+
+                if (o == null)
+                {
+                    continue;
+                }
+
+                if (info.FieldType.Equals(typeof(Enum)))
+                {
+                    writer.WriteLine("    " + info.Name + " = " + info.GetValue(obj));
+                }
+
+                if (info.FieldType.Equals(typeof(String)))
+                {
+                    writer.WriteLine("    " + info.Name + " = " + info.GetValue(obj));
+                }
+
+                if (info.FieldType.Equals(typeof(float)))
+                {
+                    writer.WriteLine("    " + info.Name + " = " + info.GetValue(obj));
+                }
+
+                if (info.FieldType.Equals(typeof(double)))
+                {
+                    writer.WriteLine("    " + info.Name + " = " + info.GetValue(obj));
+                }
+
+                if (info.FieldType.Equals(typeof(int)))
+                {
+                    writer.WriteLine("    " + info.Name + " = " + info.GetValue(obj));
+                }
+
+                if (info.FieldType.Equals(typeof(bool)))
+                {
+                    writer.WriteLine("    " + info.Name + " = " + info.GetValue(obj));
+                }
+
+                if (o.GetType().GetInterface("IList") != null)
+                {
+                    IList ilist = (IList)o;
+
+                    foreach (object v in ilist)
+                    {
+                        writeContract(writer, v);
+                    }
+                }
+            }
+            writer.WriteLine("}");
         }
 
         /// <summary>

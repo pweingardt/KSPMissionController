@@ -211,6 +211,6 @@ namespace MissionController
             this.MissionName = mName;
             this.crewNumber = cNum;
         }
-    }   
+    }
 }
 

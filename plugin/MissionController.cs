@@ -1466,7 +1466,7 @@ namespace MissionController
 
             if (GUILayout.Button("Contracts", styleButtonWordWrap, GUILayout.Width(100)))
             {
-                selectContracts("Plugins/PluginData/MissionController/MCContracts.cfg");
+                selectContracts("MCContracts.cfg");
             }
 
             if (GUILayout.Button("User Contrancts", styleButtonWordWrap, GUILayout.Width(150)))
