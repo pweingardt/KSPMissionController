@@ -117,6 +117,11 @@ namespace MissionController
             Mission.Sort (pkg.Missions, pkg.ownOrder ? SortBy.PACKAGE_ORDER : SortBy.NAME);
             return pkg;
         }
+        public Mission loadContractMission(String path)
+        {
+            Mission ucm = (Mission)parser.readFile(path);
+            return ucm;
+        }
 
         /// <summary>
         /// Reloads the given mission for the given vessel. Checks for already finished mission goals

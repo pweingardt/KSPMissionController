@@ -92,7 +92,15 @@ namespace MissionController
             {
                 writer.WriteLine("OrbitGoal");
             }
-            
+            if (t.Name == "UCLandingGoal") 
+            {
+                writer.WriteLine("LandingGoal");
+            }
+            if (t.Name == "UCDockingGoal") 
+            {
+                writer.WriteLine("DockingGoal");
+            }
+
             writer.WriteLine("{");
             foreach (FieldInfo info in t.GetFields())
             {

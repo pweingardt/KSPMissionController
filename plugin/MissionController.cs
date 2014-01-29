@@ -69,19 +69,14 @@ namespace MissionController
 
         private Manager manager
         {
-            get
-            {
-                return Manager.instance;
-            }
+            get{return Manager.instance;}
         }
 
         private Settings settings
         {
-            get
-            {
-                return SettingsManager.Manager.getSettings();
-            }
+            get{return SettingsManager.Manager.getSettings();}
         }
+        
 
         private List<MissionGoal> hiddenGoals = new List<MissionGoal>();
 
@@ -319,9 +314,10 @@ namespace MissionController
         public void Start()
         {
             manager.findVeselWithRepairPart();
-
             print("Mission Controller Loaded");
             manager.loadProgram(HighLogic.CurrentGame.Title);
+            
+            
             
             button = ToolbarManager.Instance.add("MC1", "Settings1");
             button.TexturePath = "MissionController/icons/settings";
@@ -1472,6 +1468,7 @@ namespace MissionController
             if (GUILayout.Button("User Contrancts", styleButtonWordWrap, GUILayout.Width(150)))
             {
                 showUserContractWindowStatus = !showUserContractWindowStatus;
+                currentPreviewMission3 = null;
             }
 
             if (GUILayout.Button("X", styleButtonWordWrap, GUILayout.Width(25)))
@@ -1549,6 +1546,16 @@ namespace MissionController
                 showContractSelection = !showContractSelection;
             }
             currentSort = (currentPackage.ownOrder ? SortBy.PACKAGE_ORDER : SortBy.NAME);
+        }
+
+        private void selectUserContract(string file)
+        {
+            if (file == null)
+            {
+                return;
+            }
+            currentMission = manager.loadContractMission(file);
+            currentPreviewMission3 = null;
         }
 
 
