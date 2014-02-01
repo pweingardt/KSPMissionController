@@ -62,6 +62,7 @@
     <Compile Include="FinanceMode.cs" />
     <Compile Include="FinanceWindowGUI.cs" />
     <Compile Include="LaunchGoal.cs" />
+    <Compile Include="MCEEditorRefs.cs" />
     <Compile Include="MissionControllerCalc.cs">
       <SubType>Code</SubType>
     </Compile>

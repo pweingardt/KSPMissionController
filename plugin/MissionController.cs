@@ -749,7 +749,7 @@ namespace MissionController
 
             if (showUserContractWindowStatus && hideMCtoolbarsviews)
             {
-                userContractWindowStatus = GUILayout.Window(912311, userContractWindowStatus, drawUserContractWindow, "Player Custom Contracts", GUILayout.MinHeight(700), GUILayout.MinWidth(400));
+                userContractWindowStatus = GUILayout.Window(912311, userContractWindowStatus, drawUserContractWindow, "Player Custom Contracts", GUILayout.MinHeight(900), GUILayout.MinWidth(450));
             }
 
             if (showVabShipWindow && hideMCtoolbarsviews)

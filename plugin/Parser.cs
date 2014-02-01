@@ -100,6 +100,10 @@ namespace MissionController
             {
                 writer.WriteLine("DockingGoal");
             }
+            if (t.Name == "NoneCrew")
+            {
+                writer.WriteLine("noCrewGoal");
+            }
 
             writer.WriteLine("{");
             foreach (FieldInfo info in t.GetFields())
