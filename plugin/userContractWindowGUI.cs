@@ -191,7 +191,7 @@ namespace MissionController
                     if (GUILayout.Button("Set LadingGoal", styleButtonWordWrap, GUILayout.Width(120)))
                     {
                         //Debug.Log("Old Current Reward = " + usercontracts.reward);
-                        goalpayment = splanet.Gamount + sgoal.Gamount;
+                        goalpayment = sgoal.Gamount;
                         TotalPayout = goalpayment + usercontracts.reward;
                         //Debug.Log("planet amount = " + splanetamount + "GoalAmount = " + sgoalamount);
                         usercontracts.reward = TotalPayout;
@@ -389,6 +389,7 @@ namespace MissionController
             ucOrbitGoal.Clear();
             ucLandingGoal.Clear();
             ucDockingGoal.Clear();
+            ucCrashGoal.Clear();
             ManageUserContracts.UCManager.saveUserContracts();
         }
     }

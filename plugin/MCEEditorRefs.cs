@@ -25,14 +25,14 @@ namespace MissionController
         {
             ID = 3,
             Gname = "LandingGoal",
-            Gamount = 15000,
+            Gamount = 30000,
             GSciAmount = 0
         };
         public GoalInfo GoalInfo4 = new GoalInfo()
         {
             ID = 4,
             Gname = "DockingGoal",
-            Gamount = 10000,
+            Gamount = 20000,
             GSciAmount = 0
         };
         public GoalInfo GoalInfo5 = new GoalInfo()
@@ -40,7 +40,7 @@ namespace MissionController
             ID = 5,
             Gname = "CrashGoal",
             Gamount = 20000,
-            GSciAmount = 10,
+            GSciAmount = 20,
         };
 
         public PlanetInfo PlanetInfo1 = new PlanetInfo()

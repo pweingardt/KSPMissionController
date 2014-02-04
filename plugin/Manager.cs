@@ -1173,18 +1173,22 @@ namespace MissionController
                 if (ms == 1)
                 {
                     currentProgram.money += (int)((double)value * comppayout * PayoutLeveles.TechPayout);
+                    Debug.Log("Contract Payment made comp1");
                 }
                 if (ms == 2)
                 {
                     currentProgram.money += (int)((double)value * comppayout2 * PayoutLeveles.TechPayout);
+                    Debug.Log("Contract Payment made comp2");
                 }
                 if (ms == 3)
                 {
                     currentProgram.money += (int)((double)value * comppayout3 * PayoutLeveles.TechPayout);
+                    Debug.Log("Contract Payment made comp3");
                 }
                 if (ms == 4)
                 {
                     currentProgram.money += (int)((double)value * comppayout4 * PayoutLeveles.TechPayout);
+                    Debug.Log("Contract Payment made comp4");
                 }
             }
             return currentProgram.money;
@@ -1256,21 +1260,26 @@ namespace MissionController
 
             if (complevel == 1)
             {
-                value = (int)((double)value * compscience);
+                value = (float)((double)value * compscience);
+                Debug.Log("Science Payment made comp1");
             }
             if (complevel == 2)
             {
-                value = (int)((double)value * compscience2);
+                value = (float)((double)value * compscience2);
+                Debug.Log("Science Payment made comp2");
             }
             if (complevel == 3)
             {
-                value = (int)((double)value * compscience3);
+                value = (float)((double)value * compscience3);
+                Debug.Log("Science Payment made comp3");
             }
             if (complevel == 4)
             {
-                value = (int)((double)value * compscience4);
+                value = (float)((double)value * compscience4);
+                Debug.Log("Science Payment made comp4");
             }
             return cn.Science += value;
+            
         }
 
         public int costs(int value) 

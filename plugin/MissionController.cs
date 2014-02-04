@@ -348,7 +348,6 @@ namespace MissionController
             ContractSelect = ToolbarManager.Instance.add("MC1", "contractsel1");
             ContractSelect.TexturePath = "MissionController/icons/contract";
             ContractSelect.ToolTip = "Takes You To Contract Selection Screen";
-            ContractSelect.Visibility = new GameScenesVisibility(GameScenes.SPACECENTER, GameScenes.EDITOR, GameScenes.SPH);
             ContractSelect.OnClick += (e) =>
             {
                 showContractStatusWindow = !showContractStatusWindow;
