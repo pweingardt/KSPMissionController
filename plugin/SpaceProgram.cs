@@ -29,6 +29,9 @@ namespace MissionController
         public double nextTimeCheck = 0;
         public string showRepairVesselName = "NONE";
         public string showCompanyAvailable = "COMA";
+        public string showCompanyAvailable2 = "COMA";
+        public string showCompanyAvailable3 = "COMA";
+        public string showCompanyAvailable4 = "COMA";
 
         public List<MissionStatus> completedMissions = new List<MissionStatus>();
 

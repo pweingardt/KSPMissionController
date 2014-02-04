@@ -9,6 +9,7 @@ namespace MissionController
     {      
         public static ConfigNode MCSettings = null;
         public static ConfigNode UserContracts = null;
+        
 
         public static void FindMCSettings()
         {
@@ -23,7 +24,7 @@ namespace MissionController
         {
             foreach (ConfigNode node in GameDatabase.Instance.GetConfigNodes(MissionController.missionFolder, "Mission"))
                 UserContracts = node;
-        }
+        }        
       
         public static double atod(string a)
         {

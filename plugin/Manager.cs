@@ -367,6 +367,15 @@ namespace MissionController
         {
             SetCompanyInfoString(Randomizator3000.PickOne<string>(companyListRandom));
             Debug.Log(GetCompanyInfoString + " This is Current Company Info Chosen By Random System");
+            SetCompanyInfoString2(Randomizator3000.PickOne<string>(companyListRandom));
+            Debug.Log(GetCompanyInfoString2 + " This is Current Company Info Chosen By Random System");
+            SetCompanyInfoString3(Randomizator3000.PickOne<string>(companyListRandom));
+            Debug.Log(GetCompanyInfoString3 + " This is Current Company Info Chosen By Random System");           
+        }
+        public void setUserContractCompany()
+        {
+            SetCompanyInfoString4(Randomizator3000.PickOne<string>(companyListRandom));
+            Debug.Log(GetCompanyInfoString4 + " This is Current Company Info Chosen By Random System");
         }
 
         /// <summary>
@@ -642,11 +651,11 @@ namespace MissionController
                 }
                 if (m.IsContract == true)
                 {                                       
-                    contractReward(m.reward);
+                    contractReward(m.reward, m.CompanyOrder);
                     totalReward(m.reward);
                     if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
                     {
-                        Contractsciencereward(m.scienceReward);
+                        Contractsciencereward(m.scienceReward, m.CompanyOrder);
                     }                   
                     Debug.Log("Rewared Normal Mission Award");
                 }
@@ -845,6 +854,33 @@ namespace MissionController
         public string SetCompanyInfoString(string name)
         {
             return currentProgram.showCompanyAvailable = name;
+        }
+        public string GetCompanyInfoString2
+        {
+            get { return currentProgram.showCompanyAvailable2; }
+        }
+
+        public string SetCompanyInfoString2(string name)
+        {
+            return currentProgram.showCompanyAvailable2 = name;
+        }
+        public string GetCompanyInfoString3
+        {
+            get { return currentProgram.showCompanyAvailable3; }
+        }
+
+        public string SetCompanyInfoString3(string name)
+        {
+            return currentProgram.showCompanyAvailable3 = name;
+        }
+        public string GetCompanyInfoString4
+        {
+            get { return currentProgram.showCompanyAvailable4; }
+        }
+
+        public string SetCompanyInfoString4(string name)
+        {
+            return currentProgram.showCompanyAvailable4 = name;
         }
         // End Research Recycle
 
@@ -1071,10 +1107,14 @@ namespace MissionController
             return currentProgram.money;
         }
 
-        public int contractReward(int value)
+        public int contractReward(int value, int ms)
         {
             Vessel v = new Vessel();
             double comppayout = Tools.GetValueDefault(Tools.MCSettings.GetNode(GetCompanyInfoString), "payout", 1.0);
+            double comppayout2 = Tools.GetValueDefault(Tools.MCSettings.GetNode(GetCompanyInfoString2), "payout", 1.0);
+            double comppayout3 = Tools.GetValueDefault(Tools.MCSettings.GetNode(GetCompanyInfoString3), "payout", 1.0);
+            double comppayout4 = Tools.GetValueDefault(Tools.MCSettings.GetNode(GetCompanyInfoString4), "payout", 1.0);
+
             if (!SettingsManager.Manager.getSettings().disablePlugin)
             {
                 if (value > 0) // is a reward, not a cost
@@ -1091,7 +1131,24 @@ namespace MissionController
                         value = (int)((double)value * mult);
                     }
                 }
-                currentProgram.money += (int)((double)value * comppayout * PayoutLeveles.TechPayout);
+                int Complevel = ms;
+
+                if (ms == 1)
+                {
+                    currentProgram.money += (int)((double)value * comppayout * PayoutLeveles.TechPayout);
+                }
+                if (ms == 2)
+                {
+                    currentProgram.money += (int)((double)value * comppayout2 * PayoutLeveles.TechPayout);
+                }
+                if (ms == 3)
+                {
+                    currentProgram.money += (int)((double)value * comppayout3 * PayoutLeveles.TechPayout);
+                }
+                if (ms == 4)
+                {
+                    currentProgram.money += (int)((double)value * comppayout4 * PayoutLeveles.TechPayout);
+                }
             }
             return currentProgram.money;
         }
@@ -1150,11 +1207,32 @@ namespace MissionController
             return cn.Science += value;            
         }
 
-        public float Contractsciencereward(float value)
+        public float Contractsciencereward(float value, int ms)
         {
             double compscience = Tools.GetValueDefault(Tools.MCSettings.GetNode(GetCompanyInfoString), "science", 1.0);
+            double compscience2 = Tools.GetValueDefault(Tools.MCSettings.GetNode(GetCompanyInfoString2), "science", 1.0);
+            double compscience3 = Tools.GetValueDefault(Tools.MCSettings.GetNode(GetCompanyInfoString3), "science", 1.0);
+            double compscience4 = Tools.GetValueDefault(Tools.MCSettings.GetNode(GetCompanyInfoString4), "science", 1.0);
             ConstructionMode cn = new ConstructionMode();
-            value = (int)((double)value * compscience);
+
+            int complevel = ms;
+
+            if (complevel == 1)
+            {
+                value = (int)((double)value * compscience);
+            }
+            if (complevel == 2)
+            {
+                value = (int)((double)value * compscience2);
+            }
+            if (complevel == 3)
+            {
+                value = (int)((double)value * compscience3);
+            }
+            if (complevel == 4)
+            {
+                value = (int)((double)value * compscience4);
+            }
             return cn.Science += value;
         }
 

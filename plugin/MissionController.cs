@@ -1169,8 +1169,25 @@ namespace MissionController
             }
             else
             {
+                
                 double comppayout = Tools.GetValueDefault(Tools.MCSettings.GetNode(manager.GetCompanyInfoString), "payout", 1.0);
                 double compscience = Tools.GetValueDefault(Tools.MCSettings.GetNode(manager.GetCompanyInfoString), "science", 1.0);
+               
+                if (currentMission.CompanyOrder == 2)
+                {
+                    comppayout = Tools.GetValueDefault(Tools.MCSettings.GetNode(manager.GetCompanyInfoString2), "payout", 1.0);
+                    compscience = Tools.GetValueDefault(Tools.MCSettings.GetNode(manager.GetCompanyInfoString2), "science", 1.0);
+                }
+                if (currentMission.CompanyOrder == 3)
+                {
+                    comppayout = Tools.GetValueDefault(Tools.MCSettings.GetNode(manager.GetCompanyInfoString3), "payout", 1.0);
+                    compscience = Tools.GetValueDefault(Tools.MCSettings.GetNode(manager.GetCompanyInfoString3), "science", 1.0);
+                }
+                if (currentMission.CompanyOrder == 4)
+                {
+                    comppayout = Tools.GetValueDefault(Tools.MCSettings.GetNode(manager.GetCompanyInfoString4), "payout", 1.0);
+                    compscience = Tools.GetValueDefault(Tools.MCSettings.GetNode(manager.GetCompanyInfoString4), "science", 1.0);
+                }                               
 
                 double rewardFinanced = currentMission.reward * FinanceMode.currentloan * comppayout * PayoutLeveles.TechPayout;
                 double rewardFinancedHard = currentMission.reward * FinanceMode.currentloan * comppayout * PayoutLeveles.TechPayout * .60;
@@ -1680,38 +1697,66 @@ namespace MissionController
             double comppayout = Tools.GetValueDefault(Tools.MCSettings.GetNode(manager.GetCompanyInfoString), "payout", 1.0);
             double compscience = Tools.GetValueDefault(Tools.MCSettings.GetNode(manager.GetCompanyInfoString), "science", 1.0);
 
+            if (mission.CompanyOrder == 2)
+            {
+                compName = Tools.GetValueDefault(Tools.MCSettings.GetNode(manager.GetCompanyInfoString2), "name", "Default");
+                comppayout = Tools.GetValueDefault(Tools.MCSettings.GetNode(manager.GetCompanyInfoString2), "payout", 1.0);
+                compscience = Tools.GetValueDefault(Tools.MCSettings.GetNode(manager.GetCompanyInfoString2), "science", 1.0);
+            }
+            if (mission.CompanyOrder == 3)
+            {
+                compName = Tools.GetValueDefault(Tools.MCSettings.GetNode(manager.GetCompanyInfoString3), "name", "Default");
+                comppayout = Tools.GetValueDefault(Tools.MCSettings.GetNode(manager.GetCompanyInfoString3), "payout", 1.0);
+                compscience = Tools.GetValueDefault(Tools.MCSettings.GetNode(manager.GetCompanyInfoString3), "science", 1.0);
+            }
+            if (mission.CompanyOrder == 4)
+            {
+                compName = Tools.GetValueDefault(Tools.MCSettings.GetNode(manager.GetCompanyInfoString4), "name", "Default");
+                comppayout = Tools.GetValueDefault(Tools.MCSettings.GetNode(manager.GetCompanyInfoString4), "payout", 1.0);
+                compscience = Tools.GetValueDefault(Tools.MCSettings.GetNode(manager.GetCompanyInfoString4), "science", 1.0);
+            }
+
             //GUILayout.Label("pay" + comppayout);
             //GUILayout.Label("sci" + compscience);
             GUILayout.Label("Current Contract: ", styleValueGreenBold);
             GUILayout.Label(mission.name, styleText);
-            GUILayout.Label("Company Name", styleValueGreenBold);
-            GUILayout.Label(compName, styleText);
+            if (mission.IsUserContract  != true)
+            {
+                GUILayout.Label("Company Name", styleValueGreenBold);
+                GUILayout.Label(compName, styleText);
+            }
             GUILayout.Label("Description: ", styleValueGreenBold);
             GUILayout.Label(mission.description, styleText);
-            GUILayout.Label("Contract Binding Terms If Fail", styleValueGreenBold);
-            GUILayout.Label("Contract Payout + 10% (Note Not Yet Implemented - Malkuth)",styleText);
+            if (mission.IsUserContract != true)
+            {
+                GUILayout.Label("Contract Binding Terms If Fail", styleValueGreenBold);
+                GUILayout.Label("Contract Payout + 10% (Note Not Yet Implemented - Malkuth)", styleText);
+            }
             if (mission.vesselName != false)
             {
                 GUILayout.Label("Vessel Name To Repair", styleValueGreenBold);
                 GUILayout.Label(manager.GetShowVesselRepairName, styleText);
             }
+            
+            if (mission.IsUserContract != true)
+            {
+                GUILayout.BeginHorizontal();           
+                GUILayout.Label(" Contract Payout: ", styleValueGreenBold);
+                if (settings.gameMode == 0)
+                { GUILayout.Label(CurrencySuffix + mission.reward * comppayout * PayoutLeveles.TechPayout, styleValueYellow); }
+                if (settings.gameMode == 1)
+                { GUILayout.Label(CurrencySuffix + mission.reward * comppayout * PayoutLeveles.TechPayout * .60, styleValueYellow); }
+                GUILayout.EndHorizontal();
+            }
 
-            GUILayout.BeginHorizontal();
-            GUILayout.Label(" Contract Payout: ", styleValueGreenBold);
-            if (settings.gameMode == 0)
-            { GUILayout.Label(CurrencySuffix + mission.reward * comppayout * PayoutLeveles.TechPayout, styleValueYellow); }
-            if (settings.gameMode == 1)
-            { GUILayout.Label(CurrencySuffix + mission.reward * comppayout * PayoutLeveles.TechPayout * .60, styleValueYellow); }
-            GUILayout.EndHorizontal();
-
-            if (mission.scienceReward != 0 && HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
+            if (mission.scienceReward != 0 && HighLogic.CurrentGame.Mode == Game.Modes.CAREER && mission.IsUserContract != true)
             {
                 GUILayout.BeginHorizontal();
                 GUILayout.Label("Science Reward: ", styleValueGreenBold);
                 GUILayout.Label(mission.scienceReward * compscience + " sp", styleValueYellow);
                 GUILayout.EndHorizontal();
-            } 
-           
+            }
+
 
             if (mission.clientControlled)
             {

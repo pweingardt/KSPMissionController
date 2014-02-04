@@ -45,6 +45,9 @@ namespace MissionController
         /// This helps Hide contracts from the Regular Missions
         /// </summary>
         public bool IsContract = false;
+        public bool IsUserContract = false;
+
+        public int CompanyOrder;
 
         /// <summary>
         /// checks if repair mission if so, another check is made to see if Vessel Has RepairParts.  If both are true Repair Contract Will Show.
