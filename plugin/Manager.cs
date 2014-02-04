@@ -20,6 +20,8 @@ namespace MissionController
 
         Randomizator3000.Item<int>[] contractslist;
 
+        Randomizator3000.Item<int>[] contractslist1;
+
         Randomizator3000.Item<int>[] contractslist2;
 
         Randomizator3000.Item<string>[] companyListRandom;
@@ -262,7 +264,7 @@ namespace MissionController
         /// The higher the weight the more chance to select that option.
         /// As long as = 100 in weights in total.
         /// </summary>
-        public void StartContractType1Random()
+        public void StartContractTypeRandom()
         {
             contractslist = new Randomizator3000.Item<int>[4];
             contractslist[0] = new Randomizator3000.Item<int>();
@@ -282,38 +284,75 @@ namespace MissionController
             contractslist[3].value = 3;            
 
         }
+        public void StartContractType1Random()
+        {
+            contractslist1 = new Randomizator3000.Item<int>[7];
+            contractslist1[0] = new Randomizator3000.Item<int>();
+            contractslist1[0].weight = 40;
+            contractslist1[0].value = 0;
+
+            contractslist1[1] = new Randomizator3000.Item<int>();
+            contractslist1[1].weight = 20;
+            contractslist1[1].value = 5;
+
+            contractslist1[2] = new Randomizator3000.Item<int>();
+            contractslist1[2].weight = 15;
+            contractslist1[2].value = 6;
+
+            contractslist1[3] = new Randomizator3000.Item<int>();
+            contractslist1[3].weight = 10;
+            contractslist1[3].value = 7;
+
+            contractslist1[4] = new Randomizator3000.Item<int>();
+            contractslist1[4].weight = 5;
+            contractslist1[4].value = 8;
+
+            contractslist1[5] = new Randomizator3000.Item<int>();
+            contractslist1[5].weight = 5;
+            contractslist1[5].value = 9;
+
+            contractslist1[6] = new Randomizator3000.Item<int>();
+            contractslist1[6].weight = 5;
+            contractslist1[6].value = 10;
+        }
         public void StartContractType2Random()
         {
-            contractslist2 = new Randomizator3000.Item<int>[7];
+            contractslist2 = new Randomizator3000.Item<int>[9];
             contractslist2[0] = new Randomizator3000.Item<int>();
-            contractslist2[0].weight = 40;
+            contractslist2[0].weight = 50;
             contractslist2[0].value = 0;
 
             contractslist2[1] = new Randomizator3000.Item<int>();
-            contractslist2[1].weight = 20;
-            contractslist2[1].value = 5;
+            contractslist2[1].weight = 10;
+            contractslist2[1].value = 11;
 
             contractslist2[2] = new Randomizator3000.Item<int>();
-            contractslist2[2].weight = 15;
-            contractslist2[2].value = 6;
+            contractslist2[2].weight = 9;
+            contractslist2[2].value = 12;
 
             contractslist2[3] = new Randomizator3000.Item<int>();
-            contractslist2[3].weight = 10;
-            contractslist2[3].value = 7;
+            contractslist2[3].weight = 6;
+            contractslist2[3].value = 13;
 
             contractslist2[4] = new Randomizator3000.Item<int>();
-            contractslist2[4].weight = 5;
-            contractslist2[4].value = 8;
+            contractslist2[4].weight = 6;
+            contractslist2[4].value = 14;
 
             contractslist2[5] = new Randomizator3000.Item<int>();
-            contractslist2[5].weight = 5;
-            contractslist2[5].value = 9;
+            contractslist2[5].weight = 6;
+            contractslist2[5].value = 15;
 
             contractslist2[6] = new Randomizator3000.Item<int>();
-            contractslist2[6].weight = 5;
-            contractslist2[6].value = 10;
+            contractslist2[6].weight = 6;
+            contractslist2[6].value = 16;
 
+            contractslist2[7] = new Randomizator3000.Item<int>();
+            contractslist2[7].weight = 4;
+            contractslist2[7].value = 17;
 
+            contractslist2[8] = new Randomizator3000.Item<int>();
+            contractslist2[8].weight = 3;
+            contractslist2[8].value = 18;
         }
         /// <summary>
         /// This is the randomizer for Company Info.  Company Amounts is limited by this check.  The values can be changed in MCConfig though!
@@ -352,8 +391,14 @@ namespace MissionController
         public void setContractType()
         {
             SetCurrentContract(Randomizator3000.PickOne<int>(contractslist));
-            Debug.Log(GetCurrentContract + "This is current Contract Type 1 Chosen by Random System");
+            Debug.Log(GetCurrentContract + "This is current Contract Type 0 Chosen by Random System");
         }
+        public void setContractType1()
+        {
+            SetCurrentContract1(Randomizator3000.PickOne<int>(contractslist1));
+            Debug.Log(GetCurrentContract1 + "This is current Contract Type 1 Chosen by Random System");
+        }
+
         public void setContractType2()
         {
             SetCurrentContract2(Randomizator3000.PickOne<int>(contractslist2));
@@ -377,17 +422,7 @@ namespace MissionController
             SetCompanyInfoString4(Randomizator3000.PickOne<string>(companyListRandom));
             Debug.Log(GetCompanyInfoString4 + " This is Current Company Info Chosen By Random System");
         }
-
-        /// <summary>
-        /// display view for contracts
-        /// </summary>
-        public void DisplayContractType()
-        {
-            GUILayout.BeginHorizontal();
-            GUILayout.Box("" + GetCurrentContract, GUILayout.Width(225), GUILayout.Height(30));
-            GUILayout.EndHorizontal();
-        }
-       
+      
         public void SetClockCountdown()
         {
             if (currentProgram.nextTimeCheck == 0)
@@ -410,9 +445,11 @@ namespace MissionController
             currentTime = Planetarium.GetUniversalTime();
             if (currentTime >= currentProgram.nextTimeCheck)
             {
-                StartContractType1Random();
+                StartContractTypeRandom();
                 StartCompanyRandomizer();
                 setContractType();
+                StartContractType1Random();
+                setContractType1();
                 StartContractType2Random();
                 setContractType2();
                 currentProgram.nextTimeCheck = 0;

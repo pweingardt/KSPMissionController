@@ -8,6 +8,20 @@ namespace MissionController
 {
     public partial class MissionController
     {
+        private string contractdesctext = "Welcome to the contract editor.  This editor is not meant to be a complicated editor.  It’s actually very simple in the way it works. " +
+                    "You the user have to select the above values to start making a new contract.\n" + "\n" +
+                    " Only 1 goal per contract can be selected. This is a limitation of the saving process from your screen to the UserContract.cfg.  At a later date this may be expanded to have the ability to " +                   
+                    "create goals within a SubMissionGoal.  But at this time, the more complicated missions are still best done by custom editing the mission file. \n " + "\n" +
+                    " OribtGoal is the only exception to this rule. You can set up to 2 OrbitGoals per Contract Mission " +
+                    "This is to help make missions that might orbit Duna then orbit ike.  But do note that if you do " +
+                    "Set 2 orbit goals, any DockingGoal will be applied to the 2nd OrbitGoal. \n \n " +
+                    " You can by all means edit this file the old way and add new goals manually.  Just do not reset the contract or you will lose that work.\n " + "\n" +
+                    "The mission payout is determined by type of goals, and the planet they are targeting.  Other factors include how many crew.\n " + "\n" +
+                    "You are only allowed 1 custom mission at a time.  When you’re done, you can reset the contract and start over.\n " + "\n" +
+                    "Every time you choose to send contract to bidding, this will set your mission and give you a company that is willing to pay you. Don’t do this unless you are sure the contract is ready! \n \n" +
+                    "I need more feedback on payouts!  I understand that sometimes payouts might not seem enough.  I was floating the idea around of also adding a mass value, something like small vessel, medium vessel," +
+                    "large vessel.  Each step up would add a multiplier and a MinMass Amount to the Orbit Objective";
+
         private UserContracts usercontracts
         {
             get { return ManageUserContracts.UCManager.getUserContractSettings(); }
@@ -19,7 +33,7 @@ namespace MissionController
         }
         MCEEditorRefs mce = new MCEEditorRefs();
        
-        private bool IsOrbit = false;
+        private int IsOrbit = 0;
         private bool islanding = false;
         private bool isdocking = false;
         private bool isCrashing = false;
@@ -27,6 +41,7 @@ namespace MissionController
 
         private int goalpayment = 0;
         private int TotalPayout = 0;
+        private int TotalCrewCount = 0;
         
         private int body = 1;
         private int goal = 1;
@@ -105,7 +120,7 @@ namespace MissionController
 
             if (iscrewselected != true)
             {
-                GUILayout.Label("If Vessel Has Crew Or Not, this makes a difference with Payouts, and Fines if Crew Killed");
+                GUILayout.Label("If Vessel Has Crew Or Not, this makes a difference with Payouts", styleText);
                 GUILayout.BeginHorizontal();
                 if (GUILayout.Button("true", styleButtonWordWrap, GUILayout.Width(50))) { ucNoCrewGoal = true; }
                 if (GUILayout.Button("false", styleButtonWordWrap, GUILayout.Width(50))) { ucNoCrewGoal = false; }
@@ -114,21 +129,37 @@ namespace MissionController
                 if (GUILayout.Button("Set Goal", styleButtonWordWrap, GUILayout.Width(120)))
                 {
                     if (ucNoCrewGoal != true) { usercontracts.noneCrew.Add(new NoneCrew("Vessel Has No Crew")); }
-                    if (ucNoCrewGoal != false) { TotalPayout = ucHasCrew + usercontracts.reward; usercontracts.reward = TotalPayout; TotalPayout = 0; }
+                    if (ucNoCrewGoal != false)
+                    {
+                        //Debug.Log("Old Current Reward = " + usercontracts.reward);
+                        TotalPayout = (ucHasCrew * TotalCrewCount) + usercontracts.reward;
+                        //Debug.Log("Total Crew =: " + TotalCrewCount + " X 10,000 = current reward: " + usercontracts.reward);
+                        usercontracts.reward = TotalPayout;
+                        TotalPayout = 0;
+                    }
+
                     iscrewselected = true;
                     managUserContracts.saveUserContracts();
                 }
-                
                 GUILayout.EndHorizontal();
-
+                GUILayout.Space(10);
+                if (ucNoCrewGoal == true)
+                {                   
+                    GUILayout.BeginHorizontal();
+                    if (GUILayout.Button("-", styleButtonWordWrap, GUILayout.Width(25))) { TotalCrewCount--; if (TotalCrewCount < 0) { TotalCrewCount = 0; } }
+                    if (GUILayout.Button("+", styleButtonWordWrap, GUILayout.Width(25))) {TotalCrewCount++;}
+                    GUILayout.Box("How many Crew?", GUILayout.Width(150), GUILayout.Height(30));
+                    GUILayout.Box("" + TotalCrewCount, GUILayout.Width(150), GUILayout.Height(30));
+                    GUILayout.EndHorizontal();
+                }
             }
 
-            else 
+            else
             {
                 GUILayout.Space(10);
-                GUILayout.Label("Set The type of Goal, Some goals are dependent On others! For right now only 1 goal can be set for each.");
+                GUILayout.Label("Set The type of Goal, Some goals are dependent On others! For right now only 1 goal can be set for each Contract.", styleText);
                 GUILayout.BeginHorizontal();
-                if (goal != 2 && goal != 3) { body = 1; }
+                if (goal != 2 && goal != 3 && goal != 5) { body = 1; }
                 if (goal == 1 || body == 1) { orbitApA = 0; orbitPeA = 0; }
                 if (GUILayout.Button("-", styleButtonWordWrap, GUILayout.Width(25))) { goal--; if (goal < 1) { goal = 1; } }
                 if (GUILayout.Button("+", styleButtonWordWrap, GUILayout.Width(25))) { goal++; if (goal > 5) { goal = 1; } }
@@ -136,21 +167,22 @@ namespace MissionController
                 GUILayout.Box("" + sgoal.Gname, GUILayout.Width(150), GUILayout.Height(30));
 
                 GUILayout.Space(10);
-                if (goal == 2 && body != 1 && IsOrbit != true)
+                if (goal == 2 && body != 1 && IsOrbit != 2)
                 {
                     if (GUILayout.Button("Set OrbitGoal", styleButtonWordWrap, GUILayout.Width(120)))
                     {
+                        //Debug.Log("Old Current Reward = " + usercontracts.reward);
                         goalpayment = splanetamount + sgoalamount;
                         TotalPayout = goalpayment + usercontracts.reward;
-                        Debug.Log("planet amount" + splanetamount + "GoalAmount" + sgoalamount);
+                        //Debug.Log("planet amount = " + splanetamount + "GoalAmount = " + sgoalamount);
                         usercontracts.reward = TotalPayout;
-                        Debug.Log(TotalPayout);
-                        Debug.Log(usercontracts.reward);
-                        usercontracts.ucOrbitGoal.Add(new UCOrbitGoal(splanet.Planet.ToString(), orbitApA, orbitApA, orbitPeA, orbitPeA));
+                        //Debug.Log("Total Payout = " + TotalPayout);
+                        //Debug.Log("Current Reward = " + usercontracts.reward);
+                        usercontracts.ucOrbitGoal.Add(new UCOrbitGoal(TotalCrewCount,splanet.Planet.ToString(), orbitApA, orbitApA, orbitPeA, orbitPeA));
                         goalpayment = 0;
                         TotalPayout = 0;
                         goal = 1;
-                        IsOrbit = true;
+                        IsOrbit++;
                         managUserContracts.saveUserContracts();
                     }
                 }
@@ -158,9 +190,13 @@ namespace MissionController
                 {
                     if (GUILayout.Button("Set LadingGoal", styleButtonWordWrap, GUILayout.Width(120)))
                     {
+                        //Debug.Log("Old Current Reward = " + usercontracts.reward);
                         goalpayment = splanet.Gamount + sgoal.Gamount;
                         TotalPayout = goalpayment + usercontracts.reward;
+                        //Debug.Log("planet amount = " + splanetamount + "GoalAmount = " + sgoalamount);
                         usercontracts.reward = TotalPayout;
+                        //Debug.Log("Total Payout = " + TotalPayout);
+                        
                         usercontracts.ucLandingGoal.Add(new UCLandingGoal(splanet.Planet.ToString()));
                         goalpayment = 0;
                         TotalPayout = 0;
@@ -169,13 +205,15 @@ namespace MissionController
                         managUserContracts.saveUserContracts();
                     }
                 }
-                if (goal == 4 && isdocking != true && IsOrbit != false)
+                if (goal == 4 && isdocking != true && IsOrbit >= 2)
                 {
                     if (GUILayout.Button("Set DockingGoal", styleButtonWordWrap, GUILayout.Width(120)))
                     {
+                        //Debug.Log("Old Current Reward before Docking = " + usercontracts.reward);
                         goalpayment = sgoal.Gamount;
                         TotalPayout = goalpayment + usercontracts.reward;
                         usercontracts.reward = TotalPayout;
+                        //Debug.Log("Current Reward After Docking = " + usercontracts.reward);
                         usercontracts.ucDockingGoal.Add(new UCDockingGoal("Dock At Vessel"));
                         goalpayment = 0;
                         TotalPayout = 0;
@@ -188,11 +226,13 @@ namespace MissionController
                 {
                     if (GUILayout.Button("Set CrashGoal", styleButtonWordWrap, GUILayout.Width(120)))
                     {
+                        //Debug.Log("Old Current Reward before CrashGoal = " + usercontracts.reward);
                         goalpayment = sgoal.Gamount;
                         TotalPayout = goalpayment + usercontracts.reward;
                         usercontracts.scienceReward = sgoal.GSciAmount;
                         usercontracts.reward = TotalPayout;
-                        usercontracts.ucCrashGoal.Add(new UCCrashGoal("This vessel is tasked with crashing into selected body"));
+                        //Debug.Log("Current Reward After CrashGoal = " + usercontracts.reward);
+                        usercontracts.ucCrashGoal.Add(new UCCrashGoal("This vessel is tasked with crashing into selected body" , splanet.Planet.ToString()));
                         goalpayment = 0;
                         TotalPayout = 0;
                         goal = 1;
@@ -202,9 +242,9 @@ namespace MissionController
                 }
                 GUILayout.EndHorizontal();
                 GUILayout.Space(10);
-                if (goal == 2 || goal == 3)
+                if (goal == 2 || goal == 3 || goal == 5)
                 {
-                    GUILayout.Label("What body to set goal to? Please note only 1 goal type per Mission");
+                    GUILayout.Label("What body to set goal to? Please note only 1 goal type per Mission", styleText);
                     GUILayout.BeginHorizontal();
                     if (GUILayout.Button("-", styleButtonWordWrap, GUILayout.Width(25))) { body--; if (body < 1) { body = 1; } }
                     if (GUILayout.Button("+", styleButtonWordWrap, GUILayout.Width(25))) { body++; if (body > 17) { body = 1; } }
@@ -221,7 +261,7 @@ namespace MissionController
                         if (orbitPeA <= splanet.MinOrb) { orbitPeA = splanet.MinOrb; }
                         if (orbitPeA > orbitApA) { orbitPeA = splanet.MinOrb; }
 
-                        GUILayout.Label("Set the High Point for Orbit, Has to be Above PeA");
+                        GUILayout.Label("Set the High Point for Orbit, Has to be Above PeA", styleText);
                         GUILayout.BeginHorizontal();
                         if (GUILayout.Button("-", styleButtonWordWrap, GUILayout.Width(25))) { orbitApA -= 1000; }
                         if (GUILayout.Button("--", styleButtonWordWrap, GUILayout.Width(25))) { orbitApA -= 10000; }
@@ -232,7 +272,7 @@ namespace MissionController
                         GUILayout.EndHorizontal();
                         GUILayout.Space(10);
 
-                        GUILayout.Label("Set The Lowpoint for Orbit, This has to be under ApA");
+                        GUILayout.Label("Set The Lowpoint for Orbit, This has to be under ApA", styleText);
                         GUILayout.BeginHorizontal();
                         if (GUILayout.Button("-", styleButtonWordWrap, GUILayout.Width(25))) { orbitPeA -= 1000; }
                         if (GUILayout.Button("--", styleButtonWordWrap, GUILayout.Width(25))) { orbitPeA -= 10000; }
@@ -248,6 +288,7 @@ namespace MissionController
                 }
             }
             GUILayout.Space(10);
+            GUILayout.Label("You must reload contract after everyChange to see changes!");
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("Load User Contract", styleButtonWordWrap))
             {
@@ -260,28 +301,27 @@ namespace MissionController
 
             GUILayout.BeginHorizontal();
             previewContractScrollPosition2 = GUILayout.BeginScrollView(previewContractScrollPosition2, GUILayout.Width(500));
-
-            // Show the description text if no mission is currently selected
+ 
             if (currentPreviewMission3 == null)
             {
-               
+                GUILayout.Label(contractdesctext, styleText);
             }
             else
             {
-                // otherwise draw the mission parameters
                 drawContracts(currentPreviewMission3, calculateStatus(currentPreviewMission3, false, activeVessel));
             }
             GUILayout.EndScrollView();
             GUILayout.EndHorizontal();
             GUILayout.BeginHorizontal();                               
-            if (GUILayout.Button("Reset Contracts", styleButtonWordWrap, GUILayout.Width(125)))
+            if (GUILayout.Button("Reset Contract", styleButtonWordWrap, GUILayout.Width(125)))
             {
                 usercontracts.resetUserContracts();
-                IsOrbit = false;
+                IsOrbit = 0;
                 islanding = false;
                 isdocking = false;
                 iscrewselected = false;
                 isCrashing = false;
+                TotalCrewCount = 0;
                 managUserContracts.saveUserContracts();
             }         
             if (GUILayout.Button("Send Contract For Bidding", styleButtonWordWrap, GUILayout.Width(175)))
@@ -292,6 +332,7 @@ namespace MissionController
                 usercontracts.IsContract = true;
                 managUserContracts.saveUserContracts();                
             }
+            if (GUILayout.Button("Save Contract", styleButtonWordWrap, GUILayout.Width(125))) { managUserContracts.saveUserContracts(); }
             if (GUILayout.Button("Exit", styleButtonWordWrap, GUILayout.Width(60))) { showUserContractWindowStatus = false; }
             GUILayout.EndHorizontal();
             GUILayout.EndVertical();
@@ -400,6 +441,7 @@ namespace MissionController
 
     public class UCOrbitGoal
     {
+        public int crewCount;
         public string body;
         public double minApA;
         public double maxApA;
@@ -410,8 +452,9 @@ namespace MissionController
         {
         }
 
-        public UCOrbitGoal(string name, double MaxApa, double MaxPea, double MinApa, double MinPea)
+        public UCOrbitGoal(int crew, string name, double MaxApa, double MaxPea, double MinApa, double MinPea)
         {
+            this.crewCount = crew;
             this.body = name;
             this.maxApA = MaxApa;
             this.minPeA = MinPea;
@@ -475,13 +518,15 @@ namespace MissionController
     public class UCCrashGoal
     {
         public string desc = "";
+        public string body;
         public UCCrashGoal()
         {
         }
 
-        public UCCrashGoal(string desc)
+        public UCCrashGoal(string desc, string body)
         {
             this.desc = desc;
+            this.body = body;
         }
     }
 }

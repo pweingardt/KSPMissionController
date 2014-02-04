@@ -359,28 +359,32 @@ namespace MissionController
             // Malkuth Edit To match the actual cost of launch with Visual Cost in Display.. (almost missed this one opps)
             if (activeVessel != null && activeVessel.situation == Vessel.Situations.PRELAUNCH)
             {
+
                 VesselResources res = new VesselResources(activeVessel);
                 FinanceMode fn = new FinanceMode();
-                
+
                 if (SettingsManager.Manager.getSettings().disablePlugin)
-                    {
-                        manager.addFlagedVessel(activeVessel);
-                    }
+                {
+                    Debug.LogError("Vessel Being Flagged Under Disabled Plugin");
+                    manager.addFlagedVessel(activeVessel);
+                }
+
 
                 if (settings.gameMode == 0 && !SettingsManager.Manager.getSettings().disablePlugin)
-                    
-                    Debug.LogError("Launching vessel!");
+                {
+                    Debug.LogError("Launching Normal Mode vessel!");
                     manager.costs(res.sum());
                     recycled = false;
                     canRecycle = true;
                     manager.recordVesselInfo(currentMission, activeVessel);
                     fn.checkloans();
+                }
 
 
 
-                    if (settings.gameMode == 1 && !SettingsManager.Manager.getSettings().disablePlugin)
+                if (settings.gameMode == 1 && !SettingsManager.Manager.getSettings().disablePlugin)
                 {
-                    Debug.LogError("Launching Test vessel!");
+                    Debug.LogError("Launching Hardcore Mode vessel!");
                     manager.costs((res.dry()) * 6 / 100);
                     recycled = false;
                     canRecycle = true;
@@ -388,6 +392,8 @@ namespace MissionController
                     fn.checkloans();
                 }
             }
+                
+            
         }
 
         /// <summary>

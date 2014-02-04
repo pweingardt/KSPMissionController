@@ -143,6 +143,7 @@ namespace MissionController
         private Vector2 scrollPositionShip = new Vector2(0, 0);
         private Vector2 scrollPositionHire = new Vector2(0, 0);
         private Vector2 scrollPosition22 = new Vector2(0, 0);
+        private Vector2 scrollPostionHirePopUp = new Vector2(0, 0);
         private GUIStyle styleValueRedBold, styleValueRed, styleValueYellow, styleValueGreen, styleText, styleCaption, styleValueGreenBold;       
         private GUIStyle styleButton, styleButtonYellow, styleGreenButton, styleRedButton, styleGreenButtonCenter, styleRedButtonCenter;
         public GUIStyle StyleBoxGreen, StyleBoxYellow, StyleBoxWhite;
@@ -347,6 +348,7 @@ namespace MissionController
             ContractSelect = ToolbarManager.Instance.add("MC1", "contractsel1");
             ContractSelect.TexturePath = "MissionController/icons/contract";
             ContractSelect.ToolTip = "Takes You To Contract Selection Screen";
+            ContractSelect.Visibility = new GameScenesVisibility(GameScenes.SPACECENTER, GameScenes.EDITOR, GameScenes.SPH);
             ContractSelect.OnClick += (e) =>
             {
                 showContractStatusWindow = !showContractStatusWindow;
@@ -927,23 +929,22 @@ namespace MissionController
         private void drawKerbalHireWindow(int id)
         {
             GUI.skin = HighLogic.Skin;
-            GUILayout.BeginVertical();
-
+            GUILayout.BeginVertical();            
             GUILayout.BeginHorizontal();
             GUILayout.Box("Hired Name",StyleBoxYellow, GUILayout.Width(200));
             GUILayout.Box("Hired Cost", StyleBoxYellow, GUILayout.Width(200));
-            GUILayout.EndHorizontal();
+            GUILayout.EndHorizontal();            
             GUILayout.Space(15);
-
+            scrollPostionHirePopUp = GUILayout.BeginScrollView(scrollPostionHirePopUp, GUILayout.Width(425), GUILayout.Height(200));
             manager.displayCurrentHiredList();
+            GUILayout.EndScrollView();
             
             if (GUILayout.Button("OK", styleButtonWordWrap))
             {
                 manager.showKerbalHireWindow = false;
                 manager.currentHires.Clear();
                 manager.saveProgramBackup();
-            }
-
+            }           
             GUILayout.EndVertical();
             if (!Input.GetMouseButtonDown(1))
             {

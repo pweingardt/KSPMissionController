@@ -97,10 +97,12 @@ namespace MissionController
 
             if (GUILayout.Button("Set Values Randoms + Find Vessel", styleButtonWordWrap))
             {
+                manager.StartContractTypeRandom();
                 manager.StartContractType1Random();
                 manager.StartContractType2Random();
                 manager.StartCompanyRandomizer();
                 manager.setContractType();
+                manager.setContractType1();
                 manager.setContractType2();
                 manager.setCompanyName();
                 manager.findVeselWithRepairPart();

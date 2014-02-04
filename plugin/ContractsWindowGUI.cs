@@ -19,7 +19,7 @@ namespace MissionController
             GUILayout.BeginVertical();          
 
            
-            contractScrollPosition = GUILayout.BeginScrollView(contractScrollPosition, GUILayout.Width(500), GUILayout.Height(150));
+            contractScrollPosition = GUILayout.BeginScrollView(contractScrollPosition, GUILayout.Width(500), GUILayout.Height(175));
             foreach (Mission m in currentPackage.Missions)
             {                            
                 Status s = calculateStatus(m, false, null);
@@ -45,6 +45,7 @@ namespace MissionController
                         if (GUILayout.Button("Accept Contract", GUILayout.Height(45)))
                         {
                             // we also reset the hiddenGoals field
+                            manager.SetCurrentContract1(0);
                             manager.SetCurrentContract2(0);
                             hiddenGoals = new List<MissionGoal>();
                             currentMission = currentPreviewMission2;
@@ -56,6 +57,31 @@ namespace MissionController
                 }
                 
                 GUILayout.EndHorizontal();
+                GUILayout.BeginHorizontal();
+                if (m.contractAvailable == manager.GetCurrentContract1)
+                {
+                    if (GUILayout.Button(m.name, style, GUILayout.Width(325), GUILayout.Height(45)))
+                    {
+                        currentPreviewMission2 = manager.reloadMission(m, activeVessel);
+                    }
+                    if (currentPreviewMission2 != null)
+                    {
+                        if (GUILayout.Button("Accept Contract", GUILayout.Height(45)))
+                        {
+                            // we also reset the hiddenGoals field
+                            manager.SetCurrentContract(0);
+                            manager.SetCurrentContract2(0);
+                            hiddenGoals = new List<MissionGoal>();
+                            currentMission = currentPreviewMission2;
+                            currentPreviewMission2 = null;
+                            packageWindow(false);
+                            showContractSelection = false;
+                        }
+                    }
+                }
+                
+                GUILayout.EndHorizontal();
+
                 GUILayout.BeginHorizontal();
                 if (m.contractAvailable == manager.GetCurrentContract2)
                 {
@@ -69,6 +95,7 @@ namespace MissionController
                         {
                             // we also reset the hiddenGoals field
                             manager.SetCurrentContract1(0);
+                            manager.SetCurrentContract(0);
                             hiddenGoals = new List<MissionGoal>();
                             currentMission = currentPreviewMission2;
                             currentPreviewMission2 = null;
@@ -77,7 +104,7 @@ namespace MissionController
                         }
                     }
                 }
-                
+
                 GUILayout.EndHorizontal();
             }
             GUILayout.EndScrollView();

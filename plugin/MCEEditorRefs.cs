@@ -55,7 +55,7 @@ namespace MissionController
         {
             ID = 2,
             Planet = "Kerbin",
-            Gamount = 0,
+            Gamount = 20000,
             MaxOrb = 84159286,
             MinOrb = 70000,
         };
@@ -63,7 +63,7 @@ namespace MissionController
         {
             ID = 3,
             Planet = "Mun",
-            Gamount = 40000,
+            Gamount = 50000,
             MaxOrb = 2247428,
             MinOrb = 8100,
         };
@@ -71,7 +71,7 @@ namespace MissionController
         {
             ID = 4,
             Planet = "Minmus",
-            Gamount = 45000,
+            Gamount = 55000,
             MaxOrb = 350000,
             MinOrb = 14100,
         };
@@ -97,7 +97,7 @@ namespace MissionController
             Planet = "Eve",
             Gamount = 400000,
             MaxOrb = 1049598,
-            MinOrb = 13000,
+            MinOrb = 97000,
         };
         public PlanetInfo PlanetInfo8 = new PlanetInfo()
         {
