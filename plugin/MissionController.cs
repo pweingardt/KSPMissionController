@@ -90,6 +90,7 @@ namespace MissionController
         private Rect shipLogBook;
         private Rect ContractWindowStatus;
         private Rect userContractWindowStatus;
+        private Rect ResetAllWindows = new Rect (0, 0, 0, 0);
                
         Rect VabBudgetWin;
         Rect VabBudgetWin1;
@@ -405,7 +406,7 @@ namespace MissionController
             fn.checkloans();
             manager.isKerbalHired();
             GUISave();
-            manager.checkClockTiime();
+            if (manager.Getrandomcontractsfreeze != true) { manager.checkClockTiime(); }
             manager.findVeselWithRepairPart();
             repairStation.repair = false;
             repairStation.dooropen = false;
@@ -476,7 +477,8 @@ namespace MissionController
             KSP.IO.PluginConfiguration configfile = KSP.IO.PluginConfiguration.CreateForType<MissionController>();
             configfile.load();
 
-            settingsWindowPosition = configfile.GetValue<Rect>("settingsWindowPostion");
+            contractWindowPosition = configfile.GetValue<Rect>("contractWindowPosition");
+            ContractWindowStatus = configfile.GetValue<Rect>("ContractWindowStatus");
             financeWindowPosition = configfile.GetValue<Rect>("finanaceWindowPostion");
             researchtreewinpostion = configfile.GetValue<Rect>("researchtreewinpostion");
             packageWindowPosition = configfile.GetValue<Rect>("packageWindowPostion");           
@@ -497,9 +499,9 @@ namespace MissionController
          public void GUISave()
         {
              KSP.IO.PluginConfiguration configfile = KSP.IO.PluginConfiguration.CreateForType<MissionController>();
- 
              
-            configfile.SetValue("settingsWindowPostion", settingsWindowPosition);
+            configfile.SetValue("contractWindowPosition", contractWindowPosition);
+            configfile.SetValue("ContractWindowStatus", ContractWindowStatus);
             configfile.SetValue("finanaceWindowPostion", financeWindowPosition);
             configfile.SetValue("researchtreewinpostion", researchtreewinpostion);
             configfile.SetValue("packageWindowPostion", packageWindowPosition);
@@ -518,6 +520,28 @@ namespace MissionController
  
             configfile.save();
         }
+         public void ResetWindows()
+         {
+             contractWindowPosition = ResetAllWindows;
+             ContractWindowStatus = ResetAllWindows;
+             financeWindowPosition = ResetAllWindows;
+             researchtreewinpostion = ResetAllWindows;
+             packageWindowPosition = ResetAllWindows;
+             VabBudgetWin = ResetAllWindows;
+             VabBudgetWin1 = ResetAllWindows;
+             VabBudgetWin2 = ResetAllWindows;
+             VabBudgetWin3 = ResetAllWindows;
+             VabShipBuildList = ResetAllWindows;
+             VabShipBuildList1 = ResetAllWindows;
+             VabShipBuildList2 = ResetAllWindows;
+             VabShipWindow = ResetAllWindows;
+             MissionWindowStatus = ResetAllWindows;
+             missionLogBookPostion = ResetAllWindows;
+             kerbalLogBookHirePostion = ResetAllWindows;
+             shipLogBook = ResetAllWindows;
+             GUISave();
+             GUILoad();
+         }
        
         /// <summary>
         /// Returns the active vessel if there is one, null otherwise
@@ -760,12 +784,12 @@ namespace MissionController
 
             if (showMissionStatusWindow && hideMCtoolbarsviews)
             {
-                MissionWindowStatus = GUILayout.Window(898990, MissionWindowStatus, drawMissionInfoWindow, "Current Mission Window",GUILayout.MinHeight(450), GUILayout.MinWidth(350));
+                MissionWindowStatus = GUILayout.Window(898990, MissionWindowStatus, drawMissionInfoWindow, "Current Mission Window",GUILayout.MinHeight(600), GUILayout.MinWidth(425));
             }
 
             if (showContractStatusWindow && hideMCtoolbarsviews)
             {
-                ContractWindowStatus = GUILayout.Window(888991, ContractWindowStatus, drawContractInfoWindow, "Available Contracts", GUILayout.MinHeight(450), GUILayout.MinWidth(350));
+                ContractWindowStatus = GUILayout.Window(888991, ContractWindowStatus, drawContractInfoWindow, "Available Contracts", GUILayout.MinHeight(600), GUILayout.MinWidth(425));
             }
 
             if (showSettingsWindow && hideMCtoolbarsviews)
@@ -1401,7 +1425,7 @@ namespace MissionController
           
             GUI.skin = HighLogic.Skin;
             GUILayout.BeginVertical();
-            scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.Width(350));
+            scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.Width(420));
             GUILayout.Space(20);
 
             if (status.isClientControlled)
@@ -1462,7 +1486,7 @@ namespace MissionController
 
             GUI.skin = HighLogic.Skin;
             GUILayout.BeginVertical();
-            scrollPosition22 = GUILayout.BeginScrollView(scrollPosition22, GUILayout.Width(350));
+            scrollPosition22 = GUILayout.BeginScrollView(scrollPosition22, GUILayout.Width(420));
             GUILayout.Space(20);          
 
             if (settings.disablePlugin == true)
@@ -1720,36 +1744,33 @@ namespace MissionController
             //GUILayout.Label("sci" + compscience);
             GUILayout.Label("Current Contract: ", styleValueGreenBold);
             GUILayout.Label(mission.name, styleText);
-            if (mission.IsUserContract  != true)
-            {
-                GUILayout.Label("Company Name", styleValueGreenBold);
-                GUILayout.Label(compName, styleText);
-            }
+
+            GUILayout.Label("Company Name", styleValueGreenBold);
+            GUILayout.Label(compName, styleText);
+
             GUILayout.Label("Description: ", styleValueGreenBold);
             GUILayout.Label(mission.description, styleText);
-            if (mission.IsUserContract != true)
-            {
-                GUILayout.Label("Contract Binding Terms If Fail", styleValueGreenBold);
-                GUILayout.Label("Contract Payout + 10% (Note Not Yet Implemented - Malkuth)", styleText);
-            }
+
+            GUILayout.Label("Contract Binding Terms If Fail", styleValueGreenBold);
+            GUILayout.Label("Contract Payout + 10% (Note Not Yet Implemented - Malkuth)", styleText);
+
             if (mission.vesselName != false)
             {
                 GUILayout.Label("Vessel Name To Repair", styleValueGreenBold);
                 GUILayout.Label(manager.GetShowVesselRepairName, styleText);
             }
-            
-            if (mission.IsUserContract != true)
-            {
-                GUILayout.BeginHorizontal();           
-                GUILayout.Label(" Contract Payout: ", styleValueGreenBold);
-                if (settings.gameMode == 0)
-                { GUILayout.Label(CurrencySuffix + mission.reward * comppayout * PayoutLeveles.TechPayout, styleValueYellow); }
-                if (settings.gameMode == 1)
-                { GUILayout.Label(CurrencySuffix + mission.reward * comppayout * PayoutLeveles.TechPayout * .60, styleValueYellow); }
-                GUILayout.EndHorizontal();
-            }
 
-            if (mission.scienceReward != 0 && HighLogic.CurrentGame.Mode == Game.Modes.CAREER && mission.IsUserContract != true)
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Label(" Contract Payout: ", styleValueGreenBold);
+            if (settings.gameMode == 0)
+            { GUILayout.Label(CurrencySuffix + mission.reward * comppayout * PayoutLeveles.TechPayout, styleValueYellow); }
+            if (settings.gameMode == 1)
+            { GUILayout.Label(CurrencySuffix + mission.reward * comppayout * PayoutLeveles.TechPayout * .60, styleValueYellow); }
+            GUILayout.EndHorizontal();
+
+
+            if (mission.scienceReward != 0 && HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
             {
                 GUILayout.BeginHorizontal();
                 GUILayout.Label("Science Reward: ", styleValueGreenBold);
@@ -1811,6 +1832,28 @@ namespace MissionController
                     }
                 }
             }
+        }
+        
+
+        private void drawContractsPreview(Mission mission, Status s)
+        {           
+
+            //GUILayout.Label("pay" + comppayout);
+            //GUILayout.Label("sci" + compscience);
+            GUILayout.Label("Current Contract: ", styleValueGreenBold);
+            GUILayout.Label(mission.name, styleText);
+            
+            GUILayout.Label("Description: ", styleValueGreenBold);
+            GUILayout.Label(mission.description, styleText);
+            
+            if (mission.vesselName != false)
+            {
+                GUILayout.Label("Vessel Name To Repair", styleValueGreenBold);
+                GUILayout.Label(manager.GetShowVesselRepairName, styleText);
+            }
+
+            drawContractsGoals(mission, s);
+           
         }
 
         /// <summary>

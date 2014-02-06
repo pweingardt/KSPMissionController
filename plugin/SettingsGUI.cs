@@ -11,7 +11,7 @@ namespace MissionController
     public partial class MissionController
     {
         private int resetCount = 0;
-        private String[] resetStrings = new String[] {"Reset MC To Start Values!", "Are you sure?"};
+        private String[] resetStrings = new String[] {"Reset Your MCE SaveGame", "This Will Reset Your Save!"};
         
         private void drawSettingsWindow(int id)
         {
@@ -95,18 +95,18 @@ namespace MissionController
 
             }
 
-            if (GUILayout.Button("Set Values Randoms + Find Vessel", styleButtonWordWrap))
-            {
-                manager.StartContractTypeRandom();
-                manager.StartContractType1Random();
-                manager.StartContractType2Random();
-                manager.StartCompanyRandomizer();
-                manager.setContractType();
-                manager.setContractType1();
-                manager.setContractType2();
-                manager.setCompanyName();
-                manager.findVeselWithRepairPart();
-            }
+            //if (GUILayout.Button("Set Values Randoms + Find Vessel", styleButtonWordWrap))
+            //{
+            //    manager.StartContractTypeRandom();
+            //    manager.StartContractType1Random();
+            //    manager.StartContractType2Random();
+            //    manager.StartCompanyRandomizer();
+            //    manager.setContractType();
+            //    manager.setContractType1();
+            //    manager.setContractType2();
+            //    manager.setCompanyName();
+            //    manager.findVeselWithRepairPart();
+            //}
 
             //if (GUILayout.Button("Set Vessel Repair To Save", styleButtonWordWrap))
             //{
@@ -118,10 +118,15 @@ namespace MissionController
             //    showRandomWindow = !showRandomWindow;
             //}           
 
-            //if (GUILayout.Button("CheckHired Kerbals", styleButtonWordWrap))
-            //{
-            //    manager.isKerbalHired();
-            //}
+            if (GUILayout.Button("Reset Contract Time Check", styleButtonWordWrap))
+            {
+                manager.SetCurrentCheckTime(0);
+                Debug.Log("Current Time Check Reset To 0");
+            }
+            if (GUILayout.Button("Reset Window Postions", styleButtonWordWrap))
+            {
+                ResetWindows();
+            }
 
             if (GUILayout.Button("Save Settings", styleButtonWordWrap))
             {

@@ -101,6 +101,9 @@ namespace MissionController
                 float previous = ResearchAndDevelopment.Instance.Science;
                 ResearchAndDevelopment.Instance.Science = value;
                 Debug.LogError("Mission Controller Changed Science by " + (ResearchAndDevelopment.Instance.Science - previous) + " to " + ResearchAndDevelopment.Instance.Science + ".");
+                string persistentfile = KSPUtil.ApplicationRootPath + "saves/" + HighLogic.SaveFolder + "/persistent.sfs";
+                ConfigNode config = ConfigNode.Load(persistentfile);
+                config.Save(persistentfile);
             }
         }
 
@@ -112,6 +115,7 @@ namespace MissionController
                 float previous = ResearchAndDevelopment.Instance.ScienceCap;
                 ResearchAndDevelopment.Instance.ScienceCap = value;
                 Debug.LogError("Mission Controller Changed ScienceCap by " + (ResearchAndDevelopment.Instance.ScienceCap - previous) + " to " + ResearchAndDevelopment.Instance.ScienceCap + ".");
+               
             }
         }
 
@@ -124,7 +128,7 @@ namespace MissionController
         {           
             return Science -= cost;   
         }
-      
+        
         static ConstructionMode()
         {
             construction1 = new double[construction0.Length];

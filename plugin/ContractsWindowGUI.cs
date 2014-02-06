@@ -16,9 +16,10 @@ namespace MissionController
         {
            
             GUI.skin = HighLogic.Skin;
-            GUILayout.BeginVertical();          
-
-           
+            GUILayout.BeginVertical();
+            if (manager.Getrandomcontractsfreeze != false)
+            { GUILayout.Box("You contrtact is locked, the random time check has been stoped until contract done, or canceled.", StyleBoxYellow); }
+       
             contractScrollPosition = GUILayout.BeginScrollView(contractScrollPosition, GUILayout.Width(500), GUILayout.Height(175));
             foreach (Mission m in currentPackage.Missions)
             {                            
@@ -52,6 +53,7 @@ namespace MissionController
                             currentPreviewMission2 = null;
                             packageWindow(false);
                             showContractSelection = false;
+                            manager.Setrandomcontractfreeze(true);
                         }
                     }
                 }
@@ -76,6 +78,7 @@ namespace MissionController
                             currentPreviewMission2 = null;
                             packageWindow(false);
                             showContractSelection = false;
+                            manager.Setrandomcontractfreeze(true);
                         }
                     }
                 }
@@ -101,6 +104,7 @@ namespace MissionController
                             currentPreviewMission2 = null;
                             packageWindow(false);
                             showContractSelection = false;
+                            manager.Setrandomcontractfreeze(true);
                         }
                     }
                 }
@@ -142,6 +146,7 @@ namespace MissionController
                         manager.SetCurrentContract2(0);
                         showContractSelection = false;
                         currentMission = null;
+                        manager.Setrandomcontractfreeze(false);
                         Debug.Log("MCE*** CurrentContract Reset to 0: " + manager.GetCurrentContract);
                     }
                 }

@@ -690,6 +690,7 @@ namespace MissionController
                 {                                       
                     contractReward(m.reward, m.CompanyOrder);
                     totalReward(m.reward);
+                    if (m.IsUserContract != true) {Setrandomcontractfreeze(false);}
                     if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
                     {
                         Contractsciencereward(m.scienceReward, m.CompanyOrder);
@@ -966,6 +967,10 @@ namespace MissionController
         {
             get { return currentProgram.currentcontracttype3; }
         }
+        public bool Getrandomcontractsfreeze
+        {
+            get { return currentProgram.randomcontractsfreeze; }
+        }
         /// <summary>
         /// sets the Random Contract number to save file.  This is what determines what contract is available. 0 sets the contracts to not be shown.
         /// </summary>
@@ -983,7 +988,15 @@ namespace MissionController
         {
             return currentProgram.currentcontracttype3 = value;
         }
-        
+        public bool Setrandomcontractfreeze(bool value)
+        {
+            Debug.Log("Time Check freeze For Random Contracts Set to: " + value);
+            return currentProgram.randomcontractsfreeze = value;           
+        }
+        public double SetCurrentCheckTime(double value)
+        {
+            return currentProgram.nextTimeCheck = value;
+        }
         /// <summary>
         /// Research For Construction Levels
         /// Set Construction True

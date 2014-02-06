@@ -205,7 +205,7 @@ namespace MissionController
                         managUserContracts.saveUserContracts();
                     }
                 }
-                if (goal == 4 && isdocking != true && IsOrbit >= 2)
+                if (goal == 4 && isdocking != true && IsOrbit != 0)
                 {
                     if (GUILayout.Button("Set DockingGoal", styleButtonWordWrap, GUILayout.Width(120)))
                     {
@@ -308,7 +308,7 @@ namespace MissionController
             }
             else
             {
-                drawContracts(currentPreviewMission3, calculateStatus(currentPreviewMission3, false, activeVessel));
+                drawContractsPreview(currentPreviewMission3, calculateStatus(currentPreviewMission3, false, activeVessel));
             }
             GUILayout.EndScrollView();
             GUILayout.EndHorizontal();
@@ -328,7 +328,7 @@ namespace MissionController
             {
                 manager.StartCompanyRandomizer();
                 manager.setUserContractCompany();               
-                usercontracts.IsUserContract = false;
+                usercontracts.IsUserContract = true;
                 usercontracts.IsContract = true;
                 managUserContracts.saveUserContracts();                
             }
@@ -347,8 +347,9 @@ namespace MissionController
         public string description = "A Small Description of Mission";
         public int reward = 0;
         public float scienceReward = 0;
+        public bool repeatable = true;
         public bool IsContract = false;
-        public bool IsUserContract = true;
+        public bool IsUserContract = false;
         public int CompanyOrder = 4;
         public List<NoneCrew> noneCrew = new List<NoneCrew>();
         public List<UCOrbitGoal> ucOrbitGoal = new List<UCOrbitGoal>();
@@ -383,7 +384,7 @@ namespace MissionController
             description = "A Small Description of Mission";
             reward = 0;
             scienceReward = 0;
-            IsUserContract = true;
+            IsUserContract = false;
             IsContract = false;
             noneCrew.Clear();
             ucOrbitGoal.Clear();

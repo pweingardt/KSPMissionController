@@ -32,6 +32,7 @@ namespace MissionController
         public string showCompanyAvailable2 = "COMA";
         public string showCompanyAvailable3 = "COMA";
         public string showCompanyAvailable4 = "COMA";
+        public bool randomcontractsfreeze = false;
 
         public List<MissionStatus> completedMissions = new List<MissionStatus>();
 
