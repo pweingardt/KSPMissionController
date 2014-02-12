@@ -9,6 +9,7 @@
 7.	Reset Button added to Settings for Contract Time Reset.
 8.	Missions and contracts now payout for Science correct (broke in older versions)
 9.	Can now specify a biome for landing goal for mission makers (thanks jamis)
+10.	Can now hire kerbals and they cost money when you do hire them.
 
 
 #Version .40
