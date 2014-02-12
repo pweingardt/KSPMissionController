@@ -134,3 +134,10 @@ only available in flight use this instead of the KSP revert button. Since MCE ha
 
 To stop this from happening I added MCE revert button. This button reverts both MCE and KSP at the same time.  Deleting any possible goals you might have completed for that mission and starting it over for you.
 Feel free to use the quick save as much as you want.  This does not change the Vessel IDs at all. So have at it! 
+
+#How does Vessel Recycling Work? 
+
+There are two options for recycling vessels. 
+1.	The default option is to land your vessel (whats left of it) and select the Recover button for KSP like you always do when recovering your vessel.  If you have recycling researched you will automatically be given back a percentage of the vessel cost.  If you landed on land you will get the a higher percentage back then if you land on water. Also if you have a space plane and land on runway you will get most of the vessel cost back.. Not including Maintenance  cost.
+2.	Saving parts of your rockets when launching.  You can also make use of the auto Recycling feature of MCE.  For any parts you are staging if you put enough parachutes onto the parts that are being Staged the auto recycler will recycle those parts once they disappear from the flight scene.  Also note you have to have to parachutes on the parts.. But you don’t have to make them open up for the auto recycle to work. As long as you have enough parachutes to do the job, MCE will call it close enough.
+
