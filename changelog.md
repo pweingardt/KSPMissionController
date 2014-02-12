@@ -1,3 +1,16 @@
+.50 Changes
+
+1.	Lots of little bug fixes.
+2.	New Random Contract System 
+3.	New Custom Contract System
+4.	MCE now has companies that give you Contracts and will pick up your custom contract
+5.	Majirs CompatibilityChecker added.
+6.	Reset Button added to Settings For GUI Widows.
+7.	Reset Button added to Settings for Contract Time Reset.
+8.	Missions and contracts now payout for Science correct (broke in older versions)
+9.	Can now specify a biome for landing goal for mission makers (thanks jamis)
+
+
 #Version .40
 
 1. Complete new UI change.  Itegrated ToolBar 1.3.0 into Mission Controller Extended.
