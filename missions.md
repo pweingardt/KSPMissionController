@@ -1,3 +1,15 @@
+# Changes For .50 and Contracts
+
+Please note that the information below on how to make a regular mission is still valid. MCE still allows you to make
+mission packages if you so choose.
+
+But the new contract system is different. Becuase of the Random value and weighted system MCE uses to choose what missions are selected at a time, you can't add any NEW Contracts to the Random Contracts system.  It won't work and you would most likely mess up the system.  Most of the choices for Contracts is HardCoded into MCE .dll.
+
+You can change the existing contracts though.  But is not recommended unless you have an idea of what your doing.
+
+#### If you would like to add a new Contract Base to the current system by all means send the contract.  Just write it out like you would a normal mission and I will see if it fits into the current contract system.  Please be aware most of the values in contracts use RANDOM and companies and payouts are decided by Random Company Selector.  The base pay is the starting value before being modified by Company Payout.
+
+
 # Mission packages
 
 Mission packages were introduced so that the mission directory would not
