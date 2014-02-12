@@ -27,7 +27,7 @@ namespace MissionController
         public static readonly double[] fuelmode1;
 
         public static readonly double[] fuelmode0 = new double[] 
-        {Tools.Setting("fuelmode0", 1)};
+        {Tools.Setting("fuelmode0", 1.0)};
 
         private static double[] fuelfactors = fuelmode0;
 

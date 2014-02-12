@@ -756,19 +756,19 @@ namespace MissionController
             {
                 if (HighLogic.LoadedScene.Equals(GameScenes.EDITOR))
                 {
-                    VabBudgetWin = GUILayout.Window(898993, VabBudgetWin, drawbudgetwindow, "Current Budget: " + CurrencySuffix + manager.budget.ToString("N2"), styleGreenButtonCenter, GUILayout.MinHeight(20), GUILayout.MinWidth(200));
+                    VabBudgetWin = GUILayout.Window(788543, VabBudgetWin, drawbudgetwindow, "Current Budget: " + CurrencySuffix + manager.budget.ToString("N2"), styleGreenButtonCenter, GUILayout.MinHeight(20), GUILayout.MinWidth(200));
                 }
                 if (HighLogic.LoadedScene.Equals(GameScenes.SPACECENTER))
                 {
-                    VabBudgetWin1 = GUILayout.Window(898994, VabBudgetWin1, drawbudgetwindow, "Current Budget: " + CurrencySuffix + manager.budget.ToString("N2"), styleGreenButtonCenter, GUILayout.MinHeight(20), GUILayout.MinWidth(200));
+                    VabBudgetWin1 = GUILayout.Window(788544, VabBudgetWin1, drawbudgetwindow, "Current Budget: " + CurrencySuffix + manager.budget.ToString("N2"), styleGreenButtonCenter, GUILayout.MinHeight(20), GUILayout.MinWidth(200));
                 }
                 if (HighLogic.LoadedScene.Equals(GameScenes.FLIGHT))
                 {
-                    VabBudgetWin2 = GUILayout.Window(898995, VabBudgetWin2, drawbudgetwindow, "CB " + CurrencySuffix + manager.budget.ToString("N2"), styleGreenButtonCenter, GUILayout.MinHeight(20), GUILayout.MinWidth(125));
+                    VabBudgetWin2 = GUILayout.Window(788545, VabBudgetWin2, drawbudgetwindow, "CB: " + CurrencySuffix + manager.budget.ToString("N2"), styleGreenButtonCenter, GUILayout.MinHeight(20), GUILayout.MinWidth(125));
                 }
                 if (HighLogic.LoadedScene.Equals(GameScenes.SPH))
                 {
-                    VabBudgetWin3 = GUILayout.Window(898996, VabBudgetWin3, drawbudgetwindow, "Current Budget: " + CurrencySuffix + manager.budget.ToString("N2"), styleGreenButtonCenter, GUILayout.MinHeight(20), GUILayout.MinWidth(200));
+                    VabBudgetWin3 = GUILayout.Window(788546, VabBudgetWin3, drawbudgetwindow, "Current Budget: " + CurrencySuffix + manager.budget.ToString("N2"), styleGreenButtonCenter, GUILayout.MinHeight(20), GUILayout.MinWidth(200));
                 }
             }
 
@@ -1425,7 +1425,7 @@ namespace MissionController
           
             GUI.skin = HighLogic.Skin;
             GUILayout.BeginVertical();
-            scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.Width(420));
+            scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.MaxWidth(420));
             GUILayout.Space(20);
 
             if (status.isClientControlled)
@@ -1486,7 +1486,7 @@ namespace MissionController
 
             GUI.skin = HighLogic.Skin;
             GUILayout.BeginVertical();
-            scrollPosition22 = GUILayout.BeginScrollView(scrollPosition22, GUILayout.Width(420));
+            scrollPosition22 = GUILayout.BeginScrollView(scrollPosition22, GUILayout.MaxWidth(420));
             GUILayout.Space(20);          
 
             if (settings.disablePlugin == true)
@@ -1742,21 +1742,21 @@ namespace MissionController
 
             //GUILayout.Label("pay" + comppayout);
             //GUILayout.Label("sci" + compscience);
-            GUILayout.Label("Current Contract: ", styleValueGreenBold);
+            GUILayout.Label("Current Contract: ", styleValueGreenBold, GUILayout.MaxWidth(420));
             GUILayout.Label(mission.name, styleText);
 
-            GUILayout.Label("Company Name", styleValueGreenBold);
+            GUILayout.Label("Company Name", styleValueGreenBold, GUILayout.MaxWidth(420));
             GUILayout.Label(compName, styleText);
 
-            GUILayout.Label("Description: ", styleValueGreenBold);
+            GUILayout.Label("Description: ", styleValueGreenBold,GUILayout.MaxWidth(420));
             GUILayout.Label(mission.description, styleText);
 
-            GUILayout.Label("Contract Binding Terms If Fail", styleValueGreenBold);
-            GUILayout.Label("Contract Payout + 10% (Note Not Yet Implemented - Malkuth)", styleText);
+            GUILayout.Label("Contract Binding Terms If Fail", styleValueGreenBold, GUILayout.MaxWidth(420));
+            GUILayout.Label("Contract Payout + 10% (Note Not Yet Implemented - Malkuth)", styleText, GUILayout.MaxWidth(420));
 
             if (mission.vesselName != false)
             {
-                GUILayout.Label("Vessel Name To Repair", styleValueGreenBold);
+                GUILayout.Label("Vessel Name To Repair", styleValueGreenBold, GUILayout.MaxWidth(420));
                 GUILayout.Label(manager.GetShowVesselRepairName, styleText);
             }
 
@@ -1781,7 +1781,7 @@ namespace MissionController
 
             if (mission.clientControlled)
             {
-                GUILayout.Label("At The End Of Contract All Company Assets Will Revert To Company Control", styleWarning);
+                GUILayout.Label("At The End Of Contract All Company Assets Will Revert To Company Control", styleWarning, GUILayout.MaxWidth(420));
             }
 
             drawContractsGoals(mission, s);
@@ -1793,7 +1793,7 @@ namespace MissionController
                 {
                     if (settings.gameMode == 0)
                     {
-                        GUILayout.Label("All goals accomplished. You can finish the mission now! Deducted for loans!", styleCaption);
+                        GUILayout.Label("All goals accomplished. You can finish the mission now! Deducted for loans!", styleCaption, GUILayout.MaxWidth(420));
                         showCostValue("Total Mission Payout:", (currentMission.reward * FinanceMode.currentloan) * PayoutLeveles.TechPayout, styleValueGreen);
                         if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
                         {
@@ -1802,7 +1802,7 @@ namespace MissionController
                     }
                     if (settings.gameMode == 1)
                     {
-                        GUILayout.Label("All Goals accomplished. Finish The Mission. Deducted for loans and HardCore mode"); // .75 * .6 = .45
+                        GUILayout.Label("All Goals accomplished. Finish The Mission. Deducted for loans and HardCore mode", GUILayout.MaxWidth(420)); // .75 * .6 = .45
                         showCostValue("Total Mission Payout:", (currentMission.reward * FinanceMode.currentloan * PayoutLeveles.TechPayout) * .60, styleValueGreen);
                         if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
                         {
@@ -1814,7 +1814,7 @@ namespace MissionController
                 {
                     if (settings.gameMode == 0)
                     {
-                        GUILayout.Label("All goals accomplished. you can finish the mission now!", styleCaption);
+                        GUILayout.Label("All goals accomplished. you can finish the mission now!", styleCaption, GUILayout.MaxWidth(420));
                         showCostValue("Total Mission Payout:", currentMission.reward * PayoutLeveles.TechPayout, styleValueGreen);
                         if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
                         {
@@ -1823,7 +1823,7 @@ namespace MissionController
                     }
                     if (settings.gameMode == 1)
                     {
-                        GUILayout.Label("All goals accomplished. you can finish the mission now: HardCore Mode!", styleCaption);
+                        GUILayout.Label("All goals accomplished. you can finish the mission now: HardCore Mode!", styleCaption, GUILayout.MaxWidth(420));
                         showCostValue("Total Mission Payout:", (currentMission.reward * PayoutLeveles.TechPayout) * .60, styleValueGreen);
                         if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
                         {
@@ -1842,8 +1842,8 @@ namespace MissionController
             //GUILayout.Label("sci" + compscience);
             GUILayout.Label("Current Contract: ", styleValueGreenBold);
             GUILayout.Label(mission.name, styleText);
-            
-            GUILayout.Label("Description: ", styleValueGreenBold);
+
+            GUILayout.Label("Description: ", styleValueGreenBold, GUILayout.MaxWidth(420));
             GUILayout.Label(mission.description, styleText);
             
             if (mission.vesselName != false)
@@ -2002,7 +2002,7 @@ namespace MissionController
                     {
                         if (s.finishableGoals.ContainsKey(c.id) && s.finishableGoals[c.id])
                         {
-                            if (GUILayout.Button("Hide finished goal"))
+                            if (GUILayout.Button("Hide finished goal", GUILayout.Width(420)));
                             {
                                 hiddenGoals.Add(c);
                             }

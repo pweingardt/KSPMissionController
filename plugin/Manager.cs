@@ -1156,6 +1156,12 @@ namespace MissionController
             }
             return currentProgram.money;
         }
+        public int CleanReward(int value)
+        {
+            latestExpenses = -value;
+            currentProgram.money += value;
+            return currentProgram.money;
+        }
 
         public int contractReward(int value, int ms)
         {
@@ -1298,13 +1304,13 @@ namespace MissionController
         public int costs(int value) 
         {
             currentProgram.totalSpentVessels += value;
-            return reward (-value);            
+            return CleanReward(-value);            
         }
 
         public int kerbCost(int value)
         {
             currentProgram.TotalSpentKerbals += value;
-            return reward(-value);
+            return CleanReward(-value);
         }
     }
 

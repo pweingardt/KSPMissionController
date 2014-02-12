@@ -62,7 +62,7 @@ namespace MissionController
         public static readonly double[] payoutmode2;
 
         public static readonly double[] payoutmode0 = new double[] 
-        {Tools.Setting("payoutmode0",1)};
+        {Tools.Setting("payoutmode0",1.0)};
 
         private static double[] payoutfactors = payoutmode0;
 
