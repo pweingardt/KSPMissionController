@@ -1,4 +1,4 @@
-.50 Changes
+#.50 Changes
 
 1.	Lots of little bug fixes.
 2.	New Random Contract System 
