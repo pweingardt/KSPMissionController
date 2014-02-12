@@ -18,14 +18,14 @@ namespace MissionController
         {
             ID = 2,
             Gname = "OrbitGoal",
-            Gamount = 40000,
+            Gamount = 50000,
             GSciAmount = 0
         };
         public GoalInfo GoalInfo3 = new GoalInfo()
         {
             ID = 3,
             Gname = "LandingGoal",
-            Gamount = 30000,
+            Gamount = 40000,
             GSciAmount = 0
         };
         public GoalInfo GoalInfo4 = new GoalInfo()
@@ -39,8 +39,8 @@ namespace MissionController
         {
             ID = 5,
             Gname = "CrashGoal",
-            Gamount = 20000,
-            GSciAmount = 20,
+            Gamount = 30000,
+            GSciAmount = 30,
         };
 
         public PlanetInfo PlanetInfo1 = new PlanetInfo()
@@ -63,7 +63,7 @@ namespace MissionController
         {
             ID = 3,
             Planet = "Mun",
-            Gamount = 50000,
+            Gamount = 60000,
             MaxOrb = 2247428,
             MinOrb = 8100,
         };
@@ -71,7 +71,7 @@ namespace MissionController
         {
             ID = 4,
             Planet = "Minmus",
-            Gamount = 55000,
+            Gamount = 65000,
             MaxOrb = 350000,
             MinOrb = 14100,
         };
@@ -79,7 +79,7 @@ namespace MissionController
         {
             ID = 5,
             Planet = "Duna",
-            Gamount = 400000,
+            Gamount = 450000,
             MaxOrb = 47921949,
             MinOrb = 42000,
         };
@@ -95,7 +95,7 @@ namespace MissionController
         {
             ID = 7,
             Planet = "Eve",
-            Gamount = 400000,
+            Gamount = 450000,
             MaxOrb = 1049598,
             MinOrb = 97000,
         };

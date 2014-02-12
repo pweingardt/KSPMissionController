@@ -51,7 +51,7 @@ namespace MissionController
         private double orbitPeA = 0;
 
         private bool ucNoCrewGoal = false;
-        private int ucHasCrew = 10000;
+        private int ucHasCrew = 20000;
 
         Dictionary<int, PlanetInfo> dictplanetinfo = new Dictionary<int, PlanetInfo>();
         Dictionary<int, GoalInfo> dictGoalInfo = new Dictionary<int, GoalInfo>();

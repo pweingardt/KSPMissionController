@@ -407,7 +407,6 @@ namespace MissionController
             manager.isKerbalHired();
             GUISave();
             if (manager.Getrandomcontractsfreeze != true) { manager.checkClockTiime(); }
-            manager.findVeselWithRepairPart();
             repairStation.repair = false;
             repairStation.dooropen = false;
         }
@@ -1750,9 +1749,6 @@ namespace MissionController
 
             GUILayout.Label("Description: ", styleValueGreenBold,GUILayout.MaxWidth(420));
             GUILayout.Label(mission.description, styleText);
-
-            GUILayout.Label("Contract Binding Terms If Fail", styleValueGreenBold, GUILayout.MaxWidth(420));
-            GUILayout.Label("Contract Payout + 10% (Note Not Yet Implemented - Malkuth)", styleText, GUILayout.MaxWidth(420));
 
             if (mission.vesselName != false)
             {

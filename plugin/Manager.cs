@@ -266,9 +266,9 @@ namespace MissionController
         /// </summary>
         public void StartContractTypeRandom()
         {
-            contractslist = new Randomizator3000.Item<int>[4];
+            contractslist = new Randomizator3000.Item<int>[6];
             contractslist[0] = new Randomizator3000.Item<int>();
-            contractslist[0].weight = 65;
+            contractslist[0].weight = 60;
             contractslist[0].value = 0;
 
             contractslist[1] = new Randomizator3000.Item<int>();
@@ -276,44 +276,60 @@ namespace MissionController
             contractslist[1].value = 1;
 
             contractslist[2] = new Randomizator3000.Item<int>();
-            contractslist[2].weight = 15;
+            contractslist[2].weight = 10;
             contractslist[2].value = 2;
 
             contractslist[3] = new Randomizator3000.Item<int>();
             contractslist[3].weight = 10;
-            contractslist[3].value = 3;            
+            contractslist[3].value = 3;
+
+            contractslist[4] = new Randomizator3000.Item<int>();
+            contractslist[4].weight = 7;
+            contractslist[4].value = 4;
+
+            contractslist[5] = new Randomizator3000.Item<int>();
+            contractslist[5].weight = 8;
+            contractslist[5].value = 5;
 
         }
         public void StartContractType1Random()
         {
-            contractslist1 = new Randomizator3000.Item<int>[7];
+            contractslist1 = new Randomizator3000.Item<int>[9];
             contractslist1[0] = new Randomizator3000.Item<int>();
-            contractslist1[0].weight = 40;
+            contractslist1[0].weight = 34;
             contractslist1[0].value = 0;
 
             contractslist1[1] = new Randomizator3000.Item<int>();
-            contractslist1[1].weight = 20;
-            contractslist1[1].value = 5;
+            contractslist1[1].weight = 10;
+            contractslist1[1].value = 6;
 
             contractslist1[2] = new Randomizator3000.Item<int>();
-            contractslist1[2].weight = 15;
-            contractslist1[2].value = 6;
+            contractslist1[2].weight = 10;
+            contractslist1[2].value = 7;
 
             contractslist1[3] = new Randomizator3000.Item<int>();
             contractslist1[3].weight = 10;
-            contractslist1[3].value = 7;
+            contractslist1[3].value = 8;
 
             contractslist1[4] = new Randomizator3000.Item<int>();
-            contractslist1[4].weight = 5;
-            contractslist1[4].value = 8;
+            contractslist1[4].weight = 10;
+            contractslist1[4].value = 9;
 
             contractslist1[5] = new Randomizator3000.Item<int>();
-            contractslist1[5].weight = 5;
-            contractslist1[5].value = 9;
+            contractslist1[5].weight = 8;
+            contractslist1[5].value = 10;
 
             contractslist1[6] = new Randomizator3000.Item<int>();
-            contractslist1[6].weight = 5;
-            contractslist1[6].value = 10;
+            contractslist1[6].weight = 8;
+            contractslist1[6].value = 11;
+
+            contractslist1[7] = new Randomizator3000.Item<int>();
+            contractslist1[7].weight = 5;
+            contractslist1[7].value = 12;
+
+            contractslist1[8] = new Randomizator3000.Item<int>();
+            contractslist1[8].weight = 5;
+            contractslist1[8].value = 13;
         }
         public void StartContractType2Random()
         {
@@ -324,65 +340,77 @@ namespace MissionController
 
             contractslist2[1] = new Randomizator3000.Item<int>();
             contractslist2[1].weight = 10;
-            contractslist2[1].value = 11;
+            contractslist2[1].value = 14;
 
             contractslist2[2] = new Randomizator3000.Item<int>();
             contractslist2[2].weight = 9;
-            contractslist2[2].value = 12;
+            contractslist2[2].value = 15;
 
             contractslist2[3] = new Randomizator3000.Item<int>();
             contractslist2[3].weight = 6;
-            contractslist2[3].value = 13;
+            contractslist2[3].value = 16;
 
             contractslist2[4] = new Randomizator3000.Item<int>();
             contractslist2[4].weight = 6;
-            contractslist2[4].value = 14;
+            contractslist2[4].value = 17;
 
             contractslist2[5] = new Randomizator3000.Item<int>();
             contractslist2[5].weight = 6;
-            contractslist2[5].value = 15;
+            contractslist2[5].value = 18;
 
             contractslist2[6] = new Randomizator3000.Item<int>();
             contractslist2[6].weight = 6;
-            contractslist2[6].value = 16;
+            contractslist2[6].value = 19;
 
             contractslist2[7] = new Randomizator3000.Item<int>();
             contractslist2[7].weight = 4;
-            contractslist2[7].value = 17;
+            contractslist2[7].value = 20;
 
             contractslist2[8] = new Randomizator3000.Item<int>();
             contractslist2[8].weight = 3;
-            contractslist2[8].value = 18;
+            contractslist2[8].value = 21;
         }
         /// <summary>
         /// This is the randomizer for Company Info.  Company Amounts is limited by this check.  The values can be changed in MCConfig though!
         /// </summary>
         public void StartCompanyRandomizer()
         {
-            companyListRandom = new Randomizator3000.Item<string>[6];
+            companyListRandom = new Randomizator3000.Item<string>[9];
             companyListRandom[0] = new Randomizator3000.Item<string>();
-            companyListRandom[0].weight = 25;
+            companyListRandom[0].weight = 15;
             companyListRandom[0].value = "COMA";
 
             companyListRandom[1] = new Randomizator3000.Item<string>();
-            companyListRandom[1].weight = 25;
+            companyListRandom[1].weight = 10;
             companyListRandom[1].value = "COMB";
 
             companyListRandom[2] = new Randomizator3000.Item<string>();
-            companyListRandom[2].weight = 25;
+            companyListRandom[2].weight = 10;
             companyListRandom[2].value = "COMC";
 
             companyListRandom[3] = new Randomizator3000.Item<string>();
-            companyListRandom[3].weight = 25;
+            companyListRandom[3].weight = 5;
             companyListRandom[3].value = "COMD";
 
             companyListRandom[4] = new Randomizator3000.Item<string>();
-            companyListRandom[4].weight = 15;
+            companyListRandom[4].weight = 10;
             companyListRandom[4].value = "COME";
 
             companyListRandom[5] = new Randomizator3000.Item<string>();
-            companyListRandom[5].weight = 10;
+            companyListRandom[5].weight = 5;
             companyListRandom[5].value = "COMF";
+
+            companyListRandom[6] = new Randomizator3000.Item<string>();
+            companyListRandom[6].weight = 15;
+            companyListRandom[6].value = "COMG";
+
+            companyListRandom[7] = new Randomizator3000.Item<string>();
+            companyListRandom[7].weight = 15;
+            companyListRandom[7].value = "COMH";
+
+            companyListRandom[8] = new Randomizator3000.Item<string>();
+            companyListRandom[8].weight = 15;
+            companyListRandom[8].value = "COMI";
         }
 
         /// <summary>
@@ -427,11 +455,10 @@ namespace MissionController
         {
             if (currentProgram.nextTimeCheck == 0)
             {
-                findVeselWithRepairPart();
+                
                 double currentTime;
                 currentTime = Planetarium.GetUniversalTime();
-                currentProgram.nextTimeCheck = currentTime + 86400;               
-                chooseVesselRepairFromList();
+                currentProgram.nextTimeCheck = currentTime + 86400;                               
                 Debug.Log("next contract check on date: " + MathTools.secondsIntoRealTime(currentProgram.nextTimeCheck));
             }          
         }
@@ -445,6 +472,8 @@ namespace MissionController
             currentTime = Planetarium.GetUniversalTime();
             if (currentTime >= currentProgram.nextTimeCheck)
             {
+                clearVesselRepairFromList();
+                findVeselWithRepairPart();
                 StartContractTypeRandom();
                 StartCompanyRandomizer();
                 setContractType();
@@ -455,8 +484,7 @@ namespace MissionController
                 currentProgram.nextTimeCheck = 0;
                 SetClockCountdown();
                 setCompanyName();
-                Debug.Log(GetCurrentContract + " This is current Contract Type 1 Chosen by Random System On Date: " + MathTools.secondsIntoRealTime(currentProgram.nextTimeCheck));
-                Debug.Log(GetCurrentContract2 + " This is current Contract Type 2 Chosen by Random System On Date: " + MathTools.secondsIntoRealTime(currentProgram.nextTimeCheck));
+                chooseVesselRepairFromList();               
             }           
         }
 
@@ -476,9 +504,8 @@ namespace MissionController
                     {
                         if (m.moduleName.Equals("repairStation"))
                         {
-                            repairvesselList.Clear();
                             repairvesselList.Add(new RepairVesselsList(vs.name));
-                            Debug.Log("MCE***" + vs.name + vs.id + " Loaded Vessels With RepairStation Parts");
+                            Debug.Log("MCE***" + vs.name + " Loaded Vessels With RepairStation Parts");
                         }
                     }
                 }
@@ -491,13 +518,14 @@ namespace MissionController
         public void chooseVesselRepairFromList()
         {
             System.Random rnd = new System.Random();
-
-            foreach (RepairVesselsList rp in manager.repairvesselList)
-            {
-                RepairVesselsList random = repairvesselList[rnd.Next(repairvesselList.Count)];
-                SetShowVesselRepairName(random.vesselName.ToString());
-                Debug.Log("Random Vessel Loaded" + random.vesselName);
-            } 
+            RepairVesselsList random = repairvesselList[rnd.Next(repairvesselList.Count)];
+            SetShowVesselRepairName(random.vesselName.ToString());
+            Debug.Log("Random Repair Vessel Selected " + random.vesselName);
+            Debug.Log("Random Repair Vessel Saved To .sp File " + GetShowVesselRepairName);
+        }
+        public void clearVesselRepairFromList()
+        {
+            repairvesselList.Clear();
         }
        
         /// <summary>
@@ -750,7 +778,7 @@ namespace MissionController
                 }
             }
             return false;
-        }
+        }        
 
         /// <summary>
         /// Gets all passive missions that are currently active. Removes old passive missions

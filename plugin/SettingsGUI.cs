@@ -95,23 +95,24 @@ namespace MissionController
 
             }
 
-            //if (GUILayout.Button("Set Values Randoms + Find Vessel", styleButtonWordWrap))
-            //{
-            //    manager.StartContractTypeRandom();
-            //    manager.StartContractType1Random();
-            //    manager.StartContractType2Random();
-            //    manager.StartCompanyRandomizer();
-            //    manager.setContractType();
-            //    manager.setContractType1();
-            //    manager.setContractType2();
-            //    manager.setCompanyName();
-            //    manager.findVeselWithRepairPart();
-            //}
+            if (GUILayout.Button("Set Values Randoms + Find Vessel", styleButtonWordWrap))
+            {
+                manager.StartContractTypeRandom();
+                manager.StartContractType1Random();
+                manager.StartContractType2Random();
+                manager.StartCompanyRandomizer();
+                manager.setContractType();
+                manager.setContractType1();
+                manager.setContractType2();
+                manager.setCompanyName();
+                manager.clearVesselRepairFromList();
+                manager.findVeselWithRepairPart();
+            }
 
-            //if (GUILayout.Button("Set Vessel Repair To Save", styleButtonWordWrap))
-            //{
-            //    manager.chooseVesselRepairFromList();
-            //}
+            if (GUILayout.Button("Set Vessel Repair To Save", styleButtonWordWrap))
+            {
+                manager.chooseVesselRepairFromList();
+            }
 
             //if (GUILayout.Button("Show Work Window (Finish Mission)", styleButtonWordWrap))
             //{

@@ -146,6 +146,7 @@ namespace MissionController
                         manager.SetCurrentContract2(0);
                         showContractSelection = false;
                         currentMission = null;
+                        currentPreviewMission2 = null;
                         manager.Setrandomcontractfreeze(false);
                         Debug.Log("MCE*** CurrentContract Reset to 0: " + manager.GetCurrentContract);
                     }
