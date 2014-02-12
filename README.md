@@ -1,4 +1,4 @@
-#New Mission Controller Extended Version .50 And Beyond
+##New Mission Controller Extended Version .50 And Beyond
 
 Welcome to the new mission controller.  .50 has brought a bunch of new features to MCE in hopes of getting MCE as close as possible to match the new Kerbal Space Program .24 when it is released.
 
@@ -9,7 +9,7 @@ Welcome to the new mission controller.  .50 has brought a bunch of new features 
 3.	New Custom Contract Generator.
 4.	Hire Kerbals Now
 
-###What has Stayed the Same?
+##What has Stayed the Same?
 
 1.	Still have mission packages for you can select and use Missions Made by other users and Default Missions shipped with MCE.
 2.	Finances are totally kept track of, how many missions launched, ships.  Amount paid, amount spent of vessels.
@@ -47,13 +47,14 @@ When do contract show up?  The random system does a Time Check every 24 hours in
 What to do when I have more than 1 contract?  When this happens you can only choose 1 contract for that Time Period!  Once you choose the accept button for the contract you want, all other contracts will disappear.  At the same time your contract you choose will be locked into place. Meaning that until you finish that contract no others will be offered.  The only way to get more offers is to finish the contract or Decline the contract!
 All contracts are paid after mission completion.  
 
-###Contract Types
+##Contract Types
 
-##Special Contracts:
+###Special Contracts:
 Repair Contract.  You will be given a vessel to repair from the Contract Company. You will have to launch a vessel and Dock with the Vessel (most likely a satellite) and use MCE repair Parts to repair the vessel.
 Building Vessels:  You might get a contract to help a company build a new prototype Orbiter or Possible Space Plane.  The company will give you a list of requirement’s for vessel.
 Testing: companies might offer you various test mission to do certain objectives. Like Fuel Test, EVA test, etc.
-##SOI Contracts:
+
+###SOI Contracts:
 
 SOI stands for Sphere Of Influence in this case this refers to The Kerbin SOI so anything that within range of Mun or minmus.
 
@@ -62,13 +63,13 @@ Satellite missions: Various missions from contractors that will have you deliver
 Probes: Send a probe to Mun or Minmus.
 Test: Some missions have certain test a contract might have you perform.
 
-## Out Of SOI Contracts:
+### Out Of SOI Contracts:
 
 These contracts will have you flying from kerbins SOI to other planetary bodies in the kerbol system.
 Rover Missions: These contracts will have you landing a rover on a celestial body.  Highly recommend that you use other mods that have Unmanned Science parts for these missions.  They make the missions much more fun.  Also these missions pay out more science then most other contract type missions. 
 
 
-###Custom Contracts
+##Custom Contracts
 
 Don’t like the contracts that random system has to offer?  How about that new shiny remote tech 2 you just installed, no mission for it?  
 Well look no further the Custom Contracts is MCE answer to your Questions. With the Custom Contracts Editor you can make your own missions.
@@ -93,39 +94,42 @@ Once mission is done you can go back into Usercontracts and Reset it, and start 
 You can also watch this video to see me using the system and how it works as of .50
 http://www.youtube.com/watch?v=gYeW4_NceSE
 
-###MCE Current Budget Window
+##MCE Current Budget Window
 
 This window list all your current budget information.  From this window you can access how many missions you flown.  How many kerbals you hired.  How many vessels you made and launched.  How much has been spent total on vessels. Etc.
 
 
-###MCE Research Window (Career Only)
+##MCE Research Window (Career Only)
 
 This is MCE research window if you’re in Sandbox mode this window is disabled!  In career mode it is open for you to sink more Science into.  MCE uses the same science points for its research as Kerbal Space Program uses for its science tree.
 
 ##Vessel Recycling: 
 Researching this will allow you to recycle vessel when you recover them.  You will get back certain percentage of the cost of the vessel back when you recover your vessels.  Landing in water will lower the Percentage you get back.. And landing on land will Get you the most back for Rockets.  If you have a space plane landing on the runway will recover most of the vessel cost for you.
 
-##Efficient fuels:
+###Efficient fuels:
 This will lower the cost of fuels when building new vessels.
 
-##Construction 1: 
+###Construction 1: 
 This will lower the Materials cost of Building New Vessels.
 
-##Construction 2: 
+###Construction 2: 
 This is the 2nd Tier Cost Reducing of Materials for building new vessels.
 
-##MissionPayouts 1: 
+###MissionPayouts 1: 
 When this is researched you will be given higher mission payouts in both contracts and regular missions.
 
-##MissionPayouts 2: 
+###MissionPayouts 2: 
 This will give you another increase for mission payouts and contract payouts!
 
-###Hide MCE Window Tool Bar Button
+##Hide MCE Window Tool Bar Button
 
 This will hide all of MCE Windows. Not including the Actual tool bar. The tool bar has its own Hide Fuction.
-##Ship Construction Window:  This will give you a list of all the construction cost for your vessel.  MCE uses its own values to give KSP parts Values. And does not use the default KSP Cost. This was done to insure that even Mod parts will have values.
 
-###Revert Button only available in flight use this instead of the KSP revert button. Since MCE has its own save file separate from KSP Persistence save file this button helps keep MCE and KSP in check with each other.  If you use the KSP button you could mess up missions.  For instance If you were doing a mission and it has 3 goals.  You completed 2 goals. (MCE saves those goals along with vessel id) on the 3rd goal you crashed and burned.  So you decide to revert with KSP.  Well once you launch the new vessel it will have a new Ship ID.  And since MCE keeps track of what vessel is doing current mission once you get to Goal 3 you won’t be able to complete it!  Because the Ship ID has changed and no longer matches.
+##Ship Construction Window:
+This will give you a list of all the construction cost for your vessel.  MCE uses its own values to give KSP parts Values. And does not use the default KSP Cost. This was done to insure that even Mod parts will have values.
+
+##Revert Button:
+only available in flight use this instead of the KSP revert button. Since MCE has its own save file separate from KSP Persistence save file this button helps keep MCE and KSP in check with each other.  If you use the KSP button you could mess up missions.  For instance If you were doing a mission and it has 3 goals.  You completed 2 goals. (MCE saves those goals along with vessel id) on the 3rd goal you crashed and burned.  So you decide to revert with KSP.  Well once you launch the new vessel it will have a new Ship ID.  And since MCE keeps track of what vessel is doing current mission once you get to Goal 3 you won’t be able to complete it!  Because the Ship ID has changed and no longer matches.
 
 To stop this from happening I added MCE revert button. This button reverts both MCE and KSP at the same time.  Deleting any possible goals you might have completed for that mission and starting it over for you.
 Feel free to use the quick save as much as you want.  This does not change the Vessel IDs at all. So have at it! 
