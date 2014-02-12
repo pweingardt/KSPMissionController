@@ -143,3 +143,20 @@ There are two options for recycling vessels.
 
 2.	Saving parts of your rockets when launching.  You can also make use of the auto Recycling feature of MCE.  For any parts you are staging if you put enough parachutes onto the parts that are being Staged the auto recycler will recycle those parts once they disappear from the flight scene.  Even though you have to have the right amount of parachutes on the parts for them to count as recycled, YOU DON'T have to stage them to open! Just having them on the part is enough for MCE to calculate that the part would of survived a landing.
 
+
+## Whats the MCSettings.cfg file Do?
+
+this is the nut and bolts of MCE.  Pretty much every single value that MCE uses comes from this .cfg file.  And its totally editable to you the user.  If you do not like something about MCE.. Payouts to litte?  Parts cost to much?  Don't like the company names or the their values?  How about Research items?  Well if you want to change those values this is the file you need to do it.  Pretty much the file itself explains what does what.  So have fun.  We made MCE the best way we could. But sometimes our ideas of fun might not be fun in your eyes.  So if you want to change it then most likely this file will help you.
+
+## Current Companies In MCE that give you contracts.
+
+1. Kerlington Model Rockets and Paper Products Inc (Avergae Payouts Great science)
+2. Kerbal X Space Research (sub par payouts Great science)
+3. Kebello AeroSpace And Flight Dynamics (Above average payouts and average science)
+4. Steadler Engineering Corps (Below average payouts and Great science)
+5. Kerman Orbital Sciences Co (above average payouts Unreal science)
+6. Kerbal Scaled Composites (avoe average payouts average science)
+7. Jebediah Kerban's Junkyard and Spaceship parts CO (average pay, little below average science)
+8. Rockomax Conglomerate (average pay average science)
+9. Probodobodyne Inc (little above avearage pay great science)
+
