@@ -104,7 +104,7 @@ This window list all your current budget information.  From this window you can 
 
 This is MCE research window if you’re in Sandbox mode this window is disabled!  In career mode it is open for you to sink more Science into.  MCE uses the same science points for its research as Kerbal Space Program uses for its science tree.
 
-##Vessel Recycling: 
+###Vessel Recycling: 
 Researching this will allow you to recycle vessel when you recover them.  You will get back certain percentage of the cost of the vessel back when you recover your vessels.  Landing in water will lower the Percentage you get back.. And landing on land will Get you the most back for Rockets.  If you have a space plane landing on the runway will recover most of the vessel cost for you.
 
 ###Efficient fuels:
