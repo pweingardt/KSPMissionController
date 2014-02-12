@@ -1,3 +1,24 @@
+# What is Mission Controller Extended? 
+
+MCE is a Plugin that give you the player an economy, missions, contracts and companies to supply you with a total experience of running a space Program.
+
+No longer can you just launch a vessel and think.. Oh well all these parts cost nothing, launch it anyway!  Now you have a budget to watch over.  That ship your about to launch will cost you money from that budget!
+
+Oh I will just hire my 200th kerbal.. No big deal! Not so with MCE.  MCE kerbals cost money too.  You have to hire them and train them!  So maybe throwing away the little green guys is not a good idea anymore?
+
+With MCE you have a massive selection of missions to choose from.  With the old system you could load up a Mission Package and play someone else’s missions they made!  Maybe that was not so fun doing the same thing over and over?
+With MCE .50 you now have more options.  First you can try out the new Contracts system.  This is MCE Random mission Maker.  You now are offered contracts from companies to do certain missions for a certain price in both Credits and Science! (science only available in career mode).  The system is completely random and works similar to what the Developers of KSP plan on delivering with .24.  Only a little more complex with MCE budget system.
+
+Random contracts not good enough for you?  Well .50 also introduces a new Custom contract system!  This is MCE Custom Mission Maker built right into KSP.  Build your own mission, to your heart’s content!  With a pretty easy to learn system that is built for speed and ease of use.  I myself in testing can make a mission in under 40 seconds and be ready to go.  
+
+Now the custom Contract maker is not the end all of Mission Makers. It’s a simple system but it works.  In the long run if you want complex missions then the old tried and true way of hand writing them is still best.  But for most missions you will need, the custom contract maker will work just fine!
+
+So enjoy MCE .50 and build those Space Programs.
+
+Malkuth.
+
+
+
 ##New Mission Controller Extended Version .50 And Beyond
 
 Welcome to the new mission controller.  .50 has brought a bunch of new features to MCE in hopes of getting MCE as close as possible to match the new Kerbal Space Program .24 when it is released.
