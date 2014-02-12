@@ -31,14 +31,14 @@ To move around MCE many windows all you have to do is select its ToolBar Icon.  
 6.	Reset Window Positions: If any of your MCE windows won’t work they most likely have been saved off screen. Use this button to Reset the windows to 0 value.  This resets all windows!  But you will get your Missing window back.
 7.	Save Settings: This will save your current Settings.
 
-###MCE Select Mission Menu
+#MCE Select Mission Menu
 
 This is MCE mission selection window.  Select the package button to get a list of the current Mission Packages that are installed into you MCE game. The default ones are RandomMissions and Stock. 
 After you select your package you will have a list of missions to choose from.  
 MCE Contract Menu (New)
 This is the area to go to if you want to see a current list of available contracts.  Two Options are.
 
-###Contracts:
+#Contracts:
 
 Contracts button brings you to MCE random contract generator.  This is a system that will randomly choose for you certain base template missions to do. What makes the system random is that most values inside the contract are completely random.  Mission Payouts, Orbits, etc.  Also contracts are funded by companies. There are about 9 companies total in MCE that will offer you different contracts.
 Companies: Some you will recognize others you won’t but all the different companies in MCE will offer you different things.  Some companies pay really well, others don’t.  Some offer more Science Payouts if you’re playing  career mode, others do not. It’s completely random what company is going to offer you a contract. Which makes the whole system pretty fun.
@@ -69,7 +69,7 @@ These contracts will have you flying from kerbins SOI to other planetary bodies 
 Rover Missions: These contracts will have you landing a rover on a celestial body.  Highly recommend that you use other mods that have Unmanned Science parts for these missions.  They make the missions much more fun.  Also these missions pay out more science then most other contract type missions. 
 
 
-##Custom Contracts
+#Custom Contracts
 
 Don’t like the contracts that random system has to offer?  How about that new shiny remote tech 2 you just installed, no mission for it?  
 Well look no further the Custom Contracts is MCE answer to your Questions. With the Custom Contracts Editor you can make your own missions.
