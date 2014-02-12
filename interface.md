@@ -1,5 +1,5 @@
 ## Interface to access the Manager from your plugin
-
+### This is Out Of Date, I will rewrite Interface at a later date.
 If you want to support the mission controller in your plugin, you have to reference the MissionLibrary.dll
 (it is inside the lib folder) from your project. Use the method `ManagerAccessor.get`
 (you may have to use the `MissionController` namespace) to access the interface.
