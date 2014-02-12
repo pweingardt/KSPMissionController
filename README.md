@@ -63,10 +63,13 @@ Probes: Send a probe to Mun or Minmus.
 Test: Some missions have certain test a contract might have you perform.
 
 ## Out Of SOI Contracts:
+
 These contracts will have you flying from kerbins SOI to other planetary bodies in the kerbol system.
 Rover Missions: These contracts will have you landing a rover on a celestial body.  Highly recommend that you use other mods that have Unmanned Science parts for these missions.  They make the missions much more fun.  Also these missions pay out more science then most other contract type missions. 
 
+
 ###Custom Contracts
+
 Don’t like the contracts that random system has to offer?  How about that new shiny remote tech 2 you just installed, no mission for it?  
 Well look no further the Custom Contracts is MCE answer to your Questions. With the Custom Contracts Editor you can make your own missions.
 How does it work?
@@ -96,19 +99,26 @@ This window list all your current budget information.  From this window you can 
 
 
 ###MCE Research Window (Career Only)
+
 This is MCE research window if you’re in Sandbox mode this window is disabled!  In career mode it is open for you to sink more Science into.  MCE uses the same science points for its research as Kerbal Space Program uses for its science tree.
 
-##Vessel Recycling: Researching this will allow you to recycle vessel when you recover them.  You will get back certain percentage of the cost of the vessel back when you recover your vessels.  Landing in water will lower the Percentage you get back.. And landing on land will Get you the most back for Rockets.  If you have a space plane landing on the runway will recover most of the vessel cost for you.
+##Vessel Recycling: 
+Researching this will allow you to recycle vessel when you recover them.  You will get back certain percentage of the cost of the vessel back when you recover your vessels.  Landing in water will lower the Percentage you get back.. And landing on land will Get you the most back for Rockets.  If you have a space plane landing on the runway will recover most of the vessel cost for you.
 
-##Efficient fuels: This will lower the cost of fuels when building new vessels.
+##Efficient fuels:
+This will lower the cost of fuels when building new vessels.
 
-##Construction 1: This will lower the Materials cost of Building New Vessels.
+##Construction 1: 
+This will lower the Materials cost of Building New Vessels.
 
-##Construction 2: This is the 2nd Tier Cost Reducing of Materials for building new vessels.
+##Construction 2: 
+This is the 2nd Tier Cost Reducing of Materials for building new vessels.
 
-##MissionPayouts 1: When this is researched you will be given higher mission payouts in both contracts and regular missions.
+##MissionPayouts 1: 
+When this is researched you will be given higher mission payouts in both contracts and regular missions.
 
-##MissionPayouts 2: This will give you another increase for mission payouts and contract payouts!
+##MissionPayouts 2: 
+This will give you another increase for mission payouts and contract payouts!
 
 ###Hide MCE Window Tool Bar Button
 
