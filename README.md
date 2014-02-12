@@ -1,282 +1,121 @@
-##Research Tech New To MCE
-####Recycling: 
-You have to research the ability to recycle now.
+###New Mission Controller Extended Version .50 And Beyond
 
-####Fuel Efficiency:  
-research a Top End 20% Reduction to how well You Produce Fuels.. (IE Cheaper Fuel Cost)
+Welcome to the new mission controller.  .50 has brought a bunch of new features to MCE in hopes of getting MCE as close as possible to match the new Kerbal Space Program .24 when it is released.
 
-####Construction 1: 
-First Level Of Construction Your Paying Out about 120% more Then Original MCE.. 
-With This Upgrade you bring it back down to Normal MCE.
+###Lets Get started what has changed?
 
-####Construction 2:  
-2nd Reduction in Construction Cost with an additional %10 Cut to cost.
+1.	New Tool Bar system (Blizzy’s Tool Bar) is used to navigate MCE.
+2.	New Random Contract Generator.
+3.	New Custom Contract Generator.
+4.	Hire Kerbals Now
 
-###New Research for Version .36
+###What has Stayed the Same?
 
-####Payout Levels 2
-With this researched payout levels for all missions increase by 20%
+1.	Still have mission packages for you can select and use Missions Made by other users and Default Missions shipped with MCE.
+2.	Finances are totally kept track of, how many missions launched, ships.  Amount paid, amount spent of vessels.
+3.	Bankruptcy, if your budget goes into the Negative values.  
+4.	MCE Science System for use in Career games.
+5.	MCE still works in Sandbox mode, only difference is that there is no Science, or tech tree.
+6.	Recycling your vessels, both Rockets and Space Planes.
 
-####payout Levels 3
-With this researched Payout levels for all mission increased by another 20%
+###Tool Bar Menu
 
-######note:
-All levels must be completed for next level of Research..For instance.  You can't research Construction 2 without
-researching Construction 1 first.  Same for other tech levels with Multi Levels.
+To move around MCE many windows all you have to do is select its ToolBar Icon.  All icons have pictures and a pop up message where the icon will lead you to.
 
+###Settings Menu
+1.	Disable Plugin: This disables the plugin. Any vessel launched while plugin is disabled will be flagged and can never be used with any mission or contract for MCE.  So be careful.
+2.	Normal Mode: This is the default Difficulty Level for MCE.
+3.	HardCore Mode: All this does is take away 40% of mission Payouts to make MCE harder.
+4.	Reset your MCE saveGame: This will reset you Current .sp File to default values. Only use this if you want to start over.  Note this will not reset your Kerbal Space Program Save, only MCE Save file.
+5.	Reset Contract Time Set:  This resets the MCE clock countdown for Random Contracts.  If for any reason you think the MCE Contract Time is not working, or is stuck pressing this will reset it to 0.
+6.	Reset Window Positions: If any of your MCE windows won’t work they most likely have been saved off screen. Use this button to Reset the windows to 0 value.  This resets all windows!  But you will get your Missing window back.
+7.	Save Settings: This will save your current Settings.
 
-## New Update On Loans Version MCE .35
+###MCE Select Mission Menu
 
-New Loan system. Loan system has been changed. There are now 3 levels oh loans.. 
-Default values are. 
-25% Reduction(-1 to -25000), 
-50% (-25001 to -60000) Reduction and 
-75% (-600001 and below)reduction. 
-all three values can be edited in
-MCconfig to your desire.
+This is MCE mission selection window.  Select the package button to get a list of the current Mission Packages that are installed into you MCE game. The default ones are RandomMissions and Stock. 
+After you select your package you will have a list of missions to choose from.  
+MCE Contract Menu (New)
+This is the area to go to if you want to see a current list of available contracts.  Two Options are.
 
-##Budgets And Financing: New For .30 and KSP .22
+###Contracts:
 
-New Finance Screen that tracks the following
+Contracts button brings you to MCE random contract generator.  This is a system that will randomly choose for you certain base template missions to do. What makes the system random is that most values inside the contract are completely random.  Mission Payouts, Orbits, etc.  Also contracts are funded by companies. There are about 9 companies total in MCE that will offer you different contracts.
+Companies: Some you will recognize others you won’t but all the different companies in MCE will offer you different things.  Some companies pay really well, others don’t.  Some offer more Science Payouts if you’re playing  career mode, others do not. It’s completely random what company is going to offer you a contract. Which makes the whole system pretty fun.
 
-Total Mission Payouts (lifetime)
-Total Recycling Payouts (LifeTime)
-Total Of Both Above (LifeTime)
-Total Spent On Vessels (LifeTime)
+When do contract show up?  The random system does a Time Check every 24 hours in game time (will = about 2 days kerbal time) and if the checks pass you will get contracts.  If they fail you won’t.  There will be times you will have 0 contracts available.  Or you could have a max of 3 available.
+What to do when I have more than 1 contract?  When this happens you can only choose 1 contract for that Time Period!  Once you choose the accept button for the contract you want, all other contracts will disappear.  At the same time your contract you choose will be locked into place. Meaning that until you finish that contract no others will be offered.  The only way to get more offers is to finish the contract or Decline the contract!
+All contracts are paid after mission completion.  
 
-Total Profit (LifeTime)  After All Expenses.
+###Contract Types
 
-The mod takes care of your budget.. Subtracting Cost of vessels for you.. And putting
-the payments from missions back into your Budget. Can You keep it in the green?
+##Special Contracts:
+Repair Contract.  You will be given a vessel to repair from the Contract Company. You will have to launch a vessel and Dock with the Vessel (most likely a satellite) and use MCE repair Parts to repair the vessel.
+Building Vessels:  You might get a contract to help a company build a new prototype Orbiter or Possible Space Plane.  The company will give you a list of requirement’s for vessel.
+Testing: companies might offer you various test mission to do certain objectives. Like Fuel Test, EVA test, etc.
+##SOI Contracts:
 
-Vessel Cost and Mission Payouts: Design your vessels like normal.. But now when you launch you will be charged
-for it.. Each vessel cost you Crones. You start the Game with 50,000 Crones.. Can you spread this money enough to 
-get your budding Space 
-Program off the ground? If you can't don't worry.. You can go into the red... and mission controller 
-will let you borrow money.. But how far do you go before you decide you can't handle it? Only time will tell.
+SOI stands for Sphere Of Influence in this case this refers to The Kerbin SOI so anything that within range of Mun or minmus.
 
+Satellite missions: Various missions from contractors that will have you deliver satellites to certain areas of Kerbin SOI.  Most of these missions require the MCE Repair part and your choice of Docking Ports.
 
-##New Flaggin System for Flight Test Mode And Plugin Disabled
-If vessels launched in Test Mode Or Disabled Plugin. The vessel will be Flagged
-for the rest of the game save (forever until dead). Flagged vessels cannot finish missions, or collect 
-recycling of any kind.
+Probes: Send a probe to Mun or Minmus.
+Test: Some missions have certain test a contract might have you perform.
 
-##Flight Testing Mode:
+## Out Of SOI Contracts:
+These contracts will have you flying from kerbins SOI to other planetary bodies in the kerbol system.
+Rover Missions: These contracts will have you landing a rover on a celestial body.  Highly recommend that you use other mods that have Unmanned Science parts for these missions.  They make the missions much more fun.  Also these missions pay out more science then most other contract type missions. 
 
-Why should testing your Crafts be free? Is it free in the real world? What about Test Pilots do they really die?
-The answer is yes.. New In Mission Controller Extended is the Testing Mode... Now you can set the Mod to Flight 
-Testing Mode and you will be charged to test those craft.... Based on the cost of the actual vessel.. But don't
-worry its not the full cost.. Its based on 3% of the original Craft.. So ya its cheap.. But how many test do you 
-need anyway? They can add up so beware.
+###Custom Contracts
+Don’t like the contracts that random system has to offer?  How about that new shiny remote tech 2 you just installed, no mission for it?  
+Well look no further the Custom Contracts is MCE answer to your Questions. With the Custom Contracts Editor you can make your own missions.
+How does it work?
 
-In both Normal Flight Mode and Testing mode if you lose Kerbalnauts or Test Pilots you can suffer a Insurance
-cost.. All insurance cost are charged as the flight takes off.. And if the Victoms surive the blast... I mean 
-test the cost will be returned to you... And of course you can choose to set this cost to what you like.. The 
-default is 0... But I suggest a nice round number like 55,000.. Its what I use in my youtube series.
+1. You can Name your Mission.
+2. Place a Small description.
+3. First part going to ask if you have crew or not. Yes or no will decide if the actual mission is looking for crew or not. The more crew you have the more the payout. 
+4. Your First goal should be a Orbit goal, you are only allowed 2 orbit goals for the contract (limitations on how things are saved). If you do use 2 Orbit goals, be aware they are ascending list and always first and 2nd for mission Goals.
+5. Do you want to dock with something? Possible goal only used once, and if you have 2 orbit goals will be placed after the 2nd orbit goal. If only 1 orbit goal placed after 1st. (if you add another orbit, it will move after 2nd)
+6. CrashGoal and Planet to crash (another possible goal) placed after docking.
+7. Landing Goal. Last goal in series. Your choice. Fly to duna and land? Or fly to duna then land at kerbin for return. Can only have 1 landing goal right now. (important).
 
-##Recover And Recycle Your Vessels: 
+When setting a Mission Goal you must reload the Contract to see it (the reload button is located right under the Goals button)
+If you happen to forget to set your name and description after you already set your goals. Set your names then chose Save Contract to save those changes.
 
-Totally Changed in .16 and .17. Gone is the old way of Recycling your vessel.. 
-Now you can go into Tracking Station and use the Recover button to Recover AND Recycle your vessels. Here you will 
-get 0.85 * part cost if it is landed, and 0.65 if it is splashed down (landed on water).
+When you’re done with your contract and happy with it press Send To Bidding to finalize the contract. A company will pick it up and you will see the payout for contract. (Must reload it again)
 
-##Auto Recycle:
+Go on your merry way and complete the mission.
 
-recycles your spent stages. This is how it works.
-(a) falls below 25km above Kerbin and is therefore destroyed by the game but
-(b) has 70 drag per ton (0.14t of stock parachute per ton of dry vessel mass)
-then it will be recycled at 0.60 * sum(cost of parts in it). Note that a Mk16 
-parachute, which masses 0.1t and has drag coefficient of 500, yields 50 drag (0.1 * 500); the stock 
-drogue yields less because its Cd is lower.
-NOTE: Kerbals will NOT be recovered this way! This is only for spent stages, etc. You MUST ride down 
-manually any craft containing crew or they will be lost.
+Once mission is done you can go back into Usercontracts and Reset it, and start over with a new one.
+You can also watch this video to see me using the system and how it works as of .50
+http://www.youtube.com/watch?v=gYeW4_NceSE
 
-##Disable Plugin:
+###MCE Current Budget Window
 
-Feel a little down today and don't want to be charged anything. Want to turn off the Plugin.. 
-Well the option to turn off the plugin is in the settings.. And nothing will be charged.. And 
-no missions can be completed.. But essentially the mod does not exist in this mode.
+This window list all your current budget information.  From this window you can access how many missions you flown.  How many kerbals you hired.  How many vessels you made and launched.  How much has been spent total on vessels. Etc.
 
-##Missions:
 
-Everything from Orbits, to landing on other moons or planets to Docking with other 
-crafts are available to you in the missions!!.. Have some knowledge in coding? Make your own missions 
-with easy to edit .cfg files!! (future plan might be an actual mission editor everyone can use) And with 
-my added missions bringing you two new packs.. The missions grow even more.. 2 Story Based missions fashioned 
-in the kerbal style we are use too. These missions are designed to work along with your Sandbox mode.. Like to
-make your own vessels and do what you want.. But in the scope of Mission Controllers budget? Well the 2 added 
-Packs are made to pay you out enough to move you along in Mission Controller.. And fund your own missions....
+###MCE Research Window (Career Only)
+This is MCE research window if you’re in Sandbox mode this window is disabled!  In career mode it is open for you to sink more Science into.  MCE uses the same science points for its research as Kerbal Space Program uses for its science tree.
 
-##mod support: 
+##Vessel Recycling: Researching this will allow you to recycle vessel when you recover them.  You will get back certain percentage of the cost of the vessel back when you recover your vessels.  Landing in water will lower the Percentage you get back.. And landing on land will Get you the most back for Rockets.  If you have a space plane landing on the runway will recover most of the vessel cost for you.
 
-Support for Prices For the Mods IonCross Oxygen Cost.. And Modular Fuel Tanks Fuel Cost
+##Efficient fuels: This will lower the cost of fuels when building new vessels.
 
-### Mission Controller Extended
+##Construction 1: This will lower the Materials cost of Building New Vessels.
 
-Please Read Important Mission Controller Extended is the Continuation of the Mission Controller 
+##Construction 2: This is the 2nd Tier Cost Reducing of Materials for building new vessels.
 
+##MissionPayouts 1: When this is researched you will be given higher mission payouts in both contracts and regular missions.
 
-### Mission Controller for Kerbal Space Program
+##MissionPayouts 2: This will give you another increase for mission payouts and contract payouts!
 
-This plugin keeps track of your accomplished mission and your available budget.
-You can even create your own missions with a simple text editor and a small tutorial.
+###Hide MCE Window Tool Bar Button
 
+This will hide all of MCE Windows. Not including the Actual tool bar. The tool bar has its own Hide Fuction.
+##Ship Construction Window:  This will give you a list of all the construction cost for your vessel.  MCE uses its own values to give KSP parts Values. And does not use the default KSP Cost. This was done to insure that even Mod parts will have values.
 
-### How this works
+###Revert Button only available in flight use this instead of the KSP revert button. Since MCE has its own save file separate from KSP Persistence save file this button helps keep MCE and KSP in check with each other.  If you use the KSP button you could mess up missions.  For instance If you were doing a mission and it has 3 goals.  You completed 2 goals. (MCE saves those goals along with vessel id) on the 3rd goal you crashed and burned.  So you decide to revert with KSP.  Well once you launch the new vessel it will have a new Ship ID.  And since MCE keeps track of what vessel is doing current mission once you get to Goal 3 you won’t be able to complete it!  Because the Ship ID has changed and no longer matches.
 
-In the bottom left corner is a new icon (appears only when you are at the space center, flying a vessel or
-building a rocket or a plane): "MC" for mission controller.
-Click on it and it gives you the mission window, that shows your budget and informations about
-the currently selected mission.
-
-But be careful with your rockets! Once you launch the space craft on the launchpad, it will cost you Kerbin krones (the currency on Kerbin, ₭). Even if you restart the
-flight, the krones are *GONE*.
-
-### VESSELS COST KRONES???
-
-Yes, indeed. You pay for construction, fuel (solid fuel, liquid fuel, mono propellant and xenon),
-and other materials (= mass without fuel). But don't worry, the Kerbal Space Program will borrow you money, if you need it.
-
-### How to accomplish a mission
-
-Open the mission package browser window and select the mission package to browse the missions.
-A bigger window opens and you can browse through all missions in that mission package. Once you have decided to finish the selected
-mission, press "select mission" and the mission package browser disappears. The previously selected mission appears in the smaller
-window and you are able to finish the mission now.
-
-Before you launch the space craft, you should read the mission description and all mission goals. Just to be clear
-that you didn't forget something... because you will forget something.
-Then launch your space craft and accomplish the *first* mission goal. Most missions require you to finish the mission
-goals in the right order to get the reward for the mission.
-
-Let's take a look at the "Sputnik III" mission:
-
-Reward: 24000 + 2000
-
-1. reach a stable orbit around kerbin, minimal periapsis: 70km (2000 krones reward)
-2. Land back on Kerbin
-
-You can't finish the second mission goal before you did not finish the first mission goal. Once you have achieved the
-stable orbit, you get a small reward for reaching this goal (you can hide all finished goals by pressing the button). When you are out of
-fuel and can't make it back to Kerbin, you will not get the 14k reward. Once you *land or splash* back on Kerbin, you get the full
-14k + 2k reward. There are missions, where a splash is not enough. Crashes on the surface, that do not destroy the space craft,
-are sufficient but reduce the recyclable value of the crashed ("landed") vessel.
-
-Let's take another look at the "Mun I" mission:
-
-Reward: 40000 + 5000
-
-1. Get into an escape trajectory (a flyby) around Mun. The periapsis needs to
-be between 4km and 6km.
-2. Bring your probe back to Kerbin. Reward 5000, but optional
-
-You don't need to finish the 2nd mission goal, because it is optional. But it will give you 5000
-krones.
-
-
-### How do I create a new mission?
-
-This part is a bit more complicated and you need advanced knowledge about orbital mechanics.
-Lets take a look at "Sputnik I.m"
-
-    Mission
-    {
-        name = Sputnik III
-        description = Bring a small satellite into a stable orbit around Kerbin and return safely back to Kerbins surface.
-        reward = 14000
-
-        OrbitGoal
-        {
-            reward = 2000
-
-            body = Kerbin
-            minPeA = 70000
-            maxEccentricity = 1
-        }
-
-        LandingGoal
-        {
-            reward = 2000
-
-            body = Kerbin
-        }
-    }
-
-A mission consists of several (or one) mission goals. Those mission goals can be:
-
-1. a certain orbit
-2. a successful landing on a planet (splashing is enough)
-3. special parts on your space craft, that you need to accomplish the mission
-4. a minimal crew count to accomplish the mission
-5. another mission
-
-For more infos about mission goals, see [missions.md](missions.md).
-
-With combinations of these goals you can create a complicated mission, consisting of several mission goals:
-
-1. stable orbit around Kerbin
-2. stable orbit around Mun
-3. landing on Mun (manned!)
-4. bring it back into a stable orbit around Mun
-5. landing on Kerbin (manned!)
-
-Here it is:
-
-    Mission
-    {
-        name = Mun X
-        description = Bring a manned space craft onto the surface of the Mun and bring it back.
-        reward = 30000
-
-        OrbitGoal
-        {
-            crewCount = 1
-            reward = 4000
-            body = Kerbin
-            minPeA = 70000
-            maxEccentricity = 1
-        }
-
-        OrbitGoal
-        {
-            crewCount = 1
-            reward = 10000
-            body = Mun
-            minPeA = 3000
-            maxEccentriciy = 1
-        }
-
-        LandingGoal
-        {
-            crewCount = 1
-            body = Mun
-        }
-
-        OrbitGoal
-        {
-            reward = 10000
-            crewCount = 1
-            body = Mun
-            minPeA = 3000
-            maxEccentriciy = 1
-        }
-
-        LandingGoal
-        {
-            crewCount = 1
-            body = Kerbin
-        }
-    }
-
-Create your missions and share them!
-With 0.4 you have to use mission packages, read [missions.md](missions.md) for more.
-
-### Contributions
-
-* maintainer and main developer: nobody44
-* support and ideas: vaughner81
-* support and ideas: tek\_604
-* ideas: BaphClass
-* images: BlazingAngel665
-
-
+To stop this from happening I added MCE revert button. This button reverts both MCE and KSP at the same time.  Deleting any possible goals you might have completed for that mission and starting it over for you.
+Feel free to use the quick save as much as you want.  This does not change the Vessel IDs at all. So have at it! 
