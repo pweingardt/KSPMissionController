@@ -1,10 +1,14 @@
 #Known Problems
 
+##MechJeb Cost To Dam Much!
+
 The way to fix MechJeb if it costs too much is either:
 (a) Give the part a reasonable mass, like at minimum 0.1 (then it'll only cost ~1800)
 (b) remove MODULE { name = Module Command ..... } from the MJ part cfg.
 (c) no we don't hate mechjeb. Its just the values it uses in its .cfg does not agree with MCE Part Cost Algorithms. ;)
 
+
+##Science not paying out in crashgoal it seems!
 
 If your having issues still getting science payout with CrashGoal Type Missions.. Read this!
 
@@ -15,6 +19,8 @@ When you crash a vessel you get the old screen popup that shows you flight data 
 I have tried fixing this.. But seems like there is nothing I can do (I even have a persistence save when science changes).. This screen is the problem, and not much I can do about how that pop up screeen works. 
 
 It only happens with Crash type goals. All the other types of missions its not an issue because you never get the Exit screen that is causing the issue.
+
+##Issues with adding parts to mission with underscores?
 
 For Mission makers if your using a required part as a mission objective.. And it has an underscore in the name you have to replace the underscore with a period. So Large_Crewed_Lab would be Large.Crewed.Lab
 
