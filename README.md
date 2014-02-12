@@ -1,8 +1,8 @@
-###New Mission Controller Extended Version .50 And Beyond
+#New Mission Controller Extended Version .50 And Beyond
 
 Welcome to the new mission controller.  .50 has brought a bunch of new features to MCE in hopes of getting MCE as close as possible to match the new Kerbal Space Program .24 when it is released.
 
-###Lets Get started what has changed?
+##Lets Get started what has changed?
 
 1.	New Tool Bar system (Blizzy’s Tool Bar) is used to navigate MCE.
 2.	New Random Contract Generator.
