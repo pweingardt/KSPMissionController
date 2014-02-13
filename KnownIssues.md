@@ -8,6 +8,16 @@ The way to fix MechJeb if it costs too much is either:
 (c) no we don't hate mechjeb. Its just the values it uses in its .cfg does not agree with MCE Part Cost Algorithms. ;)
 
 
+##Mission Goals Not Being Completed!
+Most of the time mission goals will be completed, but sometimes special issues might arise to make mission goals not be competed.  And it all matter how the mission was written.  One of the biggest problems I have found that can cause problems is this.
+If you build a huge vessel in Orbit made of many different vessels.  IE a vessel that goes to duna and has an Interplanetary stage, a Landing Stage, and say another part that is the orbiter that brought the crew up to the main vessel.  All these vessels are considered different vessels and when they undock have different Vessel IDs.  So if you did a 3 part mission that was Orbit Duna, Land Duna, then land at Kerbin you’re going to have problems!
+
+First the first part was done with The main Vessel and you orbit duna.. Everything is cool, goal complete.  Now it’s time for the landing part.  You undock the Landing vessel and go and land on duna.. But the mission goal is not complete, why?  Well because the Lander and the Main Vessel have separate Vessel IDs.  And MCE saves Mission Goals Via Vessel ID’s and checks these ID’s with other goals in the mission. If they don’t match then the goal can’t be completed!  There is a way around this though. But the mission maker has to put a variable into the mission to make this work!  It’s called Vessel Independent!  If Vessel Independent is placed on the Landing Goals, all goals will be completed without issues. Because both landing goals it does not matter what vessel actually lands.
+This is a limitation of how MCE works and the saving process.  But you can add the Vessel Independent goal to Mission Goals if you wish.  But it’s the only way to combat this situation.
+Also note any vessel that you launch that’s all in one.  Large vessel has both orbiter and lander on it, this is not an issue.  Because again they are the same vessel, your just breaking it apart and it will not cause this issue to happen.
+A Vessel Independent Goal was added to the custom contract builder to help combat this issue with Custom Contracts. So use it if your vessel is going to be many vessels docked into one large vessel.
+
+
 ##Science not paying out in crashgoal it seems!
 
 If your having issues still getting science payout with CrashGoal Type Missions.. Read this!
