@@ -63,32 +63,46 @@ This is the area to go to if you want to see a current list of available contrac
 ##Contracts:
 
 Contracts button brings you to MCE random contract generator.  This is a system that will randomly choose for you certain base template missions to do. What makes the system random is that most values inside the contract are completely random.  Mission Payouts, Orbits, etc.  Also contracts are funded by companies. There are about 9 companies total in MCE that will offer you different contracts.
-Companies: Some you will recognize others you won’t but all the different companies in MCE will offer you different things.  Some companies pay really well, others don’t.  Some offer more Science Payouts if you’re playing  career mode, others do not. It’s completely random what company is going to offer you a contract. Which makes the whole system pretty fun.
+####Companies: 
+Some you will recognize others you won’t but all the different companies in MCE will offer you different things.  Some companies pay really well, others don’t.  Some offer more Science Payouts if you’re playing  career mode, others do not. It’s completely random what company is going to offer you a contract. Which makes the whole system pretty fun.
 
-When do contract show up?  The random system does a Time Check every 24 hours in game time (will = about 2 days kerbal time) and if the checks pass you will get contracts.  If they fail you won’t.  There will be times you will have 0 contracts available.  Or you could have a max of 3 available.
-What to do when I have more than 1 contract?  When this happens you can only choose 1 contract for that Time Period!  Once you choose the accept button for the contract you want, all other contracts will disappear.  At the same time your contract you choose will be locked into place. Meaning that until you finish that contract no others will be offered.  The only way to get more offers is to finish the contract or Decline the contract!
+####When do contract show up?  
+The random system does a Time Check every 24 hours in game time (will = about 2 days kerbal time) and if the checks pass you will get contracts.  If they fail you won’t.  There will be times you will have 0 contracts available.  Or you could have a max of 3 available.
+
+####What to do when I have more than 1 contract?
+When this happens you can only choose 1 contract for that Time Period!  Once you choose the accept button for the contract you want, all other contracts will disappear.  At the same time your contract you choose will be locked into place. Meaning that until you finish that contract no others will be offered.  The only way to get more offers is to finish the contract or Decline the contract!
+
 All contracts are paid after mission completion.  
 
-###Contract Types
+##Contract Types
 
-####Special Contracts:
-Repair Contract.  You will be given a vessel to repair from the Contract Company. You will have to launch a vessel and Dock with the Vessel (most likely a satellite) and use MCE repair Parts to repair the vessel.
-Building Vessels:  You might get a contract to help a company build a new prototype Orbiter or Possible Space Plane.  The company will give you a list of requirement’s for vessel.
-Testing: companies might offer you various test mission to do certain objectives. Like Fuel Test, EVA test, etc.
+###Special Contracts:
+####Repair Contract.  
+You will be given a vessel to repair from the Contract Company. You will have to launch a vessel and Dock with the Vessel (most likely a satellite) and use MCE repair Parts to repair the vessel.
+####Building Vessels: 
+You might get a contract to help a company build a new prototype Orbiter or Possible Space Plane.  The company will give you a list of requirement’s for vessel.
+####Testing: 
+companies might offer you various test mission to do certain objectives. Like Fuel Test, EVA test, etc.
 
-####SOI Contracts:
+###SOI Contracts:
 
 SOI stands for Sphere Of Influence in this case this refers to The Kerbin SOI so anything that within range of Mun or minmus.
 
-Satellite missions: Various missions from contractors that will have you deliver satellites to certain areas of Kerbin SOI.  Most of these missions require the MCE Repair part and your choice of Docking Ports.
+####Satellite missions: 
+Various missions from contractors that will have you deliver satellites to certain areas of Kerbin SOI.  Most of these missions require the MCE Repair part and your choice of Docking Ports.
 
-Probes: Send a probe to Mun or Minmus.
-Test: Some missions have certain test a contract might have you perform.
+####Probes: 
+Send a probe to Mun or Minmus.
 
-#### Out Of SOI Contracts:
+####Test: 
+Some missions have certain test a contract might have you perform.
+
+### Out Of SOI Contracts:
 
 These contracts will have you flying from kerbins SOI to other planetary bodies in the kerbol system.
-Rover Missions: These contracts will have you landing a rover on a celestial body.  Highly recommend that you use other mods that have Unmanned Science parts for these missions.  They make the missions much more fun.  Also these missions pay out more science then most other contract type missions. 
+
+####Rover Missions: 
+These contracts will have you landing a rover on a celestial body.  Highly recommend that you use other mods that have Unmanned Science parts for these missions.  They make the missions much more fun.  Also these missions pay out more science then most other contract type missions. 
 
 
 ##Custom Contracts
