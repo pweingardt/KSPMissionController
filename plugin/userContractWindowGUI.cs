@@ -10,7 +10,7 @@ namespace MissionController
     {
         private string contractdesctext = "Welcome to the contract editor.  This editor is not meant to be a complicated editor.  It’s actually very simple in the way it works. " +
                     "You the user have to select the above values to start making a new contract.\n" + "\n" +
-                    " Only 1 goal per contract can be selected. This is a limitation of the saving process from your screen to the UserContract.cfg.  At a later date this may be expanded to have the ability to " +                   
+                    " Only 1 goal per contract can be selected. This is a limitation of the saving process from your screen to the UserContract.cfg.  At a later date this may be expanded to have the ability to " +
                     "create goals within a SubMissionGoal.  But at this time, the more complicated missions are still best done by custom editing the mission file. \n " + "\n" +
                     " OribtGoal is the only exception to this rule. You can set up to 2 OrbitGoals per Contract Mission " +
                     "This is to help make missions that might orbit Duna then orbit ike.  But do note that if you do " +
@@ -19,8 +19,18 @@ namespace MissionController
                     "The mission payout is determined by type of goals, and the planet they are targeting.  Other factors include how many crew.\n " + "\n" +
                     "You are only allowed 1 custom mission at a time.  When you’re done, you can reset the contract and start over.\n " + "\n" +
                     "Every time you choose to send contract to bidding, this will set your mission and give you a company that is willing to pay you. Don’t do this unless you are sure the contract is ready! \n \n" +
-                    "I need more feedback on payouts!  I understand that sometimes payouts might not seem enough.  I was floating the idea around of also adding a mass value, something like small vessel, medium vessel," +
-                    "large vessel.  Each step up would add a multiplier and a MinMass Amount to the Orbit Objective";
+                    "MISSION NAME: Set the Mission Name Has a character Limit of about 40. \n\n" +
+                    "MISSION DESCRIPTION: Give a small description for the mission. \n\n" +
+                    "VESSEL HAVE CREW: This sets if the mission will have crew or not. If yes select how many.\n\n" +
+                    "VESSEL INDEPENDENT: Use this on goals that you want to use a separate vessel on.  IE if you launch a large vessel to Duna with a Interplanetary Stage and a separate lander" +
+                    " its best to set the Landing goal as Vessel Independent True.  That way the lander will not cause Landing goal not to be completed because its a new vessel." +
+                    " Also if the vessel you launched is all in one then this is not needed.  Only vessels that were made separate and launched separate into orbit need this. \n\n" +
+                    "ORBITGOAL: Use This to set the Orbital Height Of your Vessel Only able to have 2 of these. And they are always First and second goals in line.\n\n" +
+                    "WHAT BODY: This is used to decide the current goals Planet Body its attached to.\n\n" +
+                    "DOCKINGGOAL: Used to dock vessel in orbit always follows last Orbit goal.\n\n" +
+                    "CRASHGOAL: Used to crash a vessel into a Planet Body, used for science and research. Good idea to have orbit goal first.\n\n";
+
+                    
 
         private UserContracts usercontracts
         {
@@ -45,6 +55,7 @@ namespace MissionController
         
         private int body = 1;
         private int goal = 1;
+        private bool isVesselIndy = false;
 
 
         private double orbitApA = 0;
@@ -142,7 +153,7 @@ namespace MissionController
                     managUserContracts.saveUserContracts();
                 }
                 GUILayout.EndHorizontal();
-                GUILayout.Space(10);
+                GUILayout.Space(5);
                 if (ucNoCrewGoal == true)
                 {                   
                     GUILayout.BeginHorizontal();
@@ -156,7 +167,7 @@ namespace MissionController
 
             else
             {
-                GUILayout.Space(10);
+                GUILayout.Space(5);
                 GUILayout.Label("Set The type of Goal, Some goals are dependent On others! For right now only 1 goal can be set for each Contract.", styleText);
                 GUILayout.BeginHorizontal();
                 if (goal != 2 && goal != 3 && goal != 5) { body = 1; }
@@ -164,9 +175,9 @@ namespace MissionController
                 if (GUILayout.Button("-", styleButtonWordWrap, GUILayout.Width(25))) { goal--; if (goal < 1) { goal = 1; } }
                 if (GUILayout.Button("+", styleButtonWordWrap, GUILayout.Width(25))) { goal++; if (goal > 5) { goal = 1; } }
                 GUILayout.Box("Goal Type? ", GUILayout.Width(150), GUILayout.Height(30));
-                GUILayout.Box("" + sgoal.Gname, GUILayout.Width(150), GUILayout.Height(30));
-
-                GUILayout.Space(10);
+                GUILayout.Box("" + sgoal.Gname, GUILayout.Width(150), GUILayout.Height(30));              
+                                                               
+                GUILayout.Space(5);
                 if (goal == 2 && body != 1 && IsOrbit != 2)
                 {
                     if (GUILayout.Button("Set OrbitGoal", styleButtonWordWrap, GUILayout.Width(120)))
@@ -178,12 +189,13 @@ namespace MissionController
                         usercontracts.reward = TotalPayout;
                         //Debug.Log("Total Payout = " + TotalPayout);
                         //Debug.Log("Current Reward = " + usercontracts.reward);
-                        usercontracts.ucOrbitGoal.Add(new UCOrbitGoal(TotalCrewCount,splanet.Planet.ToString(), orbitApA, orbitApA, orbitPeA, orbitPeA));
+                        usercontracts.ucOrbitGoal.Add(new UCOrbitGoal(TotalCrewCount,splanet.Planet.ToString(), orbitApA, orbitApA, orbitPeA, orbitPeA, isVesselIndy));
                         goalpayment = 0;
                         TotalPayout = 0;
                         goal = 1;
                         IsOrbit++;
                         managUserContracts.saveUserContracts();
+                        isVesselIndy = false;
                     }
                 }
                 if (goal == 3 && body != 1 && islanding != true)
@@ -197,12 +209,13 @@ namespace MissionController
                         usercontracts.reward = TotalPayout;
                         //Debug.Log("Total Payout = " + TotalPayout);
                         
-                        usercontracts.ucLandingGoal.Add(new UCLandingGoal(splanet.Planet.ToString()));
+                        usercontracts.ucLandingGoal.Add(new UCLandingGoal(splanet.Planet.ToString(),isVesselIndy));
                         goalpayment = 0;
                         TotalPayout = 0;
                         goal = 1;
                         islanding = true;
                         managUserContracts.saveUserContracts();
+                        isVesselIndy = false;
                     }
                 }
                 if (goal == 4 && isdocking != true && IsOrbit != 0)
@@ -240,8 +253,8 @@ namespace MissionController
                         managUserContracts.saveUserContracts();
                     }
                 }
-                GUILayout.EndHorizontal();
-                GUILayout.Space(10);
+                GUILayout.EndHorizontal();                                
+                GUILayout.Space(5);
                 if (goal == 2 || goal == 3 || goal == 5)
                 {
                     GUILayout.Label("What body to set goal to? Please note only 1 goal type per Mission", styleText);
@@ -251,7 +264,7 @@ namespace MissionController
                     GUILayout.Box("Body Name?", GUILayout.Width(150), GUILayout.Height(30));
                     GUILayout.Box("" + splanet.Planet, GUILayout.Width(150), GUILayout.Height(30));
                     GUILayout.EndHorizontal();
-                    GUILayout.Space(10);
+                    GUILayout.Space(5);
                     if (goal == 2 && body != 1)
                     {
                         if (orbitApA == 0) { orbitApA = splanet.MinOrb; }
@@ -270,7 +283,7 @@ namespace MissionController
                         GUILayout.Box("Apoapsis(MAX): ", GUILayout.Width(150), GUILayout.Height(30));
                         GUILayout.Box("" + orbitApA, GUILayout.Width(150), GUILayout.Height(30));
                         GUILayout.EndHorizontal();
-                        GUILayout.Space(10);
+                        GUILayout.Space(5);
 
                         GUILayout.Label("Set The Lowpoint for Orbit, This has to be under ApA", styleText);
                         GUILayout.BeginHorizontal();
@@ -282,13 +295,23 @@ namespace MissionController
                         GUILayout.Box("" + orbitPeA, GUILayout.Width(150), GUILayout.Height(30));
                         GUILayout.EndHorizontal();
 
-                        GUILayout.Space(10);
+                        GUILayout.Space(5);
 
                     }
                 }
+                if (goal == 2 || goal == 3)
+                {
+                    GUILayout.Label("Set for Goals you might use separate vessel.IE Lander on Landing Goal!", styleText);
+                    GUILayout.BeginHorizontal();
+                    if (GUILayout.Button("True", GUILayout.Width(50))) { isVesselIndy = true; }
+                    if (GUILayout.Button("False", GUILayout.Width(50))) { isVesselIndy = false; }
+                    GUILayout.Box("Vessel Independent Set To", GUILayout.Width(200), GUILayout.Height(30));
+                    GUILayout.Box("" + isVesselIndy, GUILayout.Width(50), GUILayout.Height(30));
+                    GUILayout.EndHorizontal();
+                }
             }
-            GUILayout.Space(10);
-            GUILayout.Label("You must reload contract after everyChange to see changes!");
+            GUILayout.Space(5);
+            GUILayout.Label("You must reload contract after every change to see changes!");
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("Load User Contract", styleButtonWordWrap))
             {
@@ -296,7 +319,7 @@ namespace MissionController
                 currentPreviewMission3 = currentMission;
             }
             GUILayout.EndHorizontal();
-            GUILayout.Space(10);
+            GUILayout.Space(5);
             GUILayout.EndVertical();
 
             GUILayout.BeginHorizontal();
@@ -348,6 +371,7 @@ namespace MissionController
         public int reward = 0;
         public float scienceReward = 0;
         public bool repeatable = true;
+        public bool repeatableSameVessel = true;
         public bool IsContract = false;
         public bool IsUserContract = false;
         public int CompanyOrder = 4;
@@ -449,12 +473,13 @@ namespace MissionController
         public double maxApA;
         public double minPeA;
         public double maxPeA;
+        public bool vesselIndenpendent = false;
         
         public UCOrbitGoal()           
         {
         }
 
-        public UCOrbitGoal(int crew, string name, double MaxApa, double MaxPea, double MinApa, double MinPea)
+        public UCOrbitGoal(int crew, string name, double MaxApa, double MaxPea, double MinApa, double MinPea,bool vi)
         {
             this.crewCount = crew;
             this.body = name;
@@ -462,19 +487,22 @@ namespace MissionController
             this.minPeA = MinPea;
             this.minApA = MinApa;
             this.maxPeA = MaxPea;
+            this.vesselIndenpendent = vi;
         }
     }
     public class UCLandingGoal
     {
         public string body;
+        public bool vesselIndenpendent = false;
 
         public UCLandingGoal()
         {
         }
 
-        public UCLandingGoal(string body)
+        public UCLandingGoal(string body, bool VI)
         {
             this.body = body;
+            this.vesselIndenpendent = VI;
         }
     }
     public class UCDockingGoal
