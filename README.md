@@ -126,6 +126,11 @@ When you’re done with your contract and happy with it press Send To Bidding to
 
 Go on your merry way and complete the mission.
 
+##Added in .51 Vessel Independent (true or false)
+VESSEL INDEPENDENT: Use this on goals that you want to use a separate vessel on.  IE if you launch a large vessel to Duna with a Interplanetary Stage and a separate lander its best to set the Landing goal as Vessel Independent True.  That way the lander will not cause Landing goal not to be completed because its a new vessel.
+
+Also if the vessel you launched is all in one then this is not needed.  Only vessels that were made separate and launched separate into orbit need this. 
+
 Once mission is done you can go back into Usercontracts and Reset it, and start over with a new one.
 You can also watch this video to see me using the system and how it works as of .50
 http://www.youtube.com/watch?v=gYeW4_NceSE
