@@ -1,6 +1,6 @@
 #Known Problems
 
-##MechJeb Cost To Dam Much!
+##MechJeb Cost To Dam Much! (fixed in .51)
 
 The way to fix MechJeb if it costs too much is either:
 (a) Give the part a reasonable mass, like at minimum 0.1 (then it'll only cost ~1800)
