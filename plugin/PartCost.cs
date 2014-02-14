@@ -92,6 +92,7 @@ namespace MissionController
                         double gimbalFactor = 1.0;
                         double propMult = 1.0;
                         double nukeMult = 1.0;
+                        double futureEngines = 1.0;
                         double ispSL = 0;
                         double ispV = 0;
                         double thrust = 0;
@@ -115,9 +116,10 @@ namespace MissionController
                             }
 
                                 
-                            if (!foundPropMod && ispV > 600)
-                                nukeMult = Tools.GetValueDefault(mNode, "nukeMult", nukeMult);
-
+                            if (!foundPropMod && ispV > 600 && ispV < 1999){
+                                nukeMult = Tools.GetValueDefault(mNode, "nukeMult", nukeMult);}
+                            if (!foundPropMod && ispV >= 2000){
+                                futureEngines = Tools.GetValueDefault(mNode, "futureEngines", futureEngines);}
                             foreach (ModuleGimbal g in p.Modules.OfType<ModuleGimbal>())
                                 gimbalFactor = 1.0 + g.gimbalRange * Tools.GetValueDefault(mNode, "gimbalFactor", 0.2);
                         }
@@ -140,6 +142,8 @@ namespace MissionController
                             double ecst = Math.Pow((ispSL * atmoRatio + ispV * (1-atmoRatio)) - ispOffset, power) * thrust * scalar;
                             ecst *= gimbalFactor;
                             ecst *= propMult;
+                            ecst *= futureEngines;
+                            ecst *= nukeMult;
                             cst = ecst;
                         }
 
