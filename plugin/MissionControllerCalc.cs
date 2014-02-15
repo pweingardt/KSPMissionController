@@ -9,7 +9,7 @@ namespace MissionController
     /// This part of the class calculates the vesselResources and the current Status
     /// </summary>
     public partial class MissionController
-    {
+    {       
         /// <summary>
         /// Calculates the mission status. Some fields are not set by this method unless the passed mission
         /// is the currently selected mission1!!
@@ -304,7 +304,7 @@ namespace MissionController
                                     {
                                         if (rNode.name.Equals(r.resourceName))
                                         {
-                                            rCost = Tools.GetValueDefault(rNode, "cost", 0.0);
+                                            rCost = Tools.GetValueDefault(rNode, "cost", 0.0) * FuelMode.TechFuel;
                                             //DBG print("Found resource " + r.resourceName + ", amount " + r.amount + ", cost = " + rCost);
                                             if (resources.ContainsKey(rNode.name))
                                                 resources[rNode.name] = resources[rNode.name] + r.amount * rCost;

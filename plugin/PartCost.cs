@@ -196,7 +196,7 @@ namespace MissionController
                 
                 //DBG print"After resources, part cost now " + pcst);
 
-                pcst += p.mass * massCostMult * massCost * FuelMode.TechFuel;
+                pcst += p.mass * massCostMult * massCost;
                 pcst *= totalCostMult;
             }
             catch
