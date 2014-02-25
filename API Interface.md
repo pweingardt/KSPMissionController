@@ -10,7 +10,7 @@ To access the fuctions of MCE that are avialable in MissionLibrary.dll all you h
 
 * `int modReward(int value, string Description)`: Give the Player a Reward Or Payment, Value and Description of What the payment is for.  This shows up in the Other Payments Manifest.
 
-* `int ModCost(int value, string Description)`: Charge the player for something and have it taken out of the Budget. And add string for what the charge was for.  Shows up in the Other Cost Manifest
+* `int ModCost(int value, string Description)`: Charge the player for something and have it taken out of the Budget. And add string for what the charge was for.  Shows up in the Other Cost Manifest (No need to make a Negative Number MCE does it for you)
 
 #### Below Values Are Not Really Needed. Suggest Only Using Above ones only.
 
