@@ -28,7 +28,7 @@ Methods so far:
 ## ATTENTION
 
 Every time you call any kind of Reward or Cost the current space program will be written on the disk,
-don't call it every second.
+don't call it every second. In other words keep them out of GUI types that are called every frame.  Or part type updates like OnFixedUpdate().  Thanks. ;)
 
 # Example code.
 
