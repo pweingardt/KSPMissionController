@@ -35,9 +35,16 @@ namespace MissionController
     {
         /// <summary>
         /// Returns the current available budget.
+        /// See Docs for Info on other values Listed, all are Infomation only
         /// </summary>
         /// <returns>The budget.</returns>
-        int getBudget();
+        int IgetBudget(); // Current Budget
+        int Itotalbudget(); // Total Payments of Missions and Contracts
+        int ItotalSpentVehicles(); // Total spent vehicle launches
+        int ItotalRecycleMoney(); // Total Payments of Recycling
+        int ItotalHiredKerbCost(); // Total Cost of Kerbals hire
+        int ItotalModPayment(); // Total Payments made through ModPayments
+        int ItotalModCost(); // Total Cost made through ModCost
 
         /// <summary>
         /// Use ModReward to add a Reward to the current MCE Budget, this will add to the budget

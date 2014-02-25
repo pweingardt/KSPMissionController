@@ -17,9 +17,9 @@ namespace MissionController
         private Vector2 scrollPosition2 = new Vector2(0, 0);
         private void drawFinaceWindow(int id)
         {
-            int netProfit = (manager.TotalRecycleMoney + manager.Totalbudget) - manager.TotalSpentVehicles - manager.TotalHiredKerbCost;
-            int totalexpenditures = manager.TotalHiredKerbCost + manager.TotalSpentVehicles;
-            int totalpayouts = manager.TotalRecycleMoney + manager.Totalbudget;
+            int netProfit = (manager.TotalRecycleMoney + manager.Totalbudget) - manager.TotalSpentVehicles - manager.TotalHiredKerbCost - manager.othercostmoney;
+            int totalexpenditures = manager.TotalHiredKerbCost + manager.TotalSpentVehicles + manager.othercostmoney;
+            int totalpayouts = manager.TotalRecycleMoney + manager.otherpaymentmoney + manager.Totalbudget;
 
             GUI.skin = HighLogic.Skin;
             GUILayout.BeginVertical();
@@ -43,6 +43,11 @@ namespace MissionController
             GUILayout.BeginHorizontal();
             GUILayout.Box(" Total Kerbal Hire Cost: ", StyleBoxWhite, GUILayout.Height(30));
             GUILayout.Box(CurrencySuffix + manager.TotalHiredKerbCost.ToString("N2"), GUILayout.Width(110), GUILayout.Height(30));
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Box(" Total Other Cost: ", StyleBoxWhite, GUILayout.Height(30));
+            GUILayout.Box(CurrencySuffix + manager.othercostmoney.ToString("N2"), GUILayout.Width(110), GUILayout.Height(30));
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
@@ -88,7 +93,12 @@ namespace MissionController
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-            GUILayout.Box(" Total Recyling + Payouts: ", StyleBoxWhite, GUILayout.Width(190), GUILayout.Height(25));
+            GUILayout.Box(" Other Payments: ", StyleBoxWhite, GUILayout.Width(190), GUILayout.Height(25));
+            GUILayout.Box(CurrencySuffix + manager.otherpaymentmoney.ToString("N2"), GUILayout.Width(110), GUILayout.Height(25));
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Box(" Total Recyling + Payouts/Other: ", StyleBoxWhite, GUILayout.Width(190), GUILayout.Height(25));
             GUILayout.Box(CurrencySuffix + totalpayouts.ToString("N2"), StyleBoxGreen, GUILayout.Width(110), GUILayout.Height(25));
             GUILayout.EndHorizontal();
 

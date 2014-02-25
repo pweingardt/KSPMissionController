@@ -83,7 +83,7 @@ namespace MissionController
                 settings.gameMode = 1;
             }
             GUILayout.Space(5);
-            GUILayout.Label("Reset SpaceProgram will reset you MCE program to start values!!");
+            GUILayout.Label("Will Reset SpaceProgram Default Values");
             if (GUILayout.Button(resetStrings[resetCount],styleButtonWordWrap))
             {
                 resetCount++;
@@ -95,18 +95,19 @@ namespace MissionController
                 }
             }
             GUILayout.Space(5);
-            GUILayout.Label("Clear Saved Mission Goals will Reset all Saved Mission Goals. (You will have to do unfinished missions over)");
+            GUILayout.Label("Will Reset Mission Goals");
             if (GUILayout.Button("Clear Saved mission Goals", styleButtonWordWrap))
             {
                 manager.wipeAllMissionGoals();
             }
             GUILayout.Space(5);
-            GUILayout.Label("This will delete all Completed missions, incase for somereason you want to do them all over again.  It will keep Bugets Intact.");
+            GUILayout.Label("Will Delete All Finish Missions");
             if (GUILayout.Button("Clear All Finished Missions", styleButtonWordWrap))
             {
                 manager.wipeAllFinishedMissions();
-            }   
-
+            }
+            GUILayout.Space(5);
+            
             //if (GUILayout.Button("Set Values Randoms + Find Vessel", styleButtonWordWrap))
             //{
             //    manager.StartContractTypeRandom();

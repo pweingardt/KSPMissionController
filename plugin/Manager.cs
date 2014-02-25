@@ -1208,9 +1208,13 @@ namespace MissionController
             currentProgram.completedMissions.Remove (s);
         }
 
-        public int getBudget() {
-            return currentProgram.money;
-        }
+        public int IgetBudget() { return currentProgram.money; }
+        public int Itotalbudget() { return currentProgram.totalMoney; }
+        public int ItotalSpentVehicles() { return currentProgram.totalSpentVessels; }
+        public int ItotalRecycleMoney() { return currentProgram.totalrecycleMoney; }
+        public int ItotalHiredKerbCost() { return currentProgram.TotalSpentKerbals; }
+        public int ItotalModPayment() { return currentProgram.otherpaymentmoney; }
+        public int ItotalModCost() { return currentProgram.othercostmoney; }
         
         /// <summary>
         /// the reward for finishing a missioin, this is the payment.
@@ -1328,6 +1332,7 @@ namespace MissionController
             {
                 currentProgram.add(new ModPayments(value, description));
                 currentProgram.money += value;
+                currentProgram.otherpaymentmoney += value;
             }
             return currentProgram.money;
         }
@@ -1406,6 +1411,7 @@ namespace MissionController
         public int ModCost(int value, string description)
         {
             currentProgram.add(new ModCharges(value, description));
+            currentProgram.othercostmoney += value;
             return CleanReward(-value);
         }
 
