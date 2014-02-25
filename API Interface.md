@@ -35,9 +35,9 @@ To access the fuctions of MCE that are avialable in MissionLibrary.dll all you h
 
 * `int ItotalHiredKerbCost()`: returns the current Money Spent On Kerbals.
 
-* `int ItotalModPayment()` : Returns the Total Money Added through ModPayment.
+* `int ItotalModPayment()` : Returns the Total Money Added through ModPayment.(Won't be exclusive if other mods using too. MCE does not use these)
 
-* `int ItotalModCost()` : Returns the Total Money Removed through Cost in ModCost.
+* `int ItotalModCost()` : Returns the Total Money Removed through Cost in ModCost.(Won't be exclusive if other mods using too. MCE does not use these)
 
 
 
