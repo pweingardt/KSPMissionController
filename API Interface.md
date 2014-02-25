@@ -1,4 +1,5 @@
-## Interface to access the Manager from your plugin Version 2.0 (malkuth Edits)
+##MCE API For your plugin Version 2.0 (malkuth Edits)
+
 You can now support a few features of Mission Controller Extended in you own plugin, and its pretty easy to use all you have to do is reference the MissionLibrary.dll A version of this file is located in every download of MCE.
 
 
@@ -13,7 +14,7 @@ Methods so far:
 
 * `ModCost(int value, string Description)`: Give the Player a Reward Or Payment, Value and Description of What was given in the Other Cost Manifest
 
-#### The Below Values Are not Really Needed, but Included them incase for somereason you want to use these Manifest Versions, no Descriptions for these will be shown only Payments or Cost.
+#### Below Values Are Not Really Needed. Suggest Only Using Above ones only.
 
 
 * `int CleanReward(int value);` : This is a straight up Reward That has no % Changes from Research or others. 10 Credits will always be 10 credits.  Again better to use modReward for this.
