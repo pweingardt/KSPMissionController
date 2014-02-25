@@ -31,7 +31,5 @@ don't call it every second.
 
 # Example code.
 
-* if (GUILayout.Button("Testing IManager Cost")) 
-            {
-                ManagerAccessor.get.ModCost(1000, "Place What the Cost is for in this String"); 
-            }
+* `ManagerAccessor.get.ModCost(1000, "Place What the Cost is for in this String")`
+            
