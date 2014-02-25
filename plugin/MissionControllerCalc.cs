@@ -174,7 +174,6 @@ namespace MissionController
             }
         }
 
-        // edited .11 add some new values.. .12 edit by malkuth to add support for Iron Cross Mod and Modular fuel tanks
         const double costmultiplier = 1.0;
 
         private class VesselResources

@@ -13,6 +13,8 @@ namespace MissionController
         public int totalSpentVessels;
         public int TotalSpentKerbals;
         public int totalrecycleMoney;
+        public int otherpaymentmoney;
+        public int othercostmoney;
         public int fuelmode = 0;
         public int constructmode = 0;
         public bool VRecylce = false;
@@ -48,6 +50,20 @@ namespace MissionController
 
         public List<VesselsMade> vesselsMade = new List<VesselsMade>();
 
+        public List<ModCharges> modCharges = new List<ModCharges>();
+
+        public List<ModPayments> modPayments = new List<ModPayments>();
+
+        public void add(ModCharges m)
+        {
+            modCharges.Add(m);
+        }
+
+        public void add(ModPayments m)
+        {
+            modPayments.Add(m);
+        }
+        
         public void add(FlagSystem m)
         {
             flagSystem.Add(m);
@@ -70,6 +86,8 @@ namespace MissionController
         public void add(GoalStatus m) {
             completedGoals.Add (m);
         }
+        public void remove(GoalStatus m) 
+        { completedGoals.Remove(m); }
 
         public void add(RecycledVessel vessel) {
             recycledVessels.Add (vessel);
@@ -86,7 +104,7 @@ namespace MissionController
             foreach (ProtoCrewMember CrewMember in HighLogic.CurrentGame.CrewRoster)
             {
                 if (CrewMember.rosterStatus == ProtoCrewMember.RosterStatus.AVAILABLE || CrewMember.rosterStatus == ProtoCrewMember.RosterStatus.ASSIGNED)
-                    sp.add(new HiredKerbals(CrewMember.name, Planetarium.GetUniversalTime(), CrewMember.rosterStatus.ToString()));
+                { sp.add(new HiredKerbals(CrewMember.name, Planetarium.GetUniversalTime(), CrewMember.rosterStatus.ToString())); }
             }
             return sp;
         }
@@ -214,6 +232,30 @@ namespace MissionController
             this.vesselCost = cost;
             this.MissionName = mName;
             this.crewNumber = cNum;
+        }
+    }
+    public class ModCharges
+    {
+        public string ChageDescription;
+        public int amount;
+
+        public ModCharges(){ }
+        public ModCharges(int charge, string description)
+        {
+            this.amount = charge;
+            this.ChageDescription = description;
+        }   
+    }
+
+    public class ModPayments
+    {
+        public string PaymentDescription;
+        public int amount;
+        public ModPayments(){ }
+        public ModPayments(int payment, string description)
+        {
+            this.amount = payment;
+            this.PaymentDescription = description;
         }
     }
 }

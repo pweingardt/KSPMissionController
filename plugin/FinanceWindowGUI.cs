@@ -50,6 +50,7 @@ namespace MissionController
             GUILayout.Box(CurrencySuffix + totalexpenditures.ToString("N2"), StyleBoxGreen, GUILayout.Width(110), GUILayout.Height(30));
             GUILayout.EndHorizontal();
 
+            GUILayout.BeginHorizontal();
             if (GUILayout.Button("Kerbal Hire Log",GUILayout.Height(20)))
             {
                 showKerbalLogbookHire = !showKerbalLogbookHire;
@@ -58,6 +59,17 @@ namespace MissionController
             {
                 showShipLogBookWindow = !showShipLogBookWindow;
             }
+            GUILayout.EndHorizontal();
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("Other Payments", GUILayout.Height(20)))
+            {
+                showModPayments = !showModPayments;
+            }
+            if (GUILayout.Button("Other Cost", GUILayout.Height(20)))
+            {
+                showModCost = !showModCost;
+            }
+            GUILayout.EndHorizontal();
 
             GUILayout.Space(20);
 
@@ -80,13 +92,11 @@ namespace MissionController
             GUILayout.Box(CurrencySuffix + totalpayouts.ToString("N2"), StyleBoxGreen, GUILayout.Width(110), GUILayout.Height(25));
             GUILayout.EndHorizontal();
 
- 
+
             if (GUILayout.Button("Kerbal Mission Log", GUILayout.Height(20)))
             {
                 showMissionLogbookWindow = !showMissionLogbookWindow;
             }
-
-
             GUILayout.Space(20);            
 
             GUILayout.BeginHorizontal();

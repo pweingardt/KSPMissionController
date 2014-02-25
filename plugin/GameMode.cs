@@ -100,10 +100,7 @@ namespace MissionController
             {
                 float previous = ResearchAndDevelopment.Instance.Science;
                 ResearchAndDevelopment.Instance.Science = value;
-                Debug.LogError("Mission Controller Changed Science by " + (ResearchAndDevelopment.Instance.Science - previous) + " to " + ResearchAndDevelopment.Instance.Science + ".");
-                string persistentfile = KSPUtil.ApplicationRootPath + "saves/" + HighLogic.SaveFolder + "/persistent.sfs";
-                ConfigNode config = ConfigNode.Load(persistentfile);
-                config.Save(persistentfile);
+                Debug.LogError("Mission Controller Changed Science by " + (ResearchAndDevelopment.Instance.Science - previous) + " to " + ResearchAndDevelopment.Instance.Science + ".");               
             }
         }
 

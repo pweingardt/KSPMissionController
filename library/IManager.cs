@@ -40,18 +40,49 @@ namespace MissionController
         int getBudget();
 
         /// <summary>
-        /// Adds the passed value to the current budget.
+        /// Use ModReward to add a Reward to the current MCE Budget, this will add to the budget
         /// </summary>
-        /// <returns>the new budget</returns>
-        /// <param name="value">value</param>
-        int reward(int value);
+        /// <param name="value">amount of reward</param>
+        /// <param name="Description">This description will show up in the Other Cost Manifest, give description of what reward was for</param>
+        /// <returns></returns>
+        int modReward(int value, string Description);
 
         /// <summary>
-        /// Subtracts the passed value from the current budget.
+        /// Use ModCost to add a Cost to the current MCE budget, this will subtract from budget
         /// </summary>
-        /// <returns>the new budget</returns>
-        /// <param name="value">Value.</param>
-        int costs(int value);
+        /// <param name="value">how much you want to charge the player</param>
+        /// <param name="Description">This description will show up in the other Payments Manifest, give description of what this cost was for</param>
+        /// <returns></returns>
+        int ModCost(int value, string Description);
+        
+        //The Values Listed below are not really needed, but I have included them incase you want to use these instead of the mod values.  If you use the below values then you will make charges to the Budget System that
+        //will not show up in any Manuscript.  If they do show up they won't have a description. The above values are better to use because you can give a description of what the cost or payments was.     
+
+        /// <summary>
+        /// the clean reward that has no modifications from research or any other values.  In other words if you add 10 credits, it will always be 10 credits.
+        /// </summary>
+        int CleanReward(int value);              
+
+        /// <summary>
+        /// this is for recycling and to add the reward for all types of recycling cost.  And adds a value to Total Recycling in the Budget manifest.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        int recyclereward(int value);
+
+        /// <summary>
+        /// This is a normal reward for science points, thats used in regualr missions that don't include Companies random % additions.  So straight up science points.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        float sciencereward(float value);      
+
+        /// <summary>
+        /// this is used to charge for Kerbals and shows up on the Kerbal Hire Cost Manifest.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        int kerbCost(int value);
     }   
 }
 

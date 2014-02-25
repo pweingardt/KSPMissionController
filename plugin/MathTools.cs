@@ -38,22 +38,12 @@ namespace MissionController
             int Minutes = (int)((seconds / minute) % 60);
             int Hours = (int)((seconds / hour) % 24);
             int Days = (int)((seconds / day) % 365);
-            int Years = (int)(seconds / year);
-
-
-            if (seconds < minute)
-                return Seconds + " Seconds ";
-
-            if (seconds < hour)
-                return Minutes + " Minutes " + Seconds + " Seconds";
-
-            if (seconds < day)
-                return Hours + " Hours " + Minutes + " Minutes";
+            int Years = (int)(seconds / year);           
 
             if (seconds < year)
-                return Days + " Days " + Hours + " Hours";
+                return  "Day " + Days  + " Hour " + Hours;
 
-            return Years + " Years " + Days + " Days";
+            return  "Year " + Years  + " Day " + Days;
         }
 
         public static String formatTime(double seconds) {

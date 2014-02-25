@@ -90,7 +90,10 @@ namespace MissionController
         private Rect shipLogBook;
         private Rect ContractWindowStatus;
         private Rect userContractWindowStatus;
+        private Rect modPaymentWindow;
+        private Rect modCostWindow;
         private Rect ResetAllWindows = new Rect (0, 0, 0, 0);
+
                
         Rect VabBudgetWin;
         Rect VabBudgetWin1;
@@ -129,6 +132,9 @@ namespace MissionController
         private bool showMissionLogbookWindow = false;
         private bool showShipLogBookWindow = false;
         private bool showUserContractWindowStatus = false;
+        private bool showShipDestroyed = false;
+        private bool showModPayments = false;
+        private bool showModCost = false;
                
         public string recycledName = "";
         public string recycledDesc = "";
@@ -141,6 +147,8 @@ namespace MissionController
         private Vector2 scrollPosition = new Vector2(0, 0);
         private Vector2 scrollPositionship = new Vector2(0, 0);
         private Vector2 scrollPositionMission = new Vector2(0, 0);
+        private Vector2 scrollPositionModCost = new Vector2(0, 0);
+        private Vector2 scrollPositionModPayment = new Vector2(0, 0);
         private Vector2 scrollPositionShip = new Vector2(0, 0);
         private Vector2 scrollPositionHire = new Vector2(0, 0);
         private Vector2 scrollPosition22 = new Vector2(0, 0);
@@ -783,12 +791,12 @@ namespace MissionController
 
             if (showMissionStatusWindow && hideMCtoolbarsviews)
             {
-                MissionWindowStatus = GUILayout.Window(898990, MissionWindowStatus, drawMissionInfoWindow, "Current Mission Window",GUILayout.MinHeight(600), GUILayout.MinWidth(425));
+                MissionWindowStatus = GUILayout.Window(898990, MissionWindowStatus, drawMissionInfoWindow, "Current Mission Window",GUILayout.MinHeight(700), GUILayout.MinWidth(500));
             }
 
             if (showContractStatusWindow && hideMCtoolbarsviews)
             {
-                ContractWindowStatus = GUILayout.Window(888991, ContractWindowStatus, drawContractInfoWindow, "Available Contracts", GUILayout.MinHeight(600), GUILayout.MinWidth(425));
+                ContractWindowStatus = GUILayout.Window(888991, ContractWindowStatus, drawContractInfoWindow, "Available Contracts", GUILayout.MinHeight(700), GUILayout.MinWidth(500));
             }
 
             if (showSettingsWindow && hideMCtoolbarsviews)
@@ -849,6 +857,18 @@ namespace MissionController
             {
                 shipLogBook = GUILayout.Window(988889, shipLogBook, drawShipLogBook, "Ship Log Book ", GUILayout.MinHeight(500), GUILayout.MinWidth(960));
             }
+            if (showShipDestroyed && hideMCtoolbarsviews)
+            {
+                GUILayout.Window(98766, new Rect(Screen.width / 2 - 200, Screen.height / 2 - 100, 500, 200),drawshipdestroyed, "Vessel Destroyed During Mission");
+            }
+            if (showModCost && hideMCtoolbarsviews)
+            {
+                modCostWindow = GUILayout.Window(1888892, modCostWindow, drawmodCostWindow, "Other Cost Window ", GUILayout.MinHeight(500), GUILayout.MinWidth(960));
+            }
+            if (showModPayments && hideMCtoolbarsviews)
+            {
+                modPaymentWindow = GUILayout.Window(1788891, modPaymentWindow, drawmodPaymentWindow, "Other Payment Window ", GUILayout.MinHeight(500), GUILayout.MinWidth(960));
+            }
 
             if (fileBrowser != null)
             {
@@ -865,6 +885,56 @@ namespace MissionController
                 list.normal.textColor = new Color(0.739f, 0.739f, 0.739f);
                 list.contentOffset = new Vector2(1, 42.4f);
                 list.fontSize = 10;
+            }
+        }
+
+        private void drawmodCostWindow(int id)
+        {
+            GUI.skin = HighLogic.Skin;
+            GUILayout.BeginVertical();
+
+            scrollPositionModCost = GUILayout.BeginScrollView(scrollPositionModCost, GUILayout.Width(1035));
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Box("Other Cost Amount", StyleBoxYellow, GUILayout.Width(175));
+            GUILayout.Box("Other Cost Description", StyleBoxYellow, GUILayout.Width(860));            
+            GUILayout.EndHorizontal();
+            GUILayout.Space(15);
+            manager.displayModCost();
+            GUILayout.EndScrollView();
+            if (GUILayout.Button("Exit Other Cost"))
+            {
+                showModCost = false;
+            }
+            GUILayout.EndVertical();
+            if (!Input.GetMouseButtonDown(1))
+            {
+                GUI.DragWindow();
+            }
+        }
+
+        private void drawmodPaymentWindow(int id)
+        {
+            GUI.skin = HighLogic.Skin;
+            GUILayout.BeginVertical();
+
+            scrollPositionModPayment = GUILayout.BeginScrollView(scrollPositionModPayment, GUILayout.Width(1035));
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Box("Other Payment Amount", StyleBoxYellow, GUILayout.Width(175));
+            GUILayout.Box("Other Payment Description", StyleBoxYellow, GUILayout.Width(860));
+            GUILayout.EndHorizontal();
+            GUILayout.Space(15);
+            manager.displayModPayment();
+            GUILayout.EndScrollView();
+            if (GUILayout.Button("Exit Other Payment"))
+            {
+                showModPayments = false;
+            }
+            GUILayout.EndVertical();
+            if (!Input.GetMouseButtonDown(1))
+            {
+                GUI.DragWindow();
             }
         }
 
@@ -931,7 +1001,7 @@ namespace MissionController
             GUILayout.BeginHorizontal();
             GUILayout.Box("Hired Name",StyleBoxYellow, GUILayout.Width(200));
             GUILayout.Box("Date Hired",StyleBoxYellow, GUILayout.Width(150));
-            GUILayout.Box("Status", StyleBoxYellow, GUILayout.Width(125));
+            GUILayout.Box("Rank", StyleBoxYellow, GUILayout.Width(125));
             GUILayout.EndHorizontal();
             GUILayout.Space(15);
             manager.displayKerbalList();            
@@ -999,6 +1069,35 @@ namespace MissionController
                 showRecycleWindow = false;
             }
 
+            GUILayout.EndVertical();
+            if (!Input.GetMouseButtonDown(1))
+            {
+                GUI.DragWindow();
+            }
+        }
+
+        private void drawshipdestroyed(int id)
+        {
+            GUI.skin = HighLogic.Skin;
+            GUILayout.BeginVertical();
+
+            GUILayout.Label("Your vessel was destroyed, this window gives you a decision \n\nSelecting ACCEPT DEATH will erase all progress of this mission under " +
+                "this vessel ID. You will have to start over with a new vessel! \n\nSelecting ESCAPE DEATH will allow you to exit this window and use Revert, or you " +
+                "can use the quick save to go back and try again its up to you!", styleText);
+
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("Accept Death End Mission", styleButtonWordWrap,GUILayout.Width(250)))
+            {
+                Vessel v = new Vessel();
+                manager.clearMissionGoals(v.id.ToString());
+                currentMission = null;
+                showShipDestroyed = false;
+            }
+            if (GUILayout.Button("Escape Death And Try Again", styleButtonWordWrap, GUILayout.Width(250)))
+            {
+                showShipDestroyed = false;
+            }
+            GUILayout.EndHorizontal();
             GUILayout.EndVertical();
             if (!Input.GetMouseButtonDown(1))
             {
@@ -1424,7 +1523,7 @@ namespace MissionController
           
             GUI.skin = HighLogic.Skin;
             GUILayout.BeginVertical();
-            scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.MaxWidth(420));
+            scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.MaxWidth(520));
             GUILayout.Space(20);
 
             if (status.isClientControlled)
@@ -1459,7 +1558,23 @@ namespace MissionController
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("Package", styleButtonWordWrap, GUILayout.Width(100)))
             {
-                createFileBrowser("Contract", selectMissionPackage);
+                createFileBrowser("Mission Files", selectMissionPackage);
+            }
+
+            if (currentPackage != null)
+            {
+                if (GUILayout.Button("Select New Mission", styleButtonWordWrap, GUILayout.Width(180)))
+                {
+                    packageWindow(true);
+                }
+            }
+
+            if (currentMission != null)
+            {
+                if (GUILayout.Button("Deselect mission", styleButtonWordWrap, GUILayout.Width(180)))
+                {
+                    currentMission = null;
+                }
             }
             
             if (GUILayout.Button("X", styleButtonWordWrap, GUILayout.Width(25)))
@@ -1485,7 +1600,7 @@ namespace MissionController
 
             GUI.skin = HighLogic.Skin;
             GUILayout.BeginVertical();
-            scrollPosition22 = GUILayout.BeginScrollView(scrollPosition22, GUILayout.MaxWidth(420));
+            scrollPosition22 = GUILayout.BeginScrollView(scrollPosition22, GUILayout.MaxWidth(520));
             GUILayout.Space(20);          
 
             if (settings.disablePlugin == true)
@@ -1510,6 +1625,14 @@ namespace MissionController
             {
                 showUserContractWindowStatus = !showUserContractWindowStatus;
                 currentPreviewMission3 = null;
+            }
+
+            if (currentMission != null)
+            {
+                if (GUILayout.Button("Deselect Contract", styleButtonWordWrap, GUILayout.Width(200)))
+                {
+                    currentMission = null;
+                }
             }
 
             if (GUILayout.Button("X", styleButtonWordWrap, GUILayout.Width(25)))
@@ -1673,19 +1796,19 @@ namespace MissionController
                     if (settings.gameMode == 0)
                     {
                         GUILayout.Label("All goals accomplished. You can finish the mission now! Deducted for loans!", styleCaption);
-                        showCostValue("Total Mission Payout:", (currentMission.reward * FinanceMode.currentloan) * PayoutLeveles.TechPayout, styleValueGreen);
+                        showCostValue("Total Mission Payout:", (mission.reward * FinanceMode.currentloan) * PayoutLeveles.TechPayout, styleValueGreen);
                         if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
                         {
-                            showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
+                            showCostValue("Total Science Paid: ", mission.scienceReward, styleValueGreen);
                         }
                     }
                     if (settings.gameMode == 1)
                     {
                         GUILayout.Label("All Goals accomplished. Finish The Mission. Deducted for loans and HardCore mode"); // .75 * .6 = .45
-                        showCostValue("Total Mission Payout:", (currentMission.reward * FinanceMode.currentloan * PayoutLeveles.TechPayout) * .60, styleValueGreen);
+                        showCostValue("Total Mission Payout:", (mission.reward * FinanceMode.currentloan * PayoutLeveles.TechPayout) * .60, styleValueGreen);
                         if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
                         {
-                            showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
+                            showCostValue("Total Science Paid: ", mission.scienceReward, styleValueGreen);
                         }
                     }
                 }
@@ -1694,19 +1817,19 @@ namespace MissionController
                     if (settings.gameMode == 0)
                     {
                         GUILayout.Label("All goals accomplished. you can finish the mission now!", styleCaption);
-                        showCostValue("Total Mission Payout:", currentMission.reward * PayoutLeveles.TechPayout, styleValueGreen);
+                        showCostValue("Total Mission Payout:", mission.reward * PayoutLeveles.TechPayout, styleValueGreen);
                         if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
                         {
-                            showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
+                            showCostValue("Total Science Paid: ", mission.scienceReward, styleValueGreen);
                         }
                     }
                     if (settings.gameMode == 1)
                     {
                         GUILayout.Label("All goals accomplished. you can finish the mission now: HardCore Mode!", styleCaption);
-                        showCostValue("Total Mission Payout:", (currentMission.reward * PayoutLeveles.TechPayout) * .60, styleValueGreen);
+                        showCostValue("Total Mission Payout:", (mission.reward * PayoutLeveles.TechPayout) * .60, styleValueGreen);
                         if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
                         {
-                            showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
+                            showCostValue("Total Science Paid: ", mission.scienceReward, styleValueGreen);
                         }
                     }
                 }
@@ -1790,19 +1913,19 @@ namespace MissionController
                     if (settings.gameMode == 0)
                     {
                         GUILayout.Label("All goals accomplished. You can finish the mission now! Deducted for loans!", styleCaption, GUILayout.MaxWidth(420));
-                        showCostValue("Total Mission Payout:", (currentMission.reward * FinanceMode.currentloan) * PayoutLeveles.TechPayout, styleValueGreen);
+                        showCostValue("Total Mission Payout:", mission.reward * comppayout * FinanceMode.currentloan * PayoutLeveles.TechPayout, styleValueGreen);
                         if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
                         {
-                            showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
+                            showCostValue("Total Science Paid: ", mission.scienceReward * compscience, styleValueGreen);
                         }
                     }
                     if (settings.gameMode == 1)
                     {
                         GUILayout.Label("All Goals accomplished. Finish The Mission. Deducted for loans and HardCore mode", GUILayout.MaxWidth(420)); // .75 * .6 = .45
-                        showCostValue("Total Mission Payout:", (currentMission.reward * FinanceMode.currentloan * PayoutLeveles.TechPayout) * .60, styleValueGreen);
+                        showCostValue("Total Mission Payout:", mission.reward * comppayout * FinanceMode.currentloan * PayoutLeveles.TechPayout * .60, styleValueGreen);
                         if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
                         {
-                            showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
+                            showCostValue("Total Science Paid: ", mission.scienceReward * compscience, styleValueGreen);
                         }
                     }
                 }
@@ -1811,19 +1934,19 @@ namespace MissionController
                     if (settings.gameMode == 0)
                     {
                         GUILayout.Label("All goals accomplished. you can finish the mission now!", styleCaption, GUILayout.MaxWidth(420));
-                        showCostValue("Total Mission Payout:", currentMission.reward * PayoutLeveles.TechPayout, styleValueGreen);
+                        showCostValue("Total Mission Payout:", mission.reward * comppayout * PayoutLeveles.TechPayout, styleValueGreen);
                         if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
                         {
-                            showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
+                            showCostValue("Total Science Paid: ", mission.scienceReward * compscience, styleValueGreen);
                         }
                     }
                     if (settings.gameMode == 1)
                     {
                         GUILayout.Label("All goals accomplished. you can finish the mission now: HardCore Mode!", styleCaption, GUILayout.MaxWidth(420));
-                        showCostValue("Total Mission Payout:", (currentMission.reward * PayoutLeveles.TechPayout) * .60, styleValueGreen);
+                        showCostValue("Total Mission Payout:", mission.reward * comppayout * PayoutLeveles.TechPayout * .60, styleValueGreen);
                         if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
                         {
-                            showCostValue("Total Science Paid: ", currentMission.scienceReward, styleValueGreen);
+                            showCostValue("Total Science Paid: ", mission.scienceReward * compscience, styleValueGreen);
                         }
                     }
                 }
@@ -2064,7 +2187,7 @@ namespace MissionController
             lockOrUnlockEditor(visibility);
         }
         /// <summary>
-        /// Sets The Visibility of the KerbalNauts Recruitment Window
+        /// Sets The Visibility of the Research Window
         /// </summary>
         /// <param name="visibility"></param>
         private void ResearchTreeWindow(bool visibility)

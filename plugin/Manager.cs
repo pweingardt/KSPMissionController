@@ -248,12 +248,14 @@ namespace MissionController
                 currentProgram.add(new GoalStatus(goal.id));
                 reward(goal.reward);
                 totalReward(goal.reward);
+                saveProgram();
             }
 
             if (!isMissionGoalAlreadyFinished (goal, vessel) && goal.nonPermanent && goal.isDone(vessel, events)) {
                 currentProgram.add(new GoalStatus(vessel.id.ToString(), goal.id));
                 reward (goal.reward);
                 totalReward(goal.reward);
+                saveProgram();
             }
         }
 
@@ -527,7 +529,23 @@ namespace MissionController
         {
             repairvesselList.Clear();
         }
-       
+
+        public void clearMissionGoals(string id)
+        {
+            currentProgram.completedGoals.RemoveAll(s => s.vesselGuid == id);
+            saveProgram();        
+        }
+        public void wipeAllMissionGoals()
+        {
+            currentProgram.completedGoals.Clear();
+            saveProgram();
+        }
+        public void wipeAllFinishedMissions()
+        {
+            currentProgram.completedMissions.Clear();
+            saveProgram();
+        }
+      
         /// <summary>
         /// Returns true, if the given mission goal has been finish in another game with the given vessel, false otherwise
         /// </summary>
@@ -557,7 +575,7 @@ namespace MissionController
         
         /// <summary>
         /// decides if vessel is flagged for it cannot do missions
-        /// Either launched in Test Mode or Plugin Disabled
+        /// launched in T Plugin Disabled
         /// </summary>
         /// <param name="v"></param>
         /// <returns></returns>
@@ -638,6 +656,30 @@ namespace MissionController
                 GUILayout.EndHorizontal();
             }
         }
+
+        public void displayModCost()
+        {
+            foreach (ModCharges MC in currentProgram.modCharges)
+            {
+                GUILayout.BeginHorizontal(); ;
+                GUILayout.Box("" + MC.amount, GUILayout.Width(250));
+                GUILayout.Box(MC.ChageDescription, GUILayout.Width(400));
+                GUILayout.EndHorizontal();
+            }
+        }
+
+        public void displayModPayment()
+        {
+            foreach (ModPayments Mp in currentProgram.modPayments)
+            {
+                GUILayout.BeginHorizontal(); ;
+                GUILayout.Box("" + Mp.amount, GUILayout.Width(250));
+                GUILayout.Box(Mp.PaymentDescription, GUILayout.Width(400));
+                GUILayout.EndHorizontal();
+            }
+        }
+
+
       
         /// <summary>
         /// Checks to see if Kerbal Was Hired.  This was inspired by Kerbal Story Missions, with permission from author to use
@@ -674,7 +716,7 @@ namespace MissionController
                 currentProgram.add(new VesselsMade(vessel.GetName(), latestExpenses, m.name, vessel.GetCrewCount()));
             }
         }
-
+        
         /// <summary>
         /// Finishes the given mission with the given vessel.
         /// Rewards the space program with the missions reward.
@@ -738,6 +780,9 @@ namespace MissionController
                     discardRandomMission (m);
                     m = reloadMission (m, vessel);
                 }
+
+                
+                clearMissionGoals(vessel.id.ToString());  
             }
         }
 
@@ -897,6 +942,16 @@ namespace MissionController
         public int TotalHiredKerbCost
         {
             get { return currentProgram.TotalSpentKerbals; }
+        }
+
+        public int otherpaymentmoney
+        {
+            get { return currentProgram.otherpaymentmoney; }
+        }
+
+        public int othercostmoney
+        {
+            get { return currentProgram.othercostmoney; }
         }
 
        /// <summary>
@@ -1153,12 +1208,9 @@ namespace MissionController
             currentProgram.completedMissions.Remove (s);
         }
 
-        // The interface implementation for external plugins
-
         public int getBudget() {
             return currentProgram.money;
         }
-        // Malkuth Edit This is where the program does the checks for Bank Loans and Difficulties for it chanrges gives the correct amounts for payouts
         
         /// <summary>
         /// the reward for finishing a missioin, this is the payment.
@@ -1184,6 +1236,7 @@ namespace MissionController
             }
             return currentProgram.money;
         }
+
         public int CleanReward(int value)
         {
             latestExpenses = -value;
@@ -1269,6 +1322,16 @@ namespace MissionController
             return currentProgram.totalMoney;
         }
 
+        public int modReward(int value, string description)
+        {
+            if (!SettingsManager.Manager.getSettings().disablePlugin)
+            {
+                currentProgram.add(new ModPayments(value, description));
+                currentProgram.money += value;
+            }
+            return currentProgram.money;
+        }
+
         /// <summary>
         /// Used to payout a reward for recycling only
         /// </summary>
@@ -1279,7 +1342,6 @@ namespace MissionController
             {
                 currentProgram.money += value;
                 currentProgram.totalrecycleMoney += value;
-
             }
             
             return currentProgram.money;}
@@ -1333,6 +1395,18 @@ namespace MissionController
         {
             currentProgram.totalSpentVessels += value;
             return CleanReward(-value);            
+        }
+
+        /// <summary>
+        /// added for API and adding a cost value for Mods
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="description"></param>
+        /// <returns></returns>
+        public int ModCost(int value, string description)
+        {
+            currentProgram.add(new ModCharges(value, description));
+            return CleanReward(-value);
         }
 
         public int kerbCost(int value)
