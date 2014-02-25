@@ -13,8 +13,8 @@ Methods so far:
 * 
 * `ModCost(int value, string Description)`: Give the Player a Reward Or Payment, Value and Description of What was given in the Other Cost Manifest
 * 
-# The Below Values Are not Really Needed, but Included them incase for somereason you want to use these Manifest
-Versions, no Descriptions for these will be shown only Payments or Cost.
+#### The Below Values Are not Really Needed, but Included them incase for somereason you want to use these Manifest ####Versions, no Descriptions for these will be shown only Payments or Cost.
+
 
 * `int CleanReward(int value);` : This is a straight up Reward That has no % Changes from Research or others. 10 Credits will always be 10 credits.  Again better to use modReward for this.
 * 
