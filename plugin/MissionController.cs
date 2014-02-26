@@ -96,7 +96,6 @@ namespace MissionController
 
                
         Rect VabBudgetWin;
-        Rect VabBudgetWin1;
         Rect VabBudgetWin2;
         Rect VabBudgetWin3;
         Rect VabShipBuildList;
@@ -132,7 +131,6 @@ namespace MissionController
         private bool showMissionLogbookWindow = false;
         private bool showShipLogBookWindow = false;
         private bool showUserContractWindowStatus = false;
-        private bool showShipDestroyed = false;
         private bool showModPayments = false;
         private bool showModCost = false;
                
@@ -143,6 +141,7 @@ namespace MissionController
         private FileBrowser fileBrowser = null;
         private Mission currentMission = null;
         private MissionPackage currentPackage = null;
+        private MissionPackage savedPackage = null;
 
         private Vector2 scrollPosition = new Vector2(0, 0);
         private Vector2 scrollPositionship = new Vector2(0, 0);
@@ -417,7 +416,8 @@ namespace MissionController
             if (manager.Getrandomcontractsfreeze != true) { manager.checkClockTiime(); }
             repairStation.repair = false;
             repairStation.dooropen = false;
-        }
+            //checkGoalPressent();
+        }       
 
         public void Awake()
         {
@@ -490,7 +490,6 @@ namespace MissionController
             researchtreewinpostion = configfile.GetValue<Rect>("researchtreewinpostion");
             packageWindowPosition = configfile.GetValue<Rect>("packageWindowPostion");           
             VabBudgetWin = configfile.GetValue<Rect>("vabBudgetWin");
-            VabBudgetWin1 = configfile.GetValue<Rect>("vabBudgetWin1");
             VabBudgetWin2 = configfile.GetValue<Rect>("vabBudgetWin2");
             VabBudgetWin3 = configfile.GetValue<Rect>("vabBudgetWin3");
             VabShipBuildList = configfile.GetValue<Rect>("VabShipBuildList");
@@ -513,7 +512,6 @@ namespace MissionController
             configfile.SetValue("researchtreewinpostion", researchtreewinpostion);
             configfile.SetValue("packageWindowPostion", packageWindowPosition);
             configfile.SetValue("vabBudgetWin", VabBudgetWin);
-            configfile.SetValue("vabBudgetWin1", VabBudgetWin1);
             configfile.SetValue("vabBudgetWin2", VabBudgetWin2);
             configfile.SetValue("vabBudgetWin3", VabBudgetWin3);
             configfile.SetValue("VabShipBuildList", VabShipBuildList);
@@ -535,7 +533,6 @@ namespace MissionController
              researchtreewinpostion = ResetAllWindows;
              packageWindowPosition = ResetAllWindows;
              VabBudgetWin = ResetAllWindows;
-             VabBudgetWin1 = ResetAllWindows;
              VabBudgetWin2 = ResetAllWindows;
              VabBudgetWin3 = ResetAllWindows;
              VabShipBuildList = ResetAllWindows;
@@ -578,8 +575,27 @@ namespace MissionController
             }
         }
 
-        private ProtoVessel pVessel; // NK for new recyce on recover
+        //private void clearactivemissiongoals()
+        //{
+        //    foreach (MissionGoal mg in currentMission.goals)
+        //    {
+        //        manager.clearMissionGoalByName(mg);
+        //    }
+        //}
+        //private bool isgoalpressent;
+        //private void checkGoalPressent()
+        //{
+        //    if (currentMission != null)
+        //    {
+        //        foreach (MissionGoal mg in currentMission.goals)
+        //        {
+        //            isgoalpressent = manager.checkgoalsexist(mg);
+        //        }
+        //    }
+        //}
 
+        private ProtoVessel pVessel; // NK for new recyce on recover
+        
         /// <summary>
         /// We check for passive missions and client controlled missions every day.
         /// </summary>
@@ -671,7 +687,7 @@ namespace MissionController
                 pVessel = null;
                 return;
             }
-            if (HighLogic.LoadedScene.Equals(GameScenes.MAINMENU) || HighLogic.LoadedScene.Equals(GameScenes.SPACECENTER) || HighLogic.LoadedScene.Equals(GameScenes.EDITOR)
+            if (HighLogic.LoadedScene.Equals(GameScenes.SPACECENTER) || HighLogic.LoadedScene.Equals(GameScenes.EDITOR)
                 || HighLogic.LoadedScene.Equals(GameScenes.SPH) || HighLogic.LoadedScene.Equals(GameScenes.TRACKSTATION))
                 manager.resetLatest();
 
@@ -680,7 +696,7 @@ namespace MissionController
                 canRecycle = true; // reenable once exit flight               
             }           
             // NK
-            if (!partsCostCorrected)
+            if (!partsCostCorrected && EditorPartList.Instance != null)
             {
                 Tools.FindMCSettings();
 
@@ -692,7 +708,7 @@ namespace MissionController
                     try
                     {
                         int cst = PartCost.cost(ap);
-                        print("For part " + ap.name + ": " + ap.title + ", cost = " + cst);
+                        print("MCE Price Change Part " + ap.name + ": " + ap.title + ", cost = " + cst);
                         ap.cost = cst;
                     }
                     catch
@@ -715,17 +731,17 @@ namespace MissionController
             loadIcons();
             loadStyles();
 
-            GUI.skin = HighLogic.Skin;
+            if (settings.KSPSKIN == true){GUI.skin = HighLogic.Skin;}
             
             // Shows Mission Finsihed Window when done
-            Status status = calculateStatus(currentMission, true, activeVessel);
-            if (status.missionIsFinishable)
-            {
-                showRandomWindow = true;
-            }
-
+             Status status = calculateStatus(currentMission, true, activeVessel);
+                if (status.missionIsFinishable)
+                {
+                    showRandomWindow = true;
+                }
             // We need to calculate the status in case the windows are not visible
             calculateStatus(currentMission, true, activeVessel);
+            
 
             if (hideAll)
             {
@@ -759,16 +775,12 @@ namespace MissionController
                 }
             }
 
-            if (showbudgetamountwindow && hideMCtoolbarsviews)
+            if (showbudgetamountwindow && hideMCtoolbarsviews && manager.isSpaceprogramactive())
             {
                 if (HighLogic.LoadedScene.Equals(GameScenes.EDITOR))
                 {
                     VabBudgetWin = GUILayout.Window(788543, VabBudgetWin, drawbudgetwindow, "Current Budget: " + CurrencySuffix + manager.budget.ToString("N2"), styleGreenButtonCenter, GUILayout.MinHeight(20), GUILayout.MinWidth(200));
-                }
-                if (HighLogic.LoadedScene.Equals(GameScenes.SPACECENTER))
-                {
-                    VabBudgetWin1 = GUILayout.Window(788544, VabBudgetWin1, drawbudgetwindow, "Current Budget: " + CurrencySuffix + manager.budget.ToString("N2"), styleGreenButtonCenter, GUILayout.MinHeight(20), GUILayout.MinWidth(200));
-                }
+                }              
                 if (HighLogic.LoadedScene.Equals(GameScenes.FLIGHT))
                 {
                     VabBudgetWin2 = GUILayout.Window(788545, VabBudgetWin2, drawbudgetwindow, "CB: " + CurrencySuffix + manager.budget.ToString("N2"), styleGreenButtonCenter, GUILayout.MinHeight(20), GUILayout.MinWidth(125));
@@ -821,17 +833,17 @@ namespace MissionController
 
             if (showRecycleWindow && hideMCtoolbarsviews)
             {
-                GUILayout.Window(98766, new Rect(Screen.width / 2 - 200, Screen.height / 2 - 100, 600, 400), drawRecycleWindow, "Recycle Window");
+                GUILayout.Window(98766, new Rect(Screen.width / 2 - 200, Screen.height / 2 - 100, 450, 130), drawRecycleWindow, "Recycle Window");
             }
 
             if (manager.showKerbalHireWindow && hideMCtoolbarsviews)
             {
-                GUILayout.Window(987667, new Rect(Screen.width / 2 - 200, Screen.height / 2 - 100, 425, 150), drawKerbalHireWindow, "Recently Hired Kerbals");
+                GUILayout.Window(987667, new Rect(Screen.width / 2 - 200, Screen.height / 2 - 100, 450, 150), drawKerbalHireWindow, "Recently Hired Kerbals");
             }
 
             if (showRandomWindow && hideMCtoolbarsviews)
             {
-                GUILayout.Window(98866, new Rect(Screen.width / 2 - 200, Screen.height / 2 - 100, 400, 100), drawRandomWindow, "Event Window");
+                GUILayout.Window(98866, new Rect(Screen.width / 2 - 200, Screen.height / 2 - 100, 625, 150), drawRandomWindow, "Event Window");
             }
             if (showRevertWindow && hideMCtoolbarsviews)
             {
@@ -856,11 +868,7 @@ namespace MissionController
             if (showShipLogBookWindow && hideMCtoolbarsviews)
             {
                 shipLogBook = GUILayout.Window(988889, shipLogBook, drawShipLogBook, "Ship Log Book ", GUILayout.MinHeight(500), GUILayout.MinWidth(960));
-            }
-            if (showShipDestroyed && hideMCtoolbarsviews)
-            {
-                GUILayout.Window(98766, new Rect(Screen.width / 2 - 200, Screen.height / 2 - 100, 500, 200),drawshipdestroyed, "Vessel Destroyed During Mission");
-            }
+            }            
             if (showModCost && hideMCtoolbarsviews)
             {
                 modCostWindow = GUILayout.Window(1888892, modCostWindow, drawmodCostWindow, "Other Cost Window ", GUILayout.MinHeight(500), GUILayout.MinWidth(960));
@@ -1053,57 +1061,21 @@ namespace MissionController
 
                 GUILayout.BeginHorizontal();
                 GUILayout.Box("Vessel Name", StyleBoxYellow, GUILayout.Width(350), GUILayout.Height(30));
-                GUILayout.Box("Cost Returned", StyleBoxYellow, GUILayout.Width(100), GUILayout.Height(30));
-                GUILayout.Box("Description", StyleBoxYellow, GUILayout.Width(300), GUILayout.Height(30));
+                GUILayout.Box("Cost Returned", StyleBoxYellow, GUILayout.Width(100), GUILayout.Height(30));                
                 GUILayout.EndHorizontal();
                 
                 GUILayout.BeginHorizontal();
                 GUILayout.Box(recycledName, GUILayout.Width(350), GUILayout.Height(30));
-                GUILayout.Box("$ " + recycledCost.ToString("N2"), GUILayout.Width(100), GUILayout.Height(30));
-                GUILayout.Box("  (" + recycledDesc + ")", GUILayout.Width(300), GUILayout.Height(30));
+                GUILayout.Box("$ " + recycledCost.ToString("N2"), GUILayout.Width(100), GUILayout.Height(30));               
                 GUILayout.EndHorizontal();
-            }           
+            }
+            GUILayout.EndVertical();
 
-            if (GUILayout.Button("OK", styleButtonWordWrap))
+            if (GUILayout.Button("OK", styleButtonWordWrap, GUILayout.Width(450)))
             {
                 showRecycleWindow = false;
-            }
-
-            GUILayout.EndVertical();
-            if (!Input.GetMouseButtonDown(1))
-            {
-                GUI.DragWindow();
-            }
-        }
-
-        private void drawshipdestroyed(int id)
-        {
-            GUI.skin = HighLogic.Skin;
-            GUILayout.BeginVertical();
-
-            GUILayout.Label("Your vessel was destroyed, this window gives you a decision \n\nSelecting ACCEPT DEATH will erase all progress of this mission under " +
-                "this vessel ID. You will have to start over with a new vessel! \n\nSelecting ESCAPE DEATH will allow you to exit this window and use Revert, or you " +
-                "can use the quick save to go back and try again its up to you!", styleText);
-
-            GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Accept Death End Mission", styleButtonWordWrap,GUILayout.Width(250)))
-            {
-                Vessel v = new Vessel();
-                manager.clearMissionGoals(v.id.ToString());
-                currentMission = null;
-                showShipDestroyed = false;
-            }
-            if (GUILayout.Button("Escape Death And Try Again", styleButtonWordWrap, GUILayout.Width(250)))
-            {
-                showShipDestroyed = false;
-            }
-            GUILayout.EndHorizontal();
-            GUILayout.EndVertical();
-            if (!Input.GetMouseButtonDown(1))
-            {
-                GUI.DragWindow();
-            }
-        }
+            }   
+        }        
 
         private void drawRevertWindow(int id)
         {
@@ -1199,12 +1171,7 @@ namespace MissionController
 
 
             }
-
             GUILayout.EndVertical();
-            if (!Input.GetMouseButtonDown(1))
-            {
-                GUI.DragWindow();
-            }
         }
 
         private void drawRandomWindow(int id)
@@ -1383,13 +1350,8 @@ namespace MissionController
                     showRandomWindow = false;
                 }
                 GUILayout.EndHorizontal();
-            }                                          
-            
-            GUILayout.EndVertical();
-            if (!Input.GetMouseButtonDown(1))
-            {
-                GUI.DragWindow();
             }
+            GUILayout.EndVertical();                                         
         }       
 
         private void drawVabShipWindow(int id)
@@ -1517,7 +1479,7 @@ namespace MissionController
         private void drawMissionInfoWindow(int id)
         {
             if (showMissionStatusWindow == true)
-                showContractStatusWindow = false;
+                showContractStatusWindow = false;            
 
             Status status = calculateStatus(currentMission, true, activeVessel);
           
@@ -1561,11 +1523,12 @@ namespace MissionController
                 createFileBrowser("Mission Files", selectMissionPackage);
             }
 
-            if (currentPackage != null)
+            if (currentPackage != null && savedPackage != null)
             {
                 if (GUILayout.Button("Select New Mission", styleButtonWordWrap, GUILayout.Width(180)))
                 {
-                    packageWindow(true);
+                    currentPackage = savedPackage;
+                    showMissionPackageBrowser = !showMissionPackageBrowser;
                 }
             }
 
@@ -1581,9 +1544,16 @@ namespace MissionController
             {
                 showMissionStatusWindow = false;
             }
-            GUILayout.EndHorizontal();
-
+            GUILayout.EndHorizontal();           
             GUILayout.Space(20);
+            //if (currentMission != null)
+            //{
+            //    if (GUILayout.Button("Delete Mission Goals For Old Vessel", styleButtonWordWrap, GUILayout.Width(485)))
+            //    {
+            //        clearactivemissiongoals();
+            //    }
+            //}
+
             GUILayout.EndVertical();
             if (!Input.GetMouseButtonDown(1))
             {
@@ -1619,6 +1589,7 @@ namespace MissionController
             if (GUILayout.Button("Contracts", styleButtonWordWrap, GUILayout.Width(100)))
             {
                 selectContracts("MCContracts.cfg");
+                currentPreviewMission = null;
             }
 
             if (GUILayout.Button("User Contrancts", styleButtonWordWrap, GUILayout.Width(150)))
@@ -1686,10 +1657,11 @@ namespace MissionController
             }
 
             currentPackage = manager.loadMissionPackage(file);
+            savedPackage = manager.loadMissionPackage(file);
             currentPreviewMission = null;
             if (currentPackage != null)
             {
-                packageWindow(true);
+                showMissionPackageBrowser = !showMissionPackageBrowser;
             }
             currentSort = (currentPackage.ownOrder ? SortBy.PACKAGE_ORDER : SortBy.NAME);
         }
@@ -1730,7 +1702,7 @@ namespace MissionController
         {
             if (s.missionAlreadyFinished)
             {
-                GUILayout.Label("Mission already finished!", styleWarning);
+                GUILayout.Label("You have already finished this mission!", styleWarning);
             }
 
             GUILayout.Label("Current Mission: ", styleValueGreenBold);
@@ -1787,6 +1759,11 @@ namespace MissionController
             }
 
             drawMissionGoals(mission, s);
+
+            if (s.missionAlreadyFinished)
+            {
+                GUILayout.Label("You have already finished this mission!", styleWarning);
+            }
 
             if (s.missionIsFinishable)
             {
@@ -2149,81 +2126,15 @@ namespace MissionController
             fileBrowser.CurrentDirectory = missionFolder;
             fileBrowser.disallowDirectoryChange = true;
             fileBrowser.SelectionPattern = "*.mpkg";
-            fileBrowser.hideFileExtensions = true;
-
-            if (EditorLogic.fetch != null)
-            {
-                EditorLogic.fetch.Lock(true, true, true, ".zz9812.");
-            }
+            fileBrowser.hideFileExtensions = true;            
         }
 
         private void destroyFileBrowser()
         {
-            fileBrowser = null;
-
-            if (EditorLogic.fetch != null)
-            {
-                EditorLogic.fetch.Unlock(".zz9812.");
-            }
+            fileBrowser = null;           
         }
 
-        /// <summary>
-        /// Sets the visibility of the settings window
-        /// </summary>
-        /// <param name="visibility">If set to <c>true</c> visibility.</param>
-        private void settingsWindow(bool visibility)
-        {
-            showSettingsWindow = visibility;
-            lockOrUnlockEditor(visibility);
-        }
-
-        /// <summary>
-        /// Sets the visibility of the Finace Window
-        /// </summary>
-        /// <param name="visibility">If set to <c>true</c> visibility.</param>
-        private void financeWindow(bool visibility)
-        {
-            showFinanceWindow = visibility;
-            lockOrUnlockEditor(visibility);
-        }
-        /// <summary>
-        /// Sets The Visibility of the Research Window
-        /// </summary>
-        /// <param name="visibility"></param>
-        private void ResearchTreeWindow(bool visibility)
-        {
-            showResearchTreeWindow = visibility;
-            lockOrUnlockEditor(visibility);
-        }
-
-        /// <summary>
-        /// Sets the visibility of the package browser
-        /// </summary>
-        /// <param name="visibility">If set to <c>true</c> visibility.</param>
-        private void packageWindow(bool visibility)
-        {
-            showMissionPackageBrowser = visibility;
-            lockOrUnlockEditor(visibility);
-        }
-
-        /// <summary>
-        /// Locks or unlocks the editor, if it is available
-        /// </summary>
-        /// <param name="visiblity">If set to <c>true</c> visiblity.</param>
-        private void lockOrUnlockEditor(bool visiblity)
-        {
-            if (EditorLogic.fetch != null)
-            {
-                if (visiblity)
-                {
-                    EditorLogic.fetch.Lock(true, true, true, ".zz9812.");
-                }
-                else
-                {
-                    EditorLogic.fetch.Unlock(".zz9812.");
-                }
-            }
-        }
+        
 
         private void showCostValue(String name, double value, GUIStyle style)
         {

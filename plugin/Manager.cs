@@ -96,6 +96,19 @@ namespace MissionController
         }
 
         /// <summary>
+        /// checks if current program is null returns true if not.
+        /// </summary>
+        /// <returns></returns>
+        public bool isSpaceprogramactive()
+        {
+            if (spaceProgram == null)
+            {
+                return false;
+            }
+            else return true;
+        }
+
+        /// <summary>
         /// Discards the given random mission.
         /// Removed it from the random missions list
         /// </summary>
@@ -535,6 +548,11 @@ namespace MissionController
             currentProgram.completedGoals.RemoveAll(s => s.vesselGuid == id);
             saveProgram();        
         }
+        public void clearMissionGoalByName(MissionGoal mg)
+        {
+            currentProgram.completedGoals.RemoveAll(s => s.id.Contains(mg.id.ToString()));
+            saveProgram();
+        }
         public void wipeAllMissionGoals()
         {
             currentProgram.completedGoals.Clear();
@@ -544,6 +562,11 @@ namespace MissionController
         {
             currentProgram.completedMissions.Clear();
             saveProgram();
+        }
+        public bool checkgoalsexist(MissionGoal mg)
+        {
+            if (currentProgram.completedGoals.Any(s => s.id.Contains(mg.id.ToString()))) { return true; }
+            else return false;
         }
       
         /// <summary>
@@ -1215,6 +1238,9 @@ namespace MissionController
         public int ItotalHiredKerbCost() { return currentProgram.TotalSpentKerbals; }
         public int ItotalModPayment() { return currentProgram.otherpaymentmoney; }
         public int ItotalModCost() { return currentProgram.othercostmoney; }
+        public void IloadMCEbackup() { loadProgramBackup(HighLogic.CurrentGame.Title); }
+        public void IloadMCESave() { loadProgram(HighLogic.CurrentGame.Title); }
+        public void IsaveMCE() { saveProgram(); }
         
         /// <summary>
         /// the reward for finishing a missioin, this is the payment.

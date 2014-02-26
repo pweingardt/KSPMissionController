@@ -46,6 +46,10 @@ namespace MissionController
         int ItotalModPayment(); // Total Payments made through ModPayments
         int ItotalModCost(); // Total Cost made through ModCost
 
+        void IloadMCEbackup(); //This is only used in revert.  This is only ever saved once, at the SpaceCenter Screen.  Don't load this as a regualar backup, only in revert conditions
+        void IloadMCESave(); // This loads the Regualar active .sp file for the player.
+        void IsaveMCE(); // this saves MCE .sp file.
+
         /// <summary>
         /// Use ModReward to add a Reward to the current MCE Budget, this will add to the budget
         /// </summary>

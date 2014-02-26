@@ -90,15 +90,15 @@ namespace MissionController
             if (v.mainBody.GetAltitude(v.CoM) - (v.terrainAltitude < 0 ? 0 : v.terrainAltitude) < 10)
             {
                 eventFlags = eventFlags.Add(EventFlags.CRASHED);
-            }
+            }           
             // NK recycle
             else
             {
                 try { print("*MC* Vessel " + v.name + " destroyed. Alt " + v.mainBody.GetAltitude(v.CoM) + ", body " + v.orbit.referenceBody.bodyName + ", sit = " + v.situation); }
                 catch { }
-                if (!manager.isVesselFlagged(activeVessel) &&!HighLogic.LoadedSceneIsEditor && canRecycle && activeVessel != v && !v.isEVA // canRecycle is false iff load requested and haven't returned to flight yet.
+                if (!manager.isVesselFlagged(activeVessel) && !HighLogic.LoadedSceneIsEditor && canRecycle && activeVessel != v && !v.isEVA // canRecycle is false iff load requested and haven't returned to flight yet.
                     && v.name.Contains("(Unloaded)") // check make sure it's because we're unloading it
-                    && (v.situation == Vessel.Situations.FLYING || v.situation == Vessel.Situations.SUB_ORBITAL) && v.mainBody.GetAltitude(v.CoM) <= 25000 
+                    && (v.situation == Vessel.Situations.FLYING || v.situation == Vessel.Situations.SUB_ORBITAL) && v.mainBody.GetAltitude(v.CoM) <= 25000
                     && v.orbit.referenceBody.bodyName.Equals("Kerbin") && (manager.ResearchRecycle || HighLogic.CurrentGame.Mode != Game.Modes.CAREER))
                 {
                     print("*MC* Checking " + v.name);
@@ -137,7 +137,7 @@ namespace MissionController
                                     ModuleEngines me = (ModuleEngines)m.moduleRef;
                                     me.Load(m.moduleValues);
                                     print("Found engine, SL Isp = " + me.atmosphereCurve.Evaluate(1) + " (jet cutoff: " + jetIsp + ")");
-                                    if(me.atmosphereCurve.Evaluate(1) > jetIsp)
+                                    if (me.atmosphereCurve.Evaluate(1) > jetIsp)
                                         jets.Add(me);
                                     else
                                         engines.Add(me);
@@ -148,7 +148,7 @@ namespace MissionController
                                     //print(Tools.NodeToString(r.resourceValues, 0));
                                     if (!(amt > 0))
                                         continue;
-                                            //DBG print("Found resource " + r.resourceName + ", amount " + r.amount + ", cost = " + rCost);
+                                    //DBG print("Found resource " + r.resourceName + ", amount " + r.amount + ", cost = " + rCost);
                                     double dens = r.resourceRef.info.density;
                                     if (resources.ContainsKey(r.resourceName))
                                     {
@@ -251,11 +251,11 @@ namespace MissionController
                                     double req = thrust * jetFuelMult * (rats[i] / ratSum);
                                     double amt = resources[props[i]];
                                     print("Fuel needed: " + req + " " + props[i] + "(avail: " + amt + ")");
-                                    if ( amt < req )
+                                    if (amt < req)
                                         landing = 0;
                                 }
                             }
-                            if(landing == 0 && engines.Count > 0) // propulsive via rockets
+                            if (landing == 0 && engines.Count > 0) // propulsive via rockets
                             {
                                 double isp = 999999;
                                 ModuleEngines e = engines[0];
@@ -278,22 +278,22 @@ namespace MissionController
                                 }
                                 double TWR = thrust / (mass + rmassdry) / e.g;
                                 double dV = isp * 9.81 * Math.Log((mass + rmass) / (mass + rmassdry));
-                                print("DeltaV available: " + dV + "(Mass ratio: " + (mass+rmassdry) + " / " + (mass + rmass) + ", TWR " + TWR + ")");
+                                print("DeltaV available: " + dV + "(Mass ratio: " + (mass + rmassdry) + " / " + (mass + rmass) + ", TWR " + TWR + ")");
                                 if (dV >= Tools.Setting("deltaVRequired", 1000.0) && TWR >= Tools.Setting("minRocketTWR", 1.5))
                                 {
                                     landing = 2;
                                 }
                             }
-                            if(landing > 0) // landed!
+                            if (landing > 0) // landed!
                             {
                                 // remove fuel used (for now, remove all fuel of used types, don't try to remove only some.
-                                foreach(ProtoPartSnapshot p in v.protoVessel.protoPartSnapshots)
+                                foreach (ProtoPartSnapshot p in v.protoVessel.protoPartSnapshots)
                                     foreach (ProtoPartResourceSnapshot r in p.resources)
-                                        if(props.Contains(r.resourceName))
+                                        if (props.Contains(r.resourceName))
                                         {
                                             print("Setting " + r.resourceName + " to 0 (used in landing).");
                                             r.resourceValues.SetValue("amount", "0");
-                                            if(r.resourceRef != null)
+                                            if (r.resourceRef != null)
                                                 r.resourceRef.amount = 0;
                                         }
                                 recycledName = v.name;
@@ -302,7 +302,7 @@ namespace MissionController
                                 string landingtype = landing == 2 ? "Rocket-powered landing." : "Jet-powered flight and landing.";
                                 recycledDesc = landingtype;
                                 print("*MC* Recycling vessel: " + landingtype + " Val: " + recycledCost);
-                                
+
                                 showRecycleWindow = true;
                                 manager.recycleVessel(v, recycledCost);
 

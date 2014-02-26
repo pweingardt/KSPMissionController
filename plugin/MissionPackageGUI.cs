@@ -121,17 +121,17 @@ namespace MissionController
                     hiddenGoals = new List<MissionGoal> ();
                     currentMission = currentPreviewMission;
                     currentPreviewMission = null;
-                    packageWindow (false);
+                    showMissionPackageBrowser = false;
                 }
 
-                if (currentPreviewMission.randomized && GUILayout.Button ("New Random Mission")) {
+                if (currentPreviewMission != null && currentPreviewMission.randomized && GUILayout.Button ("New Random Mission")) {
                     manager.discardRandomMission (currentPreviewMission);
                     currentPreviewMission = manager.reloadMission (currentPreviewMission, activeVessel);
                 }
             }
 
             if (GUILayout.Button ("Close")) {
-                packageWindow (false);
+                showMissionPackageBrowser = false;
             }
             GUILayout.EndHorizontal ();
 

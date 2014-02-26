@@ -82,8 +82,12 @@ namespace MissionController
             {
                 settings.gameMode = 1;
             }
-            GUILayout.Space(5);
-            GUILayout.Label("Will Reset SpaceProgram Default Values");
+            GUILayout.Space(10);
+
+            if ((GUILayout.Button("GUI Skin Type",styleButtonWordWrap)))
+            {
+                settings.KSPSKIN = !settings.KSPSKIN;
+            }
             if (GUILayout.Button(resetStrings[resetCount],styleButtonWordWrap))
             {
                 resetCount++;
@@ -93,20 +97,16 @@ namespace MissionController
                     manager.resetSpaceProgram();
                     manager.saveProgramBackup();
                 }
-            }
-            GUILayout.Space(5);
-            GUILayout.Label("Will Reset Mission Goals");
+            }            
             if (GUILayout.Button("Clear Saved mission Goals", styleButtonWordWrap))
             {
                 manager.wipeAllMissionGoals();
             }
-            GUILayout.Space(5);
-            GUILayout.Label("Will Delete All Finish Missions");
             if (GUILayout.Button("Clear All Finished Missions", styleButtonWordWrap))
             {
                 manager.wipeAllFinishedMissions();
             }
-            GUILayout.Space(5);
+            GUILayout.Space(10);
             
             //if (GUILayout.Button("Set Values Randoms + Find Vessel", styleButtonWordWrap))
             //{
@@ -120,7 +120,17 @@ namespace MissionController
             //    manager.setCompanyName();
             //    manager.clearVesselRepairFromList();
             //    manager.findVeselWithRepairPart();
-            //}                   
+            //} 
+
+            //if (GUILayout.Button("window Test Recycle", styleButtonWordWrap))
+            //{
+            //    showRecycleWindow = true;
+            //}
+
+            //if (GUILayout.Button("window Test Finish mission", styleButtonWordWrap))
+            //{
+            //    showRandomWindow = true;
+            //}
 
             if (GUILayout.Button("Reset Contract Time Check", styleButtonWordWrap))
             {
@@ -131,10 +141,10 @@ namespace MissionController
             {
                 ResetWindows();
             }
-
+            GUILayout.Space(10);
             if (GUILayout.Button("Save Settings", styleButtonWordWrap))
             {
-                settingsWindow(false);
+                showSettingsWindow = false;
                 //Difficulty.init(settings.difficulty);
                 FuelMode.fuelinit(manager.GetFuels);
                 ConstructionMode.constructinit(manager.GetConstruction);

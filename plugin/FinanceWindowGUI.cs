@@ -144,7 +144,7 @@ namespace MissionController
             GUILayout.Space(20);
             if (GUILayout.Button("Exit Window"))
             {
-                financeWindow(false);
+                showFinanceWindow = false;
             }
 
             GUILayout.EndVertical();

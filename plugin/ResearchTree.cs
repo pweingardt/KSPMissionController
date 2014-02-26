@@ -212,7 +212,7 @@ namespace MissionController
                 PayoutLeveles.payoutlevels(manager.GetCurrentPayoutLevel);
                 manager.saveProgram();
 
-                ResearchTreeWindow(false);
+                showResearchTreeWindow = false;
             }
 
             GUILayout.EndVertical();

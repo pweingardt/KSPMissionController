@@ -51,7 +51,7 @@ namespace MissionController
                             hiddenGoals = new List<MissionGoal>();
                             currentMission = currentPreviewMission2;
                             currentPreviewMission2 = null;
-                            packageWindow(false);
+                            showMissionPackageBrowser = false;
                             showContractSelection = false;
                             manager.Setrandomcontractfreeze(true);
                         }
@@ -76,7 +76,7 @@ namespace MissionController
                             hiddenGoals = new List<MissionGoal>();
                             currentMission = currentPreviewMission2;
                             currentPreviewMission2 = null;
-                            packageWindow(false);
+                            showMissionPackageBrowser = false;
                             showContractSelection = false;
                             manager.Setrandomcontractfreeze(true);
                         }
@@ -102,7 +102,7 @@ namespace MissionController
                             hiddenGoals = new List<MissionGoal>();
                             currentMission = currentPreviewMission2;
                             currentPreviewMission2 = null;
-                            packageWindow(false);
+                            showMissionPackageBrowser = false;
                             showContractSelection = false;
                             manager.Setrandomcontractfreeze(true);
                         }
