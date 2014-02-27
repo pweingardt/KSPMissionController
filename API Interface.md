@@ -1,4 +1,4 @@
-##MCE API For your plugin Version 2.0 (malkuth Edits)
+##MCE API For your plugin Version 2.1 (malkuth Edits)
 
 You can now support a few features of Mission Controller Extended in you own plugin, and its pretty easy to use all you have to do is reference the MissionLibrary.dll A version of this file is located in every download of MCE.
 
@@ -40,6 +40,12 @@ To access the fuctions of MCE that are avialable in MissionLibrary.dll all you h
 * `int ItotalModCost()` : Returns the Total Money Removed through Cost in ModCost.(Won't be exclusive if other mods using too. MCE does not use these)
 
 
+#### These are fuctions that have to do with Loading MCE and saving.
+*`void IloadMCEbackup()` : This is only ever used for Backup and Revert Button for MCE.  This is only saved when player enters the SpaceCenter Screen.
+
+*`void IloadMCESave()` : Main load file for players Save file.  Loaded at start of game, and at select spots for updates.
+
+*`void IsaveMCE()` : This is the main save, its saved on anychanges to Budget, and screen changes.  No real need to use this unless your bypassing something. What?
 
 ## ATTENTION
 
