@@ -131,6 +131,8 @@ namespace MissionController
         private bool showMissionLogbookWindow = false;
         private bool showShipLogBookWindow = false;
         private bool showUserContractWindowStatus = false;
+        private bool showVesselDestroyedWindow = false;
+        public static bool showBonusPaymentsWindow = false;
         private bool showModPayments = false;
         private bool showModCost = false;
                
@@ -575,24 +577,24 @@ namespace MissionController
             }
         }
 
-        //private void clearactivemissiongoals()
-        //{
-        //    foreach (MissionGoal mg in currentMission.goals)
-        //    {
-        //        manager.clearMissionGoalByName(mg);
-        //    }
-        //}
-        //private bool isgoalpressent;
-        //private void checkGoalPressent()
-        //{
-        //    if (currentMission != null)
-        //    {
-        //        foreach (MissionGoal mg in currentMission.goals)
-        //        {
-        //            isgoalpressent = manager.checkgoalsexist(mg);
-        //        }
-        //    }
-        //}
+        private void clearactivemissiongoals()
+        {
+            foreach (MissionGoal mg in currentMission.goals)
+            {
+                manager.clearMissionGoalByName(mg);
+            }
+        }
+        private bool isgoalpressent;
+        private void checkGoalPressent()
+        {
+            if (currentMission != null)
+            {
+                foreach (MissionGoal mg in currentMission.goals)
+                {
+                    isgoalpressent = manager.checkgoalsexist(mg);
+                }
+            }
+        }
 
         private ProtoVessel pVessel; // NK for new recyce on recover
         
@@ -708,7 +710,7 @@ namespace MissionController
                     try
                     {
                         int cst = PartCost.cost(ap);
-                        print("MCE Price Change Part " + ap.name + ": " + ap.title + ", cost = " + cst);
+                        print("MCE Changed Price Of Part " + ap.name + ": " + ap.title + ", cost = " + cst);
                         ap.cost = cst;
                     }
                     catch
@@ -717,7 +719,7 @@ namespace MissionController
                 }
                 EditorPartList.Instance.Refresh();
 
-            }
+            }           
 
             //if (drawLandingArea)
             //{
@@ -843,7 +845,7 @@ namespace MissionController
 
             if (showRandomWindow && hideMCtoolbarsviews)
             {
-                GUILayout.Window(98866, new Rect(Screen.width / 2 - 200, Screen.height / 2 - 100, 625, 150), drawRandomWindow, "Event Window");
+                GUILayout.Window(98866, new Rect(Screen.width / 2 - 200, Screen.height / 2 - 100, 625, 150), drawRandomWindow, "Mission Payout Window And Information");
             }
             if (showRevertWindow && hideMCtoolbarsviews)
             {
@@ -877,6 +879,14 @@ namespace MissionController
             {
                 modPaymentWindow = GUILayout.Window(1788891, modPaymentWindow, drawmodPaymentWindow, "Other Payment Window ", GUILayout.MinHeight(500), GUILayout.MinWidth(960));
             }
+            if (showVesselDestroyedWindow && hideMCtoolbarsviews)
+            {
+                GUILayout.Window(1345327, new Rect(Screen.width / 2 - 200, Screen.height / 2 - 100, 400, 100), drawVesselDestroyedWindow, "Vessel Destroyed Mission Controller Options");
+            }
+            if (showBonusPaymentsWindow && hideMCtoolbarsviews)
+            {
+                GUILayout.Window(92466, new Rect(Screen.width / 2 - 200, Screen.height / 2 - 100, 625, 150), drawBonusPaymentWindow, "Bonus Mission Payout Window");
+            }
 
             if (fileBrowser != null)
             {
@@ -894,6 +904,50 @@ namespace MissionController
                 list.contentOffset = new Vector2(1, 42.4f);
                 list.fontSize = 10;
             }
+        }
+
+        private void drawBonusPaymentWindow(int id)
+        {
+            GUI.skin = HighLogic.Skin;
+            GUILayout.BeginVertical();
+            manager.PrintGoalReward(currentMission.name);
+            GUILayout.EndVertical();
+            if (GUILayout.Button("Ok"))
+            {
+                showBonusPaymentsWindow = false;
+            }
+        }
+
+        private void drawVesselDestroyedWindow(int id)
+        {
+            GUI.skin = HighLogic.Skin;
+            GUILayout.BeginVertical();
+
+            GUILayout.Label("Your Vessel Was Destroyed During a Mission Controller Mission, You have 2 choices\n\n you can exit this screen and revert or load a Quick Save\n\n" +
+                "or you can accept the death and Erase any Mission Goals you have completed and start with a new vessel!\n\n Its important you choose Accept Death if you want to start over!");
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("Accept Death Erase Finished Goals"))
+            {
+                if (currentMission != null && isgoalpressent == true)
+                {
+                    clearactivemissiongoals();
+                    print("MCE Goals were Deleted And passed Isgoalpressent Check");
+                    showVesselDestroyedWindow = false;
+                }
+                else
+                {
+                    print("No Goals Present at this time to delete, MCE Skiped Process");
+                    showVesselDestroyedWindow = false;
+                }
+            }
+            if (GUILayout.Button("Exit And Revert Or QuickLoad"))
+            {
+                showVesselDestroyedWindow = false;
+                print("MCE player chose to Revert or Quick Load instead of death by honor");
+            }
+            GUILayout.EndHorizontal();
+         
+            GUILayout.EndVertical();           
         }
 
         private void drawmodCostWindow(int id)
@@ -1996,7 +2050,7 @@ namespace MissionController
                     {
                         GUILayout.BeginHorizontal();
                         GUILayout.Label("Reward:", styleValueGreenBold);
-                        GUILayout.Label(c.reward + CurrencySuffix, styleValueYellow);
+                        GUILayout.Label(CurrencySuffix + c.reward, styleValueYellow);
                         GUILayout.EndHorizontal();
                     }
 
@@ -2075,7 +2129,14 @@ namespace MissionController
                     {
                         GUILayout.Label("Contract Description: ", styleCaption);
                         GUILayout.Label(c.description, styleText);
-                    }                   
+                    }
+                    if (c.nonPermanent && c.reward != 0)
+                    {
+                        GUILayout.BeginHorizontal();
+                        GUILayout.Label("Reward:", styleValueGreenBold);
+                        GUILayout.Label(CurrencySuffix + c.reward, styleValueYellow);
+                        GUILayout.EndHorizontal();
+                    }
 
                     List<Value> values = c.getValues(activeVessel, s.events);
 

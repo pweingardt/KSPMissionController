@@ -29,6 +29,9 @@ namespace MissionController
         private SpaceProgram spaceProgram;
         private String currentTitle;
 
+        private int currentgoalPayment = 0;
+        private string currentgoalName;
+
         private int latestExpenses = 0;
 
         public List<CurrentHires> currentHires = new List<CurrentHires>();
@@ -261,6 +264,9 @@ namespace MissionController
                 currentProgram.add(new GoalStatus(goal.id));
                 reward(goal.reward);
                 totalReward(goal.reward);
+                currentgoalPayment = goal.reward;
+                currentgoalName = goal.getType();
+                MissionController.showBonusPaymentsWindow = !MissionController.showBonusPaymentsWindow;
                 saveProgram();
             }
 
@@ -268,8 +274,23 @@ namespace MissionController
                 currentProgram.add(new GoalStatus(vessel.id.ToString(), goal.id));
                 reward (goal.reward);
                 totalReward(goal.reward);
+                currentgoalPayment = goal.reward;
+                currentgoalName = goal.getType();
+                MissionController.showBonusPaymentsWindow = !MissionController.showBonusPaymentsWindow;
                 saveProgram();
             }
+        }
+ 
+        public void PrintGoalReward(string mn)
+        {
+            GUILayout.Space(5);
+            GUILayout.Box("Mission Goal Complete For Mission: " + mn, GUILayout.Width(625));
+            GUILayout.Space(10);
+            GUILayout.BeginHorizontal();
+            GUILayout.Box("$" + currentgoalPayment, GUILayout.Width(175));
+            GUILayout.Box("Goal Reward for Mission: " + currentgoalName + " payed.", GUILayout.Width(450));
+            GUILayout.EndHorizontal();
+            GUILayout.Space(10);
         }
 
         /// <summary>

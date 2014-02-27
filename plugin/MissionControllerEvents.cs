@@ -90,7 +90,13 @@ namespace MissionController
             if (v.mainBody.GetAltitude(v.CoM) - (v.terrainAltitude < 0 ? 0 : v.terrainAltitude) < 10)
             {
                 eventFlags = eventFlags.Add(EventFlags.CRASHED);
-            }           
+                print(" MCE Vessel Flaged as Crashed: " + v.name);
+            }
+            if (HighLogic.LoadedSceneIsFlight && FlightGlobals.fetch.activeVessel.state == Vessel.State.DEAD && currentMission != null)
+            {
+                showVesselDestroyedWindow = !showVesselDestroyedWindow;
+                print("Active Vessel Destoyed for MCE " + activeVessel.name + " " + activeVessel.id);
+            }
             // NK recycle
             else
             {
