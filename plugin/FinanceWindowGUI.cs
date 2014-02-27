@@ -16,10 +16,10 @@ namespace MissionController
         
         private Vector2 scrollPosition2 = new Vector2(0, 0);
         private void drawFinaceWindow(int id)
-        {
-            int netProfit = (manager.TotalRecycleMoney + manager.Totalbudget) - manager.TotalSpentVehicles - manager.TotalHiredKerbCost - manager.othercostmoney;
+        {          
             int totalexpenditures = manager.TotalHiredKerbCost + manager.TotalSpentVehicles + manager.othercostmoney;
             int totalpayouts = manager.TotalRecycleMoney + manager.otherpaymentmoney + manager.Totalbudget;
+            int netProfit = totalpayouts - totalexpenditures;
 
             GUI.skin = HighLogic.Skin;
             GUILayout.BeginVertical();
@@ -79,7 +79,7 @@ namespace MissionController
             GUILayout.Space(20);
 
             GUILayout.BeginHorizontal();
-            GUILayout.Box("Space Program Profits", StyleBoxYellow, GUILayout.Width(300), GUILayout.Height(25));
+            GUILayout.Box("Space Program Gross", StyleBoxYellow, GUILayout.Width(300), GUILayout.Height(25));
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
@@ -98,7 +98,7 @@ namespace MissionController
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-            GUILayout.Box(" Total Recyling + Payouts/Other: ", StyleBoxWhite, GUILayout.Width(190), GUILayout.Height(25));
+            GUILayout.Box(" Sub Total: ", StyleBoxWhite, GUILayout.Width(190), GUILayout.Height(25));
             GUILayout.Box(CurrencySuffix + totalpayouts.ToString("N2"), StyleBoxGreen, GUILayout.Width(110), GUILayout.Height(25));
             GUILayout.EndHorizontal();
 

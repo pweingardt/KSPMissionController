@@ -94,7 +94,7 @@ namespace MissionController
             }
             if (HighLogic.LoadedSceneIsFlight && FlightGlobals.fetch.activeVessel.state == Vessel.State.DEAD && currentMission != null)
             {
-                showVesselDestroyedWindow = !showVesselDestroyedWindow;
+                showVesselDestroyedWindow = true;
                 print("Active Vessel Destoyed for MCE " + activeVessel.name + " " + activeVessel.id);
             }
             // NK recycle

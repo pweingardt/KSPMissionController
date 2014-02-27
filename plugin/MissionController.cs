@@ -328,9 +328,7 @@ namespace MissionController
             print("Mission Controller Loaded");
             manager.loadProgram(HighLogic.CurrentGame.Title);
             LoadDictionary();
-            
-            
-            
+
             button = ToolbarManager.Instance.add("MC1", "Settings1");
             button.TexturePath = "MissionController/icons/settings";
             button.ToolTip = "MCE Settings";
@@ -418,7 +416,7 @@ namespace MissionController
             if (manager.Getrandomcontractsfreeze != true) { manager.checkClockTiime(); }
             repairStation.repair = false;
             repairStation.dooropen = false;
-            //checkGoalPressent();
+            manager.currentgoalPayment = 0;
         }       
 
         public void Awake()
@@ -584,18 +582,7 @@ namespace MissionController
                 manager.clearMissionGoalByName(mg);
             }
         }
-        private bool isgoalpressent;
-        private void checkGoalPressent()
-        {
-            if (currentMission != null)
-            {
-                foreach (MissionGoal mg in currentMission.goals)
-                {
-                    isgoalpressent = manager.checkgoalsexist(mg);
-                }
-            }
-        }
-
+       
         private ProtoVessel pVessel; // NK for new recyce on recover
         
         /// <summary>
@@ -653,7 +640,7 @@ namespace MissionController
                             else
                             {
                                 manager.removeMission(s);
-                                manager.costs(s.punishment);
+                                manager.ModCost(s.punishment,"Mission Controller Cost For Destroying Company Owned Vessel");
                             }
                         }
                     }
@@ -668,7 +655,7 @@ namespace MissionController
                         if (pv == null)
                         {
                             manager.removeMission(s);
-                            manager.costs(s.punishment);
+                            manager.ModCost(s.punishment, "Mission Controller Cost For Destroying Company Owned Vessel");
                         }
                     }
                 }
@@ -777,7 +764,7 @@ namespace MissionController
                 }
             }
 
-            if (showbudgetamountwindow && hideMCtoolbarsviews && manager.isSpaceprogramactive())
+            if (showbudgetamountwindow && hideMCtoolbarsviews)
             {
                 if (HighLogic.LoadedScene.Equals(GameScenes.EDITOR))
                 {
@@ -915,6 +902,7 @@ namespace MissionController
             if (GUILayout.Button("Ok"))
             {
                 showBonusPaymentsWindow = false;
+                manager.currentgoalPayment = 0;
             }
         }
 
@@ -924,20 +912,24 @@ namespace MissionController
             GUILayout.BeginVertical();
 
             GUILayout.Label("Your Vessel Was Destroyed During a Mission Controller Mission, You have 2 choices\n\n you can exit this screen and revert or load a Quick Save\n\n" +
-                "or you can accept the death and Erase any Mission Goals you have completed and start with a new vessel!\n\n Its important you choose Accept Death if you want to start over!");
+                "or you can accept the death and Erase any Mission Goals you have completed and start with a new vessel!\n\n Its important you choose Accept Death if you want to start over!\n\n" +
+                "Also the window that follows this screen do not use! Its an old KSP window and can Reset any Science Payments that you might get with CrashGoal Type Mission!! Use Esc menu!\n\n"+
+                "If your doing a CRASHGOAL Mission Ignore This Screen!!");
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("Accept Death Erase Finished Goals"))
             {
-                if (currentMission != null && isgoalpressent == true)
+                if (currentMission != null)
                 {
                     clearactivemissiongoals();
                     print("MCE Goals were Deleted And passed Isgoalpressent Check");
+                    HighLogic.LoadScene(GameScenes.SPACECENTER);
                     showVesselDestroyedWindow = false;
                 }
                 else
                 {
-                    print("No Goals Present at this time to delete, MCE Skiped Process");
+                    print("Current mission Was Null can't Delete Goals!!! Make sure Missino Is loaded!");
                     showVesselDestroyedWindow = false;
+                    HighLogic.LoadScene(GameScenes.SPACECENTER);
                 }
             }
             if (GUILayout.Button("Exit And Revert Or QuickLoad"))
@@ -1156,8 +1148,8 @@ namespace MissionController
                 {
                     LaunchGoal LG = new LaunchGoal();
                     manager.loadProgramBackup(HighLogic.CurrentGame.Title);
-                    FlightDriver.RevertToPrelaunch(GameScenes.EDITOR);                    
-                    manager.costs(1000);
+                    FlightDriver.RevertToPrelaunch(GameScenes.EDITOR);
+                    manager.ModCost(1000, "Mission Control Revert Use");
                     manager.saveProgramBackup();
 
                     showRevertWindow = false;
@@ -1167,7 +1159,7 @@ namespace MissionController
                     LaunchGoal LG = new LaunchGoal();
                     manager.loadProgramBackup(HighLogic.CurrentGame.Title);
                     FlightDriver.RevertToPrelaunch(GameScenes.SPH);
-                    manager.costs(1000);
+                    manager.ModCost(1000, "Mission Control Revert Use");
                     manager.saveProgramBackup();
 
                     showRevertWindow = false;

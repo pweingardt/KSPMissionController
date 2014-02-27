@@ -11,7 +11,11 @@ namespace MissionController
     public partial class MissionController
     {
         private int resetCount = 0;
+        private int resetMissionCount = 0;
+        private int resetGoalsCount = 0;
         private String[] resetStrings = new String[] {"Reset Your MCE SaveGame", "This Will Reset Your Save!"};
+        private String[] resetMissions = new String[] {"Clear All Completed Missions", "Are You Sure?","THIS WILL DELETE All MISSIONS!"};
+        private String[] resetGoals = new String[] {"Clear Any Completed Goals", "Are You Sure?","THIS WILL DELETE All GOALS!"};
         
         private void drawSettingsWindow(int id)
         {
@@ -88,6 +92,7 @@ namespace MissionController
             {
                 settings.KSPSKIN = !settings.KSPSKIN;
             }
+            GUILayout.BeginHorizontal();
             if (GUILayout.Button(resetStrings[resetCount],styleButtonWordWrap))
             {
                 resetCount++;
@@ -97,15 +102,42 @@ namespace MissionController
                     manager.resetSpaceProgram();
                     manager.saveProgramBackup();
                 }
-            }            
-            if (GUILayout.Button("Clear Saved mission Goals", styleButtonWordWrap))
-            {
-                manager.wipeAllMissionGoals();
             }
-            if (GUILayout.Button("Clear All Finished Missions", styleButtonWordWrap))
+            if (resetCount >= 1 && GUILayout.Button("NO", styleButtonWordWrap))
             {
-                manager.wipeAllFinishedMissions();
+                resetCount = 0;
             }
+            GUILayout.EndHorizontal();
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button(resetGoals[resetGoalsCount], styleButtonWordWrap))
+            {
+                resetGoalsCount++;
+                if (resetGoalsCount >= resetGoals.Length)
+                {
+                    resetGoalsCount = 0;
+                    manager.wipeAllMissionGoals();
+                }
+            }
+            if (resetGoalsCount >= 1 && GUILayout.Button("NO", styleButtonWordWrap))
+            {
+                resetGoalsCount = 0;
+            }
+            GUILayout.EndHorizontal();
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button(resetMissions[resetMissionCount], styleButtonWordWrap))
+            {
+                resetMissionCount++;
+                if (resetMissionCount >= resetMissions.Length)
+                {
+                    resetMissionCount = 0;
+                    manager.wipeAllFinishedMissions();
+                }
+            }
+            if (resetMissionCount >= 1 && GUILayout.Button("NO", styleButtonWordWrap))
+            {
+                resetMissionCount = 0;
+            }
+            GUILayout.EndHorizontal();
             GUILayout.Space(10);
             
             //if (GUILayout.Button("Set Values Randoms + Find Vessel", styleButtonWordWrap))

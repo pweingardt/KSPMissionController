@@ -29,7 +29,7 @@ namespace MissionController
         private SpaceProgram spaceProgram;
         private String currentTitle;
 
-        private int currentgoalPayment = 0;
+        public int currentgoalPayment = 0;
         private string currentgoalName;
 
         private int latestExpenses = 0;
@@ -83,8 +83,10 @@ namespace MissionController
             currentTitle = title;
             try {
                 spaceProgram = (SpaceProgram) parser.readFile (currentSpaceProgramFile);
+                Debug.Log("MCE Space Program save File Loaded: " + HighLogic.CurrentGame.Title.ToString() + ".sp");
             } catch {
                 spaceProgram = SpaceProgram.generate();
+                Debug.Log("MCE New space Program Created under Name: " + HighLogic.CurrentGame.Title.ToString() + ".sp");
             }
         }
 
@@ -95,22 +97,9 @@ namespace MissionController
             {
                 spaceProgram = (SpaceProgram)parser.readFile(currntSpaceProgramFileBackup);
             }
-            catch { spaceProgram = SpaceProgram.generate(); }
+            catch { Debug.Log("MCE No backup Save File Found, Skipping process"); }
         }
-
-        /// <summary>
-        /// checks if current program is null returns true if not.
-        /// </summary>
-        /// <returns></returns>
-        public bool isSpaceprogramactive()
-        {
-            if (spaceProgram == null)
-            {
-                return false;
-            }
-            else return true;
-        }
-
+       
         /// <summary>
         /// Discards the given random mission.
         /// Removed it from the random missions list
@@ -266,7 +255,10 @@ namespace MissionController
                 totalReward(goal.reward);
                 currentgoalPayment = goal.reward;
                 currentgoalName = goal.getType();
-                MissionController.showBonusPaymentsWindow = !MissionController.showBonusPaymentsWindow;
+                if (currentgoalPayment >= 1)
+                {
+                    MissionController.showBonusPaymentsWindow = true;
+                }
                 saveProgram();
             }
 
@@ -276,7 +268,10 @@ namespace MissionController
                 totalReward(goal.reward);
                 currentgoalPayment = goal.reward;
                 currentgoalName = goal.getType();
-                MissionController.showBonusPaymentsWindow = !MissionController.showBonusPaymentsWindow;
+                if (currentgoalPayment >= 1)
+                {
+                    MissionController.showBonusPaymentsWindow = true;
+                }
                 saveProgram();
             }
         }
@@ -583,12 +578,7 @@ namespace MissionController
         {
             currentProgram.completedMissions.Clear();
             saveProgram();
-        }
-        public bool checkgoalsexist(MissionGoal mg)
-        {
-            if (currentProgram.completedGoals.Any(s => s.id.Contains(mg.id.ToString()))) { return true; }
-            else return false;
-        }
+        }       
       
         /// <summary>
         /// Returns true, if the given mission goal has been finish in another game with the given vessel, false otherwise
@@ -798,18 +788,17 @@ namespace MissionController
                     {
                         sciencereward(m.scienceReward);
                     }
-                    Debug.Log("rewarded Contract Mission Award");
+                    Debug.Log("reward Normal Mission Award");
                 }
                 if (m.IsContract == true)
                 {                                       
                     contractReward(m.reward, m.CompanyOrder);
-                    totalReward(m.reward);
                     if (m.IsUserContract != true) {Setrandomcontractfreeze(false);}
                     if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
                     {
                         Contractsciencereward(m.scienceReward, m.CompanyOrder);
                     }                   
-                    Debug.Log("Rewared Normal Mission Award");
+                    Debug.Log("Reward Contract Mission Award");
                 }
                     
                 
@@ -1324,21 +1313,26 @@ namespace MissionController
                 if (ms == 1)
                 {
                     currentProgram.money += (int)((double)value * comppayout * PayoutLeveles.TechPayout);
+                    currentProgram.totalMoney += (int)((double)value * comppayout * PayoutLeveles.TechPayout);
+
                     Debug.Log("Contract Payment made comp1");
                 }
                 if (ms == 2)
                 {
                     currentProgram.money += (int)((double)value * comppayout2 * PayoutLeveles.TechPayout);
+                    currentProgram.totalMoney += (int)((double)value * comppayout2 * PayoutLeveles.TechPayout);
                     Debug.Log("Contract Payment made comp2");
                 }
                 if (ms == 3)
                 {
                     currentProgram.money += (int)((double)value * comppayout3 * PayoutLeveles.TechPayout);
+                    currentProgram.totalMoney += (int)((double)value * comppayout3 * PayoutLeveles.TechPayout);
                     Debug.Log("Contract Payment made comp3");
                 }
                 if (ms == 4)
                 {
                     currentProgram.money += (int)((double)value * comppayout4 * PayoutLeveles.TechPayout);
+                    currentProgram.totalMoney += (int)((double)value * comppayout4 * PayoutLeveles.TechPayout);
                     Debug.Log("Contract Payment made comp4");
                 }
             }
