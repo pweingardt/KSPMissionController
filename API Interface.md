@@ -41,11 +41,11 @@ To access the fuctions of MCE that are avialable in MissionLibrary.dll all you h
 
 
 #### These are fuctions that have to do with Loading MCE and saving.
-*`void IloadMCEbackup()` : This is only ever used for Backup and Revert Button for MCE.  This is only saved when player enters the SpaceCenter Screen. This file is defaulted to load current backup for the players game instance. Can't be changed from this fuction.
+* `void IloadMCEbackup()` : This is only ever used for Backup and Revert Button for MCE.  This is only saved when player enters the SpaceCenter Screen. This file is defaulted to load current backup for the players game instance. Can't be changed from this fuction.
 
-*`void IloadMCESave()` : Main load file for players Save file.  Loaded at start of game, and at select spots for updates. You can't change which file is loaded. That is reserved inside of code, this loads current game only.
+* `void IloadMCESave()` : Main load file for players Save file.  Loaded at start of game, and at select spots for updates. You can't change which file is loaded. That is reserved inside of code, this loads current game only.
 
-*`void IsaveMCE()` : This is the main save, its saved on anychanges to Budget, and screen changes.  No real need to use this unless your bypassing something. What?  Defaulted only to save current save game. Can't change files.
+* `void IsaveMCE()` : This is the main save, its saved on anychanges to Budget, and screen changes.  No real need to use this unless your bypassing something. What?  Defaulted only to save current save game. Can't change files.
 
 ## ATTENTION
 
