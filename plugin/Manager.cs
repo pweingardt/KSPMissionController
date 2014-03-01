@@ -812,10 +812,7 @@ namespace MissionController
                 if (m.randomized) {
                     discardRandomMission (m);
                     m = reloadMission (m, vessel);
-                }
-
-                
-                clearMissionGoals(vessel.id.ToString());  
+                }   
             }
         }
 

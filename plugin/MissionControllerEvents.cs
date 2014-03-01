@@ -92,7 +92,7 @@ namespace MissionController
                 eventFlags = eventFlags.Add(EventFlags.CRASHED);
                 print(" MCE Vessel Flaged as Crashed: " + v.name);
             }
-            if (HighLogic.LoadedSceneIsFlight && FlightGlobals.fetch.activeVessel.state == Vessel.State.DEAD && currentMission != null)
+            if (FlightGlobals.fetch.activeVessel != null && HighLogic.LoadedSceneIsFlight && FlightGlobals.fetch.activeVessel.state == Vessel.State.DEAD && currentMission != null)
             {
                 showVesselDestroyedWindow = true;
                 print("Active Vessel Destoyed for MCE " + activeVessel.name + " " + activeVessel.id);

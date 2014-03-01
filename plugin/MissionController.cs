@@ -676,7 +676,7 @@ namespace MissionController
                 pVessel = null;
                 return;
             }
-            if (HighLogic.LoadedScene.Equals(GameScenes.SPACECENTER) || HighLogic.LoadedScene.Equals(GameScenes.EDITOR)
+            if (HighLogic.LoadedScene.Equals(GameScenes.MAINMENU)||HighLogic.LoadedScene.Equals(GameScenes.SPACECENTER) || HighLogic.LoadedScene.Equals(GameScenes.EDITOR)
                 || HighLogic.LoadedScene.Equals(GameScenes.SPH) || HighLogic.LoadedScene.Equals(GameScenes.TRACKSTATION))
                 manager.resetLatest();
 
@@ -685,7 +685,7 @@ namespace MissionController
                 canRecycle = true; // reenable once exit flight               
             }           
             // NK
-            if (!partsCostCorrected && EditorPartList.Instance != null)
+            if (!partsCostCorrected)
             {
                 Tools.FindMCSettings();
 
@@ -792,7 +792,7 @@ namespace MissionController
 
             if (showMissionStatusWindow && hideMCtoolbarsviews)
             {
-                MissionWindowStatus = GUILayout.Window(898990, MissionWindowStatus, drawMissionInfoWindow, "Current Mission Window",GUILayout.MinHeight(700), GUILayout.MinWidth(500));
+                MissionWindowStatus = GUILayout.Window(2989901, MissionWindowStatus, drawMissionInfoWindow, "Current Mission Window",GUILayout.MinHeight(700), GUILayout.MinWidth(500));
             }
 
             if (showContractStatusWindow && hideMCtoolbarsviews)
@@ -817,7 +817,7 @@ namespace MissionController
 
             if (showFinanceWindow && hideMCtoolbarsviews)
             {
-                financeWindowPosition = GUILayout.Window(98761, financeWindowPosition, drawFinaceWindow, "Finance Window", GUILayout.MinHeight(350), GUILayout.MinWidth(300));
+                financeWindowPosition = GUILayout.Window(398761, financeWindowPosition, drawFinaceWindow, "Finance Window", GUILayout.MinHeight(350), GUILayout.MinWidth(300));
             }           
 
             if (showRecycleWindow && hideMCtoolbarsviews)
@@ -832,11 +832,11 @@ namespace MissionController
 
             if (showRandomWindow && hideMCtoolbarsviews)
             {
-                GUILayout.Window(98866, new Rect(Screen.width / 2 - 200, Screen.height / 2 - 100, 625, 150), drawRandomWindow, "Mission Payout Window And Information");
+                GUILayout.Window(988166, new Rect(Screen.width / 2 - 200, Screen.height / 2 - 100, 625, 150), drawRandomWindow, "Mission Payout Window And Information");
             }
             if (showRevertWindow && hideMCtoolbarsviews)
             {
-                GUILayout.Window(99746, new Rect(Screen.width / 2 - 200, Screen.height / 2 - 100, 400, 100), drawRevertWindow, "Revert Space Program And KSP Window");
+                GUILayout.Window(997462, new Rect(Screen.width / 2 - 200, Screen.height / 2 - 100, 400, 100), drawRevertWindow, "Revert Space Program And KSP Window");
             }
 
             if (showResearchTreeWindow && hideMCtoolbarsviews)
@@ -846,7 +846,7 @@ namespace MissionController
 
             if (showKerbalLogbookHire && hideMCtoolbarsviews)
             {
-                kerbalLogBookHirePostion = GUILayout.Window(98888, kerbalLogBookHirePostion, drawKerbalLogBookHire, "Kerbal Hired Log Book", GUILayout.MinHeight(350), GUILayout.MinWidth(540));
+                kerbalLogBookHirePostion = GUILayout.Window(9818882, kerbalLogBookHirePostion, drawKerbalLogBookHire, "Kerbal Hired Log Book", GUILayout.MinHeight(350), GUILayout.MinWidth(540));
             }
 
             if (showMissionLogbookWindow && hideMCtoolbarsviews)
@@ -856,7 +856,7 @@ namespace MissionController
 
             if (showShipLogBookWindow && hideMCtoolbarsviews)
             {
-                shipLogBook = GUILayout.Window(988889, shipLogBook, drawShipLogBook, "Ship Log Book ", GUILayout.MinHeight(500), GUILayout.MinWidth(960));
+                shipLogBook = GUILayout.Window(98128889, shipLogBook, drawShipLogBook, "Ship Log Book ", GUILayout.MinHeight(500), GUILayout.MinWidth(960));
             }            
             if (showModCost && hideMCtoolbarsviews)
             {
@@ -1293,13 +1293,9 @@ namespace MissionController
                     manager.finishMission(currentMission, activeVessel, status.events);
                     hiddenGoals = new List<MissionGoal>();
                     currentMission = null;
+                    clearactivemissiongoals();
                     showRandomWindow = false;                   
-                }
-                if (GUILayout.Button("X", styleButtonWordWrap, GUILayout.Width(25)))
-                {
-                    currentMission = null;
-                    showRandomWindow = false;
-                }
+                }                
                 GUILayout.EndHorizontal();
             }
             else
@@ -1388,13 +1384,9 @@ namespace MissionController
                     hiddenGoals = new List<MissionGoal>();
                     currentMission = null;
                     showRandomWindow = false;
+                    clearactivemissiongoals();
                     manager.SetCurrentContract(0);                    
-                }
-                if (GUILayout.Button("X", styleButtonWordWrap, GUILayout.Width(25)))
-                {
-                    currentMission = null;
-                    showRandomWindow = false;
-                }
+                }               
                 GUILayout.EndHorizontal();
             }
             GUILayout.EndVertical();                                         
