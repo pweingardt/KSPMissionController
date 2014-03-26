@@ -259,7 +259,12 @@ namespace MissionController
                 {
                     MissionController.showBonusPaymentsWindow = true;
                 }
-                saveProgram();
+                if (currentProgram.timeStarted > 0)
+                {
+                    currentProgram.timeStarted = -1.0;
+                    currentProgram.timeStartedName = "none";
+                }
+                saveProgram();             
             }
 
             if (!isMissionGoalAlreadyFinished (goal, vessel) && goal.nonPermanent && goal.isDone(vessel, events)) {
@@ -272,9 +277,30 @@ namespace MissionController
                 {
                     MissionController.showBonusPaymentsWindow = true;
                 }
+                if (currentProgram.timeStarted > 0)
+                {
+                    currentProgram.timeStarted = -1.0;
+                    currentProgram.timeStartedName = "none";
+                }
                 saveProgram();
             }
         }
+        //public void finsihSavedGoal(Mission ms, Vessel vessel, GameEvent events, double es)
+        //{
+        //    currentProgram.finsihedSavedGoal.Add(new FinishedSavedGoal(ms.name, es));
+        //}
+
+        //public bool checkFinsishedSavedGoal(Mission ms)
+        //{
+        //    foreach (FinishedSavedGoal fsg in currentProgram.finsihedSavedGoal)
+        //    {
+        //        if (fsg.name == ms.name)
+        //        {
+        //            return true;
+        //        }
+        //    }
+        //    return false;
+        //}
  
         public void PrintGoalReward(string mn)
         {
@@ -299,15 +325,15 @@ namespace MissionController
         {
             contractslist = new Randomizator3000.Item<int>[6];
             contractslist[0] = new Randomizator3000.Item<int>();
-            contractslist[0].weight = 60;
+            contractslist[0].weight = 35;
             contractslist[0].value = 0;
 
             contractslist[1] = new Randomizator3000.Item<int>();
-            contractslist[1].weight = 5;
+            contractslist[1].weight = 20;
             contractslist[1].value = 1;
 
             contractslist[2] = new Randomizator3000.Item<int>();
-            contractslist[2].weight = 10;
+            contractslist[2].weight = 15;
             contractslist[2].value = 2;
 
             contractslist[3] = new Randomizator3000.Item<int>();
@@ -315,11 +341,11 @@ namespace MissionController
             contractslist[3].value = 3;
 
             contractslist[4] = new Randomizator3000.Item<int>();
-            contractslist[4].weight = 7;
+            contractslist[4].weight = 10;
             contractslist[4].value = 4;
 
             contractslist[5] = new Randomizator3000.Item<int>();
-            contractslist[5].weight = 8;
+            contractslist[5].weight = 10;
             contractslist[5].value = 5;
 
         }
@@ -327,7 +353,7 @@ namespace MissionController
         {
             contractslist1 = new Randomizator3000.Item<int>[9];
             contractslist1[0] = new Randomizator3000.Item<int>();
-            contractslist1[0].weight = 34;
+            contractslist1[0].weight = 30;
             contractslist1[0].value = 0;
 
             contractslist1[1] = new Randomizator3000.Item<int>();
@@ -355,42 +381,42 @@ namespace MissionController
             contractslist1[6].value = 11;
 
             contractslist1[7] = new Randomizator3000.Item<int>();
-            contractslist1[7].weight = 5;
+            contractslist1[7].weight = 7;
             contractslist1[7].value = 12;
 
             contractslist1[8] = new Randomizator3000.Item<int>();
-            contractslist1[8].weight = 5;
+            contractslist1[8].weight = 7;
             contractslist1[8].value = 13;
         }
         public void StartContractType2Random()
         {
             contractslist2 = new Randomizator3000.Item<int>[9];
             contractslist2[0] = new Randomizator3000.Item<int>();
-            contractslist2[0].weight = 50;
+            contractslist2[0].weight = 40;
             contractslist2[0].value = 0;
 
             contractslist2[1] = new Randomizator3000.Item<int>();
-            contractslist2[1].weight = 10;
+            contractslist2[1].weight = 12;
             contractslist2[1].value = 14;
 
             contractslist2[2] = new Randomizator3000.Item<int>();
-            contractslist2[2].weight = 9;
+            contractslist2[2].weight = 11;
             contractslist2[2].value = 15;
 
             contractslist2[3] = new Randomizator3000.Item<int>();
-            contractslist2[3].weight = 6;
+            contractslist2[3].weight = 8;
             contractslist2[3].value = 16;
 
             contractslist2[4] = new Randomizator3000.Item<int>();
-            contractslist2[4].weight = 6;
+            contractslist2[4].weight = 8;
             contractslist2[4].value = 17;
 
             contractslist2[5] = new Randomizator3000.Item<int>();
-            contractslist2[5].weight = 6;
+            contractslist2[5].weight = 7;
             contractslist2[5].value = 18;
 
             contractslist2[6] = new Randomizator3000.Item<int>();
-            contractslist2[6].weight = 6;
+            contractslist2[6].weight = 7;
             contractslist2[6].value = 19;
 
             contractslist2[7] = new Randomizator3000.Item<int>();
@@ -1173,7 +1199,39 @@ namespace MissionController
         {
             return currentProgram.showRepairVesselName = name;
         }
-         
+        public double GetMissionTime
+        {
+            get { return currentProgram.timeStarted; }
+        }
+        public double SetMissionTime(double num)
+        {
+            return currentProgram.timeStarted = num;
+        }
+        public string SetTimeMissionName(string name)
+        {
+            return currentProgram.timeStartedName = name;
+        }
+        public string GetTimeMissionName
+        {
+            get { return currentProgram.timeStartedName; }
+        }
+        public string SetTimeRoverName(string name)
+        {
+            return currentProgram.timeRoverName = name;
+        }
+        public string GetTimeRoverName
+        {
+            get { return currentProgram.timeRoverName; }
+        }
+        public double GetRoverTime
+        {
+            get { return currentProgram.timeRoverStarted; }
+        }
+        public double SetRoverTime(double num)
+        {
+            return currentProgram.timeRoverStarted = num;
+        }
+       
         /// <summary>
         /// Checks if the given vessel is controlled by a client.
         /// </summary>

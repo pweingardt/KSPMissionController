@@ -111,6 +111,11 @@ namespace MissionController
             return true;
         }
 
+        private Manager manager
+        {
+            get { return Manager.instance; }
+        }
+
         /// <summary>
         /// Returns all values related to this mission goal
         /// </summary>
@@ -162,17 +167,24 @@ namespace MissionController
                 }
             }
 
-            if (done && timeStarted == -1.0 && minSeconds > 0.0) {
-                timeStarted = Planetarium.GetUniversalTime ();
+            if (done && manager.GetMissionTime == -1.0 && minSeconds > 0.0 && manager.GetTimeMissionName == "none") {
+                manager.SetMissionTime(Planetarium.GetUniversalTime());
+                manager.SetTimeMissionName(id);
             }
 
-            if (minSeconds > 0.0 && !done) {
-                timeStarted = -1.0;
+            //if (minSeconds > 0.0 && !done && manager.GetTimeMissionName != id) {
+            //    manager.SetMissionTime(-1.0);
+            //    manager.SetTimeMissionName("none");
+            //}
+
+            if (manager.GetTimeMissionName != id)
+            {
+                manager.SetTimeMissionName("none");
             }
 
             if (minSeconds > 0.0) {
                 if (vessel != null) {
-                    double diff = (timeStarted == -1.0 ? 0 : Planetarium.GetUniversalTime () - timeStarted);
+                    double diff = (manager.GetMissionTime == -1.0 ? 0 : Planetarium.GetUniversalTime() - manager.GetMissionTime);
                     vs.Add (new Value("Minimal time", MathTools.formatTime(minSeconds), MathTools.formatTime(diff), diff > minSeconds));
                 } else {
                     vs.Add (new Value("Minimal time", MathTools.formatTime(minSeconds)));

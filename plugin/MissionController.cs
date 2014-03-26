@@ -17,7 +17,9 @@ namespace MissionController
     public partial class MissionController : MonoBehaviour
     {
         public bool recycled = false;
-        //private bool drawLandingArea = false;             
+        //private bool drawLandingArea = false;   
+        private static MissionController missionController = new MissionController();
+        public static MissionController instance { get { return missionController; } }  
 
         private AssemblyName assemblyName;
         private String versionCode;
@@ -546,6 +548,11 @@ namespace MissionController
              GUISave();
              GUILoad();
          }
+
+         public Mission getCurrentMission
+         {
+             get { return currentMission; }
+         }
        
         /// <summary>
         /// Returns the active vessel if there is one, null otherwise
@@ -706,7 +713,12 @@ namespace MissionController
                 }
                 EditorPartList.Instance.Refresh();
 
-            }           
+            }
+
+            if (FlightGlobals.fetch.activeVessel != null && FlightGlobals.fetch.activeVessel.situation == Vessel.Situations.DOCKED)
+            {
+                Debug.Log("Vessel is docked: " + FlightGlobals.fetch.activeVessel.name + " " + FlightGlobals.fetch.activeVessel.id);
+            }
 
             //if (drawLandingArea)
             //{
@@ -870,7 +882,7 @@ namespace MissionController
             {
                 GUILayout.Window(1345327, new Rect(Screen.width / 2 - 200, Screen.height / 2 - 100, 400, 100), drawVesselDestroyedWindow, "Vessel Destroyed Mission Controller Options");
             }
-            if (showBonusPaymentsWindow && hideMCtoolbarsviews)
+            if (showBonusPaymentsWindow && hideMCtoolbarsviews && currentMission != null)
             {
                 GUILayout.Window(92466, new Rect(Screen.width / 2 - 200, Screen.height / 2 - 100, 625, 150), drawBonusPaymentWindow, "Bonus Mission Payout Window");
             }
@@ -1291,9 +1303,9 @@ namespace MissionController
                 if (GUILayout.Button("Finish And Save The Mission Results", styleButtonWordWrap, GUILayout.Width(275)))
                 {
                     manager.finishMission(currentMission, activeVessel, status.events);
-                    hiddenGoals = new List<MissionGoal>();
-                    currentMission = null;
+                    hiddenGoals = new List<MissionGoal>();                    
                     clearactivemissiongoals();
+                    currentMission = null;
                     showRandomWindow = false;                   
                 }                
                 GUILayout.EndHorizontal();
@@ -1381,11 +1393,11 @@ namespace MissionController
                 if (GUILayout.Button("Finish And Save The Mission Results", styleButtonWordWrap, GUILayout.Width(275)))
                 {
                     manager.finishMission(currentMission, activeVessel, status.events);
-                    hiddenGoals = new List<MissionGoal>();
+                    hiddenGoals = new List<MissionGoal>();                                       
+                    clearactivemissiongoals();
+                    manager.SetCurrentContract(0);
                     currentMission = null;
                     showRandomWindow = false;
-                    clearactivemissiongoals();
-                    manager.SetCurrentContract(0);                    
                 }               
                 GUILayout.EndHorizontal();
             }
@@ -1542,6 +1554,16 @@ namespace MissionController
             {
                 GUILayout.Label("Warning Vessel Is Flaged and Can't Do Missions", styleValueRedBold);
                 GUILayout.Label("Vessel Most Likely Launched In Disabled Mode", styleValueRedBold);
+            }
+            if (currentMission != null)
+            {
+                foreach (MissionGoal mg in currentMission.goals)
+                {
+                    if (mg.vesselIndenpendent != false)
+                    {
+                        GUILayout.Label("This Mission has docking Goal or Undock.  It must be done in one sitting, the docking goals are not saved to bypass issues with Vessel ID's", styleValueYellow);
+                    }
+                }
             }
 
             if (settings.disablePlugin == true)
@@ -2218,6 +2240,7 @@ namespace MissionController
 
         private const String CurrencySuffix = "$";
     }
+
     /// <summary>
     /// KSPAddon with equality checking using an additional type parameter. Fixes the issue where AddonLoader prevents multiple start-once addons with the same start scene.
     /// </summary>

@@ -159,10 +159,10 @@ namespace MissionController
             //    showRecycleWindow = true;
             //}
 
-            //if (GUILayout.Button("window Test Finish mission", styleButtonWordWrap))
-            //{
-            //    showRandomWindow = true;
-            //}
+            if (GUILayout.Button("window Test Finish mission", styleButtonWordWrap))
+            {
+                showRandomWindow = true;
+            }
 
             if (GUILayout.Button("Reset Contract Time Check", styleButtonWordWrap))
             {

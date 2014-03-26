@@ -35,8 +35,12 @@ namespace MissionController
         public string showCompanyAvailable3 = "COMA";
         public string showCompanyAvailable4 = "COMA";
         public bool randomcontractsfreeze = false;
+        public string timeStartedName = "none";
+        public double timeStarted = -1.0;
+        public string timeRoverName = "none";
+        public double timeRoverStarted = -1.0;
 
-        public List<MissionStatus> completedMissions = new List<MissionStatus>();
+        public List<MissionStatus> completedMissions = new List<MissionStatus>();       
 
         public List<GoalStatus> completedGoals = new List<GoalStatus> ();
 
@@ -54,6 +58,8 @@ namespace MissionController
 
         public List<ModPayments> modPayments = new List<ModPayments>();
 
+        public List<FinishedSavedGoal> finsihedSavedGoal = new List<FinishedSavedGoal>();
+       
         public void add(ModCharges m)
         {
             modCharges.Add(m);
@@ -88,6 +94,11 @@ namespace MissionController
         }
         public void remove(GoalStatus m) 
         { completedGoals.Remove(m); }
+
+        public void add(FinishedSavedGoal m)
+        {
+            finsihedSavedGoal.Add(m);
+        }
 
         public void add(RecycledVessel vessel) {
             recycledVessels.Add (vessel);
@@ -258,5 +269,18 @@ namespace MissionController
             this.PaymentDescription = description;
         }
     }
+
+    public class FinishedSavedGoal 
+    {
+        public string name;
+        public double endTime;
+        public FinishedSavedGoal() { }
+
+        public FinishedSavedGoal(string mname, double et)
+        {
+            this.name = mname;
+            this.endTime = et;
+        }
+    }    
 }
 
