@@ -75,7 +75,7 @@ namespace MissionController
         public double minTotalMass = 0.0;
         public double maxTotalMass = 0.0;
 
-        private double timeStarted = -1.0;
+        //private double timeStarted = -1.0;
 
         /// <summary>
         /// Checks, if this mission goal has been accomplished.

@@ -259,16 +259,22 @@ namespace MissionController
                 {
                     MissionController.showBonusPaymentsWindow = true;
                 }
-                if (currentProgram.timeStarted > 0)
+                if (currentProgram.timeStarted > 0 && currentProgram.timeProbeName == goal.id)
                 {
                     currentProgram.timeStarted = -1.0;
                     currentProgram.timeStartedName = "none";
                 }
-                if (currentProgram.timeRoverStarted > 0)
+                if (currentProgram.timeRoverStarted > 0 && currentProgram.timeProbeName == goal.id)
                 {
                     currentProgram.timeRoverStarted = -1.0;
                     currentProgram.timeRoverName = "none";
                     RoverScience.doResearch = false;
+                }
+                if (currentProgram.timeProbeStarted > 0 && currentProgram.timeProbeName == goal.id)
+                {
+                    currentProgram.timeProbeStarted = -1.0;
+                    currentProgram.timeProbeName = "none";
+                    OrbitResearchScan.doResearch = false;
                 }
                 saveProgram();             
             }
@@ -283,16 +289,22 @@ namespace MissionController
                 {
                     MissionController.showBonusPaymentsWindow = true;
                 }
-                if (currentProgram.timeStarted > 0)
+                if (currentProgram.timeStarted > 0 && currentProgram.timeProbeName == goal.id)
                 {
                     currentProgram.timeStarted = -1.0;
                     currentProgram.timeStartedName = "none";
                 }
-                if (currentProgram.timeRoverStarted > 0)
+                if (currentProgram.timeRoverStarted > 0 && currentProgram.timeProbeName == goal.id)
                 {
                     currentProgram.timeRoverStarted = -1.0;
                     currentProgram.timeRoverName = "none";
                     RoverScience.doResearch = false;
+                }
+                if (currentProgram.timeProbeStarted > 0 && currentProgram.timeProbeName == goal.id)
+                {
+                    currentProgram.timeProbeStarted = -1.0;
+                    currentProgram.timeProbeName = "none";
+                    OrbitResearchScan.doResearch = false;
                 }
                 saveProgram();
             }
@@ -1211,6 +1223,10 @@ namespace MissionController
         {
             return currentProgram.showRepairVesselName = name;
         }
+        
+        /// <summary>
+        /// Used to set Time countdown for Timed Event Missions
+        /// </summary>
         public double GetMissionTime
         {
             get { return currentProgram.timeStarted; }
@@ -1219,6 +1235,12 @@ namespace MissionController
         {
             return currentProgram.timeStarted = num;
         }
+
+        /// <summary>
+        /// used to set Name for Timed Missions
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public string SetTimeMissionName(string name)
         {
             return currentProgram.timeStartedName = name;
@@ -1227,6 +1249,12 @@ namespace MissionController
         {
             get { return currentProgram.timeStartedName; }
         }
+        
+        /// <summary>
+        /// used to set Name for Rover Research Countdown
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public string SetTimeRoverName(string name)
         {
             return currentProgram.timeRoverName = name;
@@ -1235,6 +1263,10 @@ namespace MissionController
         {
             get { return currentProgram.timeRoverName; }
         }
+        
+        /// <summary>
+        /// Used to set Time countdown for Rover Research Missions
+        /// </summary>
         public double GetRoverTime
         {
             get { return currentProgram.timeRoverStarted; }
@@ -1243,6 +1275,33 @@ namespace MissionController
         {
             return currentProgram.timeRoverStarted = num;
         }
+        
+        /// <summary>
+        /// used to set Name for Probe Research Countdown
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public string SetTimeProbeName(string name)
+        {
+            return currentProgram.timeProbeName = name;
+        }
+        public string GetTimeProbeName
+        {
+            get { return currentProgram.timeProbeName; }
+        }
+
+        /// <summary>
+        /// Used to set Time countdown for Probe Research Missions
+        /// </summary>
+        public double GetProbeTime
+        {
+            get { return currentProgram.timeProbeStarted; }
+        }
+        public double SetProbeTime(double num)
+        {
+            return currentProgram.timeProbeStarted = num;
+        }
+        
        
         /// <summary>
         /// Checks if the given vessel is controlled by a client.

@@ -159,10 +159,10 @@ namespace MissionController
             //    showRecycleWindow = true;
             //}
 
-            if (GUILayout.Button("window Test Finish mission", styleButtonWordWrap))
-            {
-                showRandomWindow = true;
-            }
+            //if (GUILayout.Button("window Test Finish mission", styleButtonWordWrap))
+            //{
+            //    showRandomWindow = true;
+            //}
 
             if (GUILayout.Button("Reset Contract Time Check", styleButtonWordWrap))
             {
@@ -176,7 +176,7 @@ namespace MissionController
             GUILayout.Space(10);
             if (GUILayout.Button("Save Settings", styleButtonWordWrap))
             {
-                showSettingsWindow = false;
+                settingsWindow(!showSettingsWindow);
                 //Difficulty.init(settings.difficulty);
                 FuelMode.fuelinit(manager.GetFuels);
                 ConstructionMode.constructinit(manager.GetConstruction);

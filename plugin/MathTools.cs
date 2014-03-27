@@ -59,23 +59,23 @@ namespace MissionController
             List<String> parts = new List<String> ();
 
             if (y > 0) {
-                parts.Add (String.Format("{0:00},year", y));
+                parts.Add (String.Format("{0}:year", y));
             }
 
             if (d > 0) {
-                parts.Add (String.Format("{0:00},days", d));
+                parts.Add (String.Format("{0}:days", d));
             }
 
             if (h > 0) {
-                parts.Add (String.Format("{0:00},hours", h));
+                parts.Add (String.Format("{0}:hours", h));
             }
 
             if (m > 0) {
-                parts.Add (String.Format("{0:00},minutes", m));
+                parts.Add (String.Format("{0}:minutes", m));
             }
 
             if (seconds > 0) {
-                parts.Add (String.Format("{0:00},seconds", seconds));
+                parts.Add (String.Format("{0:00}:seconds", seconds));
             }
 
             if (parts.Count > 0) {
@@ -118,9 +118,9 @@ namespace MissionController
 
     public class Randomizator3000
     {
-        public class Item<T>
+        public class Item<M>
         {
-            public T value;
+            public M value;
             public float weight;
 
             public static float GetTotalWeight<T>(Item<T>[] p_itens)

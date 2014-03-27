@@ -323,7 +323,7 @@ namespace MissionController
             GUILayout.EndVertical();
 
             GUILayout.BeginHorizontal();
-            previewContractScrollPosition2 = GUILayout.BeginScrollView(previewContractScrollPosition2, GUILayout.Width(500));
+            previewContractScrollPosition2 = GUILayout.BeginScrollView(previewContractScrollPosition2, GUILayout.MaxWidth(500));
  
             if (currentPreviewMission3 == null)
             {

@@ -39,6 +39,8 @@ namespace MissionController
         public double timeStarted = -1.0;
         public string timeRoverName = "none";
         public double timeRoverStarted = -1.0;
+        public string timeProbeName = "none";
+        public double timeProbeStarted = -1.0;
 
         public List<MissionStatus> completedMissions = new List<MissionStatus>();       
 

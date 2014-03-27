@@ -51,10 +51,17 @@ namespace MissionController
         public double minLongitude = 0.0;
         public double maxLongitude = 0.0;
 
+        public bool orbitResearch = false;
+        public double probeSeconds = 0.0;
+
 
         public String body = "Kerbin";
 
         public OrbitGoal() { }
+        private Manager manager
+        {
+            get { return Manager.instance; }
+        }
       
         protected override List<Value> values(Vessel vessel, GameEvent events) {
             List<Value> values = new List<Value> ();
@@ -250,6 +257,43 @@ namespace MissionController
                     values.Add(new Value("Longitude", String.Format(MathTools.MinMaxValue, minLongitude, maxLongitude), 
                                          MathTools.calculateLongitude(vessel.longitude), 
                                          MathTools.inMinMax(minLongitude, maxLongitude, MathTools.calculateLongitude(vessel.longitude))));
+                }
+            }
+
+
+            if (orbitResearch != false)
+            {                               
+                if (vessel == null)
+                {
+                    values.Add(new Value("Orbital Research", "True"));
+                }
+                else
+                {
+                    values.Add(new Value("Orbital Research", "True", "" + OrbitResearchScan.doResearch, OrbitResearchScan.doResearch));                   
+                }
+
+            }
+            if (probeSeconds > 0.0)
+            {
+                if (manager.GetProbeTime == -1.0 && probeSeconds > 0.0 && manager.GetTimeProbeName == "none" && OrbitResearchScan.doResearch == true)
+                {
+                    manager.SetProbeTime(Planetarium.GetUniversalTime());
+                    manager.SetTimeProbeName(id);
+                }
+                if (FlightGlobals.fetch.activeVessel != null && manager.GetTimeProbeName != id && probeSeconds > 0)
+                {
+                    OrbitResearchScan.doResearch = false;
+                    manager.SetProbeTime(-1.0);
+                    manager.SetTimeProbeName("none");
+                }
+                if (vessel == null)
+                {
+                    values.Add(new Value("Research Time", MathTools.formatTime(probeSeconds)));
+                }
+                else
+                {
+                    double diff2 = (manager.GetProbeTime == -1.0 ? 0 : Planetarium.GetUniversalTime() - manager.GetProbeTime);
+                    values.Add(new Value("Research Time", MathTools.formatTime(probeSeconds), MathTools.formatTime(diff2), diff2 > probeSeconds));
                 }
             }
 

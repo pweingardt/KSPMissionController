@@ -2,97 +2,93 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace MissionController
 {
     public class RoverScience: PartModule
-    {
-        private MissionController missioncontroller
-        {
-            get { return MissionController.instance; }
-        }
-        private Manager manager
-        {
-            get { return Manager.instance; }
-        }
-        [KSPField(isPersistant = false)]
-        private bool missionIsResearch = false;
-        
+    {      
+ 
         [KSPField(isPersistant = false)]
         public static bool doResearch = false;
 
-        Vessel vs = new Vessel();
-        
-        [KSPField(isPersistant = false, guiActive = true, guiName = "Rover Landed")]
-        private bool StartingResearch = false;
+        [KSPField(isPersistant = true)]
+        private bool IsEnabled = false;
+
+        Vessel vs = new Vessel();      
+
+        [KSPField(isPersistant = false, guiActive = true, guiName = "Rover Landed:")]
+        private bool roverlanded = false;
+
+        [KSPField(isPersistant = false, guiActive = true, guiName = "Starting Scan:")]
+        private bool scanStart = false;
 
         [KSPEvent(guiActive= true,guiName= "Start MCE Rover Research",active= true)]
         public void StartResearchMCE()
         {
             checkVesselResearch();
         }
+    
         public void checkVesselResearch()
         {
-            if (StartingResearch != false)
+            if (roverlanded == true)
             {
-                doResearch = true;
+                doResearch = true;              
+                ScreenMessages.PostScreenMessage("Starting Scan of Ground Level, Please Stand By...");               
             }
-            else { doResearch = false; }
+            else { 
+                doResearch = false;
+                scanStart = false;
+                ScreenMessages.PostScreenMessage("Vessel needs to be landed to start scanning at ground level");              
+            }
         }
+        
         public override void OnFixedUpdate()
         {
-            if (FlightGlobals.fetch.activeVessel.situation == Vessel.Situations.LANDED && missionIsResearch != false || FlightGlobals.fetch.activeVessel.situation == Vessel.Situations.SPLASHED && missionIsResearch != false)
+            if (FlightGlobals.fetch.activeVessel.situation == Vessel.Situations.LANDED || FlightGlobals.fetch.activeVessel.situation == Vessel.Situations.SPLASHED)
             {
-                StartingResearch = true;
+                roverlanded = true;
             }
-            else { StartingResearch = false; }
-            if (missioncontroller.getCurrentMission.isRoverMission != false)
+            else { roverlanded = false; }
+            if (doResearch == true)
             {
-                missionIsResearch = true;
+                scanStart = true;
             }
-        }      
+            else { scanStart = false; }
+        }
     }
 
     public class RoverResearch : MissionGoal
     {
         public bool splashedValid = true;
         public string body = "";
-        public double roverseconds = 0.0;
+        public double roverSeconds = 0.0;
         private Manager manager
         {
             get { return Manager.instance; }
         }
-        public double RoverTimeDiff;
 
         protected override List<Value> values(Vessel vessel, GameEvent ev)
-        {
-            RoverTimeDiff = Planetarium.GetUniversalTime() - manager.GetRoverTime;
+        {          
 
             List<Value> values2 = new List<Value>();
-            if (manager.GetRoverTime == -1.0 && roverseconds > 0.0 && manager.GetTimeRoverName == "none" && RoverScience.doResearch == true)
+            if (manager.GetRoverTime == -1.0 && roverSeconds > 0.0 && manager.GetTimeRoverName == "none" && RoverScience.doResearch == true)
             {
                 manager.SetRoverTime(Planetarium.GetUniversalTime());
                 manager.SetTimeRoverName(id);
             }
-            if (FlightGlobals.fetch.activeVessel != null && manager.GetTimeRoverName != id && roverseconds > 0)
+            if (FlightGlobals.fetch.activeVessel != null && manager.GetTimeRoverName != id && roverSeconds > 0)
             {
                 RoverScience.doResearch = false;
                 manager.SetRoverTime(-1.0);
                 manager.SetTimeRoverName("none");
             }
 
-            //if (RoverTimeDiff > roverseconds)
-            //{
-            //    manager.SetRoverTime(-1.0);
-            //    manager.SetTimeRoverName("none");
-            //}
-
             if (vessel == null)
             {
                 values2.Add(new Value("Rover Research", "True"));
                 values2.Add(new Value("Rover Landing Body", body));              
-                values2.Add(new Value("Research Time", MathTools.formatTime(roverseconds)));
-
+                values2.Add(new Value("Research Time", MathTools.formatTime(roverSeconds)));
             }
             else
             {               
@@ -100,10 +96,10 @@ namespace MissionController
                 values2.Add(new Value("Rover Landing Body", body, vessel.orbit.referenceBody.bodyName,
                                                  vessel.orbit.referenceBody.bodyName.Equals(body) && (vessel.situation == Vessel.Situations.LANDED ||
                     (splashedValid ? vessel.situation == Vessel.Situations.SPLASHED : false))));
-                if (roverseconds > 0.0)
+                if (roverSeconds > 0.0)
                 {
                     double diff2 = (manager.GetRoverTime == -1.0 ? 0 : Planetarium.GetUniversalTime() - manager.GetRoverTime);
-                    values2.Add(new Value("Research Time", MathTools.formatTime(roverseconds), MathTools.formatTime(diff2), diff2 > roverseconds));    
+                    values2.Add(new Value("Research Time", MathTools.formatTime(roverSeconds), MathTools.formatTime(diff2), diff2 > roverSeconds));    
                 }
             }
 

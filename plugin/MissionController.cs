@@ -79,7 +79,6 @@ namespace MissionController
             get{return SettingsManager.Manager.getSettings();}
         }
         
-
         private List<MissionGoal> hiddenGoals = new List<MissionGoal>();
 
         private Rect settingsWindowPosition;
@@ -336,7 +335,7 @@ namespace MissionController
             button.ToolTip = "MCE Settings";
             button.OnClick += (e) =>
             {
-                showSettingsWindow = !showSettingsWindow;
+                settingsWindow(!showSettingsWindow);
             };
 
             BudgetDisplay = ToolbarManager.Instance.add("MC1", "money1");
@@ -344,7 +343,7 @@ namespace MissionController
             BudgetDisplay.ToolTip = "MCE Current Budget";
             BudgetDisplay.OnClick += (e) =>
             {
-                showFinanceWindow = !showFinanceWindow;
+                financeWindow(!showFinanceWindow);
             };
 
             MissionSelect = ToolbarManager.Instance.add("MC1", "missionsel1");
@@ -352,7 +351,7 @@ namespace MissionController
             MissionSelect.ToolTip = "MCE Select Current Mission";
             MissionSelect.OnClick += (e) =>
              {
-                 showMissionStatusWindow = !showMissionStatusWindow;
+                 missionWindow(!showMissionStatusWindow);
              };
 
             ContractSelect = ToolbarManager.Instance.add("MC1", "contractsel1");
@@ -360,7 +359,7 @@ namespace MissionController
             ContractSelect.ToolTip = "Takes You To Contract Selection Screen";
             ContractSelect.OnClick += (e) =>
             {
-                showContractStatusWindow = !showContractStatusWindow;
+                contractWindow(!showContractStatusWindow);
             };
 
             VabShipSelect = ToolbarManager.Instance.add("MC1", "ship1");
@@ -377,7 +376,7 @@ namespace MissionController
             ScienceResearch.ToolTip = "MCE Research Window";
             ScienceResearch.OnClick += (e) =>
             {
-                showResearchTreeWindow = !showResearchTreeWindow;
+                researchWindow(!showResearchTreeWindow);
             };
 
             RevertSelect = ToolbarManager.Instance.add("MC1", "ship2");
@@ -678,6 +677,7 @@ namespace MissionController
         /// </summary>
         public void OnGUI()
         {
+
             if (!isValidScene())
             {
                 pVessel = null;
@@ -741,9 +741,8 @@ namespace MissionController
                     showRandomWindow = true;
                 }
             // We need to calculate the status in case the windows are not visible
-            calculateStatus(currentMission, true, activeVessel);
+            calculateStatus(currentMission, true, activeVessel);            
             
-
             if (hideAll)
             {
                 return;
@@ -1561,7 +1560,7 @@ namespace MissionController
                 {
                     if (mg.vesselIndenpendent != false)
                     {
-                        GUILayout.Label("This Mission has docking Goal or Undock.  It must be done in one sitting, the docking goals are not saved to bypass issues with Vessel ID's", styleValueYellow);
+                        GUILayout.Label("This Mission has docking Goal or Undock.  It must be done in one sitting,\n the docking goals are not saved to bypass issues with Vessel ID's", styleValueYellow);
                     }
                 }
             }
@@ -1602,7 +1601,7 @@ namespace MissionController
             
             if (GUILayout.Button("X", styleButtonWordWrap, GUILayout.Width(25)))
             {
-                showMissionStatusWindow = false;
+                missionWindow(!showMissionStatusWindow);
             }
             GUILayout.EndHorizontal();           
             GUILayout.Space(20);
@@ -1668,7 +1667,7 @@ namespace MissionController
 
             if (GUILayout.Button("X", styleButtonWordWrap, GUILayout.Width(25)))
             {
-                showContractStatusWindow = false;
+                contractWindow(!showContractStatusWindow);
             }
             GUILayout.EndHorizontal();
 
@@ -1901,18 +1900,18 @@ namespace MissionController
 
             //GUILayout.Label("pay" + comppayout);
             //GUILayout.Label("sci" + compscience);
-            GUILayout.Label("Current Contract: ", styleValueGreenBold, GUILayout.MaxWidth(420));
+            GUILayout.Label("Current Contract: ", styleValueGreenBold, GUILayout.MaxWidth(520));
             GUILayout.Label(mission.name, styleText);
 
-            GUILayout.Label("Company Name", styleValueGreenBold, GUILayout.MaxWidth(420));
+            GUILayout.Label("Company Name", styleValueGreenBold, GUILayout.MaxWidth(520));
             GUILayout.Label(compName, styleText);
 
-            GUILayout.Label("Description: ", styleValueGreenBold,GUILayout.MaxWidth(420));
+            GUILayout.Label("Description: ", styleValueGreenBold,GUILayout.MaxWidth(520));
             GUILayout.Label(mission.description, styleText);
 
             if (mission.vesselName != false)
             {
-                GUILayout.Label("Vessel Name To Repair", styleValueGreenBold, GUILayout.MaxWidth(420));
+                GUILayout.Label("Vessel Name To Repair", styleValueGreenBold, GUILayout.MaxWidth(520));
                 GUILayout.Label(manager.GetShowVesselRepairName, styleText);
             }
 
@@ -1937,7 +1936,7 @@ namespace MissionController
 
             if (mission.clientControlled)
             {
-                GUILayout.Label("At The End Of Contract All Company Assets Will Revert To Company Control", styleWarning, GUILayout.MaxWidth(420));
+                GUILayout.Label("At The End Of Contract All Company Assets Will Revert To Company Control", styleWarning,GUILayout.MaxWidth(520));
             }
 
             drawContractsGoals(mission, s);
@@ -1949,7 +1948,7 @@ namespace MissionController
                 {
                     if (settings.gameMode == 0)
                     {
-                        GUILayout.Label("All goals accomplished. You can finish the mission now! Deducted for loans!", styleCaption, GUILayout.MaxWidth(420));
+                        GUILayout.Label("All goals accomplished. You can finish the mission now! Deducted for loans!", styleCaption, GUILayout.MaxWidth(520));
                         showCostValue("Total Mission Payout:", mission.reward * comppayout * FinanceMode.currentloan * PayoutLeveles.TechPayout, styleValueGreen);
                         if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
                         {
@@ -1958,7 +1957,7 @@ namespace MissionController
                     }
                     if (settings.gameMode == 1)
                     {
-                        GUILayout.Label("All Goals accomplished. Finish The Mission. Deducted for loans and HardCore mode", GUILayout.MaxWidth(420)); // .75 * .6 = .45
+                        GUILayout.Label("All Goals accomplished. Finish The Mission. Deducted for loans and HardCore mode", GUILayout.MaxWidth(520)); // .75 * .6 = .45
                         showCostValue("Total Mission Payout:", mission.reward * comppayout * FinanceMode.currentloan * PayoutLeveles.TechPayout * .60, styleValueGreen);
                         if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
                         {
@@ -1970,7 +1969,7 @@ namespace MissionController
                 {
                     if (settings.gameMode == 0)
                     {
-                        GUILayout.Label("All goals accomplished. you can finish the mission now!", styleCaption, GUILayout.MaxWidth(420));
+                        GUILayout.Label("All goals accomplished. you can finish the mission now!", styleCaption, GUILayout.MaxWidth(520));
                         showCostValue("Total Mission Payout:", mission.reward * comppayout * PayoutLeveles.TechPayout, styleValueGreen);
                         if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
                         {
@@ -1979,7 +1978,7 @@ namespace MissionController
                     }
                     if (settings.gameMode == 1)
                     {
-                        GUILayout.Label("All goals accomplished. you can finish the mission now: HardCore Mode!", styleCaption, GUILayout.MaxWidth(420));
+                        GUILayout.Label("All goals accomplished. you can finish the mission now: HardCore Mode!", styleCaption, GUILayout.MaxWidth(520));
                         showCostValue("Total Mission Payout:", mission.reward * comppayout * PayoutLeveles.TechPayout * .60, styleValueGreen);
                         if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
                         {
@@ -2165,7 +2164,7 @@ namespace MissionController
                     {
                         if (s.finishableGoals.ContainsKey(c.id) && s.finishableGoals[c.id])
                         {
-                            if (GUILayout.Button("Hide finished goal", GUILayout.Width(420)));
+                            if (GUILayout.Button("Hide finished goal", GUILayout.Width(420)))
                             {
                                 hiddenGoals.Add(c);
                             }
@@ -2194,6 +2193,51 @@ namespace MissionController
             fileBrowser.disallowDirectoryChange = true;
             fileBrowser.SelectionPattern = "*.mpkg";
             fileBrowser.hideFileExtensions = true;            
+        }
+
+        private void contractWindow(bool visibility)
+        {
+            showContractStatusWindow = visibility;
+            lockOrUnlockEditor(visibility);
+        }
+
+        private void missionWindow(bool visibility)
+        {
+            showMissionStatusWindow = visibility;
+            lockOrUnlockEditor(visibility);
+        }
+
+        private void financeWindow(bool visibility)
+        {
+            showFinanceWindow = visibility;
+            lockOrUnlockEditor(visibility);
+        }
+
+        private void settingsWindow(bool visibility)
+        {
+            showSettingsWindow = visibility;
+            lockOrUnlockEditor(visibility);
+        }
+
+        private void researchWindow(bool visibility)
+        {
+            showResearchTreeWindow = visibility;
+            lockOrUnlockEditor(visibility);
+        }
+
+        private void lockOrUnlockEditor(bool visiblity)
+        {
+            if (EditorLogic.fetch != null)
+            {
+                if (visiblity)
+                {
+                    EditorLogic.fetch.Lock(true, true, true,"MCE1974");
+                }
+                else
+                {
+                    EditorLogic.fetch.Unlock("MCE1974");
+                }
+            }
         }
 
         private void destroyFileBrowser()

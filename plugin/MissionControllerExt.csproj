@@ -68,6 +68,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="NorMissionGoal.cs" />
+    <Compile Include="OrbitResearchScan.cs" />
     <Compile Include="OrMissionGoal.cs">
       <SubType>Code</SubType>
     </Compile>
