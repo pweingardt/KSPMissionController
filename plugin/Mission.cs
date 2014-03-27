@@ -46,6 +46,8 @@ namespace MissionController
         /// </summary>
         public bool IsContract = false;
         public bool IsUserContract = false;
+        public bool isRoverMission = false;
+        public bool isRepairMission = false;
 
         public int CompanyOrder;
 

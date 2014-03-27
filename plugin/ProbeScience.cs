@@ -15,22 +15,42 @@ namespace MissionController
         {
             get { return Manager.instance; }
         }
+        [KSPField(isPersistant = false)]
+        private bool missionIsResearch = false;
         
         [KSPField(isPersistant = false)]
         public static bool doResearch = false;
 
         Vessel vs = new Vessel();
-
-        [KSPField(isPersistant = false, guiActive = true, guiName = "Rover Researching")]
-        public bool StartingResearch = false;
+        
+        [KSPField(isPersistant = false, guiActive = true, guiName = "Rover Landed")]
+        private bool StartingResearch = false;
 
         [KSPEvent(guiActive= true,guiName= "Start MCE Rover Research",active= true)]
         public void StartResearchMCE()
-        {         
+        {
+            checkVesselResearch();
+        }
+        public void checkVesselResearch()
+        {
+            if (StartingResearch != false)
+            {
                 doResearch = true;
+            }
+            else { doResearch = false; }
+        }
+        public override void OnFixedUpdate()
+        {
+            if (FlightGlobals.fetch.activeVessel.situation == Vessel.Situations.LANDED && missionIsResearch != false || FlightGlobals.fetch.activeVessel.situation == Vessel.Situations.SPLASHED && missionIsResearch != false)
+            {
                 StartingResearch = true;
-        } 
-       
+            }
+            else { StartingResearch = false; }
+            if (missioncontroller.getCurrentMission.isRoverMission != false)
+            {
+                missionIsResearch = true;
+            }
+        }      
     }
 
     public class RoverResearch : MissionGoal
@@ -54,12 +74,18 @@ namespace MissionController
                 manager.SetRoverTime(Planetarium.GetUniversalTime());
                 manager.SetTimeRoverName(id);
             }
-
-            if (RoverTimeDiff > roverseconds)
+            if (FlightGlobals.fetch.activeVessel != null && manager.GetTimeRoverName != id && roverseconds > 0)
             {
+                RoverScience.doResearch = false;
                 manager.SetRoverTime(-1.0);
                 manager.SetTimeRoverName("none");
             }
+
+            //if (RoverTimeDiff > roverseconds)
+            //{
+            //    manager.SetRoverTime(-1.0);
+            //    manager.SetTimeRoverName("none");
+            //}
 
             if (vessel == null)
             {

@@ -264,6 +264,12 @@ namespace MissionController
                     currentProgram.timeStarted = -1.0;
                     currentProgram.timeStartedName = "none";
                 }
+                if (currentProgram.timeRoverStarted > 0)
+                {
+                    currentProgram.timeRoverStarted = -1.0;
+                    currentProgram.timeRoverName = "none";
+                    RoverScience.doResearch = false;
+                }
                 saveProgram();             
             }
 
@@ -281,6 +287,12 @@ namespace MissionController
                 {
                     currentProgram.timeStarted = -1.0;
                     currentProgram.timeStartedName = "none";
+                }
+                if (currentProgram.timeRoverStarted > 0)
+                {
+                    currentProgram.timeRoverStarted = -1.0;
+                    currentProgram.timeRoverName = "none";
+                    RoverScience.doResearch = false;
                 }
                 saveProgram();
             }

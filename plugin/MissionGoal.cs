@@ -172,15 +172,12 @@ namespace MissionController
                 manager.SetTimeMissionName(id);
             }
 
-            //if (minSeconds > 0.0 && !done && manager.GetTimeMissionName != id) {
-            //    manager.SetMissionTime(-1.0);
-            //    manager.SetTimeMissionName("none");
-            //}
 
-            if (manager.GetTimeMissionName != id)
+            if (manager.GetTimeMissionName != id && minSeconds > 0.0)
             {
+                manager.SetMissionTime(-1.0);
                 manager.SetTimeMissionName("none");
-            }
+            }          
 
             if (minSeconds > 0.0) {
                 if (vessel != null) {
