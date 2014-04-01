@@ -1312,8 +1312,8 @@ namespace MissionController
             else
             {
                 int updatedpayout = currentMission.reward;
-                if (currentMission.contractAvailable == 14) { updatedpayout = updatedpayout + manager.GetRandomOrbitPay; }
-                if (currentMission.contractAvailable == 15) {updatedpayout = updatedpayout + manager.GetRandomLandingPay;}
+                if (currentMission.contractAvailable == 14) { updatedpayout += manager.GetRandomOrbitPay; }
+                if (currentMission.contractAvailable == 15) {updatedpayout += manager.GetRandomLandingPay;}
                 
                 double comppayout = Tools.GetValueDefault(Tools.MCSettings.GetNode(manager.GetCompanyInfoString), "payout", 1.0);
                 double compscience = Tools.GetValueDefault(Tools.MCSettings.GetNode(manager.GetCompanyInfoString), "science", 1.0);
@@ -1931,8 +1931,8 @@ namespace MissionController
                 GUILayout.Label("Vessel Name To Repair", styleValueGreenBold, GUILayout.MaxWidth(520));
                 GUILayout.Label(manager.GetShowVesselRepairName, styleText);
             }
-            if (mission.contractAvailable == 14) { updatedpayout = updatedpayout + manager.GetRandomOrbitPay; }
-            if (mission.contractAvailable == 15) { updatedpayout = updatedpayout + manager.GetRandomLandingPay; }
+            if (mission.contractAvailable == 14) { updatedpayout += manager.GetRandomOrbitPay; }
+            if (mission.contractAvailable == 15) { updatedpayout += manager.GetRandomLandingPay; }
 
             GUILayout.BeginHorizontal();
             GUILayout.Label(" Contract Payout: ", styleValueGreenBold);            

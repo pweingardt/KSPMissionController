@@ -842,8 +842,8 @@ namespace MissionController
                 currentProgram.add(status);
 
                 int updatedReward = m.reward;
-                if (m.contractAvailable == 14) { updatedReward = updatedReward + currentProgram.randomOrbitPay; }
-                if (m.contractAvailable == 15) {updatedReward = updatedReward + currentProgram.randomLandingPay;}
+                if (m.contractAvailable == 14) { updatedReward += currentProgram.randomOrbitPay; }
+                if (m.contractAvailable == 15) {updatedReward += currentProgram.randomLandingPay;}
                 if (m.IsContract == false)
                 {
                     reward(m.reward);
