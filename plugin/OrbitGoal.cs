@@ -92,7 +92,7 @@ namespace MissionController
                 {
                     if (contractAvailable == 14)
                     {
-                        values.Add(new Value("Body", "" + manager.GetRandomOrbit, vessel.orbit.referenceBody.bodyName, vessel.orbit.referenceBody.bodyName.Equals(body)));
+                        values.Add(new Value("Body", "" + manager.GetRandomOrbit, vessel.orbit.referenceBody.bodyName, vessel.orbit.referenceBody.bodyName.Equals(manager.GetRandomOrbit)));
                     }                   
                     else
                     {

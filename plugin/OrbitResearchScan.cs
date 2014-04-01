@@ -15,8 +15,8 @@ namespace MissionController
 
         Vessel vs = new Vessel();
 
-        [KSPField(isPersistant = false, guiActive = true, guiName = "Probe In Orbit:")]
-        private bool probeOrbitResearch = false;
+        [KSPField(isPersistant = false, guiActive = true, guiName = "Probe Ready To Scan:")]
+        private bool probeOrbitResearch = true;
 
         [KSPField(isPersistant = false, guiActive = true, guiName = "Starting Scan:")]
         private bool scanStart = false;
@@ -38,17 +38,12 @@ namespace MissionController
             {
                 doResearch = false;
                 scanStart = false;
-                ScreenMessages.PostScreenMessage("Vessel Needs to be In Orbit to Conduct Scans");
+                ScreenMessages.PostScreenMessage("Vessel Needs to be In flight to Conduct Scans");
             }
         }
 
         public override void OnFixedUpdate()
         {
-            if (FlightGlobals.fetch.activeVessel.situation == Vessel.Situations.ORBITING)
-            {
-                probeOrbitResearch = true;
-            }
-            else { probeOrbitResearch = false; }
             if (doResearch == true)
             {
                 scanStart = true;

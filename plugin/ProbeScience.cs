@@ -100,7 +100,7 @@ namespace MissionController
                 if (contractAvailable == 15)
                 {
                     values2.Add(new Value("Landing Body", manager.GetRandomLanding, vessel.orbit.referenceBody.bodyName,
-                                                     vessel.orbit.referenceBody.bodyName.Equals(body) && (vessel.situation == Vessel.Situations.LANDED ||
+                                                     vessel.orbit.referenceBody.bodyName.Equals(manager.GetRandomLanding) && (vessel.situation == Vessel.Situations.LANDED ||
                         (splashedValid ? vessel.situation == Vessel.Situations.SPLASHED : false))));
                 }
                 else

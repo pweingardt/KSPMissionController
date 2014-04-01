@@ -123,6 +123,37 @@ namespace MissionController
                             foreach (ModuleGimbal g in p.Modules.OfType<ModuleGimbal>())
                                 gimbalFactor = 1.0 + g.gimbalRange * Tools.GetValueDefault(mNode, "gimbalFactor", 0.2);
                         }
+                        if (mNode.name.Equals("ModuleEnginesFX"))
+                        {
+                            doEngine = true;
+                            ModuleEnginesFX e = (ModuleEnginesFX)p.Modules["ModuleEnginesFX"];
+
+                            ispSL = e.atmosphereCurve.Evaluate(1);
+                            ispV = e.atmosphereCurve.Evaluate(0);
+                            thrust = e.maxThrust;
+
+                            bool foundPropMod = false;
+                            foreach (Propellant r in e.propellants)
+                            {
+                                if (mNode.HasValue(r.name))
+                                {
+                                    propMult *= Tools.atod(mNode.GetValue(r.name));
+                                    foundPropMod = true;
+                                }
+                            }
+
+
+                            if (!foundPropMod && ispV > 800 && ispV < 2500)
+                            {
+                                nukeMult = Tools.GetValueDefault(mNode, "nukeMult", nukeMult);
+                            }
+                            if (!foundPropMod && ispV >= 2500)
+                            {
+                                futureEngines = Tools.GetValueDefault(mNode, "futureEngines", futureEngines);
+                            }
+                            foreach (ModuleGimbal g in p.Modules.OfType<ModuleGimbal>())
+                                gimbalFactor = 1.0 + g.gimbalRange * Tools.GetValueDefault(mNode, "gimbalFactor", 0.2);
+                        }
                         if (mNode.name.Equals("ModuleRCS"))
                         {
                             doEngine = true;

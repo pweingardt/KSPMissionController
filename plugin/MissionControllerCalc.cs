@@ -242,6 +242,14 @@ namespace MissionController
                                     isEngine = true;
                                     //}
                                 }
+                                foreach (ModuleEnginesFX e in p.Modules.OfType<ModuleEnginesFX>())
+                                {
+                                    //if (e.propellants.Where(r => r.name.Equals("SolidFuel")).Count() == 0)
+                                    //{
+                                    engineCost += cst;
+                                    isEngine = true;
+                                    //}
+                                }
                                 if (!isEngine)
                                     tankCost += cst;
                             }

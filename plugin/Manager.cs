@@ -545,7 +545,8 @@ namespace MissionController
                 currentProgram.nextTimeCheck = 0;
                 SetClockCountdown();
                 setCompanyName();
-                chooseVesselRepairFromList();               
+                chooseVesselRepairFromList();
+                chooseRandomValues();
             }           
         }
 
