@@ -86,21 +86,36 @@ namespace MissionController
 
             if (vessel == null)
             {
-                values2.Add(new Value("Rover Research", "True"));
-                values2.Add(new Value("Rover Landing Body", body));              
+                values2.Add(new Value("Rover Research", "True"));                            
                 values2.Add(new Value("Research Time", MathTools.formatTime(roverSeconds)));
+                if (contractAvailable == 15)
+                {
+                    values2.Add(new Value("Landing Body", manager.GetRandomLanding));
+                }
+                else { values2.Add(new Value("Landing Body", body)); }
             }
             else
             {               
                 values2.Add(new Value("Rover Research", "True", "" + RoverScience.doResearch,RoverScience.doResearch));
-                values2.Add(new Value("Rover Landing Body", body, vessel.orbit.referenceBody.bodyName,
-                                                 vessel.orbit.referenceBody.bodyName.Equals(body) && (vessel.situation == Vessel.Situations.LANDED ||
-                    (splashedValid ? vessel.situation == Vessel.Situations.SPLASHED : false))));
+                if (contractAvailable == 15)
+                {
+                    values2.Add(new Value("Landing Body", manager.GetRandomLanding, vessel.orbit.referenceBody.bodyName,
+                                                     vessel.orbit.referenceBody.bodyName.Equals(body) && (vessel.situation == Vessel.Situations.LANDED ||
+                        (splashedValid ? vessel.situation == Vessel.Situations.SPLASHED : false))));
+                }
+                else
+                {
+                    values2.Add(new Value("Landing Body", body, vessel.orbit.referenceBody.bodyName,
+                                                   vessel.orbit.referenceBody.bodyName.Equals(body) && (vessel.situation == Vessel.Situations.LANDED ||
+                      (splashedValid ? vessel.situation == Vessel.Situations.SPLASHED : false))));
+                }
+
                 if (roverSeconds > 0.0)
                 {
                     double diff2 = (manager.GetRoverTime == -1.0 ? 0 : Planetarium.GetUniversalTime() - manager.GetRoverTime);
-                    values2.Add(new Value("Research Time", MathTools.formatTime(roverSeconds), MathTools.formatTime(diff2), diff2 > roverSeconds));    
+                    values2.Add(new Value("Research Time", MathTools.formatTime(roverSeconds), MathTools.formatTime(diff2), diff2 > roverSeconds));
                 }
+                
             }
 
             return values2;
@@ -108,7 +123,7 @@ namespace MissionController
 
         public override string getType()
         {
-            return "Rover Research";
+            return "Landing Vessel Research";
         }
     }
 }

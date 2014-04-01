@@ -1,0 +1,2087 @@
+MissionPackage
+{
+	name = Bootstraps - Orbital Infrastructure Mission Package
+	description = This mission package focuses on programs involving the setup of station support infrastructure both in orbit around planetary bodies and on their surface. The target audience is experienced players who have completed the Interplanetary mission package or have the requisite skills to do so.\n\nBSP Added to MCE default download on version .53.  Boot Strap Missions was made by Ihavealamp His original thread can be found Here:\nSlight Modification were made mostly getting rid of the Launchgoals \n\nhttp://forum.kerbalspaceprogram.com/threads/58576-0-22-Bootstraps-176-New-Missions-for-Mission-Controller-Extended-(v0-3-3)
+	ownOrder = true
+	
+	Mission
+	{
+		name = Refueling
+		description = Surface launch from Kerbin to refuel an orbital station with large stores of liquid fuel or monopropellant.
+		reward = 250000
+		category = ORBIT, SATELLITE
+		repeatable = true
+		packageOrder = 1
+				
+
+		OrMissionGoal
+		{
+			description = Confirm large stores of liquid fuel or monopropellant for transfer to station.
+			
+			ResourceGoal
+			{
+				name = LiquidFuel
+				minAmount = 3000
+			}
+			
+			ResourceGoal
+			{
+				name = MonoPropellant
+				minAmount = 1500
+			}
+		}
+
+		DockingGoal
+		{
+			vesselIndenpendent = true
+			description = Dock to the station, confirm solid seal and begin transfer of liquid fuel/monopropellant to the station tanks.
+		}
+
+		OrMissionGoal
+		{
+			description = Confirm depleted stores of liquid fuel or monopropellant.
+			
+			ResourceGoal
+			{
+				name = LiquidFuel
+				maxAmount = 1000
+			}
+			
+			ResourceGoal
+			{
+				name = MonoPropellant
+				maxAmount = 400
+			}
+		}
+
+		UnDockingGoal
+		{
+			description = Undock from the station.
+		}
+	}
+	
+	Mission
+	{
+		name = Crew Transfer - Homebound
+		description = Transfer crew members from an orbital station back home to Kerbin for some well deserved R&R.
+		reward = 250000
+		category = ORBIT, SATELLITE
+		repeatable = true
+		packageOrder = 2
+		
+		DockingGoal
+		{
+			vesselIndenpendent = true
+			description = Dock to the station, confirm solid seal and begin transfer of crew from station to vessel.
+			crewCount = 0
+		}
+
+		UnDockingGoal
+		{
+			description = Undock from the station.
+		}
+
+		LandingGoal
+		{
+			description = Land the vessel safely on Kerbin with returning crew members aboard.
+			body = Kerbin
+			crewCount = 1
+		}
+	}
+	
+	Mission
+	{
+		name = Crew Transfer - Stationbound
+		description = Transfer crew members from Kerbin to an orbital station.
+		reward = 250000
+		category = ORBIT, SATELLITE
+		repeatable = true
+		packageOrder = 3		
+		
+		DockingGoal
+		{
+			vesselIndenpendent = true
+			description = Dock to the station, confirm solid seal and begin transfer of crew from vessel to station.
+		}
+
+		UnDockingGoal
+		{
+			description = Undock from the station.
+			crewCount = 0
+		}
+	}
+	
+	Mission
+	{
+		name = Kerbin Orbital - Command Module
+		description = Begin long-term, orbital operations around Kerbin by deploying a station command module. This will serve as a base of operations and future expansion efforts.\n\nImportant: Check the mission goal requirements to confirm your design has the requisite parts before launching.
+		reward = 200000
+		category = ORBIT, SATELLITE
+		packageOrder = 4				
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Kerbin.
+			body = Kerbin
+			maxEccentricity = 0.02
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached station command module is secure and ready for deployment.
+			
+			PartGoal
+			{
+				partName = cupola
+				partCount = 1
+			}
+			
+			PartGoal
+			{
+				partName = fuelTank1-2
+				partCount = 1
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+			
+			PartGoal
+			{
+				partName = crewCabin
+				partCount = 1
+			}
+			
+			PartGoal
+			{
+				partName = solarPanels2
+				partCount = 2
+			}
+		}
+		
+		UnDockingGoal
+		{
+			description = Deploy the command module.
+		}
+	}
+	
+	Mission
+	{
+		name = Kerbin Orbital - Core Module
+		description = Expand upon the existing orbital station by launching one (or more) of many core modules.\n\nImportant: Check the mission goal requirements to confirm your design has the requisite parts before launching.
+		reward = 50000
+		category = ORBIT, SATELLITE
+		requiresMission = Kerbin Orbital - Command Module
+		repeatable = true
+		packageOrder = 5
+				
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Kerbin.
+			body = Kerbin
+			maxEccentricity = 0.02
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached electrical storage module is secure and ready for deployment.
+			optional = true
+			reward = 100000
+			
+			PartGoal
+			{
+				partName = batteryBankLarge
+				partCount = 4
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached electrical generation module is secure and ready for deployment.
+			optional = true
+			reward = 150000
+			
+			PartGoal
+			{
+				partName = largeSolarPanel
+				partCount = 4
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached monopropellant storage module is secure and ready for deployment.
+			optional = true
+			reward = 150000
+			
+			PartGoal
+			{
+				partName = RCSTank1-2
+				partCount = 4
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached liquid fuel storage module is secure and ready for deployment.
+			optional = true
+			reward = 150000
+			
+			PartGoal
+			{
+				partName = fuelTank3-2
+				partCount = 1
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+		}
+		
+		UnDockingGoal
+		{
+			description = Deploy the core module(s).
+		}
+		
+		EVAGoal
+		{
+			description = Complete an EVA and confirm successful deployment and/or connection to the station.
+		}
+	}
+	
+	Mission
+	{
+		name = Kerbin Orbital - Auxiliary Module
+		description = Continue expanding upon the existing orbital station by launching one (or more) of many non-essential, auxiliary modules.\n\nImportant: Check the mission goal requirements to confirm your design has the requisite parts before launching.
+		reward = 50000
+		category = ORBIT, SATELLITE
+		requiresMission = Kerbin Orbital Station - Command Module
+		repeatable = true
+		packageOrder = 6
+			
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Kerbin.
+			body = Kerbin
+			maxEccentricity = 0.02
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached habitation module is secure and ready for deployment.
+			optional = true
+			reward = 150000
+			
+			PartGoal
+			{
+				partName = crewCabin
+				partCount = 2
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached science module is secure and ready for deployment.
+			optional = true
+			reward = 125000
+			
+			PartGoal
+			{
+				partName = science_module
+				partCount = 2
+			}
+			
+			PartGoal
+			{
+				partName = GooExperiment
+				partCount = 4
+			}
+			
+			PartGoal
+			{
+				partName = sensorGravimeter
+				partCount = 1
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached communcation array module is secure and ready for deployment.
+			optional = true
+			reward = 100000
+			
+			PartGoal
+			{
+				partName = longAntenna
+				partCount = 4
+			}
+			
+			PartGoal
+			{
+				partName = commDish
+				partCount = 2
+			}
+			
+			PartGoal
+			{
+				partName = mediumDishAntenna
+				partCount = 1
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached docking extention module is secure and ready for deployment.
+			optional = true
+			reward = 75000
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 6
+			}
+		}
+		
+		UnDockingGoal
+		{
+			description = Deploy the auxiliary module(s).
+		}
+		
+		EVAGoal
+		{
+			description = Complete an EVA and confirm successful deployment and/or connection to the station.
+		}
+	}
+	
+	Mission
+	{
+		name = Duna Orbital - Command Module
+		description = Begin long-term, orbital operations around Duna by deploying a station command module. This will serve as a base of operations and future expansion efforts.\n\nImportant: Check the mission goal requirements to confirm your design has the requisite parts before launching.
+		reward = 200000
+		category = ORBIT, SATELLITE
+		packageOrder = 7	
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Duna.
+			body = Duna
+			maxEccentricity = 0.02
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached station command module is secure and ready for deployment.
+			
+			PartGoal
+			{
+				partName = cupola
+				partCount = 1
+			}
+			
+			PartGoal
+			{
+				partName = fuelTank1-2
+				partCount = 1
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+			
+			PartGoal
+			{
+				partName = crewCabin
+				partCount = 1
+			}
+			
+			PartGoal
+			{
+				partName = solarPanels2
+				partCount = 2
+			}
+		}
+		
+		UnDockingGoal
+		{
+			description = Deploy the command module.
+		}
+	}
+	
+	Mission
+	{
+		name = Duna Orbital - Core Module
+		description = Expand upon the existing orbital station by launching one (or more) of many core modules.\n\nImportant: Check the mission goal requirements to confirm your design has the requisite parts before launching.
+		reward = 50000
+		category = ORBIT, SATELLITE
+		requiresMission = Duna Orbital - Command Module
+		repeatable = true
+		packageOrder = 8
+			
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Duna.
+			body = Duna
+			maxEccentricity = 0.02
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached electrical storage module is secure and ready for deployment.
+			optional = true
+			reward = 100000
+			
+			PartGoal
+			{
+				partName = batteryBankLarge
+				partCount = 4
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached electrical generation module is secure and ready for deployment.
+			optional = true
+			reward = 150000
+			
+			PartGoal
+			{
+				partName = largeSolarPanel
+				partCount = 4
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached monopropellant storage module is secure and ready for deployment.
+			optional = true
+			reward = 150000
+			
+			PartGoal
+			{
+				partName = RCSTank1-2
+				partCount = 4
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached liquid fuel storage module is secure and ready for deployment.
+			optional = true
+			reward = 150000
+			
+			PartGoal
+			{
+				partName = fuelTank3-2
+				partCount = 1
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+		}
+		
+		UnDockingGoal
+		{
+			description = Deploy the core module(s).
+		}
+		
+		EVAGoal
+		{
+			description = Complete an EVA and confirm successful deployment and/or connection to the station.
+		}
+	}
+	
+	Mission
+	{
+		name = Duna Orbital - Auxiliary Module
+		description = Continue expanding upon the existing orbital station by launching one (or more) of many non-essential, auxiliary modules.\n\nImportant: Check the mission goal requirements to confirm your design has the requisite parts before launching.
+		reward = 50000
+		category = ORBIT, SATELLITE
+		requiresMission = Duna Orbital Station - Command Module
+		repeatable = true
+		packageOrder = 9
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Duna.
+			body = Duna
+			maxEccentricity = 0.02
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached habitation module is secure and ready for deployment.
+			optional = true
+			reward = 150000
+			
+			PartGoal
+			{
+				partName = crewCabin
+				partCount = 2
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached science module is secure and ready for deployment.
+			optional = true
+			reward = 125000
+			
+			PartGoal
+			{
+				partName = science_module
+				partCount = 2
+			}
+			
+			PartGoal
+			{
+				partName = GooExperiment
+				partCount = 4
+			}
+			
+			PartGoal
+			{
+				partName = sensorGravimeter
+				partCount = 1
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached communcation array module is secure and ready for deployment.
+			optional = true
+			reward = 100000
+			
+			PartGoal
+			{
+				partName = longAntenna
+				partCount = 4
+			}
+			
+			PartGoal
+			{
+				partName = commDish
+				partCount = 2
+			}
+			
+			PartGoal
+			{
+				partName = mediumDishAntenna
+				partCount = 1
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached docking extention module is secure and ready for deployment.
+			optional = true
+			reward = 75000
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 6
+			}
+		}
+		
+		UnDockingGoal
+		{
+			description = Deploy the auxiliary module(s).
+		}
+		
+		EVAGoal
+		{
+			description = Complete an EVA and confirm successful deployment and/or connection to the station.
+		}
+	}
+	
+	Mission
+	{
+		name = Jool Orbital - Command Module
+		description = Begin long-term, orbital operations around Jool by deploying a station command module. This will serve as a base of operations and future expansion efforts.\n\nImportant: Check the mission goal requirements to confirm your design has the requisite parts before launching.
+		reward = 200000
+		category = ORBIT, SATELLITE
+		packageOrder = 10
+			
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Jool.
+			body = Jool
+			maxEccentricity = 0.02
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached station command module is secure and ready for deployment.
+			
+			PartGoal
+			{
+				partName = cupola
+				partCount = 1
+			}
+			
+			PartGoal
+			{
+				partName = fuelTank1-2
+				partCount = 1
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+			
+			PartGoal
+			{
+				partName = crewCabin
+				partCount = 1
+			}
+			
+			PartGoal
+			{
+				partName = solarPanels2
+				partCount = 2
+			}
+		}
+		
+		UnDockingGoal
+		{
+			description = Deploy the command module.
+		}
+	}
+	
+	Mission
+	{
+		name = Jool Orbital - Core Module
+		description = Expand upon the existing orbital station by launching one (or more) of many core modules.\n\nImportant: Check the mission goal requirements to confirm your design has the requisite parts before launching.
+		reward = 50000
+		category = ORBIT, SATELLITE
+		requiresMission = Jool Orbital - Command Module
+		repeatable = true
+		packageOrder = 11
+			
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Jool.
+			body = Jool
+			maxEccentricity = 0.02
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached electrical storage module is secure and ready for deployment.
+			optional = true
+			reward = 100000
+			
+			PartGoal
+			{
+				partName = batteryBankLarge
+				partCount = 4
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached electrical generation module is secure and ready for deployment.
+			optional = true
+			reward = 150000
+			
+			PartGoal
+			{
+				partName = largeSolarPanel
+				partCount = 4
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached monopropellant storage module is secure and ready for deployment.
+			optional = true
+			reward = 150000
+			
+			PartGoal
+			{
+				partName = RCSTank1-2
+				partCount = 4
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached liquid fuel storage module is secure and ready for deployment.
+			optional = true
+			reward = 150000
+			
+			PartGoal
+			{
+				partName = fuelTank3-2
+				partCount = 1
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+		}
+		
+		UnDockingGoal
+		{
+			description = Deploy the core module(s).
+		}
+		
+		EVAGoal
+		{
+			description = Complete an EVA and confirm successful deployment and/or connection to the station.
+		}
+	}
+	
+	Mission
+	{
+		name = Jool Orbital - Auxiliary Module
+		description = Continue expanding upon the existing orbital station by launching one (or more) of many non-essential, auxiliary modules.\n\nImportant: Check the mission goal requirements to confirm your design has the requisite parts before launching.
+		reward = 50000
+		category = ORBIT, SATELLITE
+		requiresMission = Jool Orbital Station - Command Module
+		repeatable = true
+		packageOrder = 12
+			
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Jool.
+			body = Jool
+			maxEccentricity = 0.02
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached habitation module is secure and ready for deployment.
+			optional = true
+			reward = 150000
+			
+			PartGoal
+			{
+				partName = crewCabin
+				partCount = 2
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached science module is secure and ready for deployment.
+			optional = true
+			reward = 125000
+			
+			PartGoal
+			{
+				partName = science_module
+				partCount = 2
+			}
+			
+			PartGoal
+			{
+				partName = GooExperiment
+				partCount = 4
+			}
+			
+			PartGoal
+			{
+				partName = sensorGravimeter
+				partCount = 1
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached communcation array module is secure and ready for deployment.
+			optional = true
+			reward = 100000
+			
+			PartGoal
+			{
+				partName = longAntenna
+				partCount = 4
+			}
+			
+			PartGoal
+			{
+				partName = commDish
+				partCount = 2
+			}
+			
+			PartGoal
+			{
+				partName = mediumDishAntenna
+				partCount = 1
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached docking extention module is secure and ready for deployment.
+			optional = true
+			reward = 75000
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 6
+			}
+		}
+		
+		UnDockingGoal
+		{
+			description = Deploy the auxiliary module(s).
+		}
+		
+		EVAGoal
+		{
+			description = Complete an EVA and confirm successful deployment and/or connection to the station.
+		}
+	}
+	
+	Mission
+	{
+		name = Eve Orbital - Command Module
+		description = Begin long-term, orbital operations around Eve by deploying a station command module. This will serve as a base of operations and future expansion efforts.\n\nImportant: Check the mission goal requirements to confirm your design has the requisite parts before launching.
+		reward = 200000
+		category = ORBIT, SATELLITE
+		packageOrder = 13
+				
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Eve.
+			body = Eve
+			maxEccentricity = 0.02
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached station command module is secure and ready for deployment.
+			
+			PartGoal
+			{
+				partName = cupola
+				partCount = 1
+			}
+			
+			PartGoal
+			{
+				partName = fuelTank1-2
+				partCount = 1
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+			
+			PartGoal
+			{
+				partName = crewCabin
+				partCount = 1
+			}
+			
+			PartGoal
+			{
+				partName = solarPanels2
+				partCount = 2
+			}
+		}
+		
+		UnDockingGoal
+		{
+			description = Deploy the command module.
+		}
+	}
+	
+	Mission
+	{
+		name = Eve Orbital - Core Module
+		description = Expand upon the existing orbital station by launching one (or more) of many core modules.\n\nImportant: Check the mission goal requirements to confirm your design has the requisite parts before launching.
+		reward = 50000
+		category = ORBIT, SATELLITE
+		requiresMission = Eve Orbital - Command Module
+		repeatable = true
+		packageOrder = 14
+				
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Eve.
+			body = Eve
+			maxEccentricity = 0.02
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached electrical storage module is secure and ready for deployment.
+			optional = true
+			reward = 100000
+			
+			PartGoal
+			{
+				partName = batteryBankLarge
+				partCount = 4
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached electrical generation module is secure and ready for deployment.
+			optional = true
+			reward = 150000
+			
+			PartGoal
+			{
+				partName = largeSolarPanel
+				partCount = 4
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached monopropellant storage module is secure and ready for deployment.
+			optional = true
+			reward = 150000
+			
+			PartGoal
+			{
+				partName = RCSTank1-2
+				partCount = 4
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached liquid fuel storage module is secure and ready for deployment.
+			optional = true
+			reward = 150000
+			
+			PartGoal
+			{
+				partName = fuelTank3-2
+				partCount = 1
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+		}
+		
+		UnDockingGoal
+		{
+			description = Deploy the core module(s).
+		}
+		
+		EVAGoal
+		{
+			description = Complete an EVA and confirm successful deployment and/or connection to the station.
+		}
+	}
+	
+	Mission
+	{
+		name = Eve Orbital - Auxiliary Module
+		description = Continue expanding upon the existing orbital station by launching one (or more) of many non-essential, auxiliary modules.\n\nImportant: Check the mission goal requirements to confirm your design has the requisite parts before launching.
+		reward = 50000
+		category = ORBIT, SATELLITE
+		requiresMission = Eve Orbital Station - Command Module
+		repeatable = true
+		packageOrder = 15
+				
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Eve.
+			body = Eve
+			maxEccentricity = 0.02
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached habitation module is secure and ready for deployment.
+			optional = true
+			reward = 150000
+			
+			PartGoal
+			{
+				partName = crewCabin
+				partCount = 2
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached science module is secure and ready for deployment.
+			optional = true
+			reward = 125000
+			
+			PartGoal
+			{
+				partName = science_module
+				partCount = 2
+			}
+			
+			PartGoal
+			{
+				partName = GooExperiment
+				partCount = 4
+			}
+			
+			PartGoal
+			{
+				partName = sensorGravimeter
+				partCount = 1
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached communcation array module is secure and ready for deployment.
+			optional = true
+			reward = 100000
+			
+			PartGoal
+			{
+				partName = longAntenna
+				partCount = 4
+			}
+			
+			PartGoal
+			{
+				partName = commDish
+				partCount = 2
+			}
+			
+			PartGoal
+			{
+				partName = mediumDishAntenna
+				partCount = 1
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached docking extention module is secure and ready for deployment.
+			optional = true
+			reward = 75000
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 6
+			}
+		}
+		
+		UnDockingGoal
+		{
+			description = Deploy the auxiliary module(s).
+		}
+		
+		EVAGoal
+		{
+			description = Complete an EVA and confirm successful deployment and/or connection to the station.
+		}
+	}
+	
+	Mission
+	{
+		name = Dres Orbital - Command Module
+		description = Begin long-term, orbital operations around Dres by deploying a station command module. This will serve as a base of operations and future expansion efforts.\n\nImportant: Check the mission goal requirements to confirm your design has the requisite parts before launching.
+		reward = 200000
+		category = ORBIT, SATELLITE
+		packageOrder = 16
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Dres.
+			body = Dres
+			maxEccentricity = 0.02
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached station command module is secure and ready for deployment.
+			
+			PartGoal
+			{
+				partName = cupola
+				partCount = 1
+			}
+			
+			PartGoal
+			{
+				partName = fuelTank1-2
+				partCount = 1
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+			
+			PartGoal
+			{
+				partName = crewCabin
+				partCount = 1
+			}
+			
+			PartGoal
+			{
+				partName = solarPanels2
+				partCount = 2
+			}
+		}
+		
+		UnDockingGoal
+		{
+			description = Deploy the command module.
+		}
+	}
+	
+	Mission
+	{
+		name = Dres Orbital - Core Module
+		description = Expand upon the existing orbital station by launching one (or more) of many core modules.\n\nImportant: Check the mission goal requirements to confirm your design has the requisite parts before launching.
+		reward = 50000
+		category = ORBIT, SATELLITE
+		requiresMission = Dres Orbital - Command Module
+		repeatable = true
+		packageOrder = 17
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Dres.
+			body = Dres
+			maxEccentricity = 0.02
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached electrical storage module is secure and ready for deployment.
+			optional = true
+			reward = 100000
+			
+			PartGoal
+			{
+				partName = batteryBankLarge
+				partCount = 4
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached electrical generation module is secure and ready for deployment.
+			optional = true
+			reward = 150000
+			
+			PartGoal
+			{
+				partName = largeSolarPanel
+				partCount = 4
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached monopropellant storage module is secure and ready for deployment.
+			optional = true
+			reward = 150000
+			
+			PartGoal
+			{
+				partName = RCSTank1-2
+				partCount = 4
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached liquid fuel storage module is secure and ready for deployment.
+			optional = true
+			reward = 150000
+			
+			PartGoal
+			{
+				partName = fuelTank3-2
+				partCount = 1
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+		}
+		
+		UnDockingGoal
+		{
+			description = Deploy the core module(s).
+		}
+		
+		EVAGoal
+		{
+			description = Complete an EVA and confirm successful deployment and/or connection to the station.
+		}
+	}
+	
+	Mission
+	{
+		name = Dres Orbital - Auxiliary Module
+		description = Continue expanding upon the existing orbital station by launching one (or more) of many non-essential, auxiliary modules.\n\nImportant: Check the mission goal requirements to confirm your design has the requisite parts before launching.
+		reward = 50000
+		category = ORBIT, SATELLITE
+		requiresMission = Dres Orbital Station - Command Module
+		repeatable = true
+		packageOrder = 18
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Dres.
+			body = Dres
+			maxEccentricity = 0.02
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached habitation module is secure and ready for deployment.
+			optional = true
+			reward = 150000
+			
+			PartGoal
+			{
+				partName = crewCabin
+				partCount = 2
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached science module is secure and ready for deployment.
+			optional = true
+			reward = 125000
+			
+			PartGoal
+			{
+				partName = science_module
+				partCount = 2
+			}
+			
+			PartGoal
+			{
+				partName = GooExperiment
+				partCount = 4
+			}
+			
+			PartGoal
+			{
+				partName = sensorGravimeter
+				partCount = 1
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached communcation array module is secure and ready for deployment.
+			optional = true
+			reward = 100000
+			
+			PartGoal
+			{
+				partName = longAntenna
+				partCount = 4
+			}
+			
+			PartGoal
+			{
+				partName = commDish
+				partCount = 2
+			}
+			
+			PartGoal
+			{
+				partName = mediumDishAntenna
+				partCount = 1
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached docking extention module is secure and ready for deployment.
+			optional = true
+			reward = 75000
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 6
+			}
+		}
+		
+		UnDockingGoal
+		{
+			description = Deploy the auxiliary module(s).
+		}
+		
+		EVAGoal
+		{
+			description = Complete an EVA and confirm successful deployment and/or connection to the station.
+		}
+	}
+	
+	Mission
+	{
+		name = Moho Orbital - Command Module
+		description = Begin long-term, orbital operations around Moho by deploying a station command module. This will serve as a base of operations and future expansion efforts.\n\nImportant: Check the mission goal requirements to confirm your design has the requisite parts before launching.
+		reward = 200000
+		category = ORBIT, SATELLITE
+		packageOrder = 19
+	
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Moho.
+			body = Moho
+			maxEccentricity = 0.02
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached station command module is secure and ready for deployment.
+			
+			PartGoal
+			{
+				partName = cupola
+				partCount = 1
+			}
+			
+			PartGoal
+			{
+				partName = fuelTank1-2
+				partCount = 1
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+			
+			PartGoal
+			{
+				partName = crewCabin
+				partCount = 1
+			}
+			
+			PartGoal
+			{
+				partName = solarPanels2
+				partCount = 2
+			}
+		}
+		
+		UnDockingGoal
+		{
+			description = Deploy the command module.
+		}
+	}
+	
+	Mission
+	{
+		name = Moho Orbital - Core Module
+		description = Expand upon the existing orbital station by launching one (or more) of many core modules.\n\nImportant: Check the mission goal requirements to confirm your design has the requisite parts before launching.
+		reward = 50000
+		category = ORBIT, SATELLITE
+		requiresMission = Moho Orbital - Command Module
+		repeatable = true
+		packageOrder = 20
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Moho.
+			body = Moho
+			maxEccentricity = 0.02
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached electrical storage module is secure and ready for deployment.
+			optional = true
+			reward = 100000
+			
+			PartGoal
+			{
+				partName = batteryBankLarge
+				partCount = 4
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached electrical generation module is secure and ready for deployment.
+			optional = true
+			reward = 150000
+			
+			PartGoal
+			{
+				partName = largeSolarPanel
+				partCount = 4
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached monopropellant storage module is secure and ready for deployment.
+			optional = true
+			reward = 150000
+			
+			PartGoal
+			{
+				partName = RCSTank1-2
+				partCount = 4
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached liquid fuel storage module is secure and ready for deployment.
+			optional = true
+			reward = 150000
+			
+			PartGoal
+			{
+				partName = fuelTank3-2
+				partCount = 1
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+		}
+		
+		UnDockingGoal
+		{
+			description = Deploy the core module(s).
+		}
+		
+		EVAGoal
+		{
+			description = Complete an EVA and confirm successful deployment and/or connection to the station.
+		}
+	}
+	
+	Mission
+	{
+		name = Moho Orbital - Auxiliary Module
+		description = Continue expanding upon the existing orbital station by launching one (or more) of many non-essential, auxiliary modules.\n\nImportant: Check the mission goal requirements to confirm your design has the requisite parts before launching.
+		reward = 50000
+		category = ORBIT, SATELLITE
+		requiresMission = Moho Orbital Station - Command Module
+		repeatable = true
+		packageOrder = 21
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Moho.
+			body = Moho
+			maxEccentricity = 0.02
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached habitation module is secure and ready for deployment.
+			optional = true
+			reward = 150000
+			
+			PartGoal
+			{
+				partName = crewCabin
+				partCount = 2
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached science module is secure and ready for deployment.
+			optional = true
+			reward = 125000
+			
+			PartGoal
+			{
+				partName = science_module
+				partCount = 2
+			}
+			
+			PartGoal
+			{
+				partName = GooExperiment
+				partCount = 4
+			}
+			
+			PartGoal
+			{
+				partName = sensorGravimeter
+				partCount = 1
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached communcation array module is secure and ready for deployment.
+			optional = true
+			reward = 100000
+			
+			PartGoal
+			{
+				partName = longAntenna
+				partCount = 4
+			}
+			
+			PartGoal
+			{
+				partName = commDish
+				partCount = 2
+			}
+			
+			PartGoal
+			{
+				partName = mediumDishAntenna
+				partCount = 1
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached docking extention module is secure and ready for deployment.
+			optional = true
+			reward = 75000
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 6
+			}
+		}
+		
+		UnDockingGoal
+		{
+			description = Deploy the auxiliary module(s).
+		}
+		
+		EVAGoal
+		{
+			description = Complete an EVA and confirm successful deployment and/or connection to the station.
+		}
+	}
+	
+	Mission
+	{
+		name = Eeloo Orbital - Command Module
+		description = Begin long-term, orbital operations around Eeloo by deploying a station command module. This will serve as a base of operations and future expansion efforts.\n\nImportant: Check the mission goal requirements to confirm your design has the requisite parts before launching.
+		reward = 200000
+		category = ORBIT, SATELLITE
+		packageOrder = 22
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Eeloo.
+			body = Eeloo
+			maxEccentricity = 0.02
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached station command module is secure and ready for deployment.
+			
+			PartGoal
+			{
+				partName = cupola
+				partCount = 1
+			}
+			
+			PartGoal
+			{
+				partName = fuelTank1-2
+				partCount = 1
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+			
+			PartGoal
+			{
+				partName = crewCabin
+				partCount = 1
+			}
+			
+			PartGoal
+			{
+				partName = solarPanels2
+				partCount = 2
+			}
+		}
+		
+		UnDockingGoal
+		{
+			description = Deploy the command module.
+		}
+	}
+	
+	Mission
+	{
+		name = Eeloo Orbital - Core Module
+		description = Expand upon the existing orbital station by launching one (or more) of many core modules.\n\nImportant: Check the mission goal requirements to confirm your design has the requisite parts before launching.
+		reward = 50000
+		category = ORBIT, SATELLITE
+		requiresMission = Eeloo Orbital - Command Module
+		repeatable = true
+		packageOrder = 23
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Eeloo.
+			body = Eeloo
+			maxEccentricity = 0.02
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached electrical storage module is secure and ready for deployment.
+			optional = true
+			reward = 100000
+			
+			PartGoal
+			{
+				partName = batteryBankLarge
+				partCount = 4
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached electrical generation module is secure and ready for deployment.
+			optional = true
+			reward = 150000
+			
+			PartGoal
+			{
+				partName = largeSolarPanel
+				partCount = 4
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached monopropellant storage module is secure and ready for deployment.
+			optional = true
+			reward = 150000
+			
+			PartGoal
+			{
+				partName = RCSTank1-2
+				partCount = 4
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached liquid fuel storage module is secure and ready for deployment.
+			optional = true
+			reward = 150000
+			
+			PartGoal
+			{
+				partName = fuelTank3-2
+				partCount = 1
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+		}
+		
+		UnDockingGoal
+		{
+			description = Deploy the core module(s).
+		}
+		
+		EVAGoal
+		{
+			description = Complete an EVA and confirm successful deployment and/or connection to the station.
+		}
+	}
+	
+	Mission
+	{
+		name = Eeloo Orbital - Auxiliary Module
+		description = Continue expanding upon the existing orbital station by launching one (or more) of many non-essential, auxiliary modules.\n\nImportant: Check the mission goal requirements to confirm your design has the requisite parts before launching.
+		reward = 50000
+		category = ORBIT, SATELLITE
+		requiresMission = Eeloo Orbital Station - Command Module
+		repeatable = true
+		packageOrder = 24
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Eeloo.
+			body = Eeloo
+			maxEccentricity = 0.02
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached habitation module is secure and ready for deployment.
+			optional = true
+			reward = 150000
+			
+			PartGoal
+			{
+				partName = crewCabin
+				partCount = 2
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached science module is secure and ready for deployment.
+			optional = true
+			reward = 125000
+			
+			PartGoal
+			{
+				partName = science_module
+				partCount = 2
+			}
+			
+			PartGoal
+			{
+				partName = GooExperiment
+				partCount = 4
+			}
+			
+			PartGoal
+			{
+				partName = sensorGravimeter
+				partCount = 1
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached communcation array module is secure and ready for deployment.
+			optional = true
+			reward = 100000
+			
+			PartGoal
+			{
+				partName = longAntenna
+				partCount = 4
+			}
+			
+			PartGoal
+			{
+				partName = commDish
+				partCount = 2
+			}
+			
+			PartGoal
+			{
+				partName = mediumDishAntenna
+				partCount = 1
+			}
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 1
+			}
+		}
+		
+		SubMissionGoal
+		{
+			description = Confirm attached docking extention module is secure and ready for deployment.
+			optional = true
+			reward = 75000
+			
+			PartGoal
+			{
+				partName = dockingPort2
+				partCount = 6
+			}
+		}
+		
+		UnDockingGoal
+		{
+			description = Deploy the auxiliary module(s).
+		}
+		
+		EVAGoal
+		{
+			description = Complete an EVA and confirm successful deployment and/or connection to the station.
+		}
+	}
+}

@@ -36,7 +36,7 @@ namespace MissionController
                 }
                 GUILayout.BeginHorizontal();
                 if (m.contractAvailable == manager.GetCurrentContract && s.missionAlreadyFinished == false && s.requiresAnotherMission == false)
-                {
+                {                  
                     if (GUILayout.Button(m.name, style, GUILayout.Width(325), GUILayout.Height(45)))
                     {
                         currentPreviewMission2 = manager.reloadMission(m, activeVessel);

@@ -53,6 +53,7 @@ namespace MissionController
 
         public bool orbitResearch = false;
         public double probeSeconds = 0.0;
+        public int contractAvailable = 0;
 
 
         public String body = "Kerbin";
@@ -76,10 +77,27 @@ namespace MissionController
             }
             
             if (body != null) {
-                if (vessel == null) {
-                    values.Add (new Value ("Body", "" + body));
-                } else {
-                    values.Add (new Value ("Body", "" + body, vessel.orbit.referenceBody.bodyName, vessel.orbit.referenceBody.bodyName.Equals (body)));
+                if (vessel == null) 
+                {
+                    if (contractAvailable == 14)
+                    {
+                        values.Add(new Value("Body", "" + manager.GetRandomOrbit));
+                    }                   
+                    else 
+                    {
+                        values.Add(new Value("Body", "" + body));
+                    }
+                } 
+                else 
+                {
+                    if (contractAvailable == 14)
+                    {
+                        values.Add(new Value("Body", "" + manager.GetRandomOrbit, vessel.orbit.referenceBody.bodyName, vessel.orbit.referenceBody.bodyName.Equals(body)));
+                    }                   
+                    else
+                    {
+                        values.Add(new Value("Body", "" + body, vessel.orbit.referenceBody.bodyName, vessel.orbit.referenceBody.bodyName.Equals(body)));
+                    }
                 }
             }
             

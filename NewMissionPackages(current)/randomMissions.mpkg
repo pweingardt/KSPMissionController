@@ -74,7 +74,7 @@ Mission
 		OrbitGoal
 		{
         body = Kerbin
-        minPeA = RANDOM(50000,75000)
+        minPeA = RANDOM(70000,85000)
 		maxApA = ADD(minPeA, 10000)
 		crewCount = 1
 		}
@@ -93,7 +93,7 @@ Mission
 Mission
 {
     name = 3 - Early Missions Fuel Trials
-    description = We need to learn ways to bring larger amounts of Fuels into Low Kerbin Orbit, you are tasked in this mission to Bring a Certain amount fuel into orbit safely. 
+    description = We need to learn ways to bring larger amounts of Fuels into Low Kerbin Orbit, you are tasked in this mission to \nBring a Certain amount fuel into orbit safely. 
 	category = MANNED, ORBIT
     reward = 70000
 	randomized = true
@@ -166,7 +166,7 @@ Mission
 	Mission
 {
     name = 5 - Early Missions explore Kerbin Polar Regions 
-    description = Our Early Years are all about the learning of Rockets.  Send a probe to explore the polar regions of the home planet kerbin. 
+    description = Our Early Years are all about the learning of Rockets.  Send a probe to explore the polar regions of \nthe home planet kerbin. 
 	category = PROBE
     reward = 50000
 	scienceReward = 25
@@ -202,13 +202,14 @@ Mission
 	LandingGoal
         {
             body = Kerbin
+			biome =IceCaps
         }
 }
 
 	Mission
 {
     name = 6 - Early Missions explore Kerbin Crater 
-    description = Our Early Years are all about the learning of Rockets.  Send a probe to explore the strange crator like land formation located on Kerbin. 
+    description = Our Early Years are all about the learning of Rockets.  Send a probe to explore the strange crator like \nland formation located on Kerbin. 
 	category = PROBE
     reward = 65000
 	scienceReward = 25
@@ -250,7 +251,7 @@ Mission
 	Mission
 {
     name = 7 - Early Missions Landing Trails
-    description = On the ToDo list is the ability to land a lander on solid ground in one piece.  Use this mission to practice that ability on Kerbin. 
+    description = On the ToDo list is the ability to land a lander on solid ground in one piece.  Use this mission to practice \nthat ability on Kerbin. 
 	category = MANNED, LANDING
     reward = 85000
 	randomized = true
@@ -399,7 +400,7 @@ Mission
 Mission
 {
     name = 12 - Early Missions Crashing Into The Mun
-    description = We would like to study the effect of a probe crashing into the Mun.  We think it will be very interesting to see the kind of explosion we can produce.  Science rewards could be huge.
+    description = We would like to study the effect of a probe crashing into the Mun.  We think it will be very interesting to \nsee the kind of explosion we can produce.  Science rewards could be huge.
 	category = PROBE, IMPACT
     reward = 100000
 	scienceReward = 50
@@ -430,7 +431,7 @@ Mission
 Mission
 {
     name = 13 - Early Missions Crashing Into The Minmus
-    description = We would like to study the effect of a probe crashing into the Mun.  We think it will be very interesting to see the kind of explosion we can produce.  Science rewards could be huge.
+    description = We would like to study the effect of a probe crashing into the Mun.  We think it will be very interesting to see the \nkind of explosion we can produce.  Science rewards could be huge.
 	category = PROBE, IMPACT
     reward = 110000
 	scienceReward = 55
@@ -461,7 +462,7 @@ Mission
 Mission
 {
     name = 14 - Mid Years Large Manned Orbits
-    description = Its time we started delivering more Kerbals at once to space.  Use this mission to bring Larger 3 man Pods to space and back.
+    description = Its time we started delivering more Kerbals at once to space.  Use this mission to bring Larger 3 man Pods to \nspace and back.
 	category = MANNED
     reward = 250000
 	randomized = true
@@ -533,12 +534,12 @@ Mission
 Mission
 {
     name = 16 - Mid Years Station Construction Basic Modules
-    description = Our Middle years of the space program have started.  With the core in orbit, now its time to add your choice of Basic modules.
+    description = Our Middle years of the space program have started.  With the core in orbit, now its time to add your choice of \nBasic modules.
 	category = ORBIT, DOCKING
     reward = 250000
 	repeatable = true
 	packageOrder = 16
-	requiresMission = 11 - Mid Years Station Construction
+	requiresMission = 15 - Mid Years Station Construction
 
 	SubMissionGoal		
 	{
@@ -565,11 +566,11 @@ Mission
     reward = 300000
 	repeatable = true
 	packageOrder = 17
-	requiresMission = 11 - Mid Years Station Construction
+	requiresMission = 15 - Mid Years Station Construction
 
 	SubMissionGoal		
 	{
-		description = Use this repeatable mission to launch station Fuel modules to your station core, this mission requires fuel to be present at docking.
+		description = Use this repeatable mission to launch station Fuel modules to your station core, this mission requires fuel to\n be present at docking.
 		OrbitGoal
 			{
 			body = Kerbin
@@ -630,13 +631,13 @@ Mission
 Mission
 {
     name = 19 - Mid Years Large Manned Mission Mun
-    description = Our Early Years are all about the learning of Rockets.  We have sent a Kerbal to Mun and other places. Now its time to send a large crew to the Mun
+    description = Our Early Years are all about the learning of Rockets.  We have sent a Kerbal to Mun and other places. Now its time to \nsend a large crew to the Mun
 	category = MANNED, LANDING
     reward = 450000
 	scienceReward = 20
 	repeatable = true
 	packageOrder = 19
-	requiresMission = 7 - Early Manned Missions Landing Mun
+	requiresMission = 9 - Early Manned Missions Landing Mun
 
 	LandingGoal
         {
@@ -654,13 +655,13 @@ Mission
 	Mission
 {
     name = 20 - Mid Years Large Manned Mission Minmus
-    description = Our Early Years are all about the learning of Rockets.  We have sent a Kerbal to minmus and other places. Now its time to send a large crew to the Minmus
+    description = Our Early Years are all about the learning of Rockets.  We have sent a Kerbal to minmus and other places. Now its time to send \na large crew to the Minmus
 	category = MANNED, LANDING
     reward = 400000
 	scienceReward = 20
 	repeatable = true
 	packageOrder = 20
-	requiresMission = 9 - Early Manned Missions Landing Minmus
+	requiresMission = 11 - Early Manned Missions Landing Minmus
 
 	LandingGoal
         {
@@ -789,7 +790,7 @@ Mission
 Mission
 {
     name = 25 - Mid Years Manned EVA Mission (Mun)
-    description = Launch A manned Vessel Into Kerbin Orbit and Perform a EVA, Then Return To Kerbin Safely. 
+    description = Launch A manned Vessel Into Mun Orbit and Perform a EVA, Then Return To Kerbin Safely. 
 	category = MANNED, EVA
     reward = 140000
 	randomized = true
@@ -852,6 +853,8 @@ Mission
 			maxEccentricity = RANDOM(0.01, 0.07)
 			minInclination = RANDOM(0,15)
 			maxInclination = ADD(minInclination, 5)
+			orbitResearch = true
+			probeSeconds = TIME(1d)
 			}
 			
 		PartGoal
@@ -888,6 +891,8 @@ Mission
 			maxEccentricity = RANDOM(0.01, 0.07)
 			minInclination = RANDOM(0,15)
 			maxInclination = ADD(minInclination, 5)
+			orbitResearch = true
+			probeSeconds = TIME(1d)
 			}
 		PartGoal
             {
@@ -923,6 +928,8 @@ Mission
 			maxEccentricity = RANDOM(0.01, 0.07)
 			minInclination = RANDOM(0,15)
 			maxInclination = ADD(minInclination, 5)
+			orbitResearch = true
+			probeSeconds = TIME(7d)
 			}
 			
 		PartGoal
@@ -960,6 +967,8 @@ Mission
 			maxEccentricity = RANDOM(0.01, 0.07)
 			minInclination = RANDOM(0,15)
 			maxInclination = ADD(minInclination, 5)
+			orbitResearch = true
+			probeSeconds = TIME(12d)
 			}
 			
 		PartGoal
@@ -997,6 +1006,8 @@ Mission
 			maxEccentricity = RANDOM(0.01, 0.07)
 			minInclination = RANDOM(0,15)
 			maxInclination = ADD(minInclination, 5)
+			orbitResearch = true
+			probeSeconds = TIME(7d)
 			}
 			
 		PartGoal
@@ -1034,6 +1045,8 @@ Mission
 			maxEccentricity = RANDOM(0.01, 0.07)
 			minInclination = RANDOM(0,15)
 			maxInclination = ADD(minInclination, 5)
+			orbitResearch = true
+			probeSeconds = TIME(10d)
 			}
 			
 		PartGoal
@@ -1054,7 +1067,7 @@ Mission
 Mission
 {
     name = 32 - Random Jool Exploration Expedition
-    description = This planet has so many moons that many expeditions might be needed to explore them.  The contract calls for an Orbit of Jool.. After that its up to you to decide where to go.  
+    description = This planet has so many moons that many expeditions might be needed to explore them.  The contract calls \nfor an Orbit of Jool.. After that its up to you to decide where to go.  
 	category = ORBIT, PROBE
     reward = 600000
 	randomized = true
@@ -1069,6 +1082,8 @@ Mission
 			body = Jool
 			minApA = RANDOM(175000,300000)
 			maxEccentricity = RANDOM(0.01, 0.07)
+			//orbitResearch = true
+			//probeSeconds = TIME(2h)
 			}
 			
 		PartGoal
@@ -1127,12 +1142,12 @@ Mission
     reward = 60000
 	category = REPAIR
 	repeatable = true
-	requiresMission = 27 - Launch Satellite Into High Orbit
+	requiresMission = 33 - Launch Satellite Into High Orbit
 	packageOrder = 34
 
 	
 	SubMissionGoal
-	description = To Finish this Mission The Satellite has to have the Mission Controller Repair part on it.  You have to go EVA and then right Click the Part and select REPAIR PART in the context Menu.  Wait For Timer To run Down.. And Finish Mission.
+	description = To Finish this Mission The Satellite has to have the Mission Controller Repair part on it.  You have to go EVA and then \nright Click the Part and select REPAIR PART in the context Menu.  Wait For Timer To run Down.. And Finish Mission.
 	{
 		OrbitGoal
         {
@@ -1159,7 +1174,7 @@ Mission
 	scienceReward = 10
 	repeatable = true
 	packageOrder = 35
-	requiresMission = 15 - Mid Years Large Manned Mission Mun
+	requiresMission = 19 - Mid Years Large Manned Mission Mun
 
 	LandingGoal
         {
@@ -1176,13 +1191,13 @@ Mission
 Mission
 {
     name = 36 - Late years. Manned mission to Moho
-    description = In the later years of our Space Program we decided to venture out of Kerbins SOI.  Moho is very close to our home star.  Lets get some boots on the ground!
+    description = In the later years of our Space Program we decided to venture out of Kerbins SOI.  Moho is very close to our home star.  \nLets get some boots on the ground!
 	category = MANNED, LANDING
     reward = 850000
 	scienceReward = 15
 	repeatable = true
 	packageOrder = 36
-	requiresMission = 15 - Mid Years Large Manned Mission Mun
+	requiresMission = 19 - Mid Years Large Manned Mission Mun
 
 	LandingGoal
         {
@@ -1199,13 +1214,13 @@ Mission
 Mission
 {
     name = 37 - Late years. Manned mission to Dres
-    description = In the later years of our Space Program we decided to venture out of Kerbins SOI.  Dres will be a difficult target to land on. But we need to try!
+    description = In the later years of our Space Program we decided to venture out of Kerbins SOI.  Dres will be a difficult target to \nland on. But we need to try!
 	category = MANNED, LANDING
     reward = 1400000
 	scienceReward = 20
 	repeatable = true
 	packageOrder = 37
-	requiresMission = 15 - Mid Years Large Manned Mission Mun
+	requiresMission = 19 - Mid Years Large Manned Mission Mun
 
 	LandingGoal
         {
@@ -1222,13 +1237,13 @@ Mission
 Mission
 {
     name = 38 - Late years. Manned mission to Laythe
-    description = In the later years of our Space Program we decided to venture out of Kerbins SOI.  The moon Laythe seems to be an interesting place to try a landing.
+    description = In the later years of our Space Program we decided to venture out of Kerbins SOI.  The moon Laythe seems to be an interesting \nplace to try a landing.
 	category = MANNED, LANDING
     reward = 1000000
 	scienceReward = 25
 	repeatable = true
 	packageOrder = 38
-	requiresMission = 15 - Mid Years Large Manned Mission Mun
+	requiresMission = 19 - Mid Years Large Manned Mission Mun
 
 	LandingGoal
         {
@@ -1245,13 +1260,13 @@ Mission
 Mission
 {
     name = 39 - Late years. Manned mission to Eeloo
-    description = In the later years of our Space Program we decided to venture out of Kerbins SOI.  This small piece of dirt at the end of our solar system looks interesting.  Time to go and see what it is!
+    description = In the later years of our Space Program we decided to venture out of Kerbins SOI.  This small piece of dirt at the end of our \nsolar system looks interesting.  Time to go and see what it is!
 	category = MANNED, LANDING
     reward = 2500000
 	scienceReward = 50
 	repeatable = true
 	packageOrder = 39
-	requiresMission = 15 - Mid Years Large Manned Mission Mun
+	requiresMission = 19 - Mid Years Large Manned Mission Mun
 
 	LandingGoal
         {
@@ -1268,19 +1283,43 @@ Mission
 Mission
 {
 	name = 40 - Late Years, research sun
-	description = In the later years of our Space Program we decided to venture out of Kerbins SOI.  Time to find out what is up with the Sun. Send a Probe to study the effects of sun.  Get into solar orbit.
+	description = In the later years of our Space Program we decided to venture out of Kerbins SOI.  Time to find out what is up with the Sun. Send a \nProbe to study the effects of sun.  Get into solar orbit.
 	category = ORBIT
 	reward = 250000
 	scienceReward = 100
 	repeatable = true
 	packageOrder = 40
-	requiresMission = 15 - Mid Years Large Manned Mission Mun
+	requiresMission = 19 - Mid Years Large Manned Mission Mun
 	
 	OrbitGoal
 	{
 		body = Sun
 		maxApA = 25000000		
 		minPeA = 15000000
+		orbitResearch = true
+		probeSeconds = TIME(20d)
 	}
 }
+Mission
+{
+name = 41 - Test2
+	description = In the later years of our Space Program we decided to venture out of Kerbins SOI.  Time to find out what is up with the Sun. Send a \nProbe to study the effects of sun.  Get into solar orbit.
+	category = ORBIT
+	reward = 0
+	repeatable = true
+	isRoverMission = true
+	packageOrder = 40
+		
+		SubMissionGoal
+        {                      
+            OrbitGoal
+			{
+				body = Kerbin
+				maxApA = 150000		
+				minPeA = 70000
+				orbitResearch = true
+				probeSeconds = TIME(5m)		
+			}
+               
+        }
 }

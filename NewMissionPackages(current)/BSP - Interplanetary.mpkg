@@ -1,0 +1,1721 @@
+MissionPackage
+{
+	name = Bootstraps - Interplanetary Mission Package
+	description = This mission package focuses on programs involving other planetary bodies - not moons - outside of Kerbin's sphere of influence. The target audience is intermediate to experienced players who have completed the Kerbin SOI mission package or have the requisite skills to do so.\n\nImportant: Remember to click "Hide Finished Goal" after completing each mission goal to ensure they stay completed after moving to the next step. Failure to do so may result in overall mission failure!\n\nBSP Added to MCE default download on version .53.  Boot Strap Missions was made by Ihavealamp His original thread can be found Here:\nSlight Modification were made mostly getting rid of the Launchgoals \n\nhttp://forum.kerbalspaceprogram.com/threads/58576-0-22-Bootstraps-176-New-Missions-for-Mission-Controller-Extended-(v0-3-3)
+	ownOrder = true
+	
+	Mission
+	{
+		name = Kars I
+		description = Launch an unmanned probe from the Kerbal Space Center (KSC), achieve a stable orbit, transfer to Duna, and crash into its surface. Observe atmospheric effects while on impact trajectory to determine atmosphere height for aerobraking/aerocapture in future missions.
+		reward = 200000
+		category = PROBE, IMPACT
+		packageOrder = 1		
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Kerbin.
+			body = Kerbin
+			crewCount = 0
+			minPeA = 80000
+			maxPeA = 120000
+			minApA = 80000
+			maxApA = 120000
+		}
+		
+		CrashGoal
+		{
+			description = Transfer to Minmus and crash the vessel onto the surface.
+			body = Duna
+		}
+	}
+	
+	Mission
+	{
+		name = Kars II
+		description = Launch an unmanned probe from the KSC, achieve a stable orbit, transfer to Duna, and perform an aerobraking maneuver into a stable Duna orbit. Optional goal of performing an aerocapture maneuver instead, achieving a low-eccentricity orbit. Don't be a Cheater McCheaterson and use fuel to accomplish the optional goal.
+		reward = 250000
+		category = PROBE, ORBIT
+		requiresMission = Kars I
+		packageOrder = 2
+
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Kerbin.
+			body = Kerbin
+			crewCount = 0
+			minPeA = 80000
+			maxPeA = 120000
+			minApA = 80000
+			maxApA = 120000
+		}
+		
+		OrbitGoal
+		{
+			description = Perform an aerobraking maneuver.
+			body = Duna
+			maxPeA = 41000
+		}
+		
+		OrbitGoal
+		{
+			description = Complete an aerocapture maneuver into a low eccentricity orbit.
+			optional = true
+			reward = 100000
+			body = Duna
+			minPeA = 42000
+			maxPeA = 100000
+			minApA = 42000
+			maxApA = 300000
+		}
+		
+		OrbitGoal
+		{
+			description = Complete an aerobraking maneuver into a stable orbit.
+			body = Duna
+			minPeA = 42000
+			maxPeA = 100000
+			minApA = 42000
+			maxApA = 5000000
+		}
+	}
+	
+	Mission
+	{
+		name = Kars III
+		description = Launch an unmanned probe from the KSC, achieve a stable Kerbin orbit, transfer to Duna, achieve a stable Duna orbit, transfer back to Kerbin, and safely land.
+		reward = 300000
+		category = PROBE, ORBIT
+		requiresMission = Kars II
+		packageOrder = 3
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Kerbin.
+			body = Kerbin
+			crewCount = 0
+			minPeA = 80000
+			maxPeA = 120000
+			minApA = 80000
+			maxApA = 120000
+		}
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Duna.
+			body = Duna
+			minPeA = 50000
+			maxPeA = 100000
+			minApA = 50000
+			maxApA = 100000
+		}
+		
+		LandingGoal
+		{
+			description = Transfer back to Kerbin and land on the surface.
+			body = Kerbin
+		}
+	}
+	
+	Mission
+	{
+		name = Kars IV
+		description = Launch an unmanned probe from the KSC, achieve a stable Kerbin orbit, transfer to Duna and achieve a stable orbit, safely land on Duna, launch and re-establish a stable orbit, transfer back to Kerbin, and safely land. Optional goal of undocking a small science vessel to remain on the surface of Duna.
+		reward = 350000
+		category = PROBE, LANDING
+		requiresMission = Kars III
+		repeatable = true
+		packageOrder = 4
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Kerbin.
+			body = Kerbin
+			crewCount = 0
+			minPeA = 80000
+			maxPeA = 120000
+			minApA = 80000
+			maxApA = 120000
+		}
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Duna.
+			body = Duna
+			minPeA = 50000
+			maxPeA = 100000
+			minApA = 50000
+			maxApA = 100000
+		}
+		
+		LandingGoal
+		{
+			description = Land the vessel on the surface.
+			body = Duna
+		}
+		
+		UnDockingGoal
+		{
+			description = Undock a small science vessel to remain on the surface.
+			optional = true
+			reward = 60000
+		}
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Duna.
+			body = Duna
+			minPeA = 50000
+			maxPeA = 100000
+			minApA = 50000
+			maxApA = 100000
+		}
+		
+		LandingGoal
+		{
+			description = Transfer back to Kerbin and land on the surface.
+			body = Kerbin
+		}
+	}
+	
+	Mission
+	{
+		name = Kars V
+		description = Launch from the KSC with three crew in a CSM/LM design vessel, achieve a stable Kerbin orbit, transfer to Duna and achieve a stable orbit, undock the CSM from the LM, land the CSM on the surface of Duna, complete an EVA to collect material samples, launch from the surface to rendezvous with the LM, dock both vessels together, transfer back to Kerbin, and safely land. Optional goal of undocking a small science vessel to remain on the surface of Duna.
+		reward = 500000
+		category = MANNED, LANDING
+		requiresMission = Kars IV
+		repeatable = true
+		packageOrder = 5
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Kerbin.
+			body = Kerbin
+			crewCount = 3
+			minPeA = 80000
+			maxPeA = 120000
+			minApA = 80000
+			maxApA = 120000
+		}
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Duna.
+			body = Duna
+			minPeA = 50000
+			maxPeA = 100000
+			minApA = 50000
+			maxApA = 100000
+		}
+		
+		UnDockingGoal
+		{
+			description = Undock from the connected vessel.
+		}
+		
+		LandingGoal
+		{
+			description = Land the vessel on the surface.
+			body = Duna
+			crewCount = 2
+		}
+		
+		UnDockingGoal
+		{
+			description = Undock a small science vessel to remain on the surface.
+			optional = true
+			reward = 60000
+		}
+		
+		EVAGoal
+		{
+			description = Complete an EVA to collect material samples.
+		}
+		
+		SubMissionGoal
+		{
+			description = Establish a stable orbit, rendezvous with the LM, and secure a solid docking connection.
+			
+			OrbitGoal
+			{
+				body = Duna
+				minPeA = 50000
+				maxPeA = 100000
+				minApA = 50000
+				maxApA = 100000
+			}
+			
+			DockingGoal
+			{
+			}
+		}
+		
+		LandingGoal
+		{
+			description = Transfer back to Kerbin and land on the surface.
+			body = Kerbin
+			crewCount = 3
+		}
+	}
+	
+	Mission
+	{
+		name = Kars VI
+		description = Launch from the KSC with three crew, achieve a stable Kerbin orbit, transfer to Duna and achieve a stable orbit, land on the surface of Duna, complete an EVA to collect material samples, launch from the surface and re-establish a stable Duna orbit, transfer back to Kerbin, and safely land. Optional goal of undocking a small science vessel to remain on the surface of Duna.
+		reward = 600000
+		category = MANNED, LANDING
+		requiresMission = Kars IV
+		repeatable = true
+		packageOrder = 6
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Kerbin.
+			body = Kerbin
+			crewCount = 3
+			minPeA = 80000
+			maxPeA = 120000
+			minApA = 80000
+			maxApA = 120000
+		}
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Duna.
+			body = Duna
+			minPeA = 50000
+			maxPeA = 100000
+			minApA = 50000
+			maxApA = 100000
+		}
+		
+		LandingGoal
+		{
+			description = Land the vessel on the surface.
+			body = Duna
+			crewCount = 3
+		}
+		
+		UnDockingGoal
+		{
+			description = Undock a small science vessel to remain on the surface.
+			optional = true
+			reward = 60000
+		}
+		
+		EVAGoal
+		{
+			description = Complete an EVA to collect material samples.
+		}
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Duna.
+			body = Duna
+			minPeA = 50000
+			maxPeA = 100000
+			minApA = 50000
+			maxApA = 100000
+		}
+		
+		LandingGoal
+		{
+			description = Transfer back to Kerbin and land on the surface.
+			body = Kerbin
+			crewCount = 3
+		}
+	}
+	
+	Mission
+	{
+		name = Kenus I
+		description = Launch an unmanned probe from the KSC, achieve a stable orbit, transfer to Eve, and crash into its surface. Observe atmospheric effects while on impact trajectory to determine atmosphere height for aerobraking/aerocapture in future missions.
+		reward = 200000
+		category = PROBE, IMPACT
+		packageOrder = 7
+				
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Kerbin.
+			body = Kerbin
+			crewCount = 0
+			minPeA = 80000
+			maxPeA = 120000
+			minApA = 80000
+			maxApA = 120000
+		}
+		
+		CrashGoal
+		{
+			description = Transfer to Minmus and crash the vessel onto the surface.
+			body = Eve
+		}
+	}
+	
+	Mission
+	{
+		name = Kenus II
+		description = Launch an unmanned probe from the KSC, achieve a stable orbit, transfer to Eve, and perform an aerobraking maneuver into a stable Eve orbit. Optional goal of performing an aerocapture maneuver instead, achieving a low-eccentricity orbit. Don't be a Cheater McCheaterson and use fuel to accomplish the optional goal.
+		reward = 250000
+		category = PROBE, ORBIT
+		requiresMission = Kenus I
+		packageOrder = 8
+			
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Kerbin.
+			body = Kerbin
+			crewCount = 0
+			minPeA = 80000
+			maxPeA = 120000
+			minApA = 80000
+			maxApA = 120000
+		}
+		
+		OrbitGoal
+		{
+			description = Perform an aerobraking maneuver.
+			body = Eve
+			maxPeA = 96000
+		}
+		
+		OrbitGoal
+		{
+			description = Complete an aerocapture maneuver into a low eccentricity orbit.
+			optional = true
+			reward = 100000
+			body = Eve
+			minPeA = 97000
+			maxPeA = 200000
+			minApA = 97000
+			maxApA = 500000
+		}
+		
+		OrbitGoal
+		{
+			description = Complete an aerobraking maneuver into a stable orbit.
+			body = Eve
+			minPeA = 97000
+			maxPeA = 200000
+			minApA = 97000
+			maxApA = 5000000
+		}
+	}
+	
+	Mission
+	{
+		name = Kenus III
+		description = Launch an unmanned probe from the KSC, achieve a stable Kerbin orbit, transfer to Eve, achieve a stable Eve orbit, transfer back to Kerbin, and safely land.
+		reward = 300000
+		category = PROBE, ORBIT
+		requiresMission = Kenus II
+		packageOrder = 9
+			
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Kerbin.
+			body = Kerbin
+			crewCount = 0
+			minPeA = 80000
+			maxPeA = 120000
+			minApA = 80000
+			maxApA = 120000
+		}
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Eve.
+			body = Eve
+			minPeA = 97000
+			maxPeA = 200000
+			minApA = 97000
+			maxApA = 200000
+		}
+		
+		LandingGoal
+		{
+			description = Transfer back to Kerbin and land on the surface.
+			body = Kerbin
+		}
+	}
+	
+	Mission
+	{
+		name = Kenus IV
+		description = Launch an unmanned probe from the KSC, achieve a stable Kerbin orbit, transfer to Eve and achieve a stable orbit, safely land on Eve, launch and re-establish a stable orbit, transfer back to Kerbin, and safely land. Optional goal of undocking a small science vessel to remain on the surface of Eve.
+		reward = 350000
+		category = PROBE, LANDING
+		requiresMission = Kenus III
+		repeatable = true
+		packageOrder = 10
+			
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Kerbin.
+			body = Kerbin
+			crewCount = 0
+			minPeA = 80000
+			maxPeA = 120000
+			minApA = 80000
+			maxApA = 120000
+		}
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Eve.
+			body = Eve
+			minPeA = 97000
+			maxPeA = 200000
+			minApA = 97000
+			maxApA = 200000
+		}
+		
+		LandingGoal
+		{
+			description = Land the vessel on the surface.
+			body = Eve
+		}
+		
+		UnDockingGoal
+		{
+			description = Undock a small science vessel to remain on the surface.
+			optional = true
+			reward = 60000
+		}
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Eve.
+			body = Eve
+			minPeA = 97000
+			maxPeA = 200000
+			minApA = 97000
+			maxApA = 200000
+		}
+		
+		LandingGoal
+		{
+			description = Transfer back to Kerbin and land on the surface.
+			body = Kerbin
+		}
+	}
+	
+	Mission
+	{
+		name = Kenus V
+		description = Launch from the KSC with three crew in a CSM/LM design vessel, achieve a stable Kerbin orbit, transfer to Eve and achieve a stable orbit, undock the CSM from the LM, land the CSM on the surface of Eve, complete an EVA to collect material samples, launch from the surface to rendezvous with the LM, dock both vessels together, transfer back to Kerbin, and safely land. Optional goal of undocking a small science vessel to remain on the surface of Eve.
+		reward = 750000
+		category = MANNED, LANDING
+		requiresMission = Kenus IV
+		repeatable = true
+		packageOrder = 11
+			
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Kerbin.
+			body = Kerbin
+			crewCount = 3
+			minPeA = 80000
+			maxPeA = 120000
+			minApA = 80000
+			maxApA = 120000
+		}
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Eve.
+			body = Eve
+			minPeA = 97000
+			maxPeA = 200000
+			minApA = 97000
+			maxApA = 200000
+		}
+		
+		UnDockingGoal
+		{
+			description = Undock from the connected vessel.
+		}
+		
+		LandingGoal
+		{
+			description = Land the vessel on the surface.
+			body = Eve
+			crewCount = 2
+		}
+		
+		UnDockingGoal
+		{
+			description = Undock a small science vessel to remain on the surface.
+			optional = true
+			reward = 60000
+		}
+		
+		EVAGoal
+		{
+			description = Complete an EVA to collect material samples.
+		}
+		
+		SubMissionGoal
+		{
+			description = Establish a stable orbit, rendezvous with the LM, and secure a solid docking connection.
+			
+			OrbitGoal
+			{
+				body = Eve
+				minPeA = 97000
+				maxPeA = 200000
+				minApA = 97000
+				maxApA = 200000
+			}
+			
+			DockingGoal
+			{
+			}
+		}
+		
+		LandingGoal
+		{
+			description = Transfer back to Kerbin and land on the surface.
+			body = Kerbin
+			crewCount = 3
+		}
+	}
+	
+	Mission
+	{
+		name = Kenus VI
+		description = Launch from the KSC with three crew, achieve a stable Kerbin orbit, transfer to Eve and achieve a stable orbit, land on the surface of Eve, complete an EVA to collect material samples, launch from the surface and re-establish a stable Eve orbit, transfer back to Kerbin, and safely land. Optional goal of undocking a small science vessel to remain on the surface of Eve.
+		reward = 850000
+		category = MANNED, LANDING
+		requiresMission = Kenus IV
+		repeatable = true
+		packageOrder = 12
+			
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Kerbin.
+			body = Kerbin
+			crewCount = 3
+			minPeA = 80000
+			maxPeA = 120000
+			minApA = 80000
+			maxApA = 120000
+		}
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Eve.
+			body = Eve
+			minPeA = 97000
+			maxPeA = 200000
+			minApA = 97000
+			maxApA = 200000
+		}
+		
+		LandingGoal
+		{
+			description = Land the vessel on the surface.
+			body = Eve
+			crewCount = 3
+		}
+		
+		UnDockingGoal
+		{
+			description = Undock a small science vessel to remain on the surface.
+			optional = true
+			reward = 60000
+		}
+		
+		EVAGoal
+		{
+			description = Complete an EVA to collect material samples.
+		}
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Eve.
+			body = Eve
+			minPeA = 97000
+			maxPeA = 200000
+			minApA = 97000
+			maxApA = 200000
+		}
+		
+		LandingGoal
+		{
+			description = Transfer back to Kerbin and land on the surface.
+			body = Kerbin
+			crewCount = 3
+		}
+	}
+	
+	Mission
+	{
+		name = Kuno I
+		description = Launch an unmanned probe from the KSC, achieve a stable orbit, transfer to Jool, and crash into its surface. Observe atmospheric effects while on impact trajectory to determine atmosphere height for aerobraking/aerocapture in future missions.
+		reward = 200000
+		category = PROBE, IMPACT
+		packageOrder = 13
+			
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Kerbin.
+			body = Kerbin
+			crewCount = 0
+			minPeA = 80000
+			maxPeA = 120000
+			minApA = 80000
+			maxApA = 120000
+		}
+		
+		CrashGoal
+		{
+			description = Transfer to Jool and crash the vessel onto the surface.
+			body = Jool
+		}
+	}
+	
+	Mission
+	{
+		name = Kuno II
+		description = Launch an unmanned probe from the KSC, achieve a stable orbit, transfer to Jool, and perform an aerobraking maneuver into a stable Jool orbit. Optional goal of performing an aerocapture maneuver instead, achieving a low-eccentricity orbit. Don't be a Cheater McCheaterson and use fuel to accomplish the optional goal.
+		reward = 250000
+		category = PROBE, ORBIT
+		requiresMission = Kuno I
+		packageOrder = 14
+			
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Kerbin.
+			body = Kerbin
+			crewCount = 0
+			minPeA = 80000
+			maxPeA = 120000
+			minApA = 80000
+			maxApA = 120000
+		}
+		
+		OrbitGoal
+		{
+			description = Perform an aerobraking maneuver.
+			body = Jool
+			maxPeA = 137000
+		}
+		
+		OrbitGoal
+		{
+			description = Complete an aerocapture maneuver into a low eccentricity orbit.
+			optional = true
+			reward = 100000
+			body = Jool
+			minPeA = 139000
+			maxPeA = 200000
+			minApA = 139000
+			maxApA = 750000
+		}
+		
+		OrbitGoal
+		{
+			description = Complete an aerobraking maneuver into a stable orbit.
+			body = Jool
+			minPeA = 139000
+			maxPeA = 200000
+			minApA = 139000
+			maxApA = 10000000
+		}
+	}
+	
+	Mission
+	{
+		name = Kuno III
+		description = Launch an unmanned probe from the KSC, achieve a stable Kerbin orbit, transfer to Jool, achieve a stable Jool orbit, and safely land.
+		reward = 300000
+		category = PROBE, LANDING
+		requiresMission = Kuno II
+		repeatable = true
+		packageOrder = 15
+			
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Kerbin.
+			body = Kerbin
+			crewCount = 0
+			minPeA = 80000
+			maxPeA = 120000
+			minApA = 80000
+			maxApA = 120000
+		}
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Jool.
+			body = Jool
+			minPeA = 139000
+			maxPeA = 200000
+			minApA = 139000
+			maxApA = 200000
+		}
+		
+		LandingGoal
+		{
+			description = Land the vessel on the surface.
+			body = Jool
+		}
+	}
+	
+	Mission
+	{
+		name = Kuno IV
+		description = Launch an unmanned probe from the KSC, achieve a stable Kerbin orbit, transfer to Jool, achieve a stable Jool orbit, transfer back to Kerbin, and safely land.
+		reward = 400000
+		category = PROBE, ORBIT
+		requiresMission = Kuno III
+		packageOrder = 16
+			
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Kerbin.
+			body = Kerbin
+			crewCount = 0
+			minPeA = 80000
+			maxPeA = 120000
+			minApA = 80000
+			maxApA = 120000
+		}
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Jool.
+			body = Jool
+			minPeA = 139000
+			maxPeA = 200000
+			minApA = 139000
+			maxApA = 200000
+		}
+		
+		LandingGoal
+		{
+			description = Transfer back to Kerbin and land on the surface.
+			body = Kerbin
+		}
+	}
+	
+	Mission
+	{
+		name = Kesta I
+		description = Launch an unmanned probe from the KSC, achieve a stable orbit, transfer to Dres, and crash into its surface.
+		reward = 300000
+		category = PROBE, IMPACT
+		packageOrder = 17
+		
+		LaunchGoal
+		{
+			description = Launch from the surface. 
+			launchZone = Kerbin
+		}
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Kerbin.
+			body = Kerbin
+			crewCount = 0
+			minPeA = 80000
+			maxPeA = 120000
+			minApA = 80000
+			maxApA = 120000
+		}
+		
+		CrashGoal
+		{
+			description = Transfer to Minmus and crash the vessel onto the surface.
+			body = Dres
+		}
+	}
+	
+	Mission
+	{
+		name = Kesta II
+		description = Launch an unmanned probe from the KSC, achieve a stable Kerbin orbit, transfer to Dres, and achieve a stable Dres orbit.
+		reward = 350000
+		category = PROBE, ORBIT
+		requiresMission = Kesta I
+		packageOrder = 18
+			
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Kerbin.
+			body = Kerbin
+			crewCount = 0
+			minPeA = 80000
+			maxPeA = 120000
+			minApA = 80000
+			maxApA = 120000
+		}
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Dres.
+			body = Dres
+			minPeA = 30000
+			maxPeA = 60000
+			minApA = 30000
+			maxApA = 60000
+		}
+	}
+	
+	Mission
+	{
+		name = Kesta III
+		description = Launch an unmanned probe from the KSC, achieve a stable Kerbin orbit, transfer to Dres, achieve a stable Dres orbit, transfer back to Kerbin, and safely land.
+		reward = 450000
+		category = PROBE, ORBIT
+		requiresMission = Kesta II
+		packageOrder = 19
+			
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Kerbin.
+			body = Kerbin
+			crewCount = 0
+			minPeA = 80000
+			maxPeA = 120000
+			minApA = 80000
+			maxApA = 120000
+		}
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Dres.
+			body = Dres
+			minPeA = 30000
+			maxPeA = 60000
+			minApA = 30000
+			maxApA = 60000
+		}
+		
+		LandingGoal
+		{
+			description = Transfer back to Kerbin and land on the surface.
+			body = Kerbin
+		}
+	}
+	
+	Mission
+	{
+		name = Kesta IV
+		description = Launch an unmanned probe from the KSC, achieve a stable Kerbin orbit, transfer to Dres and achieve a stable orbit, safely land on Dres, launch and re-establish a stable orbit, transfer back to Kerbin, and safely land. Optional goal of undocking a small science vessel to remain on the surface of Dres.
+		reward = 500000
+		category = PROBE, LANDING
+		requiresMission = Kesta III
+		repeatable = true
+		packageOrder = 20
+			
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Kerbin.
+			body = Kerbin
+			crewCount = 0
+			minPeA = 80000
+			maxPeA = 120000
+			minApA = 80000
+			maxApA = 120000
+		}
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Dres.
+			body = Dres
+			minPeA = 30000
+			maxPeA = 60000
+			minApA = 30000
+			maxApA = 60000
+		}
+		
+		LandingGoal
+		{
+			description = Land the vessel on the surface.
+			body = Dres
+		}
+		
+		UnDockingGoal
+		{
+			description = Undock a small science vessel to remain on the surface.
+			optional = true
+			reward = 60000
+		}
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Dres.
+			body = Dres
+			minPeA = 30000
+			maxPeA = 60000
+			minApA = 30000
+			maxApA = 60000
+		}
+		
+		LandingGoal
+		{
+			description = Transfer back to Kerbin and land on the surface.
+			body = Kerbin
+		}
+	}
+	
+	Mission
+	{
+		name = Kesta V
+		description = Launch from the KSC with three crew in a CSM/LM design vessel, achieve a stable Kerbin orbit, transfer to Dres and achieve a stable orbit, undock the CSM from the LM, land the CSM on the surface of Dres, complete an EVA to collect material samples, launch from the surface to rendezvous with the LM, dock both vessels together, transfer back to Kerbin, and safely land. Optional goal of undocking a small science vessel to remain on the surface of Dres.
+		reward = 800000
+		category = MANNED, LANDING
+		requiresMission = Kesta IV
+		repeatable = true
+		packageOrder = 21
+			
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Kerbin.
+			body = Kerbin
+			crewCount = 3
+			minPeA = 80000
+			maxPeA = 120000
+			minApA = 80000
+			maxApA = 120000
+		}
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Dres.
+			body = Dres
+			minPeA = 30000
+			maxPeA = 60000
+			minApA = 30000
+			maxApA = 60000
+		}
+		
+		UnDockingGoal
+		{
+			description = Undock from the connected vessel.
+		}
+		
+		LandingGoal
+		{
+			description = Land the vessel on the surface.
+			body = Dres
+			crewCount = 2
+		}
+		
+		UnDockingGoal
+		{
+			description = Undock a small science vessel to remain on the surface.
+			optional = true
+			reward = 80000
+		}
+		
+		EVAGoal
+		{
+			description = Complete an EVA to collect material samples.
+		}
+		
+		SubMissionGoal
+		{
+			description = Establish a stable orbit, rendezvous with the LM, and secure a solid docking connection.
+			
+			OrbitGoal
+			{
+				body = Dres
+				minPeA = 30000
+				maxPeA = 60000
+				minApA = 30000
+				maxApA = 60000
+			}
+			
+			DockingGoal
+			{
+			}
+		}
+		
+		LandingGoal
+		{
+			description = Transfer back to Kerbin and land on the surface.
+			body = Kerbin
+			crewCount = 3
+		}
+	}
+	
+	Mission
+	{
+		name = Kesta VI
+		description = Launch from the KSC with three crew, achieve a stable Kerbin orbit, transfer to Dres and achieve a stable orbit, land on the surface of Dres, complete an EVA to collect material samples, launch from the surface and re-establish a stable Dres orbit, transfer back to Kerbin, and safely land. Optional goal of undocking a small science vessel to remain on the surface of Dres.
+		reward = 900000
+		category = MANNED, LANDING
+		requiresMission = Kesta IV
+		repeatable = true
+		packageOrder = 22
+				
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Kerbin.
+			body = Kerbin
+			crewCount = 3
+			minPeA = 80000
+			maxPeA = 120000
+			minApA = 80000
+			maxApA = 120000
+		}
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Dres.
+			body = Dres
+			minPeA = 30000
+			maxPeA = 60000
+			minApA = 30000
+			maxApA = 60000
+		}
+		
+		LandingGoal
+		{
+			description = Land the vessel on the surface.
+			body = Dres
+			crewCount = 3
+		}
+		
+		UnDockingGoal
+		{
+			description = Undock a small science vessel to remain on the surface.
+			optional = true
+			reward = 80000
+		}
+		
+		EVAGoal
+		{
+			description = Complete an EVA to collect material samples.
+		}
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Dres.
+			body = Dres
+			minPeA = 30000
+			maxPeA = 60000
+			minApA = 30000
+			maxApA = 60000
+		}
+		
+		LandingGoal
+		{
+			description = Transfer back to Kerbin and land on the surface.
+			body = Kerbin
+			crewCount = 3
+		}
+	}
+	
+	Mission
+	{
+		name = Kulcan I
+		description = Launch an unmanned probe from the KSC, achieve a stable orbit, transfer to Moho, and crash into its surface.
+		reward = 300000
+		category = PROBE, IMPACT
+		packageOrder = 23
+			
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Kerbin.
+			body = Kerbin
+			crewCount = 0
+			minPeA = 80000
+			maxPeA = 120000
+			minApA = 80000
+			maxApA = 120000
+		}
+		
+		CrashGoal
+		{
+			description = Transfer to Moho and crash the vessel onto the surface.
+			body = Moho
+		}
+	}
+	
+	Mission
+	{
+		name = Kulcan II
+		description = Launch an unmanned probe from the KSC, achieve a stable Kerbin orbit, transfer to Moho, and achieve a stable Moho orbit.
+		reward = 350000
+		category = PROBE, ORBIT
+		requiresMission = Kulcan I
+		packageOrder = 24
+			
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Kerbin.
+			body = Kerbin
+			crewCount = 0
+			minPeA = 80000
+			maxPeA = 120000
+			minApA = 80000
+			maxApA = 120000
+		}
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Moho.
+			body = Moho
+			minPeA = 30000
+			maxPeA = 60000
+			minApA = 30000
+			maxApA = 60000
+		}
+	}
+	
+	Mission
+	{
+		name = Kulcan III
+		description = Launch an unmanned probe from the KSC, achieve a stable Kerbin orbit, transfer to Moho, achieve a stable Moho orbit, transfer back to Kerbin, and safely land.
+		reward = 450000
+		category = PROBE, ORBIT
+		requiresMission = Kulcan II
+		packageOrder = 25
+			
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Kerbin.
+			body = Kerbin
+			crewCount = 0
+			minPeA = 80000
+			maxPeA = 120000
+			minApA = 80000
+			maxApA = 120000
+		}
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Moho.
+			body = Moho
+			minPeA = 30000
+			maxPeA = 60000
+			minApA = 30000
+			maxApA = 60000
+		}
+		
+		LandingGoal
+		{
+			description = Transfer back to Kerbin and land on the surface.
+			body = Kerbin
+		}
+	}
+	
+	Mission
+	{
+		name = Kulcan IV
+		description = Launch an unmanned probe from the KSC, achieve a stable Kerbin orbit, transfer to Moho and achieve a stable orbit, safely land on Moho, launch and re-establish a stable orbit, transfer back to Kerbin, and safely land. Optional goal of undocking a small science vessel to remain on the surface of Moho.
+		reward = 500000
+		category = PROBE, LANDING
+		requiresMission = Kulcan III
+		repeatable = true
+		packageOrder = 26
+			
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Kerbin.
+			body = Kerbin
+			crewCount = 0
+			minPeA = 80000
+			maxPeA = 120000
+			minApA = 80000
+			maxApA = 120000
+		}
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Moho.
+			body = Moho
+			minPeA = 30000
+			maxPeA = 60000
+			minApA = 30000
+			maxApA = 60000
+		}
+		
+		LandingGoal
+		{
+			description = Land the vessel on the surface.
+			body = Moho
+		}
+		
+		UnDockingGoal
+		{
+			description = Undock a small science vessel to remain on the surface.
+			optional = true
+			reward = 80000
+		}
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Moho.
+			body = Moho
+			minPeA = 30000
+			maxPeA = 60000
+			minApA = 30000
+			maxApA = 60000
+		}
+		
+		LandingGoal
+		{
+			description = Transfer back to Kerbin and land on the surface.
+			body = Kerbin
+		}
+	}
+	
+	Mission
+	{
+		name = Kulcan V
+		description = Launch from the KSC with three crew in a CSM/LM design vessel, achieve a stable Kerbin orbit, transfer to Moho and achieve a stable orbit, undock the CSM from the LM, land the CSM on the surface of Moho, complete an EVA to collect material samples, launch from the surface to rendezvous with the LM, dock both vessels together, transfer back to Kerbin, and safely land. Optional goal of undocking a small science vessel to remain on the surface of Moho.
+		reward = 800000
+		category = MANNED, LANDING
+		requiresMission = Kulcan IV
+		repeatable = true
+		packageOrder = 27
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Kerbin.
+			body = Kerbin
+			crewCount = 3
+			minPeA = 80000
+			maxPeA = 120000
+			minApA = 80000
+			maxApA = 120000
+		}
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Moho.
+			body = Moho
+			minPeA = 30000
+			maxPeA = 60000
+			minApA = 30000
+			maxApA = 60000
+		}
+		
+		UnDockingGoal
+		{
+			description = Undock from the connected vessel.
+		}
+		
+		LandingGoal
+		{
+			description = Land the vessel on the surface.
+			body = Moho
+			crewCount = 2
+		}
+		
+		UnDockingGoal
+		{
+			description = Undock a small science vessel to remain on the surface.
+			optional = true
+			reward = 100000
+		}
+		
+		EVAGoal
+		{
+			description = Complete an EVA to collect material samples.
+		}
+		
+		SubMissionGoal
+		{
+			description = Establish a stable orbit, rendezvous with the LM, and secure a solid docking connection.
+			
+			OrbitGoal
+			{
+				body = Moho
+				minPeA = 30000
+				maxPeA = 60000
+				minApA = 30000
+				maxApA = 60000
+			}
+			
+			DockingGoal
+			{
+			}
+		}
+		
+		LandingGoal
+		{
+			description = Transfer back to Kerbin and land on the surface.
+			body = Kerbin
+			crewCount = 3
+		}
+	}
+	
+	Mission
+	{
+		name = Kulcan VI
+		description = Launch from the KSC with three crew, achieve a stable Kerbin orbit, transfer to Moho and achieve a stable orbit, land on the surface of Moho, complete an EVA to collect material samples, launch from the surface and re-establish a stable Moho orbit, transfer back to Kerbin, and safely land. Optional goal of undocking a small science vessel to remain on the surface of Moho.
+		reward = 900000
+		category = MANNED, LANDING
+		requiresMission = Kulcan IV
+		repeatable = true
+		packageOrder = 28
+			
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Kerbin.
+			body = Kerbin
+			crewCount = 3
+			minPeA = 80000
+			maxPeA = 120000
+			minApA = 80000
+			maxApA = 120000
+		}
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Moho.
+			body = Moho
+			minPeA = 30000
+			maxPeA = 60000
+			minApA = 30000
+			maxApA = 60000
+		}
+		
+		LandingGoal
+		{
+			description = Land the vessel on the surface.
+			body = Moho
+			crewCount = 3
+		}
+		
+		UnDockingGoal
+		{
+			description = Undock a small science vessel to remain on the surface.
+			optional = true
+			reward = 100000
+		}
+		
+		EVAGoal
+		{
+			description = Complete an EVA to collect material samples.
+		}
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Moho.
+			body = Moho
+			minPeA = 30000
+			maxPeA = 60000
+			minApA = 30000
+			maxApA = 60000
+		}
+		
+		LandingGoal
+		{
+			description = Transfer back to Kerbin and land on the surface.
+			body = Kerbin
+			crewCount = 3
+		}
+	}
+	
+	Mission
+	{
+		name = Kluto I
+		description = Launch an unmanned probe from the KSC, achieve a stable orbit, transfer to Eeloo, and crash into its surface.
+		reward = 350000
+		category = PROBE, IMPACT
+		packageOrder = 29
+			
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Kerbin.
+			body = Kerbin
+			crewCount = 0
+			minPeA = 80000
+			maxPeA = 120000
+			minApA = 80000
+			maxApA = 120000
+		}
+		
+		CrashGoal
+		{
+			description = Transfer to Eeloo and crash the vessel onto the surface.
+			body = Eeloo
+		}
+	}
+	
+	Mission
+	{
+		name = Kluto II
+		description = Launch an unmanned probe from the KSC, achieve a stable Kerbin orbit, transfer to Eeloo, and achieve a stable Eeloo orbit.
+		reward = 400000
+		category = PROBE, ORBIT
+		requiresMission = Kluto I
+		packageOrder = 30
+			
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Kerbin.
+			body = Kerbin
+			crewCount = 0
+			minPeA = 80000
+			maxPeA = 120000
+			minApA = 80000
+			maxApA = 120000
+		}
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Eeloo.
+			body = Eeloo
+			minPeA = 30000
+			maxPeA = 60000
+			minApA = 30000
+			maxApA = 60000
+		}
+	}
+	
+	Mission
+	{
+		name = Kluto III
+		description = Launch an unmanned probe from the KSC, achieve a stable Kerbin orbit, transfer to Eeloo, achieve a stable Eeloo orbit, transfer back to Kerbin, and safely land.
+		reward = 500000
+		category = PROBE, ORBIT
+		requiresMission = Kluto II
+		packageOrder = 31
+			
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Kerbin.
+			body = Kerbin
+			crewCount = 0
+			minPeA = 80000
+			maxPeA = 120000
+			minApA = 80000
+			maxApA = 120000
+		}
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Eeloo.
+			body = Eeloo
+			minPeA = 30000
+			maxPeA = 60000
+			minApA = 30000
+			maxApA = 60000
+		}
+		
+		LandingGoal
+		{
+			description = Transfer back to Kerbin and land on the surface.
+			body = Kerbin
+		}
+	}
+	
+	Mission
+	{
+		name = Kluto IV
+		description = Launch an unmanned probe from the KSC, achieve a stable Kerbin orbit, transfer to Eeloo and achieve a stable orbit, safely land on Eeloo, launch and re-establish a stable orbit, transfer back to Kerbin, and safely land. Optional goal of undocking a small science vessel to remain on the surface of Eeloo.
+		reward = 600000
+		category = PROBE, LANDING
+		requiresMission = Kluto III
+		repeatable = true
+		packageOrder = 32
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Kerbin.
+			body = Kerbin
+			crewCount = 0
+			minPeA = 80000
+			maxPeA = 120000
+			minApA = 80000
+			maxApA = 120000
+		}
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Eeloo.
+			body = Eeloo
+			minPeA = 30000
+			maxPeA = 60000
+			minApA = 30000
+			maxApA = 60000
+		}
+		
+		LandingGoal
+		{
+			description = Land the vessel on the surface.
+			body = Eeloo
+		}
+		
+		UnDockingGoal
+		{
+			description = Undock a small science vessel to remain on the surface.
+			optional = true
+			reward = 60000
+		}
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Eeloo.
+			body = Eeloo
+			minPeA = 30000
+			maxPeA = 60000
+			minApA = 30000
+			maxApA = 60000
+		}
+		
+		LandingGoal
+		{
+			description = Transfer back to Kerbin and land on the surface.
+			body = Kerbin
+		}
+	}
+	
+	Mission
+	{
+		name = Kluto V
+		description = Launch from the KSC with three crew in a CSM/LM design vessel, achieve a stable Kerbin orbit, transfer to Eeloo and achieve a stable orbit, undock the CSM from the LM, land the CSM on the surface of Eeloo, complete an EVA to collect material samples, launch from the surface to rendezvous with the LM, dock both vessels together, transfer back to Kerbin, and safely land. Optional goal of undocking a small science vessel to remain on the surface of Eeloo.
+		reward = 900000
+		category = MANNED, LANDING
+		requiresMission = Kluto IV
+		repeatable = true
+		packageOrder = 33
+				
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Kerbin.
+			body = Kerbin
+			crewCount = 3
+			minPeA = 80000
+			maxPeA = 120000
+			minApA = 80000
+			maxApA = 120000
+		}
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Eeloo.
+			body = Eeloo
+			minPeA = 30000
+			maxPeA = 60000
+			minApA = 30000
+			maxApA = 60000
+		}
+		
+		UnDockingGoal
+		{
+			description = Undock from the connected vessel.
+		}
+		
+		LandingGoal
+		{
+			description = Land the vessel on the surface.
+			body = Eeloo
+			crewCount = 2
+		}
+		
+		UnDockingGoal
+		{
+			description = Undock a small science vessel to remain on the surface.
+			optional = true
+			reward = 60000
+		}
+		
+		EVAGoal
+		{
+			description = Complete an EVA to collect material samples.
+		}
+		
+		SubMissionGoal
+		{
+			description = Establish a stable orbit, rendezvous with the LM, and secure a solid docking connection.
+			
+			OrbitGoal
+			{
+				body = Eeloo
+				minPeA = 30000
+				maxPeA = 60000
+				minApA = 30000
+				maxApA = 60000
+			}
+			
+			DockingGoal
+			{
+			}
+		}
+		
+		LandingGoal
+		{
+			description = Transfer back to Kerbin and land on the surface.
+			body = Kerbin
+			crewCount = 3
+		}
+	}
+	
+	Mission
+	{
+		name = Kluto VI
+		description = Launch from the KSC with three crew, achieve a stable Kerbin orbit, transfer to Eeloo and achieve a stable orbit, land on the surface of Eeloo, complete an EVA to collect material samples, launch from the surface and re-establish a stable Eeloo orbit, transfer back to Kerbin, and safely land. Optional goal of undocking a small science vessel to remain on the surface of Eeloo.
+		reward = 1000000
+		category = MANNED, LANDING
+		requiresMission = Kluto IV
+		repeatable = true
+		packageOrder = 34
+			
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Kerbin.
+			body = Kerbin
+			crewCount = 3
+			minPeA = 80000
+			maxPeA = 120000
+			minApA = 80000
+			maxApA = 120000
+		}
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Eeloo.
+			body = Eeloo
+			minPeA = 30000
+			maxPeA = 60000
+			minApA = 30000
+			maxApA = 60000
+		}
+		
+		LandingGoal
+		{
+			description = Land the vessel on the surface.
+			body = Eeloo
+			crewCount = 3
+		}
+		
+		UnDockingGoal
+		{
+			description = Undock a small science vessel to remain on the surface.
+			optional = true
+			reward = 60000
+		}
+		
+		EVAGoal
+		{
+			description = Complete an EVA to collect material samples.
+		}
+		
+		OrbitGoal
+		{
+			description = Establish a stable orbit around Eeloo.
+			body = Eeloo
+			minPeA = 30000
+			maxPeA = 60000
+			minApA = 30000
+			maxApA = 60000
+		}
+		
+		LandingGoal
+		{
+			description = Transfer back to Kerbin and land on the surface.
+			body = Kerbin
+			crewCount = 3
+		}
+	}
+}

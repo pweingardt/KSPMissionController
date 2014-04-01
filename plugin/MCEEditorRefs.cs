@@ -82,6 +82,7 @@ namespace MissionController
             Gamount = 450000,
             MaxOrb = 47921949,
             MinOrb = 42000,
+            basePay = 275000,
         };
         public PlanetInfo PlanetInfo6 = new PlanetInfo()
         {
@@ -90,6 +91,7 @@ namespace MissionController
             Gamount = 100000,
             MaxOrb = 1049598,
             MinOrb = 13000,
+            basePay = 300000,
         };
         public PlanetInfo PlanetInfo7 = new PlanetInfo()
         {
@@ -98,6 +100,7 @@ namespace MissionController
             Gamount = 450000,
             MaxOrb = 1049598,
             MinOrb = 97000,
+            basePay = 250000,
         };
         public PlanetInfo PlanetInfo8 = new PlanetInfo()
         {
@@ -106,6 +109,7 @@ namespace MissionController
             Gamount = 100000,
             MaxOrb = 1049598,
             MinOrb = 13000,
+            basePay = 275000,
         };
         public PlanetInfo PlanetInfo9 = new PlanetInfo()
         {
@@ -114,6 +118,7 @@ namespace MissionController
             Gamount = 700000,
             MaxOrb = 9646663,
             MinOrb = 7000,
+            basePay = 425000,
         };
         public PlanetInfo PlanetInfo10 = new PlanetInfo()
         {
@@ -122,6 +127,7 @@ namespace MissionController
             Gamount = 600000,
             MaxOrb = 32832840,
             MinOrb = 6000,
+            basePay = 325000,
         };
         public PlanetInfo PlanetInfo11 = new PlanetInfo()
         {
@@ -130,6 +136,7 @@ namespace MissionController
             Gamount = 800000,
             MaxOrb = 212832840,
             MinOrb = 139000,
+            basePay = 300000,
         };
         public PlanetInfo PlanetInfo12 = new PlanetInfo()
         {
@@ -138,6 +145,7 @@ namespace MissionController
             Gamount = 100000,
             MaxOrb = 3723645,
             MinOrb = 82000,
+            basePay = 310000,
         };
         public PlanetInfo PlanetInfo13 = new PlanetInfo()
         {
@@ -146,14 +154,16 @@ namespace MissionController
             Gamount = 200000,
             MaxOrb = 2406401,
             MinOrb = 8000,
+            basePay = 375000,
         };
         public PlanetInfo PlanetInfo14 = new PlanetInfo()
         {
             ID = 14,
             Planet = "Tylo",
-            Gamount = 200000,
+            Gamount = 350000,
             MaxOrb = 10856518,
             MinOrb = 12000,
+            basePay = 475000,
         };
         public PlanetInfo PlanetInfo15 = new PlanetInfo()
         {
@@ -162,6 +172,7 @@ namespace MissionController
             Gamount = 250000,
             MaxOrb = 1221060,
             MinOrb = 30,
+            basePay = 320000
         };
         public PlanetInfo PlanetInfo16 = new PlanetInfo()
         {
@@ -170,6 +181,7 @@ namespace MissionController
             Gamount = 250000,
             MaxOrb = 1042138,
             MinOrb = 6000,
+            basePay = 350000
         };
         public PlanetInfo PlanetInfo17 = new PlanetInfo()
         {
@@ -178,6 +190,7 @@ namespace MissionController
             Gamount = 900000,
             MaxOrb = 10000000,
             MinOrb = 4000,
+            basePay = 450000
         };
         
     }

@@ -1311,6 +1311,9 @@ namespace MissionController
             }
             else
             {
+                int updatedpayout = currentMission.reward;
+                if (currentMission.contractAvailable == 14) { updatedpayout = updatedpayout + manager.GetRandomOrbitPay; }
+                if (currentMission.contractAvailable == 15) {updatedpayout = updatedpayout + manager.GetRandomLandingPay;}
                 
                 double comppayout = Tools.GetValueDefault(Tools.MCSettings.GetNode(manager.GetCompanyInfoString), "payout", 1.0);
                 double compscience = Tools.GetValueDefault(Tools.MCSettings.GetNode(manager.GetCompanyInfoString), "science", 1.0);
@@ -1329,12 +1332,12 @@ namespace MissionController
                 {
                     comppayout = Tools.GetValueDefault(Tools.MCSettings.GetNode(manager.GetCompanyInfoString4), "payout", 1.0);
                     compscience = Tools.GetValueDefault(Tools.MCSettings.GetNode(manager.GetCompanyInfoString4), "science", 1.0);
-                }                               
+                }
 
-                double rewardFinanced = currentMission.reward * FinanceMode.currentloan * comppayout * PayoutLeveles.TechPayout;
-                double rewardFinancedHard = currentMission.reward * FinanceMode.currentloan * comppayout * PayoutLeveles.TechPayout * .60;
-                double rewardnormal = currentMission.reward * PayoutLeveles.TechPayout * comppayout;
-                double rewardHard = currentMission.reward * PayoutLeveles.TechPayout * comppayout * .60;
+                double rewardFinanced = updatedpayout * FinanceMode.currentloan * comppayout * PayoutLeveles.TechPayout;
+                double rewardFinancedHard = updatedpayout * FinanceMode.currentloan * comppayout * PayoutLeveles.TechPayout * .60;
+                double rewardnormal = updatedpayout * PayoutLeveles.TechPayout * comppayout;
+                double rewardHard = updatedpayout * PayoutLeveles.TechPayout * comppayout * .60;
                 double ScienceReward = currentMission.scienceReward * compscience;
 
                 GUILayout.Box("Current Contract: " + mission.name, StyleBoxYellow, GUILayout.Width(600),GUILayout.Height(30));
@@ -1874,7 +1877,7 @@ namespace MissionController
 
         private void drawContracts(Mission mission, Status s)
         {
-
+            int updatedpayout = mission.reward;
             string compName = Tools.GetValueDefault(Tools.MCSettings.GetNode(manager.GetCompanyInfoString), "name", "Default");
             double comppayout = Tools.GetValueDefault(Tools.MCSettings.GetNode(manager.GetCompanyInfoString), "payout", 1.0);
             double compscience = Tools.GetValueDefault(Tools.MCSettings.GetNode(manager.GetCompanyInfoString), "science", 1.0);
@@ -1901,7 +1904,21 @@ namespace MissionController
             //GUILayout.Label("pay" + comppayout);
             //GUILayout.Label("sci" + compscience);
             GUILayout.Label("Current Contract: ", styleValueGreenBold, GUILayout.MaxWidth(520));
-            GUILayout.Label(mission.name, styleText);
+            if (mission.contractAvailable == 14 || mission.contractAvailable == 15)
+            {
+                if (mission.contractAvailable == 15)
+                {
+                    GUILayout.Label(mission.name + " " + manager.GetRandomLanding, styleText);
+                }
+                if (mission.contractAvailable == 14)
+                {
+                    GUILayout.Label(mission.name + " " + manager.GetRandomOrbit, styleText);
+                }
+            }           
+            else
+            {
+                GUILayout.Label(mission.name, styleText);
+            }
 
             GUILayout.Label("Company Name", styleValueGreenBold, GUILayout.MaxWidth(520));
             GUILayout.Label(compName, styleText);
@@ -1914,16 +1931,17 @@ namespace MissionController
                 GUILayout.Label("Vessel Name To Repair", styleValueGreenBold, GUILayout.MaxWidth(520));
                 GUILayout.Label(manager.GetShowVesselRepairName, styleText);
             }
-
+            if (mission.contractAvailable == 14) { updatedpayout = updatedpayout + manager.GetRandomOrbitPay; }
+            if (mission.contractAvailable == 15) { updatedpayout = updatedpayout + manager.GetRandomLandingPay; }
 
             GUILayout.BeginHorizontal();
-            GUILayout.Label(" Contract Payout: ", styleValueGreenBold);
-            if (settings.gameMode == 0)
-            { GUILayout.Label(CurrencySuffix + mission.reward * comppayout * PayoutLeveles.TechPayout, styleValueYellow); }
+            GUILayout.Label(" Contract Payout: ", styleValueGreenBold);            
             if (settings.gameMode == 1)
-            { GUILayout.Label(CurrencySuffix + mission.reward * comppayout * PayoutLeveles.TechPayout * .60, styleValueYellow); }
+            { GUILayout.Label(CurrencySuffix + updatedpayout * comppayout * PayoutLeveles.TechPayout * .60, styleValueYellow); }
+            else
+            { GUILayout.Label(CurrencySuffix + updatedpayout * comppayout * PayoutLeveles.TechPayout, styleValueYellow); }
             GUILayout.EndHorizontal();
-
+            
 
             if (mission.scienceReward != 0 && HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
             {

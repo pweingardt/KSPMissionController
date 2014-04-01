@@ -524,6 +524,7 @@ namespace MissionController
         public int Gamount { get; set; }
         public double MaxOrb { get; set; }
         public double MinOrb { get; set; }
+        public int basePay { get; set; }
 
     }
     public class GoalInfo

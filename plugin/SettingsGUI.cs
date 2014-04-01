@@ -139,20 +139,26 @@ namespace MissionController
             }
             GUILayout.EndHorizontal();
             GUILayout.Space(10);
-            
-            //if (GUILayout.Button("Set Values Randoms + Find Vessel", styleButtonWordWrap))
-            //{
-            //    manager.StartContractTypeRandom();
-            //    manager.StartContractType1Random();
-            //    manager.StartContractType2Random();
-            //    manager.StartCompanyRandomizer();
-            //    manager.setContractType();
-            //    manager.setContractType1();
-            //    manager.setContractType2();
-            //    manager.setCompanyName();
-            //    manager.clearVesselRepairFromList();
-            //    manager.findVeselWithRepairPart();
-            //} 
+
+            if (GUILayout.Button("Set Values Randoms + Find Vessel", styleButtonWordWrap))
+            {
+                manager.StartContractTypeRandom();
+                manager.StartContractType1Random();
+                manager.StartContractType2Random();
+                manager.StartCompanyRandomizer();
+                manager.setContractType();
+                manager.setContractType1();
+                manager.setContractType2();
+                manager.setCompanyName();
+                manager.clearVesselRepairFromList();
+                manager.findVeselWithRepairPart();
+            }
+
+            if (GUILayout.Button("Choose Random Vessel, Random Planets", styleButtonWordWrap))
+            {
+                manager.chooseVesselRepairFromList();
+                manager.chooseRandomValues();
+            } 
 
             //if (GUILayout.Button("window Test Recycle", styleButtonWordWrap))
             //{

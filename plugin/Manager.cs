@@ -26,6 +26,8 @@ namespace MissionController
 
         Randomizator3000.Item<string>[] companyListRandom;
 
+        Dictionary<int, PlanetInfo> bodyinfodict = new Dictionary<int, PlanetInfo>();
+
         private SpaceProgram spaceProgram;
         private String currentTitle;
 
@@ -309,22 +311,24 @@ namespace MissionController
                 saveProgram();
             }
         }
-        //public void finsihSavedGoal(Mission ms, Vessel vessel, GameEvent events, double es)
-        //{
-        //    currentProgram.finsihedSavedGoal.Add(new FinishedSavedGoal(ms.name, es));
-        //}
 
-        //public bool checkFinsishedSavedGoal(Mission ms)
-        //{
-        //    foreach (FinishedSavedGoal fsg in currentProgram.finsihedSavedGoal)
-        //    {
-        //        if (fsg.name == ms.name)
-        //        {
-        //            return true;
-        //        }
-        //    }
-        //    return false;
-        //}
+        MCEEditorRefs mce = new MCEEditorRefs();
+        public void loadbodydestinationdict()
+        {
+            bodyinfodict.Add(mce.PlanetInfo5.ID, mce.PlanetInfo5);
+            bodyinfodict.Add(mce.PlanetInfo6.ID, mce.PlanetInfo6);
+            bodyinfodict.Add(mce.PlanetInfo7.ID, mce.PlanetInfo7);
+            bodyinfodict.Add(mce.PlanetInfo8.ID, mce.PlanetInfo8);
+            bodyinfodict.Add(mce.PlanetInfo9.ID, mce.PlanetInfo9);
+            bodyinfodict.Add(mce.PlanetInfo10.ID, mce.PlanetInfo10);
+            bodyinfodict.Add(mce.PlanetInfo11.ID, mce.PlanetInfo11);
+            bodyinfodict.Add(mce.PlanetInfo12.ID, mce.PlanetInfo12);
+            bodyinfodict.Add(mce.PlanetInfo13.ID, mce.PlanetInfo13);
+            bodyinfodict.Add(mce.PlanetInfo14.ID, mce.PlanetInfo14);
+            bodyinfodict.Add(mce.PlanetInfo15.ID, mce.PlanetInfo15);
+            bodyinfodict.Add(mce.PlanetInfo16.ID, mce.PlanetInfo16);
+            bodyinfodict.Add(mce.PlanetInfo17.ID, mce.PlanetInfo17);
+        }
  
         public void PrintGoalReward(string mn)
         {
@@ -414,42 +418,18 @@ namespace MissionController
         }
         public void StartContractType2Random()
         {
-            contractslist2 = new Randomizator3000.Item<int>[9];
+            contractslist2 = new Randomizator3000.Item<int>[3];
             contractslist2[0] = new Randomizator3000.Item<int>();
-            contractslist2[0].weight = 40;
+            contractslist2[0].weight = 30;
             contractslist2[0].value = 0;
 
             contractslist2[1] = new Randomizator3000.Item<int>();
-            contractslist2[1].weight = 12;
+            contractslist2[1].weight = 40;
             contractslist2[1].value = 14;
 
             contractslist2[2] = new Randomizator3000.Item<int>();
-            contractslist2[2].weight = 11;
+            contractslist2[2].weight = 30;
             contractslist2[2].value = 15;
-
-            contractslist2[3] = new Randomizator3000.Item<int>();
-            contractslist2[3].weight = 8;
-            contractslist2[3].value = 16;
-
-            contractslist2[4] = new Randomizator3000.Item<int>();
-            contractslist2[4].weight = 8;
-            contractslist2[4].value = 17;
-
-            contractslist2[5] = new Randomizator3000.Item<int>();
-            contractslist2[5].weight = 7;
-            contractslist2[5].value = 18;
-
-            contractslist2[6] = new Randomizator3000.Item<int>();
-            contractslist2[6].weight = 7;
-            contractslist2[6].value = 19;
-
-            contractslist2[7] = new Randomizator3000.Item<int>();
-            contractslist2[7].weight = 4;
-            contractslist2[7].value = 20;
-
-            contractslist2[8] = new Randomizator3000.Item<int>();
-            contractslist2[8].weight = 3;
-            contractslist2[8].value = 21;
         }
         /// <summary>
         /// This is the randomizer for Company Info.  Company Amounts is limited by this check.  The values can be changed in MCConfig though!
@@ -599,11 +579,42 @@ namespace MissionController
         public void chooseVesselRepairFromList()
         {
             System.Random rnd = new System.Random();
-            RepairVesselsList random = repairvesselList[rnd.Next(repairvesselList.Count)];
-            SetShowVesselRepairName(random.vesselName.ToString());
-            Debug.Log("Random Repair Vessel Selected " + random.vesselName);
-            Debug.Log("Random Repair Vessel Saved To .sp File " + GetShowVesselRepairName);
+            if (repairvesselList.Count > 0)
+            {
+                RepairVesselsList random = repairvesselList[rnd.Next(repairvesselList.Count)];
+                SetShowVesselRepairName(random.vesselName.ToString());
+                Debug.Log("Random Repair Vessel Selected " + random.vesselName);
+                Debug.Log("Random Repair Vessel Saved To .sp File " + GetShowVesselRepairName);
+            }
+            else
+                Debug.Log("Vessel Repair is null, no vessels found");
         }
+
+        public void chooseRandomValues()
+        {           
+            loadbodydestinationdict();
+            Debug.Log("Body Dictionary was loaded");
+           
+            System.Random rnd2 = new System.Random();
+
+            int randnum = rnd2.Next(5, 18);
+            Debug.Log("Randomorbit number: " + randnum);
+
+            currentProgram.randomOrbit = bodyinfodict[randnum].Planet.ToString();
+            currentProgram.randomOrbitPay = bodyinfodict[randnum].basePay;
+            Debug.Log("This body has been chosen for RandomOrbit " + bodyinfodict[randnum].Planet.ToString() + "Base pay: " + currentProgram.randomOrbitPay);
+
+            randnum = rnd2.Next(5, 18);
+            Debug.Log("RandomLanding: " + randnum);
+
+            currentProgram.randomLanding = bodyinfodict[randnum].Planet.ToString();
+            currentProgram.randomLandingPay = bodyinfodict[randnum].basePay;
+            Debug.Log("This body has been chosen for RandomLanding " + bodyinfodict[randnum].Planet.ToString() + "Base Pay: " + currentProgram.randomLandingPay);
+
+            bodyinfodict.Clear();
+        }
+
+       
         public void clearVesselRepairFromList()
         {
             repairvesselList.Clear();
@@ -830,6 +841,9 @@ namespace MissionController
 
                 currentProgram.add(status);
 
+                int updatedReward = m.reward;
+                if (m.contractAvailable == 14) { updatedReward = updatedReward + currentProgram.randomOrbitPay; }
+                if (m.contractAvailable == 15) {updatedReward = updatedReward + currentProgram.randomLandingPay;}
                 if (m.IsContract == false)
                 {
                     reward(m.reward);
@@ -842,7 +856,7 @@ namespace MissionController
                 }
                 if (m.IsContract == true)
                 {                                       
-                    contractReward(m.reward, m.CompanyOrder);
+                    contractReward(updatedReward, m.CompanyOrder);
                     if (m.IsUserContract != true) {Setrandomcontractfreeze(false);}
                     if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
                     {
@@ -1300,6 +1314,23 @@ namespace MissionController
         public double SetProbeTime(double num)
         {
             return currentProgram.timeProbeStarted = num;
+        }
+
+        public string GetRandomOrbit
+        {
+            get { return currentProgram.randomOrbit; }
+        }
+        public int GetRandomOrbitPay
+        {
+            get { return currentProgram.randomOrbitPay;}
+        }
+        public string GetRandomLanding
+        {
+            get { return currentProgram.randomLanding; }
+        }
+        public int GetRandomLandingPay
+        {
+            get { return currentProgram.randomLandingPay; }
         }
         
        
