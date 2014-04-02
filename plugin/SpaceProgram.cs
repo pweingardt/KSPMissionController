@@ -43,8 +43,11 @@ namespace MissionController
         public double timeProbeStarted = -1.0;
         public string randomOrbit = "none";
         public int randomOrbitPay = 0;
+        public float randomOrbitscience = 0;
         public string randomLanding = "none";
         public int randomLandingPay = 0;
+        public float randomLandingScience = 0;
+        public string asteroidCaptureName = "none";
 
         public List<MissionStatus> completedMissions = new List<MissionStatus>();       
 

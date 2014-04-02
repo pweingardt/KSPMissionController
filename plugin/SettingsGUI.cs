@@ -142,6 +142,7 @@ namespace MissionController
 
             if (GUILayout.Button("Set Values Randoms + Find Vessel", styleButtonWordWrap))
             {
+                manager.clearAsteroidFindList();
                 manager.StartContractTypeRandom();
                 manager.StartContractType1Random();
                 manager.StartContractType2Random();
@@ -152,12 +153,21 @@ namespace MissionController
                 manager.setCompanyName();
                 manager.clearVesselRepairFromList();
                 manager.findVeselWithRepairPart();
+                manager.findAsteriodCapture();
+                manager.chooseAsteriodCapture();
             }
 
             if (GUILayout.Button("Choose Random Vessel, Random Planets", styleButtonWordWrap))
             {
                 manager.chooseVesselRepairFromList();
                 manager.chooseRandomValues();
+            }
+
+            if (GUILayout.Button("FIND ASTERIODS AND CHOOSE NAME", styleButtonWordWrap))
+            {
+                manager.clearAsteroidFindList();
+                manager.findAsteriodCapture();
+                manager.chooseAsteriodCapture();
             } 
 
             //if (GUILayout.Button("window Test Recycle", styleButtonWordWrap))

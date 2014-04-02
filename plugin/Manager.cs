@@ -48,6 +48,14 @@ namespace MissionController
             repairvesselList.Add(m);
         }
 
+        public List<AsteriodCapture> asteroidCapture = new List<AsteriodCapture>();
+        public void Add(AsteriodCapture m)
+        {
+            asteroidCapture.Add(m);
+        }
+
+        public string currentDockedToVessel = "none";
+
         public bool showKerbalHireWindow = false;
 
         public void resetLatest()
@@ -418,18 +426,22 @@ namespace MissionController
         }
         public void StartContractType2Random()
         {
-            contractslist2 = new Randomizator3000.Item<int>[3];
+            contractslist2 = new Randomizator3000.Item<int>[4];
             contractslist2[0] = new Randomizator3000.Item<int>();
             contractslist2[0].weight = 30;
             contractslist2[0].value = 0;
 
             contractslist2[1] = new Randomizator3000.Item<int>();
-            contractslist2[1].weight = 40;
+            contractslist2[1].weight = 35;
             contractslist2[1].value = 14;
 
             contractslist2[2] = new Randomizator3000.Item<int>();
-            contractslist2[2].weight = 30;
+            contractslist2[2].weight = 25;
             contractslist2[2].value = 15;
+
+            contractslist2[3] = new Randomizator3000.Item<int>();
+            contractslist2[3].weight = 10;
+            contractslist2[3].value = 16;
         }
         /// <summary>
         /// This is the randomizer for Company Info.  Company Amounts is limited by this check.  The values can be changed in MCConfig though!
@@ -534,7 +546,9 @@ namespace MissionController
             if (currentTime >= currentProgram.nextTimeCheck)
             {
                 clearVesselRepairFromList();
+                clearAsteroidFindList();
                 findVeselWithRepairPart();
+                findAsteriodCapture();
                 StartContractTypeRandom();
                 StartCompanyRandomizer();
                 setContractType();
@@ -547,6 +561,7 @@ namespace MissionController
                 setCompanyName();
                 chooseVesselRepairFromList();
                 chooseRandomValues();
+                chooseAsteriodCapture();
             }           
         }
 
@@ -574,6 +589,8 @@ namespace MissionController
             }
             
         }
+
+        
         /// <summary>
         /// This choses the Repair Vessel target.. The random part does not really work yet have to work on it. Think it only picks the first value in list.
         /// </summary>
@@ -591,6 +608,50 @@ namespace MissionController
                 Debug.Log("Vessel Repair is null, no vessels found");
         }
 
+        /// <summary>
+        /// These Next values select which asteroid to capture and randomly choosen 1 from list as target.
+        /// </summary>
+        public void findAsteriodCapture()
+        {
+            foreach (Vessel vs in FlightGlobals.Vessels)
+            {
+                if (vs.vesselType == VesselType.SpaceObject && vs.orbit.referenceBody.name != "Kerbin")
+                {
+                    asteroidCapture.Add(new AsteriodCapture(vs.name, vs.id.ToString(), vs.orbit.referenceBody.ToString()));
+                    Debug.LogError("Current Asteroids in game: " + vs.name);
+                    Debug.LogError("Current Asteroids in Game ID: " + vs.id.ToString());
+                    Debug.LogError("Current Asteroids in Game Type: " + vs.orbit.referenceBody);
+                }
+            }
+
+        }
+        public void chooseAsteriodCapture()
+        {
+            System.Random rnd = new System.Random();
+            if (asteroidCapture.Count > 0)
+            {
+                AsteriodCapture random = asteroidCapture[rnd.Next(asteroidCapture.Count)];
+                currentProgram.asteroidCaptureName = random.asName;
+                Debug.Log("Asteroid Named: " + random.asName + " has been chosen for Asteroid Capture mission");
+            }
+        }
+
+        /// <summary>
+        /// Values used to get the names of Asteriods to Capture, and the asteroid name when it is captured!
+        /// </summary>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        public string currentdockedToVessel(string target)
+        {
+            Debug.Log("Currently Vessel Docked TO: " + target);
+            return currentDockedToVessel = target;           
+        }
+        public string GetAsteroidChoosenName
+        {
+            get { return currentProgram.asteroidCaptureName; }
+        }
+
+        
         public void chooseRandomValues()
         {           
             loadbodydestinationdict();
@@ -603,6 +664,7 @@ namespace MissionController
 
             currentProgram.randomOrbit = bodyinfodict[randnum].Planet.ToString();
             currentProgram.randomOrbitPay = bodyinfodict[randnum].basePay;
+            currentProgram.randomOrbitscience = bodyinfodict[randnum].baseScience;
             Debug.Log("This body has been chosen for RandomOrbit " + bodyinfodict[randnum].Planet.ToString() + "Base pay: " + currentProgram.randomOrbitPay);
 
             randnum = rnd2.Next(5, 18);
@@ -610,6 +672,7 @@ namespace MissionController
 
             currentProgram.randomLanding = bodyinfodict[randnum].Planet.ToString();
             currentProgram.randomLandingPay = bodyinfodict[randnum].basePay;
+            currentProgram.randomLandingScience = bodyinfodict[randnum].baseScience;
             Debug.Log("This body has been chosen for RandomLanding " + bodyinfodict[randnum].Planet.ToString() + "Base Pay: " + currentProgram.randomLandingPay);
 
             bodyinfodict.Clear();
@@ -619,6 +682,10 @@ namespace MissionController
         public void clearVesselRepairFromList()
         {
             repairvesselList.Clear();
+        }
+        public void clearAsteroidFindList()
+        {
+            asteroidCapture.Clear();
         }
 
         public void clearMissionGoals(string id)
@@ -843,8 +910,9 @@ namespace MissionController
                 currentProgram.add(status);
 
                 int updatedReward = m.reward;
-                if (m.contractAvailable == 14) { updatedReward += currentProgram.randomOrbitPay; }
-                if (m.contractAvailable == 15) {updatedReward += currentProgram.randomLandingPay;}
+                float updatedScience = m.scienceReward;
+                if (m.contractAvailable == 14) { updatedReward += currentProgram.randomOrbitPay; updatedScience += currentProgram.randomOrbitscience; }
+                if (m.contractAvailable == 15) { updatedReward += currentProgram.randomLandingPay; updatedScience += currentProgram.randomLandingScience; }
                 if (m.IsContract == false)
                 {
                     reward(m.reward);
@@ -861,7 +929,7 @@ namespace MissionController
                     if (m.IsUserContract != true) {Setrandomcontractfreeze(false);}
                     if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
                     {
-                        Contractsciencereward(m.scienceReward, m.CompanyOrder);
+                        Contractsciencereward(updatedScience, m.CompanyOrder);
                     }                   
                     Debug.Log("Reward Contract Mission Award");
                 }
@@ -1325,6 +1393,10 @@ namespace MissionController
         {
             get { return currentProgram.randomOrbitPay;}
         }
+        public float GetRandomOrbitScience
+        {
+            get { return currentProgram.randomOrbitscience; }
+        }
         public string GetRandomLanding
         {
             get { return currentProgram.randomLanding; }
@@ -1332,6 +1404,10 @@ namespace MissionController
         public int GetRandomLandingPay
         {
             get { return currentProgram.randomLandingPay; }
+        }
+        public float GetRandomLandingScience
+        {
+            get { return currentProgram.randomLandingScience; }
         }
         
        
@@ -1649,6 +1725,21 @@ namespace MissionController
         }
            
 
+    }
+    public class AsteriodCapture
+    {
+        public string asName;
+        public string asId;
+        public string asPlanetOrbit;
+        public AsteriodCapture()
+        {
+        }
+        public AsteriodCapture(string name, string id, string orbPlanet)
+        {
+            this.asName = name;
+            this.asId = id;
+            this.asPlanetOrbit = orbPlanet;
+        }
     }
 }
 

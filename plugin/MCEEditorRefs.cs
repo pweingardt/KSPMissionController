@@ -83,6 +83,7 @@ namespace MissionController
             MaxOrb = 47921949,
             MinOrb = 42000,
             basePay = 275000,
+            baseScience = 50,
         };
         public PlanetInfo PlanetInfo6 = new PlanetInfo()
         {
@@ -92,6 +93,7 @@ namespace MissionController
             MaxOrb = 1049598,
             MinOrb = 13000,
             basePay = 300000,
+            baseScience = 65,
         };
         public PlanetInfo PlanetInfo7 = new PlanetInfo()
         {
@@ -101,6 +103,7 @@ namespace MissionController
             MaxOrb = 1049598,
             MinOrb = 97000,
             basePay = 250000,
+            baseScience = 45,
         };
         public PlanetInfo PlanetInfo8 = new PlanetInfo()
         {
@@ -110,6 +113,7 @@ namespace MissionController
             MaxOrb = 1049598,
             MinOrb = 13000,
             basePay = 275000,
+            baseScience = 60,
         };
         public PlanetInfo PlanetInfo9 = new PlanetInfo()
         {
@@ -119,6 +123,7 @@ namespace MissionController
             MaxOrb = 9646663,
             MinOrb = 7000,
             basePay = 425000,
+            baseScience = 200,
         };
         public PlanetInfo PlanetInfo10 = new PlanetInfo()
         {
@@ -128,6 +133,7 @@ namespace MissionController
             MaxOrb = 32832840,
             MinOrb = 6000,
             basePay = 325000,
+            baseScience = 75,
         };
         public PlanetInfo PlanetInfo11 = new PlanetInfo()
         {
@@ -137,6 +143,7 @@ namespace MissionController
             MaxOrb = 212832840,
             MinOrb = 139000,
             basePay = 300000,
+            baseScience = 80,
         };
         public PlanetInfo PlanetInfo12 = new PlanetInfo()
         {
@@ -146,6 +153,7 @@ namespace MissionController
             MaxOrb = 3723645,
             MinOrb = 82000,
             basePay = 310000,
+            baseScience = 85,
         };
         public PlanetInfo PlanetInfo13 = new PlanetInfo()
         {
@@ -155,6 +163,7 @@ namespace MissionController
             MaxOrb = 2406401,
             MinOrb = 8000,
             basePay = 375000,
+            baseScience = 90,
         };
         public PlanetInfo PlanetInfo14 = new PlanetInfo()
         {
@@ -164,6 +173,7 @@ namespace MissionController
             MaxOrb = 10856518,
             MinOrb = 12000,
             basePay = 475000,
+            baseScience = 250,
         };
         public PlanetInfo PlanetInfo15 = new PlanetInfo()
         {
@@ -172,7 +182,8 @@ namespace MissionController
             Gamount = 250000,
             MaxOrb = 1221060,
             MinOrb = 30,
-            basePay = 320000
+            basePay = 320000,
+            baseScience = 100,
         };
         public PlanetInfo PlanetInfo16 = new PlanetInfo()
         {
@@ -181,7 +192,8 @@ namespace MissionController
             Gamount = 250000,
             MaxOrb = 1042138,
             MinOrb = 6000,
-            basePay = 350000
+            basePay = 350000,
+            baseScience = 110,
         };
         public PlanetInfo PlanetInfo17 = new PlanetInfo()
         {
@@ -190,7 +202,8 @@ namespace MissionController
             Gamount = 900000,
             MaxOrb = 10000000,
             MinOrb = 4000,
-            basePay = 450000
+            basePay = 450000,
+            baseScience = 300,
         };
         
     }

@@ -56,6 +56,8 @@ namespace MissionController
         /// </summary>
         public bool IsRepair = false;
 
+        public bool isAsteroidCapture = false;
+
         /// <summary>
         /// science reward for finishing the mission
         /// </summary>

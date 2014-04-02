@@ -21,11 +21,15 @@ namespace MissionController
                 eventFlags = eventFlags.Add (EventFlags.DOCKED);
                 Debug.LogError ("Docked FROM: " + action.from.vessel.vesselName);
                 Debug.LogError ("Docked TO: " + action.to.vessel.vesselName);
+                manager.currentdockedToVessel(action.from.vessel.vesselName);
+
+                Debug.LogError("Docked TO Type Vessel: " + action.to.vessel.vesselType);
 
                 Debug.LogError ("Docked FROM ID: " + action.from.vessel.id.ToString());
                 Debug.LogError ("Docked TO ID: " + action.to.vessel.id.ToString());
             }
         }
+        
 
         private void onUndock(Part action)
         {
@@ -34,6 +38,7 @@ namespace MissionController
                 eventFlags = eventFlags.Add(EventFlags.UNDOCKED);
                 print("eventFlag set: " + eventFlags);
                 print("Vessel Undockd From: " + action);
+                manager.currentdockedToVessel("None");
             }
 
         }

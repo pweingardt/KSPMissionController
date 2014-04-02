@@ -9,6 +9,15 @@ namespace MissionController
     /// </summary>
     public class DockingGoal : MissionGoal
     {
+        private MissionController ms
+        {
+            get { return MissionController.instance; }
+        }
+        private Manager manager
+        {
+            get { return Manager.instance; }
+        }
+
          public DockingGoal() {
             this.vesselIndenpendent = true;
         }
@@ -19,12 +28,14 @@ namespace MissionController
             if (vessel == null)
             {
                 values.Add (new Value ("Docked", "True"));
-                
+                values.Add(new Value("Capture Asteroid", manager.GetAsteroidChoosenName));                               
             } else {
                 
                 bool docked = (events.docked || this.doneOnce);
+                string targetAsteriod = manager.currentDockedToVessel + " (unloaded)";
                 values.Add (new Value ("Docked", "True", "" + docked, docked));
-                
+                values.Add(new Value("Capture", "" + manager.GetAsteroidChoosenName, targetAsteriod, manager.GetAsteroidChoosenName.Equals(targetAsteriod)));
+                                
             }
 
             return values;

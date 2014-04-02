@@ -525,6 +525,7 @@ namespace MissionController
         public double MaxOrb { get; set; }
         public double MinOrb { get; set; }
         public int basePay { get; set; }
+        public float baseScience { get; set; }
 
     }
     public class GoalInfo

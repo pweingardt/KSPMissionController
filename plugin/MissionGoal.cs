@@ -17,7 +17,7 @@ namespace MissionController
         /// Used to store finished mission goals. Do not set manually!
         /// </summary>
         public String id = "";
-
+       
         /// <summary>
         /// If repeatable = true, this mission goals can be accomplished more than once.
         /// </summary>
