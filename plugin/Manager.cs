@@ -584,6 +584,7 @@ namespace MissionController
                             repairvesselList.Add(new RepairVesselsList(vs.name));
                             Debug.Log("MCE***" + vs.name + " Loaded Vessels With RepairStation Parts");
                         }
+                        else {Debug.Log("Cannot Find vessels with Repair Part, Repair List not populated");}
                     }
                 }
             }
@@ -604,8 +605,9 @@ namespace MissionController
                 Debug.Log("Random Repair Vessel Selected " + random.vesselName);
                 Debug.Log("Random Repair Vessel Saved To .sp File " + GetShowVesselRepairName);
             }
-            else
-                Debug.Log("Vessel Repair is null, no vessels found");
+            else{
+                SetShowVesselRepairName("No Vessels With Repair Available");
+                Debug.Log("Vessel Repair is null, no vessels found");}
         }
 
         /// <summary>
@@ -622,6 +624,7 @@ namespace MissionController
                     Debug.LogError("Current Asteroids in Game ID: " + vs.id.ToString());
                     Debug.LogError("Current Asteroids in Game Type: " + vs.orbit.referenceBody);
                 }
+                else { Debug.Log("No asteroids to add to MCE AsteriodCapture List"); }
             }
 
         }
@@ -633,6 +636,11 @@ namespace MissionController
                 AsteriodCapture random = asteroidCapture[rnd.Next(asteroidCapture.Count)];
                 currentProgram.asteroidCaptureName = random.asName;
                 Debug.Log("Asteroid Named: " + random.asName + " has been chosen for Asteroid Capture mission");
+            }
+            else
+            {
+                currentProgram.asteroidCaptureName = "Can't Find Any Asteroids";
+                Debug.Log("Can't find asteriods, no names selected");
             }
         }
 
@@ -855,7 +863,7 @@ namespace MissionController
                 if (CrewMember.rosterStatus == ProtoCrewMember.RosterStatus.AVAILABLE || CrewMember.rosterStatus == ProtoCrewMember.RosterStatus.ASSIGNED)
                 {
 
-                    if (!currentProgram.hiredkerbal.Exists(H => H.hiredKerbalName == CrewMember.name))
+                    if (!currentProgram.hiredkerbal.Exists(H => H.hiredKerbalName == CrewMember.name) && HighLogic.LoadedSceneIsFlight)
                     {
                         currentProgram.add(new HiredKerbals(CrewMember.name, Planetarium.GetUniversalTime(), CrewMember.rosterStatus.ToString()));
                         manager.kerbCost(FinanceMode.KerbalHiredCost);

@@ -9,6 +9,9 @@ namespace MissionController
     /// </summary>
     public class DockingGoal : MissionGoal
     {
+        public bool isAsteroidCapture = false;
+        public bool isDockingCapture = false;
+        
         private MissionController ms
         {
             get { return MissionController.instance; }
@@ -28,13 +31,28 @@ namespace MissionController
             if (vessel == null)
             {
                 values.Add (new Value ("Docked", "True"));
-                values.Add(new Value("Capture Asteroid", manager.GetAsteroidChoosenName));                               
+                if (isAsteroidCapture == true)
+                {
+                    values.Add(new Value("Capture Asteroid", manager.GetAsteroidChoosenName));
+                }
+                if (isDockingCapture == true)
+                {
+                    values.Add(new Value("Dock With Satellite", manager.GetShowVesselRepairName));
+                }
             } else {
                 
-                bool docked = (events.docked || this.doneOnce);
-                string targetAsteriod = manager.currentDockedToVessel + " (unloaded)";
+                bool docked = (events.docked || this.doneOnce);              
                 values.Add (new Value ("Docked", "True", "" + docked, docked));
-                values.Add(new Value("Capture", "" + manager.GetAsteroidChoosenName, targetAsteriod, manager.GetAsteroidChoosenName.Equals(targetAsteriod)));
+                if (isAsteroidCapture == true)
+                {
+                    string targetAsteriod = manager.currentDockedToVessel + " (unloaded)";
+                    values.Add(new Value("Capture", "" + manager.GetAsteroidChoosenName, targetAsteriod, manager.GetAsteroidChoosenName.Equals(targetAsteriod)));
+                }
+                if (isDockingCapture == true)
+                {
+                    string docksat = manager.currentDockedToVessel + " (unloaded)";
+                    values.Add(new Value("Capture", "" + manager.GetShowVesselRepairName, docksat, manager.GetAsteroidChoosenName.Equals(docksat)));
+                }
                                 
             }
 

@@ -29,7 +29,7 @@ namespace MissionController
         public int currentcontractytpe2 = 0;
         public int currentcontracttype3 = 0;
         public double nextTimeCheck = 0;
-        public string showRepairVesselName = "NONE";
+        public string showRepairVesselName = "No Vessels With Repair Available!";
         public string showCompanyAvailable = "COMA";
         public string showCompanyAvailable2 = "COMA";
         public string showCompanyAvailable3 = "COMA";

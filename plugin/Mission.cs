@@ -54,9 +54,7 @@ namespace MissionController
         /// <summary>
         /// checks if repair mission if so, another check is made to see if Vessel Has RepairParts.  If both are true Repair Contract Will Show.
         /// </summary>
-        public bool IsRepair = false;
-
-        public bool isAsteroidCapture = false;
+        public bool IsRepair = false;       
 
         /// <summary>
         /// science reward for finishing the mission
