@@ -325,10 +325,11 @@ namespace MissionController
 
         public void Start()
         {
-            manager.findVeselWithRepairPart();
             print("Mission Controller Loaded");
             manager.loadProgram(HighLogic.CurrentGame.Title);
             LoadDictionary();
+            manager.loadbodydestinationdict();
+            Debug.Log("Body Dictionary was loaded");
 
             button = ToolbarManager.Instance.add("MC1", "Settings1");
             button.TexturePath = "MissionController/icons/settings";
@@ -400,8 +401,6 @@ namespace MissionController
             };
 
             GUILoad();
-            manager.SetClockCountdown();
-
         }
 
         void OnLevelWasLoaded()
@@ -414,7 +413,10 @@ namespace MissionController
             fn.checkloans();
             manager.isKerbalHired();
             GUISave();
-            if (manager.Getrandomcontractsfreeze != true) { manager.checkClockTiime(); }
+            if (manager.Getrandomcontractsfreeze != true) { 
+                manager.checkClockTiime();                
+            }
+            manager.SetClockCountdown();
             repairStation.repair = false;
             repairStation.dooropen = false;
             manager.currentgoalPayment = 0;
@@ -476,7 +478,7 @@ namespace MissionController
             VabShipSelect.Destroy();
             RevertSelect.Destroy();
             ScienceResearch.Destroy();
-            Hidetoolbars.Destroy();
+            Hidetoolbars.Destroy();            
         }
         
 

@@ -140,34 +140,29 @@ namespace MissionController
             GUILayout.EndHorizontal();
             GUILayout.Space(10);
 
-            if (GUILayout.Button("Set Values Randoms + Find Vessel", styleButtonWordWrap))
+            if (GUILayout.Button("Simulate Contract Resets", styleButtonWordWrap))
             {
-                manager.clearAsteroidFindList();
                 manager.StartContractTypeRandom();
-                manager.StartContractType1Random();
-                manager.StartContractType2Random();
                 manager.StartCompanyRandomizer();
                 manager.setContractType();
+                manager.StartContractType1Random();
                 manager.setContractType1();
+                manager.StartContractType2Random();
                 manager.setContractType2();
+                manager.SetClockCountdown();
                 manager.setCompanyName();
-                manager.clearVesselRepairFromList();
-                manager.findVeselWithRepairPart();
-                manager.findAsteriodCapture();
-                manager.chooseAsteriodCapture();
-            }
-
-            if (GUILayout.Button("Choose Random Vessel, Random Planets", styleButtonWordWrap))
-            {
-                manager.chooseVesselRepairFromList();
                 manager.chooseRandomValues();
-            }
+            }           
 
             if (GUILayout.Button("FIND ASTERIODS AND CHOOSE NAME", styleButtonWordWrap))
             {
                 manager.clearAsteroidFindList();
                 manager.findAsteriodCapture();
-                manager.chooseAsteriodCapture();
+            }
+            if (GUILayout.Button("FIND VESSEL REPAIRS", styleButtonWordWrap))
+            {               
+                manager.findVeselWithRepairPart();
+                manager.clearVesselRepairFromList();
             } 
 
             //if (GUILayout.Button("window Test Recycle", styleButtonWordWrap))

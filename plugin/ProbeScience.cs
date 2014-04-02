@@ -75,14 +75,14 @@ namespace MissionController
             if (manager.GetRoverTime == -1.0 && roverSeconds > 0.0 && manager.GetTimeRoverName == "none" && RoverScience.doResearch == true)
             {
                 manager.SetRoverTime(Planetarium.GetUniversalTime());
-                manager.SetTimeRoverName(id);
+                //manager.SetTimeRoverName("probe");
             }
-            if (FlightGlobals.fetch.activeVessel != null && manager.GetTimeRoverName != id && roverSeconds > 0)
-            {
-                RoverScience.doResearch = false;
-                manager.SetRoverTime(-1.0);
-                manager.SetTimeRoverName("none");
-            }
+            //if (FlightGlobals.fetch.activeVessel != null && manager.GetTimeRoverName != id && roverSeconds > 0)
+            //{
+            //    RoverScience.doResearch = false;
+            //    manager.SetRoverTime(-1.0);
+            //    manager.SetTimeRoverName("none");
+            //}
 
             if (vessel == null)
             {
@@ -114,6 +114,12 @@ namespace MissionController
                 {
                     double diff2 = (manager.GetRoverTime == -1.0 ? 0 : Planetarium.GetUniversalTime() - manager.GetRoverTime);
                     values2.Add(new Value("Research Time", MathTools.formatTime(roverSeconds), MathTools.formatTime(diff2), diff2 > roverSeconds));
+                    if (diff2 > roverSeconds)
+                    {
+                        RoverScience.doResearch = false;
+                        manager.SetRoverTime(-1.0);
+                        manager.SetTimeRoverName("none");
+                    }
                 }
                 
             }

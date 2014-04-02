@@ -30,7 +30,10 @@ namespace MissionController
 
             if (vessel == null)
             {
-                values.Add (new Value ("Docked", "True"));
+                if (isAsteroidCapture != true && isDockingCapture != true)
+                {
+                    values.Add(new Value("Docked", "True"));
+                }
                 if (isAsteroidCapture == true)
                 {
                     values.Add(new Value("Capture Asteroid", manager.GetAsteroidChoosenName));
@@ -40,9 +43,7 @@ namespace MissionController
                     values.Add(new Value("Dock With Satellite", manager.GetShowVesselRepairName));
                 }
             } else {
-                
-                bool docked = (events.docked || this.doneOnce);              
-                values.Add (new Value ("Docked", "True", "" + docked, docked));
+                              
                 if (isAsteroidCapture == true)
                 {
                     string targetAsteriod = manager.currentDockedToVessel + " (unloaded)";
@@ -51,7 +52,12 @@ namespace MissionController
                 if (isDockingCapture == true)
                 {
                     string docksat = manager.currentDockedToVessel + " (unloaded)";
-                    values.Add(new Value("Capture", "" + manager.GetShowVesselRepairName, docksat, manager.GetAsteroidChoosenName.Equals(docksat)));
+                    values.Add(new Value("Dock With", "" + manager.GetShowVesselRepairName, docksat, manager.GetShowVesselRepairName.Equals(docksat)));
+                }
+                if (isAsteroidCapture != true && isDockingCapture != true)
+                {
+                    bool docked = (events.docked || this.doneOnce);
+                    values.Add(new Value("Docked", "True", "" + docked, docked));
                 }
                                 
             }

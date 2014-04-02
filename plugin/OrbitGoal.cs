@@ -53,8 +53,6 @@ namespace MissionController
 
         public bool orbitResearch = false;
         public double probeSeconds = 0.0;
-        public int contractAvailable = 0;
-
 
         public String body = "Kerbin";
 
@@ -293,17 +291,17 @@ namespace MissionController
             }
             if (probeSeconds > 0.0)
             {
-                if (manager.GetProbeTime == -1.0 && probeSeconds > 0.0 && manager.GetTimeProbeName == "none" && OrbitResearchScan.doResearch == true)
+                if (manager.GetProbeTime == -1.0 && probeSeconds > 0.0 && OrbitResearchScan.doResearch == true)
                 {
                     manager.SetProbeTime(Planetarium.GetUniversalTime());
-                    manager.SetTimeProbeName(id);
+                    //manager.SetTimeProbeName(getType());
                 }
-                if (FlightGlobals.fetch.activeVessel != null && manager.GetTimeProbeName != id && probeSeconds > 0)
-                {
-                    OrbitResearchScan.doResearch = false;
-                    manager.SetProbeTime(-1.0);
-                    manager.SetTimeProbeName("none");
-                }
+                //if (FlightGlobals.fetch.activeVessel != null && manager.GetTimeProbeName != id && probeSeconds > 0)
+                //{
+                //    OrbitResearchScan.doResearch = false;
+                //    manager.SetProbeTime(-1.0);
+                //    manager.SetTimeProbeName("none");
+                //}
                 if (vessel == null)
                 {
                     values.Add(new Value("Research Time", MathTools.formatTime(probeSeconds)));
@@ -312,6 +310,12 @@ namespace MissionController
                 {
                     double diff2 = (manager.GetProbeTime == -1.0 ? 0 : Planetarium.GetUniversalTime() - manager.GetProbeTime);
                     values.Add(new Value("Research Time", MathTools.formatTime(probeSeconds), MathTools.formatTime(diff2), diff2 > probeSeconds));
+                    if (diff2 > probeSeconds)
+                    {
+                        OrbitResearchScan.doResearch = false;
+                        manager.SetProbeTime(-1.0);
+                        manager.SetTimeProbeName("none");
+                    }
                 }
             }
 

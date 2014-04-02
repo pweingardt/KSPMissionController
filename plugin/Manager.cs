@@ -34,6 +34,8 @@ namespace MissionController
         public int currentgoalPayment = 0;
         private string currentgoalName;
 
+        public int currentContractPayment = 0;
+
         private int latestExpenses = 0;
 
         public List<CurrentHires> currentHires = new List<CurrentHires>();
@@ -269,23 +271,23 @@ namespace MissionController
                 {
                     MissionController.showBonusPaymentsWindow = true;
                 }
-                if (currentProgram.timeStarted > 0 && currentProgram.timeProbeName == goal.id)
-                {
-                    currentProgram.timeStarted = -1.0;
-                    currentProgram.timeStartedName = "none";
-                }
-                if (currentProgram.timeRoverStarted > 0 && currentProgram.timeProbeName == goal.id)
-                {
-                    currentProgram.timeRoverStarted = -1.0;
-                    currentProgram.timeRoverName = "none";
-                    RoverScience.doResearch = false;
-                }
-                if (currentProgram.timeProbeStarted > 0 && currentProgram.timeProbeName == goal.id)
-                {
-                    currentProgram.timeProbeStarted = -1.0;
-                    currentProgram.timeProbeName = "none";
-                    OrbitResearchScan.doResearch = false;
-                }
+                //if (currentProgram.timeStarted > 0 && currentProgram.timeStartedName == goal.id)
+                //{
+                //    currentProgram.timeStarted = -1.0;
+                //    currentProgram.timeStartedName = "none";
+                //}
+                //if (currentProgram.timeRoverStarted > 0 && currentProgram.timeRoverName == goal.id)
+                //{
+                //    currentProgram.timeRoverStarted = -1.0;
+                //    currentProgram.timeRoverName = "none";
+                //    RoverScience.doResearch = false;
+                //}
+                //if (currentProgram.timeProbeStarted > 0 && currentProgram.timeProbeName == goal.id)
+                //{
+                //    currentProgram.timeProbeStarted = -1.0;
+                //    currentProgram.timeProbeName = "none";
+                //    OrbitResearchScan.doResearch = false;
+                //}
                 saveProgram();             
             }
 
@@ -299,23 +301,23 @@ namespace MissionController
                 {
                     MissionController.showBonusPaymentsWindow = true;
                 }
-                if (currentProgram.timeStarted > 0 && currentProgram.timeProbeName == goal.id)
-                {
-                    currentProgram.timeStarted = -1.0;
-                    currentProgram.timeStartedName = "none";
-                }
-                if (currentProgram.timeRoverStarted > 0 && currentProgram.timeProbeName == goal.id)
-                {
-                    currentProgram.timeRoverStarted = -1.0;
-                    currentProgram.timeRoverName = "none";
-                    RoverScience.doResearch = false;
-                }
-                if (currentProgram.timeProbeStarted > 0 && currentProgram.timeProbeName == goal.id)
-                {
-                    currentProgram.timeProbeStarted = -1.0;
-                    currentProgram.timeProbeName = "none";
-                    OrbitResearchScan.doResearch = false;
-                }
+                //if (currentProgram.timeStarted > 0 && currentProgram.timeStartedName == goal.id)
+                //{
+                //    currentProgram.timeStarted = -1.0;
+                //    currentProgram.timeStartedName = "none";
+                //}
+                //if (currentProgram.timeRoverStarted > 0 && currentProgram.timeRoverName == goal.id)
+                //{
+                //    currentProgram.timeRoverStarted = -1.0;
+                //    currentProgram.timeRoverName = "none";
+                //    RoverScience.doResearch = false;
+                //}
+                //if (currentProgram.timeProbeStarted > 0 && currentProgram.timeProbeName == goal.id)
+                //{
+                //    currentProgram.timeProbeStarted = -1.0;
+                //    currentProgram.timeProbeName = "none";
+                //    OrbitResearchScan.doResearch = false;
+                //}
                 saveProgram();
             }
         }
@@ -544,24 +546,18 @@ namespace MissionController
             double currentTime;
             currentTime = Planetarium.GetUniversalTime();
             if (currentTime >= currentProgram.nextTimeCheck)
-            {
-                clearVesselRepairFromList();
-                clearAsteroidFindList();
-                findVeselWithRepairPart();
-                findAsteriodCapture();
+            {                
                 StartContractTypeRandom();
                 StartCompanyRandomizer();
                 setContractType();
                 StartContractType1Random();
                 setContractType1();
                 StartContractType2Random();
-                setContractType2();
-                currentProgram.nextTimeCheck = 0;
-                SetClockCountdown();
-                setCompanyName();
-                chooseVesselRepairFromList();
-                chooseRandomValues();
-                chooseAsteriodCapture();
+                setContractType2();                
+                setCompanyName();                                
+                chooseRandomValues();                               
+                currentProgram.nextTimeCheck = 0;                
+                Debug.Log("Contract Resets Complete.. TimeCheck set to 0");
             }           
         }
 
@@ -572,7 +568,7 @@ namespace MissionController
         /// </summary>
        
         public void findVeselWithRepairPart()
-        {
+        {           
             foreach (Vessel vs in FlightGlobals.Vessels)
             {
                 foreach (ProtoPartSnapshot p in vs.protoVessel.protoPartSnapshots)
@@ -583,12 +579,11 @@ namespace MissionController
                         {
                             repairvesselList.Add(new RepairVesselsList(vs.name));
                             Debug.Log("MCE***" + vs.name + " Loaded Vessels With RepairStation Parts");
-                        }
-                        else {Debug.Log("Cannot Find vessels with Repair Part, Repair List not populated");}
+                        }                        
                     }
                 }
             }
-            
+            chooseVesselRepairFromList();
         }
 
         
@@ -597,17 +592,16 @@ namespace MissionController
         /// </summary>
         public void chooseVesselRepairFromList()
         {
-            System.Random rnd = new System.Random();
-            if (repairvesselList.Count > 0)
-            {
-                RepairVesselsList random = repairvesselList[rnd.Next(repairvesselList.Count)];
-                SetShowVesselRepairName(random.vesselName.ToString());
-                Debug.Log("Random Repair Vessel Selected " + random.vesselName);
-                Debug.Log("Random Repair Vessel Saved To .sp File " + GetShowVesselRepairName);
-            }
-            else{
-                SetShowVesselRepairName("No Vessels With Repair Available");
-                Debug.Log("Vessel Repair is null, no vessels found");}
+            
+                System.Random rnd = new System.Random();
+                if (repairvesselList.Count > 0)
+                {
+                    RepairVesselsList random = repairvesselList[rnd.Next(repairvesselList.Count)];
+                    SetShowVesselRepairName(random.vesselName.ToString());
+                    Debug.LogWarning("Random Repair Vessel Selected " + random.vesselName);
+                    Debug.Log("Random Repair Vessel Saved To .sp File " + GetShowVesselRepairName);
+                }
+                else { Debug.LogError(" Vessel Selection Null, skiped process"); }
         }
 
         /// <summary>
@@ -624,24 +618,16 @@ namespace MissionController
                     Debug.LogError("Current Asteroids in Game ID: " + vs.id.ToString());
                     Debug.LogError("Current Asteroids in Game Type: " + vs.orbit.referenceBody);
                 }
-                else { Debug.Log("No asteroids to add to MCE AsteriodCapture List"); }
+                else { Debug.LogError("Asteroid List not populated, skipped List Poplution"); }
             }
-
+            manager.chooseAsteriodCapture();
         }
         public void chooseAsteriodCapture()
         {
-            System.Random rnd = new System.Random();
-            if (asteroidCapture.Count > 0)
-            {
-                AsteriodCapture random = asteroidCapture[rnd.Next(asteroidCapture.Count)];
-                currentProgram.asteroidCaptureName = random.asName;
-                Debug.Log("Asteroid Named: " + random.asName + " has been chosen for Asteroid Capture mission");
-            }
-            else
-            {
-                currentProgram.asteroidCaptureName = "Can't Find Any Asteroids";
-                Debug.Log("Can't find asteriods, no names selected");
-            }
+            System.Random rnd2 = new System.Random();
+            AsteriodCapture random2 = asteroidCapture[rnd2.Next(asteroidCapture.Count)];
+            currentProgram.asteroidCaptureName = random2.asName.ToString();
+            Debug.LogWarning("Asteroid Named: " + random2.asName + " has been chosen for Asteroid Capture mission");                     
         }
 
         /// <summary>
@@ -661,10 +647,7 @@ namespace MissionController
 
         
         public void chooseRandomValues()
-        {           
-            loadbodydestinationdict();
-            Debug.Log("Body Dictionary was loaded");
-           
+        {                                
             System.Random rnd2 = new System.Random();
 
             int randnum = rnd2.Next(5, 18);
@@ -900,8 +883,7 @@ namespace MissionController
                 status.repeatable = m.repeatable;
                 status.repeatableSameVessel = m.repeatableSameVessel;
                 status.vesselName = vessel.GetName();
-                status.endTime = Planetarium.GetUniversalTime();
-                status.payment = m.reward;
+                status.endTime = Planetarium.GetUniversalTime();                
 
                 if (m.passiveMission) {
                     status.endOfLife = Planetarium.GetUniversalTime () + m.lifetime;
@@ -925,6 +907,7 @@ namespace MissionController
                 {
                     reward(m.reward);
                     totalReward(m.reward);
+                    status.payment = m.reward;
                     if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
                     {
                         sciencereward(m.scienceReward);
@@ -933,17 +916,22 @@ namespace MissionController
                 }
                 if (m.IsContract == true)
                 {                                       
-                    contractReward(updatedReward, m.CompanyOrder);
-                    if (m.IsUserContract != true) {Setrandomcontractfreeze(false);}
+                    contractReward(updatedReward, m.CompanyOrder);                   
+                    if (m.IsUserContract != true) {
+                        Setrandomcontractfreeze(false);
+                        manager.SetCurrentContract(0);
+                        manager.SetCurrentContract1(0);
+                        manager.SetCurrentContract2(0);
+                    }
                     if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
                     {
                         Contractsciencereward(updatedScience, m.CompanyOrder);
-                    }                   
-                    Debug.Log("Reward Contract Mission Award");
-                }
+                    }
                     
-                
-                
+                    Debug.Log("Reward Contract Mission Award");
+                    status.payment = currentContractPayment;
+                }
+                                                                  
                 // finish unfinished goals
                 foreach(MissionGoal goal in m.goals) {
                     finishMissionGoal(goal, vessel, events);
@@ -1550,32 +1538,36 @@ namespace MissionController
                         value = (int)((double)value * mult);
                     }
                 }
+                currentContractPayment = 0;
                 int Complevel = ms;
 
                 if (ms == 1)
                 {
                     currentProgram.money += (int)((double)value * comppayout * PayoutLeveles.TechPayout);
-                    currentProgram.totalMoney += (int)((double)value * comppayout * PayoutLeveles.TechPayout);
-
+                    currentProgram.totalMoney += (int)((double)value * comppayout * PayoutLeveles.TechPayout);                    
                     Debug.Log("Contract Payment made comp1");
+                    currentContractPayment += (int)((double)value * comppayout * PayoutLeveles.TechPayout);
                 }
                 if (ms == 2)
                 {
                     currentProgram.money += (int)((double)value * comppayout2 * PayoutLeveles.TechPayout);
                     currentProgram.totalMoney += (int)((double)value * comppayout2 * PayoutLeveles.TechPayout);
                     Debug.Log("Contract Payment made comp2");
+                    currentContractPayment += (int)((double)value * comppayout2 * PayoutLeveles.TechPayout);
                 }
                 if (ms == 3)
                 {
                     currentProgram.money += (int)((double)value * comppayout3 * PayoutLeveles.TechPayout);
                     currentProgram.totalMoney += (int)((double)value * comppayout3 * PayoutLeveles.TechPayout);
                     Debug.Log("Contract Payment made comp3");
+                    currentContractPayment += (int)((double)value * comppayout3 * PayoutLeveles.TechPayout);
                 }
                 if (ms == 4)
                 {
                     currentProgram.money += (int)((double)value * comppayout4 * PayoutLeveles.TechPayout);
                     currentProgram.totalMoney += (int)((double)value * comppayout4 * PayoutLeveles.TechPayout);
                     Debug.Log("Contract Payment made comp4");
+                    currentContractPayment += (int)((double)value * comppayout4 * PayoutLeveles.TechPayout);
                 }
             }
             return currentProgram.money;
@@ -1651,8 +1643,7 @@ namespace MissionController
             double compscience2 = Tools.GetValueDefault(Tools.MCSettings.GetNode(GetCompanyInfoString2), "science", 1.0);
             double compscience3 = Tools.GetValueDefault(Tools.MCSettings.GetNode(GetCompanyInfoString3), "science", 1.0);
             double compscience4 = Tools.GetValueDefault(Tools.MCSettings.GetNode(GetCompanyInfoString4), "science", 1.0);
-            ConstructionMode cn = new ConstructionMode();
-
+            ConstructionMode cn = new ConstructionMode();           
             int complevel = ms;
 
             if (complevel == 1)

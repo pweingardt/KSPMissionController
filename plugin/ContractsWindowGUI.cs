@@ -11,6 +11,8 @@ namespace MissionController
         private Vector2 contractScrollPosition = new Vector2();
         private Vector2 previewContractScrollPosition = new Vector2();
         private Mission currentPreviewMission2 = null;
+        private bool vrLock = false;
+        private bool asLock = false;
 
         private void drawContractsWindow(int id)
         {
@@ -40,6 +42,12 @@ namespace MissionController
                     if (GUILayout.Button(m.name, style, GUILayout.Width(325), GUILayout.Height(45)))
                     {
                         currentPreviewMission2 = manager.reloadMission(m, activeVessel);
+                        if (manager.Getrandomcontractsfreeze != true && vrLock != true)
+                        {                           
+                            manager.findVeselWithRepairPart();
+                            manager.clearVesselRepairFromList();
+                            vrLock = true;
+                        }
                     }
                     if (currentPreviewMission2 != null)
                     {
@@ -54,6 +62,7 @@ namespace MissionController
                             showMissionPackageBrowser = false;
                             showContractSelection = false;
                             manager.Setrandomcontractfreeze(true);
+                            vrLock = false;
                         }
                     }
                 }
@@ -91,6 +100,13 @@ namespace MissionController
                     if (GUILayout.Button(m.name, style, GUILayout.Width(325), GUILayout.Height(45)))
                     {
                         currentPreviewMission2 = manager.reloadMission(m, activeVessel);
+                        if (manager.Getrandomcontractsfreeze != true && asLock != true)
+                        {
+                            manager.clearAsteroidFindList();
+                            manager.findAsteriodCapture();
+                            asLock = true;
+                        }
+
                     }
                     if (currentPreviewMission2 != null)
                     {
@@ -105,6 +121,7 @@ namespace MissionController
                             showMissionPackageBrowser = false;
                             showContractSelection = false;
                             manager.Setrandomcontractfreeze(true);
+                            asLock = false;
                         }
                     }
                 }
