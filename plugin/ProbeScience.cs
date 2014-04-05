@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace MissionController
 {
-    public class RoverScience: PartModule
+    public class MCERoverScience: PartModule
     {      
  
         [KSPField(isPersistant = false)]
@@ -72,7 +72,7 @@ namespace MissionController
         {          
 
             List<Value> values2 = new List<Value>();
-            if (manager.GetRoverTime == -1.0 && roverSeconds > 0.0 && manager.GetTimeRoverName == "none" && RoverScience.doResearch == true)
+            if (manager.GetRoverTime == -1.0 && roverSeconds > 0.0 && manager.GetTimeRoverName == "none" && MCERoverScience.doResearch == true)
             {
                 manager.SetRoverTime(Planetarium.GetUniversalTime());
                 //manager.SetTimeRoverName("probe");
@@ -96,7 +96,7 @@ namespace MissionController
             }
             else
             {               
-                values2.Add(new Value("Rover Research", "True", "" + RoverScience.doResearch,RoverScience.doResearch));
+                values2.Add(new Value("Rover Research", "True", "" + MCERoverScience.doResearch,MCERoverScience.doResearch));
                 if (contractAvailable == 15)
                 {
                     values2.Add(new Value("Landing Body", manager.GetRandomLanding, vessel.orbit.referenceBody.bodyName,
@@ -116,7 +116,7 @@ namespace MissionController
                     values2.Add(new Value("Research Time", MathTools.formatTime(roverSeconds), MathTools.formatTime(diff2), diff2 > roverSeconds));
                     if (diff2 > roverSeconds)
                     {
-                        RoverScience.doResearch = false;
+                        MCERoverScience.doResearch = false;
                         manager.SetRoverTime(-1.0);
                         manager.SetTimeRoverName("none");
                     }

@@ -6,8 +6,8 @@ namespace MissionController
 {
     public partial class MissionController
     {
-        private Vector2 packageScrollPosition = new Vector2();
-        private Vector2 previewMissionScrollPosition = new Vector2 ();
+        private Vector2 packageScrollPosition;
+        private Vector2 previewMissionScrollPosition;
         private Mission currentPreviewMission = null;
 
         private SortBy currentSort = SortBy.NAME;
@@ -49,7 +49,7 @@ namespace MissionController
             GUILayout.EndVertical();
             GUILayout.EndHorizontal();
 
-            packageScrollPosition = GUILayout.BeginScrollView (packageScrollPosition, GUILayout.Width(500));
+            packageScrollPosition = GUILayout.BeginScrollView (packageScrollPosition);
 
             foreach (Mission m in currentPackage.Missions) {
                 Status s = calculateStatus (m, false, null);

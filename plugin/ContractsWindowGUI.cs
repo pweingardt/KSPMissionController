@@ -8,8 +8,8 @@ namespace MissionController
 {
     public partial class MissionController
     {
-        private Vector2 contractScrollPosition = new Vector2();
-        private Vector2 previewContractScrollPosition = new Vector2();
+        private Vector2 contractScrollPosition;
+        private Vector2 previewContractScrollPosition;
         private Mission currentPreviewMission2 = null;
         private bool vrLock = false;
         private bool asLock = false;
@@ -22,7 +22,7 @@ namespace MissionController
             if (manager.Getrandomcontractsfreeze != false)
             { GUILayout.Box("You contrtact is locked, the random time check has been stoped until contract done, or canceled.", StyleBoxYellow); }
        
-            contractScrollPosition = GUILayout.BeginScrollView(contractScrollPosition, GUILayout.MaxWidth(500), GUILayout.Height(175));
+            contractScrollPosition = GUILayout.BeginScrollView(contractScrollPosition);
             foreach (Mission m in currentPackage.Missions)
             {                            
                 Status s = calculateStatus(m, false, null);
@@ -132,7 +132,7 @@ namespace MissionController
            
 
                 GUILayout.BeginHorizontal();
-                previewContractScrollPosition = GUILayout.BeginScrollView(previewContractScrollPosition, GUILayout.MaxWidth(500));          
+                previewContractScrollPosition = GUILayout.BeginScrollView(previewContractScrollPosition);          
 
                 // Show the description text if no mission is currently selected
                 if (currentPreviewMission2 == null)

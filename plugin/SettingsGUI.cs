@@ -140,30 +140,30 @@ namespace MissionController
             GUILayout.EndHorizontal();
             GUILayout.Space(10);
 
-            if (GUILayout.Button("Simulate Contract Resets", styleButtonWordWrap))
-            {
-                manager.StartContractTypeRandom();
-                manager.StartCompanyRandomizer();
-                manager.setContractType();
-                manager.StartContractType1Random();
-                manager.setContractType1();
-                manager.StartContractType2Random();
-                manager.setContractType2();
-                manager.SetClockCountdown();
-                manager.setCompanyName();
-                manager.chooseRandomValues();
-            }           
+            //if (GUILayout.Button("Simulate Contract Resets", styleButtonWordWrap))
+            //{
+            //    manager.StartContractTypeRandom();
+            //    manager.StartCompanyRandomizer();
+            //    manager.setContractType();
+            //    manager.StartContractType1Random();
+            //    manager.setContractType1();
+            //    manager.StartContractType2Random();
+            //    manager.setContractType2();
+            //    manager.SetClockCountdown();
+            //    manager.setCompanyName();
+            //    manager.chooseRandomValues();
+            //}           
 
-            if (GUILayout.Button("FIND ASTERIODS AND CHOOSE NAME", styleButtonWordWrap))
-            {
-                manager.clearAsteroidFindList();
-                manager.findAsteriodCapture();
-            }
-            if (GUILayout.Button("FIND VESSEL REPAIRS", styleButtonWordWrap))
-            {               
-                manager.findVeselWithRepairPart();
-                manager.clearVesselRepairFromList();
-            } 
+            //if (GUILayout.Button("FIND ASTERIODS AND CHOOSE NAME", styleButtonWordWrap))
+            //{
+            //    manager.clearAsteroidFindList();
+            //    manager.findAsteriodCapture();
+            //}
+            //if (GUILayout.Button("FIND VESSEL REPAIRS", styleButtonWordWrap))
+            //{               
+            //    manager.findVeselWithRepairPart();
+            //    manager.clearVesselRepairFromList();
+            //} 
 
             //if (GUILayout.Button("window Test Recycle", styleButtonWordWrap))
             //{

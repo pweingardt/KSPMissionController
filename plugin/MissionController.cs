@@ -93,6 +93,7 @@ namespace MissionController
         private Rect userContractWindowStatus;
         private Rect modPaymentWindow;
         private Rect modCostWindow;
+        private Rect ShipStatsWindow;
         private Rect ResetAllWindows = new Rect (0, 0, 0, 0);
 
                
@@ -136,6 +137,7 @@ namespace MissionController
         public static bool showBonusPaymentsWindow = false;
         private bool showModPayments = false;
         private bool showModCost = false;
+        private bool showShipStatsWindow = false;
                
         public string recycledName = "";
         public string recycledDesc = "";
@@ -224,36 +226,43 @@ namespace MissionController
             styleCaption.normal.textColor = Color.green;
             styleCaption.fontStyle = FontStyle.Normal;
             styleCaption.alignment = TextAnchor.MiddleLeft;
+            styleCaption.wordWrap = true;
 
             styleText = new GUIStyle(GUI.skin.label);
             styleText.normal.textColor = Color.white;
             styleText.fontStyle = FontStyle.Normal;
             styleCaption.alignment = TextAnchor.UpperLeft;
+            styleCaption.wordWrap = true;
 
             styleValueGreen = new GUIStyle(GUI.skin.label);
             styleValueGreen.normal.textColor = Color.green;
             styleValueGreen.fontStyle = FontStyle.Normal;
             styleValueGreen.alignment = TextAnchor.MiddleRight;
+            styleValueGreen.wordWrap = true;
 
             styleValueGreenBold = new GUIStyle(GUI.skin.label);
             styleValueGreenBold.normal.textColor = Color.green;
             styleValueGreenBold.fontStyle = FontStyle.Bold;
             styleValueGreenBold.alignment = TextAnchor.MiddleLeft;
+            styleValueGreenBold.wordWrap = true;
 
             styleValueYellow = new GUIStyle(GUI.skin.label);
             styleValueYellow.normal.textColor = Color.yellow;
             styleValueYellow.fontStyle = FontStyle.Bold;
             styleValueYellow.alignment = TextAnchor.MiddleRight;
+            styleValueYellow.wordWrap = true;
 
             styleValueRed = new GUIStyle(GUI.skin.label);
             styleValueRed.normal.textColor = Color.red;
             styleValueRed.fontStyle = FontStyle.Normal;
             styleValueRed.alignment = TextAnchor.MiddleRight;
+            styleValueRed.wordWrap = true;
 
             styleValueRedBold = new GUIStyle(GUI.skin.label);
             styleValueRedBold.normal.textColor = Color.red;
             styleValueRedBold.fontStyle = FontStyle.Bold;
             styleValueRedBold.alignment = TextAnchor.MiddleRight;
+            styleValueRedBold.wordWrap = true;
 
             styleButton = new GUIStyle(HighLogic.Skin.button);
             styleButton.normal.textColor = Color.white;
@@ -275,11 +284,13 @@ namespace MissionController
             styleValueName.normal.textColor = Color.white;
             styleValueName.fontStyle = FontStyle.Normal;
             styleValueName.alignment = TextAnchor.MiddleLeft;
+            styleValueName.wordWrap = true;
 
             styleWarning = new GUIStyle(GUI.skin.label);
             styleWarning.normal.textColor = Color.red;
             styleWarning.fontStyle = FontStyle.Bold;
             styleWarning.alignment = TextAnchor.MiddleLeft;
+            styleWarning.wordWrap = true;
 
             styleGreenButton = new GUIStyle(HighLogic.Skin.button);
             styleGreenButton.normal.textColor = Color.green;
@@ -887,6 +898,10 @@ namespace MissionController
             {
                 GUILayout.Window(92466, new Rect(Screen.width / 2 - 200, Screen.height / 2 - 100, 625, 150), drawBonusPaymentWindow, "Bonus Mission Payout Window");
             }
+            //if (showShipStatsWindow && hideMCtoolbarsviews)
+            //{
+            //    ShipStatsWindow = GUILayout.Window(19201231, ShipStatsWindow, drawShipStatsWindow, "Current Ship Stats", GUILayout.MinHeight(200), GUILayout.MinWidth(100));
+            //}
 
             if (fileBrowser != null)
             {
@@ -1410,7 +1425,7 @@ namespace MissionController
         }       
 
         private void drawVabShipWindow(int id)
-        {            
+        {
             GUI.skin = HighLogic.Skin;
             GUILayout.BeginVertical();
             scrollPositionship = GUILayout.BeginScrollView(scrollPositionship, GUILayout.Width(300));
@@ -1423,8 +1438,8 @@ namespace MissionController
             GUILayout.Box("Cost", StyleBoxYellow, GUILayout.Width(100));
             GUILayout.EndHorizontal();
             GUILayout.Space(20);
-            
-            if (res.pod() > (0)) 
+
+            if (res.pod() > (0))
             {
                 GUILayout.BeginHorizontal();
                 GUILayout.Box("Command Sections", StyleBoxWhite, GUILayout.Width(150));
@@ -1435,9 +1450,9 @@ namespace MissionController
             {
                 GUILayout.BeginHorizontal();
                 GUILayout.Box("Control & SAS", StyleBoxWhite, GUILayout.Width(150));
-                GUILayout.Box(CurrencySuffix + res.ctrl().ToString("N2"), GUILayout.Width(100)); 
+                GUILayout.Box(CurrencySuffix + res.ctrl().ToString("N2"), GUILayout.Width(100));
                 GUILayout.EndHorizontal();
-            } 
+            }
             if (res.util() > (0))
             {
                 GUILayout.BeginHorizontal();
@@ -1452,7 +1467,7 @@ namespace MissionController
                 GUILayout.Box(CurrencySuffix + res.sci().ToString("N2"), GUILayout.Width(100));
                 GUILayout.EndHorizontal();
             }
-            if (res.engine() > (0)) 
+            if (res.engine() > (0))
             {
                 GUILayout.BeginHorizontal();
                 GUILayout.Box("Engines", StyleBoxWhite, GUILayout.Width(150));
@@ -1460,14 +1475,14 @@ namespace MissionController
                 GUILayout.EndHorizontal();
             }
             if (res.tank() > (0))
-            { 
+            {
                 GUILayout.BeginHorizontal();
                 GUILayout.Box("Fuel Tank", StyleBoxWhite, GUILayout.Width(150));
                 GUILayout.Box(CurrencySuffix + res.tank().ToString("N2"), GUILayout.Width(100));
                 GUILayout.EndHorizontal();
             }
             if (res.stru() > (0))
-            { 
+            {
                 GUILayout.BeginHorizontal();
                 GUILayout.Box("Structural", StyleBoxWhite, GUILayout.Width(150));
                 GUILayout.Box(CurrencySuffix + res.stru().ToString("N2"), GUILayout.Width(100));
@@ -1477,7 +1492,7 @@ namespace MissionController
             {
                 GUILayout.BeginHorizontal();
                 GUILayout.Box("Aerodynamic", StyleBoxWhite, GUILayout.Width(150));
-                GUILayout.Box(CurrencySuffix + res.aero().ToString("N2"), GUILayout.Width(100)); 
+                GUILayout.Box(CurrencySuffix + res.aero().ToString("N2"), GUILayout.Width(100));
                 GUILayout.EndHorizontal();
                 GUILayout.Space(10);
             }
@@ -1502,14 +1517,14 @@ namespace MissionController
                 GUILayout.Box(CurrencySuffix + res.wet().ToString("N2"), GUILayout.Width(100));
                 GUILayout.EndHorizontal();
             }
-            if (res.dry() > (0)) 
-            { 
+            if (res.dry() > (0))
+            {
                 GUILayout.BeginHorizontal();
                 GUILayout.Box("(Total Cost Of Parts)", StyleBoxYellow, GUILayout.Width(150));
                 GUILayout.Box(CurrencySuffix + res.dry().ToString("N2"), GUILayout.Width(100));
                 GUILayout.EndHorizontal();
                 GUILayout.Space(20);
-            }           
+            }
             GUILayout.BeginHorizontal();
             GUILayout.Box("Total Cost Vessel", StyleBoxYellow, GUILayout.Width(150));
             GUILayout.Box(CurrencySuffix + res.sum().ToString("N2"), StyleBoxGreen, GUILayout.Width(100));
@@ -1521,8 +1536,13 @@ namespace MissionController
             {
                 showVabShipWindow = false;
             }
+            //if (GUILayout.Button("Ship Stats", styleButtonWordWrap, GUILayout.Height(20)))
+            //{
+            //    showShipStatsWindow = true;
+            //}
+            
             GUILayout.EndHorizontal();
-
+            
             GUILayout.Space(20);
             GUILayout.EndVertical();
             if (!Input.GetMouseButtonDown(1))

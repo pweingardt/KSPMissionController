@@ -389,25 +389,25 @@ namespace MissionController
         }
         public void StartContractType1Random()
         {
-            contractslist1 = new Randomizator3000.Item<int>[9];
+            contractslist1 = new Randomizator3000.Item<int>[10];
             contractslist1[0] = new Randomizator3000.Item<int>();
-            contractslist1[0].weight = 30;
+            contractslist1[0].weight = 20;
             contractslist1[0].value = 0;
 
             contractslist1[1] = new Randomizator3000.Item<int>();
-            contractslist1[1].weight = 10;
+            contractslist1[1].weight = 11;
             contractslist1[1].value = 6;
 
             contractslist1[2] = new Randomizator3000.Item<int>();
-            contractslist1[2].weight = 10;
+            contractslist1[2].weight = 11;
             contractslist1[2].value = 7;
 
             contractslist1[3] = new Randomizator3000.Item<int>();
-            contractslist1[3].weight = 10;
+            contractslist1[3].weight = 11;
             contractslist1[3].value = 8;
 
             contractslist1[4] = new Randomizator3000.Item<int>();
-            contractslist1[4].weight = 10;
+            contractslist1[4].weight = 9;
             contractslist1[4].value = 9;
 
             contractslist1[5] = new Randomizator3000.Item<int>();
@@ -419,12 +419,16 @@ namespace MissionController
             contractslist1[6].value = 11;
 
             contractslist1[7] = new Randomizator3000.Item<int>();
-            contractslist1[7].weight = 7;
+            contractslist1[7].weight = 6;
             contractslist1[7].value = 12;
 
             contractslist1[8] = new Randomizator3000.Item<int>();
-            contractslist1[8].weight = 7;
+            contractslist1[8].weight = 6;
             contractslist1[8].value = 13;
+
+            contractslist1[9] = new Randomizator3000.Item<int>();
+            contractslist1[9].weight = 10;
+            contractslist1[9].value = 17;
         }
         public void StartContractType2Random()
         {
@@ -759,7 +763,7 @@ namespace MissionController
                
                 GUILayout.BeginHorizontal();
                 GUILayout.Box(hk.hiredKerbalName, GUILayout.Width(200));
-                GUILayout.Box(MathTools.secondsIntoRealTime(hk.DateHired), GUILayout.Width(150));
+                GUILayout.Box(MathTools.secondsIntoKerbalTime(hk.DateHired), GUILayout.Width(150));
                 GUILayout.Box(hk.statusKerbal, GUILayout.Width(125));
                 GUILayout.EndHorizontal();
             }
@@ -774,7 +778,7 @@ namespace MissionController
             {
                 GUILayout.BeginHorizontal();;
                 GUILayout.Box(ms.missionName, GUILayout.Width(425));
-                GUILayout.Box(MathTools.secondsIntoRealTime(ms.endTime), GUILayout.Width(160));
+                GUILayout.Box(MathTools.secondsIntoKerbalTime(ms.endTime), GUILayout.Width(160));
                 GUILayout.Box(ms.vesselName,GUILayout.Width(275));
                 GUILayout.Box("$ " + ms.payment.ToString("N2"), GUILayout.Width(140));
                 GUILayout.EndHorizontal();

@@ -32,6 +32,11 @@ namespace MissionController
         public const double day = hour * 24;
         public const double year = day * 365;
 
+        public const double kminute = 60;
+        public const double khour = minute * 60;
+        public const double kday = hour * 6;
+        public const double kyear = day * 426;
+
         public static string secondsIntoRealTime(double seconds)
         {
             int Seconds = (int)(seconds % 60);
@@ -44,6 +49,19 @@ namespace MissionController
                 return  "Day " + Days  + " Hour " + Hours;
 
             return  "Year " + Years  + " Day " + Days;
+        }
+        public static string secondsIntoKerbalTime(double seconds)
+        {
+            int Seconds = (int)(seconds % 60);
+            int Minutes = (int)((seconds / kminute) % 60);
+            int Hours = (int)((seconds / khour) % 6);
+            int Days = (int)((seconds / kday) % 426);
+            int Years = (int)(seconds / kyear);
+
+            if (seconds < year)
+                return "Day " + Days + " Hour " + Hours;
+
+            return "Year " + Years + " Day " + Days;
         }
 
         public static String formatTime(double seconds) {
@@ -81,6 +99,54 @@ namespace MissionController
             if (parts.Count > 0) {
                 return String.Join (" ", parts.ToArray ());
             } else {
+                return "0s";
+            }
+        }
+
+        public static String formatKerbalTime(double seconds)
+        {
+            int y = (int)(seconds / (6.0 * 60.0 * 60.0 * 426.0));
+            seconds = seconds % (6.0 * 60.0 * 60.0 * 426.0);
+            int d = (int)(seconds / (6.0 * 60.0 * 60.0));
+            seconds = seconds % (6.0 * 60.0 * 60.0);
+            int h = (int)(seconds / (60.0 * 60.0));
+            seconds = seconds % (60.0 * 60.0);
+            int m = (int)(seconds / (60.0));
+            seconds = seconds % (60.0);
+
+            List<String> parts = new List<String>();
+
+            if (y > 0)
+            {
+                parts.Add(String.Format("{0}:year", y));
+            }
+
+            if (d > 0)
+            {
+                parts.Add(String.Format("{0}:days", d));
+            }
+
+            if (h > 0)
+            {
+                parts.Add(String.Format("{0}:hours", h));
+            }
+
+            if (m > 0)
+            {
+                parts.Add(String.Format("{0}:minutes", m));
+            }
+
+            if (seconds > 0)
+            {
+                parts.Add(String.Format("{0:00}:seconds", seconds));
+            }
+
+            if (parts.Count > 0)
+            {
+                return String.Join(" ", parts.ToArray());
+            }
+            else
+            {
                 return "0s";
             }
         }
