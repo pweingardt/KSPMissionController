@@ -19,12 +19,12 @@ And have a check To see if MCE is installed in User Library?  Thanks to magico13
 
             if (MCE == null)
             {
-                Debug.Log("[KCT] MCE Not Found.");
+                Debug.Log("[your mod name] MCE Not Found.");
                 return false;
             }
             else
             {
-                Debug.Log("[KCT] MCE Found.");
+                Debug.Log("[your mod name] MCE Found.");
                 return true;
             }
         }
