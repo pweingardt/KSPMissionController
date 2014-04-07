@@ -10,7 +10,7 @@ To access the fuctions of MCE that are avialable in MissionLibrary.dll all you h
 
 And have a check To see if MCE is installed in User Library?  Thanks to magico13 for this solution. this code calles the backup fuction of MCE. You can change it or add any of the other fuctions you want.
 
-public static bool MCEAvailable() //Check if MCE is available and return true if it is
+        public static bool MCEAvailable() //Check if MCE is available and return true if it is
         {
             Type MCE = AssemblyLoader.loadedAssemblies
             .Select(a => a.assembly.GetExportedTypes())
@@ -19,17 +19,17 @@ public static bool MCEAvailable() //Check if MCE is available and return true if
 
             if (MCE == null)
             {
-                Debug.Log("[Your Mod Name] MCE Not Found.");
+                Debug.Log("[KCT] MCE Not Found.");
                 return false;
             }
             else
             {
-                Debug.Log("[Your Mod Name] MCE Found.");
+                Debug.Log("[KCT] MCE Found.");
                 return true;
             }
         }
 
-        public static void RevertMCE() //Call the Load Backup function in MCE. Must be in a different function or you will encounter errors!
+        public static void RevertMCE() //Call the Load Backup function in MCE. Must be in a different function or you           will encounter errors!
         {
             MissionController.ManagerAccessor.get.IloadMCEbackup();
         }
