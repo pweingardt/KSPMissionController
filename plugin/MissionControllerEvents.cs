@@ -117,6 +117,8 @@ namespace MissionController
                     double rmass = 0;
                     double pdrag = 0.0;
                     int cost = 0;
+                    float totalDrag = 0;
+                    bool realchutesInstalled = false;
                     // need 70 drag per ton of vessel for 6m/s at 500m.
                     double jetIsp = Tools.Setting("jetIsp", 600.0);
                     List<ModuleEngines> engines = new List<ModuleEngines>();
@@ -136,12 +138,33 @@ namespace MissionController
                             cost += p.partRef.partInfo.cost;
                             foreach (ProtoPartModuleSnapshot m in p.modules)
                             {
-                                if (m.moduleName.Equals("ModuleParachute"))
+                                if (p.partRef.Modules.Contains("RealChuteModule"))
+                                {
+                                    Debug.Log("[MCE] Found realchute module on " + p.partInfo.name);
+                                    PartModule realChute = p.partRef.Modules["RealChuteModule"];
+                                    Type rCType = realChute.GetType();
+
+                                    float area = (float)rCType.GetProperty("deployedArea").GetValue(realChute, null);
+                                    Debug.Log("Realchute area: " + area);
+                                    object mat = rCType.GetField("mat").GetValue(realChute);
+                                    Type matType = mat.GetType();
+                                    float dragC = (float)matType.GetProperty("dragCoefficient").GetValue(mat, null);
+                                    Debug.Log("RealChute dragC: " + dragC);                                                                     
+                                    totalDrag = (100 * dragC * area) / 2000;
+                                    Debug.Log("Total Drag = " + totalDrag);
+                                    pdrag += p.mass * totalDrag;
+                                    Debug.LogWarning("RealChute Drag is " + pdrag + " For part: " + p.partName);
+                                    realchutesInstalled = true;
+                                }
+                                        
+                                
+                    
+                                if (m.moduleName.Equals("ModuleParachute") && realchutesInstalled != true)
                                 {
                                     ModuleParachute mp = (ModuleParachute)m.moduleRef;
                                     mp.Load(m.moduleValues);
                                     pdrag += p.mass * mp.fullyDeployedDrag;
-                                    print("Drag now " + pdrag);
+                                    Debug.LogWarning("ModuleParachute Drag is " + pdrag + " For part: " + p.partName);
                                 }
                                 if (m.moduleName.Equals("ModuleEngines"))
                                 {
