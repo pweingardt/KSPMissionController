@@ -6,6 +6,34 @@ You can now support a few features of Mission Controller Extended in you own plu
 To access the fuctions of MCE that are avialable in MissionLibrary.dll all you have to do is access `ManagerAccessor.get`
 (you may have to use the `MissionController` namespace) to access the MCE interface.
 
+####Want to add fuctions to your mod but don't want to include the Library?  
+
+And have a check To see if MCE is installed in User Library?  Thanks to magico13 for this solution. this code calles the backup fuction of MCE. You can change it or add any of the other fuctions you want.
+
+        public static bool MCEAvailable() //Check if MCE is available and return true if it is
+        {
+            Type MCE = AssemblyLoader.loadedAssemblies
+            .Select(a => a.assembly.GetExportedTypes())
+            .SelectMany(t => t)
+            .FirstOrDefault(t => t.FullName == "MissionController.MissionController");
+
+            if (MCE == null)
+            {
+                Debug.Log("[your mod name] MCE Not Found.");
+                return false;
+            }
+            else
+            {
+                Debug.Log("[your mod name] MCE Found.");
+                return true;
+            }
+        }
+
+        public static void RevertMCE() //Call the Load Backup function in MCE. Must be in a different function or you           will encounter errors!
+        {
+            MissionController.ManagerAccessor.get.IloadMCEbackup();
+        }
+
 #### These Are values That Can Add Cost And Or Payments To MCE Budget
 
 * `int modReward(int value, string Description)`: Give the Player a Reward Or Payment, Value and Description of What the payment is for.  This shows up in the Other Payments Manifest.
