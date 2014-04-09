@@ -140,40 +140,51 @@ namespace MissionController
             GUILayout.EndHorizontal();
             GUILayout.Space(10);
 
-            //if (GUILayout.Button("Simulate Contract Resets", styleButtonWordWrap))
-            //{
-            //    manager.StartContractTypeRandom();
-            //    manager.StartCompanyRandomizer();
-            //    manager.setContractType();
-            //    manager.StartContractType1Random();
-            //    manager.setContractType1();
-            //    manager.StartContractType2Random();
-            //    manager.setContractType2();
-            //    manager.SetClockCountdown();
-            //    manager.setCompanyName();
-            //    manager.chooseRandomValues();
-            //}           
-
-            //if (GUILayout.Button("FIND ASTERIODS AND CHOOSE NAME", styleButtonWordWrap))
-            //{
-            //    manager.clearAsteroidFindList();
-            //    manager.findAsteriodCapture();
-            //}
-            //if (GUILayout.Button("FIND VESSEL REPAIRS", styleButtonWordWrap))
-            //{               
-            //    manager.findVeselWithRepairPart();
-            //    manager.clearVesselRepairFromList();
-            //} 
-
-            //if (GUILayout.Button("window Test Recycle", styleButtonWordWrap))
-            //{
-            //    showRecycleWindow = true;
-            //}
-
-            //if (GUILayout.Button("window Test Finish mission", styleButtonWordWrap))
-            //{
-            //    showRandomWindow = true;
-            //}
+            if (settings.MCEDebug != false){
+                if (GUILayout.Button("Simulate Contract Resets", styleButtonWordWrap))
+                {
+                    manager.StartContractTypeRandom();
+                    manager.StartCompanyRandomizer();
+                    manager.setContractType();
+                    manager.StartContractType1Random();
+                    manager.setContractType1();
+                    manager.StartContractType2Random();
+                    manager.setContractType2();
+                    manager.SetClockCountdown();
+                    manager.setCompanyName();
+                    manager.chooseRandomValues();
+                }
+            }
+            if (settings.MCEDebug != false)
+            {
+                if (settings.MCEDebug != false && GUILayout.Button("FIND ASTERIODS AND CHOOSE NAME", styleButtonWordWrap))
+                {
+                    manager.clearAsteroidFindList();
+                    manager.findAsteriodCapture();
+                }
+            }
+            if (settings.MCEDebug != false)
+            {
+                if (settings.MCEDebug != false && GUILayout.Button("FIND VESSEL REPAIRS", styleButtonWordWrap))
+                {
+                    manager.findVeselWithRepairPart();
+                    manager.clearVesselRepairFromList();
+                }
+            }
+            if (settings.MCEDebug != false)
+            {
+                if (GUILayout.Button("Add 100000 Credits", styleButtonWordWrap))
+                {
+                    manager.modReward(100000, "Using Debug Menu");
+                }
+            }
+            if (settings.MCEDebug != false)
+            {
+                if (GUILayout.Button("Add 1000 Science", styleButtonWordWrap))
+                {
+                    manager.sciencereward(1000);
+                }
+            }
 
             if (GUILayout.Button("Reset Contract Time Check", styleButtonWordWrap))
             {

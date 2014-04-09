@@ -8,29 +8,53 @@ namespace MissionController
 {
     public partial class MissionController
     {
+        public bool shipStatMissionBool = false;
+        public bool shipStatcontractBool = false;
+        private Vector2 minScrollPosition;
         private void drawShipStatsWindow(int id)
-        {
-            Vessel v = new Vessel();
+        {            
+            Status status = calculateStatus(currentMission, true, activeVessel);
             GUI.skin = HighLogic.Skin;
             GUILayout.BeginVertical();
-
-            //GUILayout.Label(v.orbit.ApA.ToString());
-            //GUILayout.Label(v.orbit.PeA.ToString());
-            //GUILayout.Label("Orbital Period: " + String.Format(MathTools.SingleDoubleValue, v.orbit.period.ToString()));
-            //GUILayout.Label("Orbital Altitude: " + v.orbit.altitude.ToString());
-            //GUILayout.Label("Inclination: " + String.Format(MathTools.SingleDoubleValue, v.orbit.inclination.ToString()));
-            //GUILayout.Label("Eccentricity: " + String.Format(MathTools.SingleDoubleValue, v.orbit.eccentricity.ToString()));
-            //GUILayout.Label("Vessel Mass: " + String.Format(MathTools.SingleDoubleValue, v.GetTotalMass().ToString()));
-            
-            GUILayout.EndVertical();
-            if (GUILayout.Button("Exit", styleButtonWordWrap))
+            minScrollPosition = GUILayout.BeginScrollView(minScrollPosition);
+            if (currentMission != null)
+            {
+                drawMiniContractsGoals(currentMission, status);
+            }
+            else { GUILayout.Label("No Missions Selected"); }
+            GUILayout.EndScrollView();
+            if (GUILayout.Button("Normal View", styleButtonWordWrap))
             {
                 showShipStatsWindow = false;
-            }            
+                showMissionStatusWindow = false;
+                if (shipStatcontractBool != false) { showContractStatusWindow = true; shipStatcontractBool = false; }
+                if (shipStatMissionBool != false) { showMissionStatusWindow = true; shipStatMissionBool = false; }
+            }
+            GUILayout.EndVertical();           
             if (!Input.GetMouseButtonDown(1))
             {
                 GUI.DragWindow();
             }
+        }
+        private void drawMiniContractsGoals(Mission mission, Status s)
+        {
+            foreach (MissionGoal c in mission.goals)
+            {
+                List<Value> values = c.getValues(activeVessel, s.events);
+
+                foreach (Value v in values)
+                {
+                    GUILayout.BeginHorizontal();
+                    GUILayout.Label(v.name, styleValueName);                    
+                    
+                    GUILayout.Label(v.shouldBe + " : " + v.currentlyIs, (v.done ? styleValueGreen : styleValueRed));
+                                     
+                    GUILayout.EndHorizontal();
+                }
+
+
+            }
+
         }
     }
 }

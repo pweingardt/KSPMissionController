@@ -10,7 +10,9 @@ namespace MissionController
 
         public int gameMode = 0;
 
-        public bool KSPSKIN = true; 
+        public bool KSPSKIN = true;
+
+        public bool MCEDebug = false;
     }
 
     public class SettingsManager 

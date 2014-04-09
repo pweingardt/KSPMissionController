@@ -221,7 +221,6 @@ namespace MissionController
                 GUI.DragWindow();
             }
             
-
         }
     }
 }

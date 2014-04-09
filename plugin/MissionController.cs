@@ -792,36 +792,36 @@ namespace MissionController
             {
                 if (HighLogic.LoadedScene.Equals(GameScenes.EDITOR))
                 {
-                    VabBudgetWin = GUILayout.Window(788543, VabBudgetWin, drawbudgetwindow, "Current Budget: " + CurrencySuffix + manager.budget.ToString("N2"), styleGreenButtonCenter, GUILayout.MinHeight(20), GUILayout.MinWidth(200));
+                    VabBudgetWin = GUILayout.Window(78543, VabBudgetWin, drawbudgetwindow, "Current Budget: " + CurrencySuffix + manager.budget.ToString("N2"), styleGreenButtonCenter, GUILayout.MinHeight(20), GUILayout.MinWidth(200));
                 }              
                 if (HighLogic.LoadedScene.Equals(GameScenes.FLIGHT))
                 {
-                    VabBudgetWin2 = GUILayout.Window(788545, VabBudgetWin2, drawbudgetwindow, "CB: " + CurrencySuffix + manager.budget.ToString("N2"), styleGreenButtonCenter, GUILayout.MinHeight(20), GUILayout.MinWidth(125));
+                    VabBudgetWin2 = GUILayout.Window(78545, VabBudgetWin2, drawbudgetwindow, "CB: " + CurrencySuffix + manager.budget.ToString("N2"), styleGreenButtonCenter, GUILayout.MinHeight(20), GUILayout.MinWidth(125));
                 }
                 if (HighLogic.LoadedScene.Equals(GameScenes.SPH))
                 {
-                    VabBudgetWin3 = GUILayout.Window(788546, VabBudgetWin3, drawbudgetwindow, "Current Budget: " + CurrencySuffix + manager.budget.ToString("N2"), styleGreenButtonCenter, GUILayout.MinHeight(20), GUILayout.MinWidth(200));
+                    VabBudgetWin3 = GUILayout.Window(78546, VabBudgetWin3, drawbudgetwindow, "Current Budget: " + CurrencySuffix + manager.budget.ToString("N2"), styleGreenButtonCenter, GUILayout.MinHeight(20), GUILayout.MinWidth(200));
                 }
             }
 
             if (showUserContractWindowStatus && hideMCtoolbarsviews)
             {
-                userContractWindowStatus = GUILayout.Window(912311, userContractWindowStatus, drawUserContractWindow, "Player Custom Contracts", GUILayout.MinHeight(900), GUILayout.MinWidth(450));
+                userContractWindowStatus = GUILayout.Window(91311, userContractWindowStatus, drawUserContractWindow, "Player Custom Contracts", GUILayout.MinHeight(900), GUILayout.MinWidth(450));
             }
 
             if (showVabShipWindow && hideMCtoolbarsviews)
             {
-                VabShipWindow = GUILayout.Window(898989, VabShipWindow, drawVabShipWindow, "Ship Breakdown List",GUILayout.MinHeight(400), GUILayout.MinWidth(300));
+                VabShipWindow = GUILayout.Window(81989, VabShipWindow, drawVabShipWindow, "Ship Breakdown List",GUILayout.MinHeight(400), GUILayout.MinWidth(300));
             }
 
             if (showMissionStatusWindow && hideMCtoolbarsviews)
             {
-                MissionWindowStatus = GUILayout.Window(2989901, MissionWindowStatus, drawMissionInfoWindow, "Current Mission Window",GUILayout.MinHeight(700), GUILayout.MinWidth(500));
+                MissionWindowStatus = GUILayout.Window(29901, MissionWindowStatus, drawMissionInfoWindow, "Current Mission Window",GUILayout.MinHeight(700), GUILayout.MinWidth(500));
             }
 
             if (showContractStatusWindow && hideMCtoolbarsviews)
             {
-                ContractWindowStatus = GUILayout.Window(888991, ContractWindowStatus, drawContractInfoWindow, "Available Contracts", GUILayout.MinHeight(700), GUILayout.MinWidth(500));
+                ContractWindowStatus = GUILayout.Window(18991, ContractWindowStatus, drawContractInfoWindow, "Available Contracts", GUILayout.MinHeight(700), GUILayout.MinWidth(500));
             }
 
             if (showSettingsWindow && hideMCtoolbarsviews)
@@ -836,12 +836,12 @@ namespace MissionController
 
             if (showContractSelection && hideMCtoolbarsviews)
             {
-                contractWindowPosition = GUILayout.Window(234321, contractWindowPosition, drawContractsWindow, currentPackage.name, GUILayout.MinHeight(700), GUILayout.MinWidth(520));
+                contractWindowPosition = GUILayout.Window(24321, contractWindowPosition, drawContractsWindow, currentPackage.name, GUILayout.MinHeight(700), GUILayout.MinWidth(520));
             }
 
             if (showFinanceWindow && hideMCtoolbarsviews)
             {
-                financeWindowPosition = GUILayout.Window(398761, financeWindowPosition, drawFinaceWindow, "Finance Window", GUILayout.MinHeight(350), GUILayout.MinWidth(300));
+                financeWindowPosition = GUILayout.Window(38761, financeWindowPosition, drawFinaceWindow, "Finance Window", GUILayout.MinHeight(350), GUILayout.MinWidth(300));
             }           
 
             if (showRecycleWindow && hideMCtoolbarsviews)
@@ -898,10 +898,10 @@ namespace MissionController
             {
                 GUILayout.Window(92466, new Rect(Screen.width / 2 - 200, Screen.height / 2 - 100, 625, 150), drawBonusPaymentWindow, "Bonus Mission Payout Window");
             }
-            //if (showShipStatsWindow && hideMCtoolbarsviews)
-            //{
-            //    ShipStatsWindow = GUILayout.Window(19201231, ShipStatsWindow, drawShipStatsWindow, "Current Ship Stats", GUILayout.MinHeight(200), GUILayout.MinWidth(100));
-            //}
+            if (showShipStatsWindow && hideMCtoolbarsviews)
+            {
+                ShipStatsWindow = GUILayout.Window(19201231, ShipStatsWindow, drawShipStatsWindow, "Mini Objective View", GUILayout.MinHeight(175), GUILayout.MinWidth(500));
+            }
 
             if (fileBrowser != null)
             {
@@ -1610,7 +1610,7 @@ namespace MissionController
 
             if (currentPackage != null && savedPackage != null)
             {
-                if (GUILayout.Button("Select New Mission", styleButtonWordWrap, GUILayout.Width(180)))
+                if (GUILayout.Button("Select New Mission", styleButtonWordWrap, GUILayout.Width(140)))
                 {
                     currentPackage = savedPackage;
                     showMissionPackageBrowser = !showMissionPackageBrowser;
@@ -1619,10 +1619,16 @@ namespace MissionController
 
             if (currentMission != null)
             {
-                if (GUILayout.Button("Deselect mission", styleButtonWordWrap, GUILayout.Width(180)))
+                if (GUILayout.Button("Deselect mission", styleButtonWordWrap, GUILayout.Width(140)))
                 {
                     currentMission = null;
                 }
+            }
+            if (HighLogic.LoadedSceneIsFlight && currentMission != null && GUILayout.Button("Mini", styleButtonWordWrap, GUILayout.Width(70)))
+            {
+                showMissionStatusWindow = false;
+                showShipStatsWindow = true;
+                shipStatMissionBool = true;
             }
             
             if (GUILayout.Button("X", styleButtonWordWrap, GUILayout.Width(25)))
@@ -1631,14 +1637,7 @@ namespace MissionController
             }
             GUILayout.EndHorizontal();           
             GUILayout.Space(20);
-            //if (currentMission != null)
-            //{
-            //    if (GUILayout.Button("Delete Mission Goals For Old Vessel", styleButtonWordWrap, GUILayout.Width(485)))
-            //    {
-            //        clearactivemissiongoals();
-            //    }
-            //}
-
+            
             GUILayout.EndVertical();
             if (!Input.GetMouseButtonDown(1))
             {
@@ -1677,7 +1676,7 @@ namespace MissionController
                 currentPreviewMission = null;
             }
 
-            if (GUILayout.Button("User Contrancts", styleButtonWordWrap, GUILayout.Width(150)))
+            if (GUILayout.Button("User Contrancts", styleButtonWordWrap, GUILayout.Width(140)))
             {
                 showUserContractWindowStatus = !showUserContractWindowStatus;
                 currentPreviewMission3 = null;
@@ -1685,10 +1684,16 @@ namespace MissionController
 
             if (currentMission != null)
             {
-                if (GUILayout.Button("Deselect Contract", styleButtonWordWrap, GUILayout.Width(200)))
+                if (GUILayout.Button("Deselect Contract", styleButtonWordWrap, GUILayout.Width(140)))
                 {
                     currentMission = null;
                 }
+            }
+            if (HighLogic.LoadedSceneIsFlight && currentMission != null && GUILayout.Button("Mini", styleButtonWordWrap, GUILayout.Width(70)))
+            {
+                showContractStatusWindow = false;
+                showShipStatsWindow = true;
+                shipStatcontractBool = true;
             }
 
             if (GUILayout.Button("X", styleButtonWordWrap, GUILayout.Width(25)))
@@ -1699,7 +1704,7 @@ namespace MissionController
 
             GUILayout.Space(20);
             GUILayout.EndVertical();
-            if (!Input.GetMouseButtonDown(1))
+            if (!Input.GetMouseButtonDown(1) || !Input.GetMouseButton(2))
             {
                 GUI.DragWindow();
             }
@@ -1710,7 +1715,7 @@ namespace MissionController
             GUI.skin = HighLogic.Skin;
             GUILayout.BeginVertical();
             GUILayout.EndVertical();
-            if (!Input.GetMouseButtonDown(1))
+            if (!Input.GetMouseButtonDown(1) || !Input.GetMouseButton(2))
             {
                 GUI.DragWindow();
             }
@@ -1720,7 +1725,7 @@ namespace MissionController
             GUI.skin = HighLogic.Skin;
             GUILayout.BeginVertical();
             GUILayout.EndVertical();
-            if (!Input.GetMouseButtonDown(1))
+            if (!Input.GetMouseButtonDown(1) || !Input.GetMouseButton(2))
             {
                 GUI.DragWindow();
             }
@@ -2240,31 +2245,31 @@ namespace MissionController
         private void contractWindow(bool visibility)
         {
             showContractStatusWindow = visibility;
-            lockOrUnlockEditor(visibility);
+            lockOrUnlockEditor(visibility);          
         }
 
         private void missionWindow(bool visibility)
         {
             showMissionStatusWindow = visibility;
-            lockOrUnlockEditor(visibility);
+            lockOrUnlockEditor(visibility);           
         }
 
         private void financeWindow(bool visibility)
         {
             showFinanceWindow = visibility;
-            lockOrUnlockEditor(visibility);
+            lockOrUnlockEditor(visibility);                   
         }
 
         private void settingsWindow(bool visibility)
         {
             showSettingsWindow = visibility;
-            lockOrUnlockEditor(visibility);
+            lockOrUnlockEditor(visibility);                   
         }
 
         private void researchWindow(bool visibility)
         {
             showResearchTreeWindow = visibility;
-            lockOrUnlockEditor(visibility);
+            lockOrUnlockEditor(visibility);                     
         }
 
         private void lockOrUnlockEditor(bool visiblity)
