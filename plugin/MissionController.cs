@@ -114,6 +114,16 @@ namespace MissionController
         private IButton ScienceResearch;
         private IButton Hidetoolbars;
         private IButton ContractSelect;
+        private bool mcetbState1 = false;
+        private bool mcetbState2 = false;
+        private bool mcetbState3 = false;
+        private bool mcetbState4 = false;
+        private bool mcetbState5 = false;
+        private bool mcetbState6 = false;
+        private bool mcetbState7 = false;
+
+        private bool missionWindowBool = false;
+        private bool contractWindowBool = false;
 
         private bool showSettingsWindow = false;
         private bool showMissionPackageBrowser = false;
@@ -348,6 +358,8 @@ namespace MissionController
             button.OnClick += (e) =>
             {
                 settingsWindow(!showSettingsWindow);
+                button.TexturePath = mcetbState1 ? "MissionController/icons/settings" : "MissionController/icons/settingsr";
+                mcetbState1 = !mcetbState1;
             };
 
             BudgetDisplay = ToolbarManager.Instance.add("MC1", "money1");
@@ -356,24 +368,33 @@ namespace MissionController
             BudgetDisplay.OnClick += (e) =>
             {
                 financeWindow(!showFinanceWindow);
+                BudgetDisplay.TexturePath = mcetbState2 ? "MissionController/icons/money" : "MissionController/icons/moneyr";
+                mcetbState2 = !mcetbState2;
             };
 
             MissionSelect = ToolbarManager.Instance.add("MC1", "missionsel1");
             MissionSelect.TexturePath = "MissionController/icons/mission";
-            MissionSelect.ToolTip = "MCE Select Current Mission";
+            MissionSelect.ToolTip = "MCE Select Current Mission";           
             MissionSelect.OnClick += (e) =>
              {
                  missionWindow(!showMissionStatusWindow);
+                 MissionSelect.TexturePath = mcetbState3 ? "MissionController/icons/mission" : "MissionController/icons/missionr";
+                 mcetbState3 = !mcetbState3;
+                 ContractSelect.Enabled = contractWindowBool;
+                 contractWindowBool = !contractWindowBool;
              };
 
             ContractSelect = ToolbarManager.Instance.add("MC1", "contractsel1");
             ContractSelect.TexturePath = "MissionController/icons/contract";
-            ContractSelect.ToolTip = "Takes You To Contract Selection Screen";
+            ContractSelect.ToolTip = "Takes You To Contract Selection Screen";           
             ContractSelect.OnClick += (e) =>
             {
                 contractWindow(!showContractStatusWindow);
+                ContractSelect.TexturePath = mcetbState4 ? "MissionController/icons/contract" : "MissionController/icons/contractr";
+                mcetbState4 = !mcetbState4;
+                MissionSelect.Enabled = missionWindowBool;
+                missionWindowBool = !missionWindowBool;
             };
-
             VabShipSelect = ToolbarManager.Instance.add("MC1", "ship1");
             VabShipSelect.TexturePath = "MissionController/icons/blueprints";
             VabShipSelect.ToolTip = "MCE Ship Value BreakDown";
@@ -381,14 +402,17 @@ namespace MissionController
             VabShipSelect.OnClick += (e) =>
             {
                 showVabShipWindow = !showVabShipWindow;
-            };
-
+                VabShipSelect.TexturePath = mcetbState5 ? "MissionController/icons/blueprints" : "MissionController/icons/blueprintsr";
+                mcetbState5 = !mcetbState5;
+            };           
             ScienceResearch = ToolbarManager.Instance.add("MC1", "ship3");
             ScienceResearch.TexturePath = "MissionController/icons/research";
             ScienceResearch.ToolTip = "MCE Research Window";
             ScienceResearch.OnClick += (e) =>
             {
                 researchWindow(!showResearchTreeWindow);
+                ScienceResearch.TexturePath = mcetbState6 ? "MissionController/icons/research" : "MissionController/icons/researchr";
+                mcetbState6 = !mcetbState6;
             };
 
             RevertSelect = ToolbarManager.Instance.add("MC1", "ship2");
@@ -409,6 +433,8 @@ namespace MissionController
             Hidetoolbars.OnClick += (e) =>
             {
                 hideMCtoolbarsviews = !hideMCtoolbarsviews;
+                Hidetoolbars.TexturePath = mcetbState7 ? "MissionController/icons/hide" : "MissionController/icons/hider";
+                mcetbState7 = !mcetbState7;
             };
 
             GUILoad();
@@ -777,14 +803,20 @@ namespace MissionController
                 if (HighLogic.LoadedScene.Equals(GameScenes.EDITOR))
                 {
                     VabShipBuildList = GUILayout.Window(898992, VabShipBuildList, drawconstructioncostwindow, "Ship Value: " + CurrencySuffix + res.sum().ToString("N2"), (res.sum() > manager.budget ? styleRedButtonCenter : styleGreenButtonCenter), GUILayout.MinHeight(20), GUILayout.MinWidth(175));
+                    VabShipBuildList.x = Mathf.Clamp(VabShipBuildList.x, 0, Screen.width - VabShipBuildList.width);
+                    VabShipBuildList.y = Mathf.Clamp(VabShipBuildList.y, 0, Screen.height - VabShipBuildList.height);
                 }
                 if (HighLogic.LoadedScene.Equals(GameScenes.FLIGHT))
                 {
                     VabShipBuildList1 = GUILayout.Window(898991, VabShipBuildList1, drawconstructioncostwindow, "SV : " + CurrencySuffix + res.sum().ToString("N2"), (res.sum() > manager.budget ? styleRedButtonCenter : styleGreenButtonCenter), GUILayout.MinHeight(20), GUILayout.MinWidth(125));
+                    VabShipBuildList1.x = Mathf.Clamp(VabShipBuildList1.x, 0, Screen.width - VabShipBuildList1.width);
+                    VabShipBuildList1.y = Mathf.Clamp(VabShipBuildList1.y, 0, Screen.height - VabShipBuildList1.height);
                 }
                 if (HighLogic.LoadedScene.Equals(GameScenes.SPH))
                 {
                     VabShipBuildList2 = GUILayout.Window(898990, VabShipBuildList2, drawconstructioncostwindow, "Ship Value: " + CurrencySuffix + res.sum().ToString("N2"), (res.sum() > manager.budget ? styleRedButtonCenter : styleGreenButtonCenter), GUILayout.MinHeight(20), GUILayout.MinWidth(175));
+                    VabShipBuildList2.x = Mathf.Clamp(VabShipBuildList2.x, 0, Screen.width - VabShipBuildList2.width);
+                    VabShipBuildList2.y = Mathf.Clamp(VabShipBuildList2.y, 0, Screen.height - VabShipBuildList2.height);
                 }
             }
 
@@ -793,55 +825,77 @@ namespace MissionController
                 if (HighLogic.LoadedScene.Equals(GameScenes.EDITOR))
                 {
                     VabBudgetWin = GUILayout.Window(78543, VabBudgetWin, drawbudgetwindow, "Current Budget: " + CurrencySuffix + manager.budget.ToString("N2"), styleGreenButtonCenter, GUILayout.MinHeight(20), GUILayout.MinWidth(200));
+                    VabBudgetWin.x = Mathf.Clamp(VabBudgetWin.x, 0, Screen.width - VabBudgetWin.width);
+                    VabBudgetWin.y = Mathf.Clamp(VabBudgetWin.y, 0, Screen.height - VabBudgetWin.height);
                 }              
                 if (HighLogic.LoadedScene.Equals(GameScenes.FLIGHT))
                 {
                     VabBudgetWin2 = GUILayout.Window(78545, VabBudgetWin2, drawbudgetwindow, "CB: " + CurrencySuffix + manager.budget.ToString("N2"), styleGreenButtonCenter, GUILayout.MinHeight(20), GUILayout.MinWidth(125));
+                    VabBudgetWin2.x = Mathf.Clamp(VabBudgetWin2.x, 0, Screen.width - VabBudgetWin2.width);
+                    VabBudgetWin2.y = Mathf.Clamp(VabBudgetWin2.y, 0, Screen.height - VabBudgetWin2.height);
                 }
                 if (HighLogic.LoadedScene.Equals(GameScenes.SPH))
                 {
                     VabBudgetWin3 = GUILayout.Window(78546, VabBudgetWin3, drawbudgetwindow, "Current Budget: " + CurrencySuffix + manager.budget.ToString("N2"), styleGreenButtonCenter, GUILayout.MinHeight(20), GUILayout.MinWidth(200));
+                    VabBudgetWin3.x = Mathf.Clamp(VabBudgetWin3.x, 0, Screen.width - VabBudgetWin3.width);
+                    VabBudgetWin3.y = Mathf.Clamp(VabBudgetWin3.y, 0, Screen.height - VabBudgetWin3.height);
                 }
             }
 
             if (showUserContractWindowStatus && hideMCtoolbarsviews)
             {
                 userContractWindowStatus = GUILayout.Window(91311, userContractWindowStatus, drawUserContractWindow, "Player Custom Contracts", GUILayout.MinHeight(900), GUILayout.MinWidth(450));
+                userContractWindowStatus.x = Mathf.Clamp(userContractWindowStatus.x, 0, Screen.width - userContractWindowStatus.width);
+                userContractWindowStatus.y = Mathf.Clamp(userContractWindowStatus.y, 0, Screen.height - userContractWindowStatus.height);
             }
 
             if (showVabShipWindow && hideMCtoolbarsviews)
             {
                 VabShipWindow = GUILayout.Window(81989, VabShipWindow, drawVabShipWindow, "Ship Breakdown List",GUILayout.MinHeight(400), GUILayout.MinWidth(300));
+                VabShipWindow.x = Mathf.Clamp(VabShipWindow.x, 0, Screen.width - VabShipWindow.width);
+                VabShipWindow.y = Mathf.Clamp(VabShipWindow.y, 0, Screen.height - VabShipWindow.height);
             }
 
             if (showMissionStatusWindow && hideMCtoolbarsviews)
             {
                 MissionWindowStatus = GUILayout.Window(29901, MissionWindowStatus, drawMissionInfoWindow, "Current Mission Window",GUILayout.MinHeight(700), GUILayout.MinWidth(500));
-            }
+                MissionWindowStatus.x = Mathf.Clamp(MissionWindowStatus.x, 0, Screen.width - MissionWindowStatus.width);
+                MissionWindowStatus.y = Mathf.Clamp(MissionWindowStatus.y, 0, Screen.height - MissionWindowStatus.height);
+            }           
 
             if (showContractStatusWindow && hideMCtoolbarsviews)
             {
                 ContractWindowStatus = GUILayout.Window(18991, ContractWindowStatus, drawContractInfoWindow, "Available Contracts", GUILayout.MinHeight(700), GUILayout.MinWidth(500));
-            }
+                ContractWindowStatus.x = Mathf.Clamp(ContractWindowStatus.x, 0, Screen.width - ContractWindowStatus.width);
+                ContractWindowStatus.y = Mathf.Clamp(ContractWindowStatus.y, 0, Screen.height - ContractWindowStatus.height);
+            }            
 
             if (showSettingsWindow && hideMCtoolbarsviews)
             {
                 settingsWindowPosition = GUILayout.Window(98763, settingsWindowPosition, drawSettingsWindow, "Settings", GUILayout.MinHeight(225), GUILayout.MinWidth(150));
+                settingsWindowPosition.x = Mathf.Clamp(settingsWindowPosition.x, 0, Screen.width - settingsWindowPosition.width);
+                settingsWindowPosition.y = Mathf.Clamp(settingsWindowPosition.y, 0, Screen.height - settingsWindowPosition.height);
             }
 
             if (showMissionPackageBrowser && hideMCtoolbarsviews)
             {
                 packageWindowPosition = GUILayout.Window(98762, packageWindowPosition, drawPackageWindow, currentPackage.name, GUILayout.MinHeight(750), GUILayout.MinWidth(1000));
+                packageWindowPosition.x = Mathf.Clamp(packageWindowPosition.x, 0, Screen.width - packageWindowPosition.width);
+                packageWindowPosition.y = Mathf.Clamp(packageWindowPosition.y, 0, Screen.height - packageWindowPosition.height);
             }
 
             if (showContractSelection && hideMCtoolbarsviews)
             {
                 contractWindowPosition = GUILayout.Window(24321, contractWindowPosition, drawContractsWindow, currentPackage.name, GUILayout.MinHeight(700), GUILayout.MinWidth(520));
+                contractWindowPosition.x = Mathf.Clamp(contractWindowPosition.x, 0, Screen.width - contractWindowPosition.width);
+                contractWindowPosition.y = Mathf.Clamp(contractWindowPosition.y, 0, Screen.height - contractWindowPosition.height);
             }
 
             if (showFinanceWindow && hideMCtoolbarsviews)
             {
                 financeWindowPosition = GUILayout.Window(38761, financeWindowPosition, drawFinaceWindow, "Finance Window", GUILayout.MinHeight(350), GUILayout.MinWidth(300));
+                financeWindowPosition.x = Mathf.Clamp(financeWindowPosition.x, 0, Screen.width - financeWindowPosition.width);
+                financeWindowPosition.y = Mathf.Clamp(financeWindowPosition.y, 0, Screen.height - financeWindowPosition.height);
             }           
 
             if (showRecycleWindow && hideMCtoolbarsviews)
@@ -866,29 +920,41 @@ namespace MissionController
             if (showResearchTreeWindow && hideMCtoolbarsviews)
             {
                 researchtreewinpostion = GUILayout.Window(98760, researchtreewinpostion, drawResearchTree, "Research Window", GUILayout.MinHeight(350), GUILayout.MinWidth(500));
+                researchtreewinpostion.x = Mathf.Clamp(researchtreewinpostion.x, 0, Screen.width - researchtreewinpostion.width);
+                researchtreewinpostion.y = Mathf.Clamp(researchtreewinpostion.y, 0, Screen.height - researchtreewinpostion.height);
             }
 
             if (showKerbalLogbookHire && hideMCtoolbarsviews)
             {
                 kerbalLogBookHirePostion = GUILayout.Window(9818882, kerbalLogBookHirePostion, drawKerbalLogBookHire, "Kerbal Hired Log Book", GUILayout.MinHeight(350), GUILayout.MinWidth(540));
+                kerbalLogBookHirePostion.x = Mathf.Clamp(kerbalLogBookHirePostion.x, 0, Screen.width - kerbalLogBookHirePostion.width);
+                kerbalLogBookHirePostion.y = Mathf.Clamp(kerbalLogBookHirePostion.y, 0, Screen.height - kerbalLogBookHirePostion.height);
             }
 
             if (showMissionLogbookWindow && hideMCtoolbarsviews)
             {
                 missionLogBookPostion = GUILayout.Window(988889, missionLogBookPostion, drawmMissionLogBook, "Mission Log Book", GUILayout.MinHeight(500), GUILayout.MinWidth(1045));
+                missionLogBookPostion.x = Mathf.Clamp(missionLogBookPostion.x, 0, Screen.width - missionLogBookPostion.width);
+                missionLogBookPostion.y = Mathf.Clamp(missionLogBookPostion.y, 0, Screen.height - missionLogBookPostion.height);
             }
 
             if (showShipLogBookWindow && hideMCtoolbarsviews)
             {
                 shipLogBook = GUILayout.Window(98128889, shipLogBook, drawShipLogBook, "Ship Log Book ", GUILayout.MinHeight(500), GUILayout.MinWidth(960));
+                shipLogBook.x = Mathf.Clamp(shipLogBook.x, 0, Screen.width - shipLogBook.width);
+                shipLogBook.y = Mathf.Clamp(shipLogBook.y, 0, Screen.height - shipLogBook.height);
             }            
             if (showModCost && hideMCtoolbarsviews)
             {
                 modCostWindow = GUILayout.Window(1888892, modCostWindow, drawmodCostWindow, "Other Cost Window ", GUILayout.MinHeight(500), GUILayout.MinWidth(960));
+                modCostWindow.x = Mathf.Clamp(modCostWindow.x, 0, Screen.width - modCostWindow.width);
+                modCostWindow.y = Mathf.Clamp(modCostWindow.y, 0, Screen.height - modCostWindow.height);
             }
             if (showModPayments && hideMCtoolbarsviews)
             {
                 modPaymentWindow = GUILayout.Window(1788891, modPaymentWindow, drawmodPaymentWindow, "Other Payment Window ", GUILayout.MinHeight(500), GUILayout.MinWidth(960));
+                modPaymentWindow.x = Mathf.Clamp(modPaymentWindow.x, 0, Screen.width - modPaymentWindow.width);
+                modPaymentWindow.y = Mathf.Clamp(modPaymentWindow.y, 0, Screen.height - modPaymentWindow.height);
             }
             if (showVesselDestroyedWindow && hideMCtoolbarsviews)
             {
@@ -901,6 +967,8 @@ namespace MissionController
             if (showShipStatsWindow && hideMCtoolbarsviews)
             {
                 ShipStatsWindow = GUILayout.Window(19201231, ShipStatsWindow, drawShipStatsWindow, "Mini Objective View", GUILayout.MinHeight(175), GUILayout.MinWidth(500));
+                ShipStatsWindow.x = Mathf.Clamp(ShipStatsWindow.x, 0, Screen.width - ShipStatsWindow.width);
+                ShipStatsWindow.y = Mathf.Clamp(ShipStatsWindow.y, 0, Screen.height - ShipStatsWindow.height);
             }
 
             if (fileBrowser != null)
@@ -1535,6 +1603,8 @@ namespace MissionController
             if (GUILayout.Button("Exit Window", styleButtonWordWrap, GUILayout.Height(20)))
             {
                 showVabShipWindow = false;
+                VabShipSelect.TexturePath = mcetbState5 ? "MissionController/icons/blueprints" : "MissionController/icons/blueprintsr";
+                mcetbState5 = !mcetbState5;
             }
             //if (GUILayout.Button("Ship Stats", styleButtonWordWrap, GUILayout.Height(20)))
             //{
@@ -1552,9 +1622,7 @@ namespace MissionController
         }
 
         private void drawMissionInfoWindow(int id)
-        {
-            if (showMissionStatusWindow == true)
-                showContractStatusWindow = false;            
+        {                 
 
             Status status = calculateStatus(currentMission, true, activeVessel);
           
@@ -1634,6 +1702,10 @@ namespace MissionController
             if (GUILayout.Button("X", styleButtonWordWrap, GUILayout.Width(25)))
             {
                 missionWindow(!showMissionStatusWindow);
+                MissionSelect.TexturePath = mcetbState3 ? "MissionController/icons/mission" : "MissionController/icons/missionr";
+                mcetbState3 = !mcetbState3;
+                ContractSelect.Enabled = contractWindowBool;
+                contractWindowBool = !contractWindowBool;
             }
             GUILayout.EndHorizontal();           
             GUILayout.Space(20);
@@ -1646,9 +1718,7 @@ namespace MissionController
         }
 
         private void drawContractInfoWindow(int id)
-        {
-            if (showContractStatusWindow == true)
-                showMissionStatusWindow = false;
+        {           
             
             Status status = calculateStatus(currentMission, true, activeVessel);
 
@@ -1699,6 +1769,10 @@ namespace MissionController
             if (GUILayout.Button("X", styleButtonWordWrap, GUILayout.Width(25)))
             {
                 contractWindow(!showContractStatusWindow);
+                ContractSelect.TexturePath = mcetbState4 ? "MissionController/icons/contract" : "MissionController/icons/contractr";
+                mcetbState4 = !mcetbState4;
+                MissionSelect.Enabled = missionWindowBool;
+                missionWindowBool = !missionWindowBool;
             }
             GUILayout.EndHorizontal();
 
@@ -2274,7 +2348,7 @@ namespace MissionController
 
         private void lockOrUnlockEditor(bool visiblity)
         {
-            if (EditorLogic.fetch != null)
+            if (EditorLogic.fetch != null && HighLogic.LoadedSceneIsEditor)
             {
                 if (visiblity)
                 {

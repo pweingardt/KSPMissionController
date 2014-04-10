@@ -211,6 +211,8 @@ namespace MissionController
                 ConstructionMode.constructinit(manager.GetConstruction);
                 PayoutLeveles.payoutlevels(manager.GetCurrentPayoutLevel);
                 manager.saveProgram();
+                ScienceResearch.TexturePath = mcetbState6 ? "MissionController/icons/research" : "MissionController/icons/researchr";
+                mcetbState6 = !mcetbState6;
 
                 researchWindow(!showResearchTreeWindow);
             }

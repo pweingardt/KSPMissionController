@@ -139,6 +139,12 @@ namespace MissionController
             }
             GUILayout.EndHorizontal();
             GUILayout.Space(10);
+            if (settings.MCEDebug != false)
+            {
+                GUILayout.BeginHorizontal();
+                GUILayout.Box("Debug Tools Start", StyleBoxYellow, GUILayout.Width(225), GUILayout.Height(30));
+                GUILayout.EndHorizontal();
+            }
 
             if (settings.MCEDebug != false){
                 if (GUILayout.Button("Simulate Contract Resets", styleButtonWordWrap))
@@ -185,6 +191,12 @@ namespace MissionController
                     manager.sciencereward(1000);
                 }
             }
+            if (settings.MCEDebug != false)
+            {
+                GUILayout.BeginHorizontal();
+                GUILayout.Box("Debug Tools End", StyleBoxYellow, GUILayout.Width(225), GUILayout.Height(30));
+                GUILayout.EndHorizontal();
+            }
 
             if (GUILayout.Button("Reset Contract Time Check", styleButtonWordWrap))
             {
@@ -204,6 +216,8 @@ namespace MissionController
                 ConstructionMode.constructinit(manager.GetConstruction);
                 PayoutLeveles.payoutlevels(manager.GetCurrentPayoutLevel);
                 SettingsManager.Manager.saveSettings();
+                button.TexturePath = mcetbState1 ? "MissionController/icons/settings" : "MissionController/icons/settingsr";
+                mcetbState1 = !mcetbState1;
             }
             GUILayout.EndVertical();
             if (!Input.GetMouseButtonDown(1))

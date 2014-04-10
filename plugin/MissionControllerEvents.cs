@@ -422,7 +422,7 @@ namespace MissionController
                 if (settings.gameMode == 1 && !SettingsManager.Manager.getSettings().disablePlugin)
                 {
                     Debug.LogError("Launching Hardcore Mode vessel!");
-                    manager.costs((res.dry()) * 6 / 100);
+                    manager.costs(res.sum());
                     recycled = false;
                     canRecycle = true;
                     manager.recordVesselInfo(currentMission, activeVessel);

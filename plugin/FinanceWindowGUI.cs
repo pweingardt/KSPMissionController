@@ -145,6 +145,8 @@ namespace MissionController
             if (GUILayout.Button("Exit Window"))
             {
                 financeWindow(!showFinanceWindow);
+                BudgetDisplay.TexturePath = mcetbState2 ? "MissionController/icons/money" : "MissionController/icons/moneyr";
+                mcetbState2 = !mcetbState2;
             }
 
             GUILayout.EndVertical();
