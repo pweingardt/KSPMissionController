@@ -136,11 +136,11 @@ namespace MissionController
                             print("Has part " + p.partName + ", mass " + p.mass + ", cost " + p.partRef.partInfo.cost);
                             mass += p.mass;
                             cost += p.partRef.partInfo.cost;
-                            foreach (ProtoPartModuleSnapshot m in p.modules)
+                            foreach (ProtoPartModuleSnapshot m in p.modules)                                
                             {
                                 if (p.partRef.Modules.Contains("RealChuteModule"))
                                 {
-                                    Debug.Log("[MCE] Found realchute module on " + p.partInfo.name);
+                                    Debug.Log("[MCE] Found realchute module on part");
                                     PartModule realChute = p.partRef.Modules["RealChuteModule"];
                                     Type rCType = realChute.GetType();
 
@@ -150,10 +150,10 @@ namespace MissionController
                                     Type matType = mat.GetType();
                                     float dragC = (float)matType.GetProperty("dragCoefficient").GetValue(mat, null);
                                     Debug.Log("RealChute dragC: " + dragC);                                                                     
-                                    totalDrag = (100 * dragC * area) / 2000;
+                                    totalDrag = dragC * area;
                                     Debug.Log("Total Drag = " + totalDrag);
-                                    pdrag += p.mass * totalDrag;
-                                    Debug.LogWarning("RealChute Drag is " + pdrag + " For part: " + p.partName);
+                                    pdrag = p.mass * (double)totalDrag;
+                                    Debug.LogWarning("mass " + p.mass + " * " + totalDrag + "  = " + pdrag);
                                     realchutesInstalled = true;
                                 }
                                         
@@ -161,10 +161,11 @@ namespace MissionController
                     
                                 if (m.moduleName.Equals("ModuleParachute") && realchutesInstalled != true)
                                 {
+                                    Debug.Log("[MCE] Found ModuleParachute on part");
                                     ModuleParachute mp = (ModuleParachute)m.moduleRef;
                                     mp.Load(m.moduleValues);
                                     pdrag += p.mass * mp.fullyDeployedDrag;
-                                    Debug.LogWarning("ModuleParachute Drag is " + pdrag + " For part: " + p.partName);
+                                    Debug.LogWarning("mass " + p.mass + " * " + mp.fullyDeployedDrag + "  = " + pdrag);
                                 }
                                 if (m.moduleName.Equals("ModuleEngines"))
                                 {
@@ -226,8 +227,9 @@ namespace MissionController
                                 }
                             }
                         }*/
+                        Debug.LogWarning("Is Total Parts Mass " + mass * Tools.Setting("parachuteDragPerTon", 70.0) + " < pdrag " + pdrag + " ?");
                         if (mass * Tools.Setting("parachuteDragPerTon", 70.0) <= pdrag)
-                        {
+                        {                           
                             recycledName = v.name;
                             VesselResources vr = new VesselResources(v);
                             int type = (mass + rmass) * Tools.Setting("parachuteDragPerTon", 70.0) <= pdrag ? 3 : 4;
@@ -236,6 +238,7 @@ namespace MissionController
                             print("*MC* Recycling vessel: enough parachutes! Val: " + recycledCost);
                             showRecycleWindow = true;
                             manager.recycleVessel(v, recycledCost);
+                            realchutesInstalled = false;
                         }
                         else
                         {
