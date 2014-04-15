@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-
-/********************************************************************************
+﻿/********************************************************************************
  * Mission Controller Extended Wrapper class originally written by magico13.    *
  * You must still reference MissionLibrary.dll in your mod, but need not        *
  * include it in your release.                                                  *
