@@ -169,17 +169,10 @@ namespace MissionController
                 }
             }
 
-            if (done && manager.GetMissionTime == -1.0 && minSeconds > 0.0 && manager.GetTimeMissionName == "none") {
+            if (done && manager.GetMissionTime == -1.0 && minSeconds > 0.0) {
                 manager.SetMissionTime(Planetarium.GetUniversalTime());
-                //manager.SetTimeMissionName(Planetarium.GetUniversalTime() + "TimeName");
-            }
-
-
-            //if (manager.GetTimeMissionName != id && minSeconds > 0.0)
-            //{
-            //    manager.SetMissionTime(-1.0);
-            //    manager.SetTimeMissionName("none");
-            //}          
+                
+            }         
 
             if (minSeconds > 0.0) {
                 if (vessel != null) {

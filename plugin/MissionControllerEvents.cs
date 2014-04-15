@@ -144,7 +144,7 @@ namespace MissionController
                                     PartModule realChute = p.partRef.Modules["RealChuteModule"];
                                     Type rCType = realChute.GetType();
 
-                                    float area = (float)rCType.GetProperty("deployedArea").GetValue(realChute, null);
+                                    float area = (float)rCType.GetProperty("deployedArea").GetValue(realChute, null) * (float)0.39;
                                     Debug.Log("Realchute area: " + area);
                                     object mat = rCType.GetField("mat").GetValue(realChute);
                                     Type matType = mat.GetType();
@@ -152,7 +152,7 @@ namespace MissionController
                                     Debug.Log("RealChute dragC: " + dragC);                                                                     
                                     totalDrag = dragC * area;
                                     Debug.Log("Total Drag = " + totalDrag);
-                                    pdrag = p.mass * (double)totalDrag;
+                                    pdrag += p.mass * (double)totalDrag;
                                     Debug.LogWarning("mass " + p.mass + " * " + totalDrag + "  = " + pdrag);
                                     realchutesInstalled = true;
                                 }
