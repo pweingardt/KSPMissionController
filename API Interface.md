@@ -8,7 +8,7 @@ To access the fuctions of MCE that are avialable in MissionLibrary.dll all you h
 
 ####Want to add fuctions to your mod but don't want to include the Library Try this wrapper for MCE instead By Magico! 
 
-https://github.com/malkuth1974/KSPMissionController/blob/master/APIWrapper.md
+https://github.com/malkuth1974/KSPMissionController/blob/master/MCEWrapper/MCEWrapper.cs
 
 #### These Are values That Can Add Cost And Or Payments To MCE Budget
 

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 ﻿/********************************************************************************
+=======
+/********************************************************************************
+>>>>>>> 53d6f639e704dd3a41c7c7573473ee54e0392259
  * Mission Controller Extended Wrapper class originally written by magico13.    *
  * You must still reference MissionLibrary.dll in your mod, but need not        *
  * include it in your release.                                                  *
