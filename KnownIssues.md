@@ -31,13 +31,35 @@ I have tried fixing this.. But seems like there is nothing I can do (I even have
 It only happens with Crash type goals. All the other types of missions its not an issue because you never get the Exit screen that is causing the issue.
 
 ####Updated: 
-This problem still exist. But I have a pop up that now comes up to try to warn you about the issue.  This pop up also helps with the problem above this one. The mission Goals. You have 2 choices and these the steps you should take for this window.
+Vessel Destroyed - Mission Controller Help
 
-If your doing a crash goal.  Use the Exit and Revert button (does not revert you game only exit screen)
+Your vessel was destroyed during a Mission Controller mission. In order to gain credit for a Crash Goal, or to properly revert this flight, certain steps must be taken.
 
-If your doing a normal mission and you crash, then you want to choose the Reset Mission Goals option again does not revert your game only deletes any mission goals for current mission.
+1) Click outside of this help window. A crash log window should appear.
+2) Close the crash log window. DO NOT USE ANY OTHER BUTTONS ON THE CRASH LOG WINDOW, EXCEPT FOR THE CLOSE BUTTON.
 
-Thats it. have fun.
+If you wish to accept the mission failure and destruction of this vessel:
+
+3) Click the "Erase Finished Goals" button below.
+4) Hit the ESC key. The game menu should appear.
+5) Click the "Space Center" button.
+
+If you have completed your Crash Goal mission:
+
+3) Click the "Exit" button on this window.
+4) Hit the ESC key. The game menu should appear.
+5) Click the "Space Center" button.
+
+If you wish to revert this flight:
+
+3) Click the "Exit" button on this window.
+4) Hit the MCE "Revert Flight" button.
+
+If you wish to quick load from a save:
+
+3) Click the "Exit" button on this window.
+4) Hold down the F9 key.
+Written By. JeBuSBrian
 
 ##Issues with adding parts to mission with underscores?
 
