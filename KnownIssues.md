@@ -17,14 +17,6 @@ This is a limitation of how MCE works and the saving process.  But you can add t
 Also note any vessel that you launch that’s all in one.  Large vessel has both orbiter and lander on it, this is not an issue.  Because again they are the same vessel, your just breaking it apart and it will not cause this issue to happen.
 A Vessel Independent Goal was added to the custom contract builder to help combat this issue with Custom Contracts. So use it if your vessel is going to be many vessels docked into one large vessel.
 
-Updated: This problem still exist. But I have a pop up that now comes up to try to warn you about the issue.  This pop up also helps with the problem above this one. The mission Goals. You have 2 choices and these the steps you should take for this window.
-
-If your doing a crash goal.  Use the Exit and Revert button (does not revert you game only exit screen)
-
-If your doing a normal mission and you crash, then you want to choose the Reset Mission Goals option again does not revert your game only deletes any mission goals for current mission.
-
-Thats it. have fun.
-
 
 ##Science not paying out in crashgoal it seems!
 
@@ -37,6 +29,15 @@ When you crash a vessel you get the old screen popup that shows you flight data 
 I have tried fixing this.. But seems like there is nothing I can do (I even have a persistence save when science changes).. This screen is the problem, and not much I can do about how that pop up screeen works. 
 
 It only happens with Crash type goals. All the other types of missions its not an issue because you never get the Exit screen that is causing the issue.
+
+####Updated: 
+This problem still exist. But I have a pop up that now comes up to try to warn you about the issue.  This pop up also helps with the problem above this one. The mission Goals. You have 2 choices and these the steps you should take for this window.
+
+If your doing a crash goal.  Use the Exit and Revert button (does not revert you game only exit screen)
+
+If your doing a normal mission and you crash, then you want to choose the Reset Mission Goals option again does not revert your game only deletes any mission goals for current mission.
+
+Thats it. have fun.
 
 ##Issues with adding parts to mission with underscores?
 
