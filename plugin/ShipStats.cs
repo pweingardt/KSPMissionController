@@ -27,8 +27,20 @@ namespace MissionController
             {
                 showShipStatsWindow = false;
                 showMissionStatusWindow = false;
-                if (shipStatcontractBool != false) { showContractStatusWindow = true; shipStatcontractBool = false; }
-                if (shipStatMissionBool != false) { showMissionStatusWindow = true; shipStatMissionBool = false; }
+                if (shipStatcontractBool != false)
+                {
+                    showContractStatusWindow = true; 
+                    shipStatcontractBool = false; 
+                    ContractSelect.Enabled = contractWindowBool;
+                    contractWindowBool = !contractWindowBool;
+                }
+                if (shipStatMissionBool != false)
+                {
+                    showMissionStatusWindow = true; 
+                    shipStatMissionBool = false;
+                    MissionSelect.Enabled = missionWindowBool;
+                    missionWindowBool = !missionWindowBool;
+                }
             }
             GUILayout.EndVertical();           
             if (!Input.GetMouseButtonDown(1))

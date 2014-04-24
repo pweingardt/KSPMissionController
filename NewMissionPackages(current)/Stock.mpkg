@@ -185,6 +185,7 @@ MissionPackage
         CrashGoal
         {
             body = Minmus
+			CrashGoalWarning = true
         }
     }
 
@@ -372,8 +373,6 @@ MissionPackage
             description = Bring the manned probe into an orbital flight around Kerbin.
             crewCount = 1
     
-            minSeconds = TIME(6h)
-    
             OrbitGoal
             {
                 body = Kerbin
@@ -455,6 +454,7 @@ MissionPackage
     
         requiresMission = Kerbolo II
         packageOrder = 13
+		crashGoalWarning = true
     
         OrbitGoal
         {
@@ -506,9 +506,6 @@ MissionPackage
     
         requiresMission = Kerbolo I
     
-        clientControlled = true
-        lifetime = TIME(1y)
-    
         category = SATELLITE
     
         packageOrder = 100
@@ -539,10 +536,7 @@ MissionPackage
         randomized = true
     
         requiresMission = Kerbolo I
-    
-        clientControlled = true
-        lifetime = TIME(1y)
-    
+       
         category = SATELLITE
     
         packageOrder = 101
@@ -572,10 +566,7 @@ MissionPackage
         reward = 95000
         randomized = true
     
-        requiresMission = Kerbolo I
-    
-        clientControlled = true
-        lifetime = TIME(1y)
+        requiresMission = Kerbolo I       
     
         category = SATELLITE
     
@@ -611,11 +602,7 @@ MissionPackage
     
         requiresMission = Kerbolo I
     
-        passiveMission = true
-        passiveReward = 500
-    
-        lifetime = TIME(150d)
-        clientControlled = true
+        passiveReward = 500      
     
         category = SATELLITE
     
@@ -648,9 +635,6 @@ MissionPackage
         randomized = true
     
         requiresMission = Kerbolo I
-    
-        clientControlled = true
-        lifetime = TIME(1y)
     
         category = SATELLITE
     

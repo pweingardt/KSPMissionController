@@ -143,7 +143,6 @@ namespace MissionController
         private bool showMissionLogbookWindow = false;
         private bool showShipLogBookWindow = false;
         private bool showUserContractWindowStatus = false;
-        private bool showVesselDestroyedWindow = false;
         public static bool showBonusPaymentsWindow = false;
         private bool showModPayments = false;
         private bool showModCost = false;
@@ -955,11 +954,7 @@ namespace MissionController
                 modPaymentWindow = GUILayout.Window(1788891, modPaymentWindow, drawmodPaymentWindow, "Other Payment Window ", GUILayout.MinHeight(500), GUILayout.MinWidth(960));
                 modPaymentWindow.x = Mathf.Clamp(modPaymentWindow.x, 0, Screen.width - modPaymentWindow.width);
                 modPaymentWindow.y = Mathf.Clamp(modPaymentWindow.y, 0, Screen.height - modPaymentWindow.height);
-            }
-            if (showVesselDestroyedWindow && hideMCtoolbarsviews)
-            {
-                GUILayout.Window(1345327, new Rect(Screen.width / 2 - 200, Screen.height / 2 - 100, 400, 100), drawVesselDestroyedWindow, "Vessel Destroyed Mission Controller Options");
-            }
+            }            
             if (showBonusPaymentsWindow && hideMCtoolbarsviews && currentMission != null)
             {
                 GUILayout.Window(92466, new Rect(Screen.width / 2 - 200, Screen.height / 2 - 100, 625, 150), drawBonusPaymentWindow, "Bonus Mission Payout Window");
@@ -1001,43 +996,7 @@ namespace MissionController
                 manager.currentgoalPayment = 0;
             }
         }
-
-        private void drawVesselDestroyedWindow(int id)
-        {
-            GUI.skin = HighLogic.Skin;
-            GUILayout.BeginVertical();
-
-            GUILayout.Label("Your Vessel Was Destroyed During a Mission Controller Mission, You have 2 choices\n\n you can exit this screen and revert or load a Quick Save\n\n" +
-                "or you can accept the death and Erase any Mission Goals you have completed and start with a new vessel!\n\n Its important you choose Accept Death if you want to start over!\n\n" +
-                "Also the window that follows this screen do not use! Its an old KSP window and can Reset any Science Payments that you might get with CrashGoal Type Mission!! Use Esc menu!\n\n"+
-                "If your doing a CRASHGOAL Mission Ignore This Screen!!");
-            GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Accept Death Erase Finished Goals"))
-            {
-                if (currentMission != null)
-                {
-                    clearactivemissiongoals();
-                    print("MCE Goals were Deleted And passed Isgoalpressent Check");
-                    HighLogic.LoadScene(GameScenes.SPACECENTER);
-                    showVesselDestroyedWindow = false;
-                }
-                else
-                {
-                    print("Current mission Was Null can't Delete Goals!!! Make sure Missino Is loaded!");
-                    showVesselDestroyedWindow = false;
-                    HighLogic.LoadScene(GameScenes.SPACECENTER);
-                }
-            }
-            if (GUILayout.Button("Exit And Revert Or QuickLoad"))
-            {
-                showVesselDestroyedWindow = false;
-                print("MCE player chose to Revert or Quick Load instead of death by honor");
-            }
-            GUILayout.EndHorizontal();
-         
-            GUILayout.EndVertical();           
-        }
-
+                  
         private void drawmodCostWindow(int id)
         {
             GUI.skin = HighLogic.Skin;
@@ -1368,8 +1327,8 @@ namespace MissionController
                         if (HighLogic.CurrentGame.Mode == Game.Modes.CAREER)
                         {
                             GUILayout.Box("Total Science Paid: " + currentMission.scienceReward, StyleBoxYellow, GUILayout.Width(300), GUILayout.Height(30));
-                        }
-                        GUILayout.EndHorizontal();
+                        }                       
+                        GUILayout.EndHorizontal();                       
                     }
                     if (settings.gameMode == 1)
                     {
@@ -1668,8 +1627,8 @@ namespace MissionController
             {
                 drawMission(currentMission, status);     
             }
-            GUILayout.EndScrollView();
-            
+            GUILayout.EndScrollView();            
+                           
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("Package", styleButtonWordWrap, GUILayout.Width(100)))
             {
@@ -1697,6 +1656,8 @@ namespace MissionController
                 showMissionStatusWindow = false;
                 showShipStatsWindow = true;
                 shipStatMissionBool = true;
+                MissionSelect.Enabled = missionWindowBool;
+                missionWindowBool = !missionWindowBool;
             }
             
             if (GUILayout.Button("X", styleButtonWordWrap, GUILayout.Width(25)))
@@ -1764,6 +1725,8 @@ namespace MissionController
                 showContractStatusWindow = false;
                 showShipStatsWindow = true;
                 shipStatcontractBool = true;
+                ContractSelect.Enabled = contractWindowBool;
+                contractWindowBool = !contractWindowBool;
             }
 
             if (GUILayout.Button("X", styleButtonWordWrap, GUILayout.Width(25)))
@@ -1923,6 +1886,17 @@ namespace MissionController
             }
 
             drawMissionGoals(mission, s);
+            
+            if (currentMission != null && currentMission.crashGoalWarning != false)
+            {
+                GUILayout.Label("In order to gain credit for a CRASHGOAL Mission certain steps must be taken at end of mission.\n\n" +
+                "1) Accept the mission payment and exit payment window.\n\n" +
+                "2) Close the KSP crash log window That Pops Up (happens when crash). \n " +
+                "DO NOT USE ANY OTHER BUTTONS ON THE CRASH LOG WINDOW, EXCEPT FOR THE CLOSE BUTTON.\n\n" +
+                "3) Hit the ESC key. The game menu should appear.\n\n" +
+                "4) Click the SPACECENTER button.\n\n" +
+                "Failure to follow this will result in Science points not being paid!", styleWarning);
+            }
 
             if (s.missionAlreadyFinished)
             {

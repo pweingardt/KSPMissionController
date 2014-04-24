@@ -551,6 +551,7 @@ namespace MissionController
     {
         public string desc = "";
         public string body;
+        public bool CrashGoalWarning = true;
         public UCCrashGoal()
         {
         }

@@ -277,7 +277,7 @@ MissionPackage
 		description = Continue expanding upon the existing orbital station by launching one (or more) of many non-essential, auxiliary modules.\n\nImportant: Check the mission goal requirements to confirm your design has the requisite parts before launching.
 		reward = 50000
 		category = ORBIT, SATELLITE
-		requiresMission = Kerbin Orbital Station - Command Module
+		requiresMission = Kerbin Orbital - Command Module
 		repeatable = true
 		packageOrder = 6
 			
@@ -312,13 +312,13 @@ MissionPackage
 			description = Confirm attached science module is secure and ready for deployment.
 			optional = true
 			reward = 125000
-			
-			PartGoal
+
+                        PartGoal
 			{
-				partName = science_module
+				partName = science.module
 				partCount = 2
 			}
-			
+
 			PartGoal
 			{
 				partName = GooExperiment
@@ -559,7 +559,7 @@ MissionPackage
 		description = Continue expanding upon the existing orbital station by launching one (or more) of many non-essential, auxiliary modules.\n\nImportant: Check the mission goal requirements to confirm your design has the requisite parts before launching.
 		reward = 50000
 		category = ORBIT, SATELLITE
-		requiresMission = Duna Orbital Station - Command Module
+		requiresMission = Duna Orbital - Command Module
 		repeatable = true
 		packageOrder = 9
 		
@@ -597,7 +597,7 @@ MissionPackage
 			
 			PartGoal
 			{
-				partName = science_module
+				partName = science.module
 				partCount = 2
 			}
 			
@@ -841,7 +841,7 @@ MissionPackage
 		description = Continue expanding upon the existing orbital station by launching one (or more) of many non-essential, auxiliary modules.\n\nImportant: Check the mission goal requirements to confirm your design has the requisite parts before launching.
 		reward = 50000
 		category = ORBIT, SATELLITE
-		requiresMission = Jool Orbital Station - Command Module
+		requiresMission = Jool Orbital - Command Module
 		repeatable = true
 		packageOrder = 12
 			
@@ -879,7 +879,7 @@ MissionPackage
 			
 			PartGoal
 			{
-				partName = science_module
+				partName = science.module
 				partCount = 2
 			}
 			
@@ -1123,7 +1123,7 @@ MissionPackage
 		description = Continue expanding upon the existing orbital station by launching one (or more) of many non-essential, auxiliary modules.\n\nImportant: Check the mission goal requirements to confirm your design has the requisite parts before launching.
 		reward = 50000
 		category = ORBIT, SATELLITE
-		requiresMission = Eve Orbital Station - Command Module
+		requiresMission = Eve Orbital - Command Module
 		repeatable = true
 		packageOrder = 15
 				
@@ -1161,7 +1161,7 @@ MissionPackage
 			
 			PartGoal
 			{
-				partName = science_module
+				partName = science.module
 				partCount = 2
 			}
 			
@@ -1405,7 +1405,7 @@ MissionPackage
 		description = Continue expanding upon the existing orbital station by launching one (or more) of many non-essential, auxiliary modules.\n\nImportant: Check the mission goal requirements to confirm your design has the requisite parts before launching.
 		reward = 50000
 		category = ORBIT, SATELLITE
-		requiresMission = Dres Orbital Station - Command Module
+		requiresMission = Dres Orbital - Command Module
 		repeatable = true
 		packageOrder = 18
 		
@@ -1443,7 +1443,7 @@ MissionPackage
 			
 			PartGoal
 			{
-				partName = science_module
+				partName = science.module
 				partCount = 2
 			}
 			
@@ -1687,7 +1687,7 @@ MissionPackage
 		description = Continue expanding upon the existing orbital station by launching one (or more) of many non-essential, auxiliary modules.\n\nImportant: Check the mission goal requirements to confirm your design has the requisite parts before launching.
 		reward = 50000
 		category = ORBIT, SATELLITE
-		requiresMission = Moho Orbital Station - Command Module
+		requiresMission = Moho Orbital - Command Module
 		repeatable = true
 		packageOrder = 21
 		
@@ -1725,7 +1725,7 @@ MissionPackage
 			
 			PartGoal
 			{
-				partName = science_module
+				partName = science.module
 				partCount = 2
 			}
 			
@@ -1969,7 +1969,7 @@ MissionPackage
 		description = Continue expanding upon the existing orbital station by launching one (or more) of many non-essential, auxiliary modules.\n\nImportant: Check the mission goal requirements to confirm your design has the requisite parts before launching.
 		reward = 50000
 		category = ORBIT, SATELLITE
-		requiresMission = Eeloo Orbital Station - Command Module
+		requiresMission = Eeloo Orbital - Command Module
 		repeatable = true
 		packageOrder = 24
 		
@@ -2007,7 +2007,7 @@ MissionPackage
 			
 			PartGoal
 			{
-				partName = science_module
+				partName = science.module
 				partCount = 2
 			}
 			

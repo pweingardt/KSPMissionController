@@ -271,23 +271,7 @@ namespace MissionController
                 {
                     MissionController.showBonusPaymentsWindow = true;
                 }
-                //if (currentProgram.timeStarted > 0 && currentProgram.timeStartedName == goal.id)
-                //{
-                //    currentProgram.timeStarted = -1.0;
-                //    currentProgram.timeStartedName = "none";
-                //}
-                //if (currentProgram.timeRoverStarted > 0 && currentProgram.timeRoverName == goal.id)
-                //{
-                //    currentProgram.timeRoverStarted = -1.0;
-                //    currentProgram.timeRoverName = "none";
-                //    RoverScience.doResearch = false;
-                //}
-                //if (currentProgram.timeProbeStarted > 0 && currentProgram.timeProbeName == goal.id)
-                //{
-                //    currentProgram.timeProbeStarted = -1.0;
-                //    currentProgram.timeProbeName = "none";
-                //    OrbitResearchScan.doResearch = false;
-                //}
+                
                 saveProgram();             
             }
 
@@ -301,23 +285,7 @@ namespace MissionController
                 {
                     MissionController.showBonusPaymentsWindow = true;
                 }
-                //if (currentProgram.timeStarted > 0 && currentProgram.timeStartedName == goal.id)
-                //{
-                //    currentProgram.timeStarted = -1.0;
-                //    currentProgram.timeStartedName = "none";
-                //}
-                //if (currentProgram.timeRoverStarted > 0 && currentProgram.timeRoverName == goal.id)
-                //{
-                //    currentProgram.timeRoverStarted = -1.0;
-                //    currentProgram.timeRoverName = "none";
-                //    RoverScience.doResearch = false;
-                //}
-                //if (currentProgram.timeProbeStarted > 0 && currentProgram.timeProbeName == goal.id)
-                //{
-                //    currentProgram.timeProbeStarted = -1.0;
-                //    currentProgram.timeProbeName = "none";
-                //    OrbitResearchScan.doResearch = false;
-                //}
+               
                 saveProgram();
             }
         }
@@ -682,16 +650,12 @@ namespace MissionController
         {
             asteroidCapture.Clear();
         }
-
-        public void clearMissionGoals(string id)
-        {
-            currentProgram.completedGoals.RemoveAll(s => s.vesselGuid == id);
-            saveProgram();        
-        }
+       
         public void clearMissionGoalByName(MissionGoal mg)
-        {
-            currentProgram.completedGoals.RemoveAll(s => s.id.Contains(mg.id.ToString()));
-            saveProgram();
+        {           
+          currentProgram.completedGoals.RemoveAll(s => s.id.Contains(mg.id.ToString()));
+          Debug.LogWarning("Clearing Any Goals With Same ID as:  " + mg.id);
+          saveProgram();              
         }
         public void wipeAllMissionGoals()
         {

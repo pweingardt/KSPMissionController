@@ -538,13 +538,6 @@ MissionPackage
 			body = Mun
 		}
 		
-		UnDockingGoal
-		{
-			description = Undock a small science vessel to remain on the surface.
-			optional = true
-			reward = 60000
-		}
-		
 		OrbitGoal
 		{
 			description = Establish a stable orbit around the Mun.
@@ -694,13 +687,6 @@ MissionPackage
 			body = Minmus
 		}
 		
-		UnDockingGoal
-		{
-			description = Undock a small science vessel to remain on the surface.
-			optional = true
-			reward = 60000
-		}
-		
 		OrbitGoal
 		{
 			description = Establish a stable orbit around Minmus.
@@ -767,11 +753,6 @@ MissionPackage
 			maxPeA = 2500000
 			minApA = 2000000
 			maxApA = 2500000
-		}
-		
-		UnDockingGoal
-		{
-			description = Undock from the connected vessel.
 		}
 		
 		OrbitGoal
@@ -991,11 +972,6 @@ MissionPackage
 			maxApA = 120000
 		}
 		
-		UnDockingGoal
-		{
-			description = Undock from the connected vessel.
-		}
-		
 		OrbitGoal
 		{
 			description = Establish a stable orbit around the Mun.
@@ -1067,26 +1043,14 @@ MissionPackage
 			maxPeA = 20000
 			minApA = 10000
 			maxApA = 20000
-		}
-		
-		UnDockingGoal
-		{
-			description = Undock from the connected vessel.
-		}
+		}				
 		
 		LandingGoal
 		{
 			description = Land the vessel on the surface.
 			body = Mun
 			crewCount = 2
-		}
-		
-		UnDockingGoal
-		{
-			description = Undock a small science vessel to remain on the surface.
-			optional = true
-			reward = 60000
-		}
+		}		
 		
 		EVAGoal
 		{
@@ -1156,14 +1120,7 @@ MissionPackage
 			body = Mun
 			crewCount = 3
 		}
-		
-		UnDockingGoal
-		{
-			description = Undock a small science vessel to remain on the surface.
-			optional = true
-			reward = 60000
-		}
-		
+				
 		EVAGoal
 		{
 			description = Complete an EVA to collect material samples.
@@ -1414,12 +1371,7 @@ MissionPackage
 			minApA = 80000
 			maxApA = 120000
 		}
-		
-		UnDockingGoal
-		{
-			description = Undock from the connected vessel.
-		}
-		
+				
 		OrbitGoal
 		{
 			description = Establish a stable orbit around Minmus.
@@ -1493,23 +1445,11 @@ MissionPackage
 			maxApA = 20000
 		}
 		
-		UnDockingGoal
-		{
-			description = Undock from the connected vessel.
-		}
-		
 		LandingGoal
 		{
 			description = Land the vessel on the surface.
 			body = Minmus
 			crewCount = 2
-		}
-		
-		UnDockingGoal
-		{
-			description = Undock a small science vessel to remain on the surface.
-			optional = true
-			reward = 60000
 		}
 		
 		EVAGoal
@@ -1579,13 +1519,6 @@ MissionPackage
 			description = Land the vessel on the surface.
 			body = Minmus
 			crewCount = 3
-		}
-		
-		UnDockingGoal
-		{
-			description = Undock a small science vessel to remain on the surface.
-			optional = true
-			reward = 60000
 		}
 		
 		EVAGoal

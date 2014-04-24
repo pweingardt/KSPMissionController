@@ -66,6 +66,8 @@ namespace MissionController
         /// </summary>
         public bool repeatable = false;
 
+        public bool crashGoalWarning = false;
+
         /// <summary>
         /// If true, the mission goals needs to be finished in the right order
         /// </summary>

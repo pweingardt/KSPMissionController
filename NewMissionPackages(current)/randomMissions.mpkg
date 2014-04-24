@@ -202,7 +202,7 @@ Mission
 	LandingGoal
         {
             body = Kerbin
-			biome =IceCaps
+			biome =Ice Caps
         }
 }
 
@@ -224,8 +224,10 @@ Mission
 		LandingGoal
 		{
         body = Kerbin
-		maxLatitude = 10.5
-		minLatitude = 7.5
+		maxLatitude = 20
+		minLatitude = 0
+		maxLongitude = 170
+		minLongitude = -170
 		}
 		PartGoal
             {
@@ -406,6 +408,7 @@ Mission
 	scienceReward = 50
 	repeatable = false
 	packageOrder = 12
+	crashGoalWarning = true
 
 	SubMissionGoal
 	{
@@ -437,6 +440,7 @@ Mission
 	scienceReward = 55
 	repeatable = false
 	packageOrder = 13
+	crashGoalWarning = true
 
 	SubMissionGoal
 	{
@@ -477,8 +481,8 @@ Mission
 		OrbitGoal
 		{
         body = Kerbin
-        minApA = RANDOM(200000,80000)
-		maxApA = ADD(minApA, 2000)
+        minPeA = RANDOM(200000,80000)
+		maxApA = ADD(minPeA, 2000)
 		crewCount = 3
 		
 		}
@@ -859,7 +863,7 @@ Mission
 			
 		PartGoal
             {
-                partName = longAntenna
+                partName = MCE-OrbitalResearch
                 partCount = 1
             }
 			
@@ -896,7 +900,7 @@ Mission
 			}
 		PartGoal
             {
-                partName = longAntenna
+                partName = MCE-OrbitalResearch
                 partCount = 1
             }
 			
@@ -934,7 +938,7 @@ Mission
 			
 		PartGoal
             {
-                partName = commDish
+                partName = MCE-OrbitalResearch
                 partCount = 1
             }
     
@@ -973,7 +977,7 @@ Mission
 			
 		PartGoal
             {
-                partName = commDish
+                partName = MCE-OrbitalResearch
                 partCount = 1
             }
     
@@ -1012,7 +1016,7 @@ Mission
 			
 		PartGoal
             {
-                partName = commDish
+                partName = MCE-OrbitalResearch
                 partCount = 1
             }
     
@@ -1051,7 +1055,7 @@ Mission
 			
 		PartGoal
             {
-                partName = commDish
+                partName = MCE-OrbitalResearch
                 partCount = 1
             }
     
@@ -1088,7 +1092,7 @@ Mission
 			
 		PartGoal
             {
-                partName = commDish
+                partName = MCE-OrbitalResearch
                 partCount = 1
             }
     
@@ -1124,7 +1128,7 @@ Mission
 		}
 		PartGoal
             {
-                partName = commDish
+                partName = MCE-OrbitalResearch
                 partCount = 1
             }
 		PartGoal
@@ -1302,24 +1306,27 @@ Mission
 }
 Mission
 {
-name = 41 - Test2
-	description = In the later years of our Space Program we decided to venture out of Kerbins SOI.  Time to find out what is up with the Sun. Send a \nProbe to study the effects of sun.  Get into solar orbit.
-	category = ORBIT
-	reward = 0
+    name = 41 - CrashGoal Testing
+    description = We would like to study the effect of a probe crashing into the Mun.  We think it will be very interesting to see the \nkind of explosion we can produce.  Science rewards could be huge.
+	category = PROBE, IMPACT
+    reward = 60000
+	scienceReward = 0
 	repeatable = true
-	isRoverMission = true
-	packageOrder = 40
-		
-		SubMissionGoal
-        {                      
-            OrbitGoal
-			{
-				body = Kerbin
-				maxApA = 150000		
-				minPeA = 70000
-				orbitResearch = true
-				probeSeconds = TIME(5m)		
-			}
-               
+	packageOrder = 41
+	crashGoalWarning = true
+
+	SubMissionGoal
+	{		
+		description = This vessel can't have any crew!
+		noCrewGoal
+		{
+		}	
+	}
+	CrashGoal
+        {
+            body = Kerbin
         }
+	
+}
+
 }

@@ -275,7 +275,7 @@ MissionPackage
 		description = Continue expanding upon the existing surface base by launching one (or more) of many non-essential, auxiliary modules.\n\nImportant: Check the mission goal requirements to confirm your design has the requisite parts before launching.
 		reward = 50000
 		category = LANDING, SATELLITE
-		requiresMission = Mun surface base - Command Module
+		requiresMission = Mun surface - Command Module
 		repeatable = true
 		packageOrder = 6
 		
@@ -312,7 +312,7 @@ MissionPackage
 			
 			PartGoal
 			{
-				partName = science_module
+				partName = science.module
 				partCount = 2
 			}
 			
@@ -554,7 +554,7 @@ MissionPackage
 		description = Continue expanding upon the existing surface base by launching one (or more) of many non-essential, auxiliary modules.\n\nImportant: Check the mission goal requirements to confirm your design has the requisite parts before launching.
 		reward = 50000
 		category = LANDING, SATELLITE
-		requiresMission = Minmus surface base - Command Module
+		requiresMission = Minmus surface - Command Module
 		repeatable = true
 		packageOrder = 9
 		
@@ -591,7 +591,7 @@ MissionPackage
 			
 			PartGoal
 			{
-				partName = science_module
+				partName = science.module
 				partCount = 2
 			}
 			
@@ -833,7 +833,7 @@ MissionPackage
 		description = Continue expanding upon the existing surface base by launching one (or more) of many non-essential, auxiliary modules.\n\nImportant: Check the mission goal requirements to confirm your design has the requisite parts before launching.
 		reward = 50000
 		category = LANDING, SATELLITE
-		requiresMission = Ike surface base - Command Module
+		requiresMission = Ike surface - Command Module
 		repeatable = true
 		packageOrder = 12
 		
@@ -870,7 +870,7 @@ MissionPackage
 			
 			PartGoal
 			{
-				partName = science_module
+				partName = science.module
 				partCount = 2
 			}
 			
@@ -1112,7 +1112,7 @@ MissionPackage
 		description = Continue expanding upon the existing surface base by launching one (or more) of many non-essential, auxiliary modules.\n\nImportant: Check the mission goal requirements to confirm your design has the requisite parts before launching.
 		reward = 50000
 		category = LANDING, SATELLITE
-		requiresMission = Laythe surface base - Command Module
+		requiresMission = Laythe surface - Command Module
 		repeatable = true
 		packageOrder = 15
 		
@@ -1149,7 +1149,7 @@ MissionPackage
 			
 			PartGoal
 			{
-				partName = science_module
+				partName = science.module
 				partCount = 2
 			}
 			
@@ -1391,7 +1391,7 @@ MissionPackage
 		description = Continue expanding upon the existing surface base by launching one (or more) of many non-essential, auxiliary modules.\n\nImportant: Check the mission goal requirements to confirm your design has the requisite parts before launching.
 		reward = 50000
 		category = LANDING, SATELLITE
-		requiresMission = Vall surface base - Command Module
+		requiresMission = Vall surface - Command Module
 		repeatable = true
 		packageOrder = 18
 
@@ -1428,7 +1428,7 @@ MissionPackage
 			
 			PartGoal
 			{
-				partName = science_module
+				partName = science.module
 				partCount = 2
 			}
 			
@@ -1670,7 +1670,7 @@ MissionPackage
 		description = Continue expanding upon the existing surface base by launching one (or more) of many non-essential, auxiliary modules.\n\nImportant: Check the mission goal requirements to confirm your design has the requisite parts before launching.
 		reward = 50000
 		category = LANDING, SATELLITE
-		requiresMission = Tylo surface base - Command Module
+		requiresMission = Tylo surface - Command Module
 		repeatable = true
 		packageOrder = 21
 		
@@ -1707,7 +1707,7 @@ MissionPackage
 			
 			PartGoal
 			{
-				partName = science_module
+				partName = science.module
 				partCount = 2
 			}
 			
@@ -1949,7 +1949,7 @@ MissionPackage
 		description = Continue expanding upon the existing surface base by launching one (or more) of many non-essential, auxiliary modules.\n\nImportant: Check the mission goal requirements to confirm your design has the requisite parts before launching.
 		reward = 50000
 		category = LANDING, SATELLITE
-		requiresMission = Bop surface base - Command Module
+		requiresMission = Bop surface - Command Module
 		repeatable = true
 		packageOrder = 24
 
@@ -1986,7 +1986,7 @@ MissionPackage
 			
 			PartGoal
 			{
-				partName = science_module
+				partName = science.module
 				partCount = 2
 			}
 			
@@ -2228,7 +2228,7 @@ MissionPackage
 		description = Continue expanding upon the existing surface base by launching one (or more) of many non-essential, auxiliary modules.\n\nImportant: Check the mission goal requirements to confirm your design has the requisite parts before launching.
 		reward = 50000
 		category = LANDING, SATELLITE
-		requiresMission = Pol surface base - Command Module
+		requiresMission = Pol surface - Command Module
 		repeatable = true
 	
 		LandingGoal
@@ -2264,7 +2264,7 @@ MissionPackage
 			
 			PartGoal
 			{
-				partName = science_module
+				partName = science.module
 				partCount = 2
 			}
 			
@@ -2506,7 +2506,7 @@ MissionPackage
 		description = Continue expanding upon the existing surface base by launching one (or more) of many non-essential, auxiliary modules.\n\nImportant: Check the mission goal requirements to confirm your design has the requisite parts before launching.
 		reward = 50000
 		category = LANDING, SATELLITE
-		requiresMission = Gilly surface base - Command Module
+		requiresMission = Gilly surface - Command Module
 		repeatable = true
 		packageOrder = 30
 	
@@ -2543,7 +2543,7 @@ MissionPackage
 			
 			PartGoal
 			{
-				partName = science_module
+				partName = science.module
 				partCount = 2
 			}
 			

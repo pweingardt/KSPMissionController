@@ -184,9 +184,9 @@ namespace MissionController
 
     public class Randomizator3000
     {
-        public class Item<M>
+        public class Item<T>
         {
-            public M value;
+            public T value;
             public float weight;
 
             public static float GetTotalWeight<T>(Item<T>[] p_itens)

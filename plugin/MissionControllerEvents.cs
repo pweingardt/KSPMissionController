@@ -96,12 +96,7 @@ namespace MissionController
             {
                 eventFlags = eventFlags.Add(EventFlags.CRASHED);
                 print(" MCE Vessel Flaged as Crashed: " + v.name);
-            }
-            if (FlightGlobals.fetch.activeVessel != null && HighLogic.LoadedSceneIsFlight && FlightGlobals.fetch.activeVessel.state == Vessel.State.DEAD && currentMission != null)
-            {
-                showVesselDestroyedWindow = true;
-                print("Active Vessel Destoyed for MCE " + activeVessel.name + " " + activeVessel.id);
-            }
+            }          
             // NK recycle
             else
             {
@@ -180,53 +175,28 @@ namespace MissionController
                                 foreach (ProtoPartResourceSnapshot r in p.resources)
                                 {
                                     double amt = Tools.GetValueDefault(r.resourceValues, "amount", 0.0);
-                                    //print(Tools.NodeToString(r.resourceValues, 0));
+                                    print(Tools.NodeToString(r.resourceValues, 0));
                                     if (!(amt > 0))
-                                        continue;
-                                    //DBG print("Found resource " + r.resourceName + ", amount " + r.amount + ", cost = " + rCost);
+                                        continue;                                   
                                     double dens = r.resourceRef.info.density;
                                     if (resources.ContainsKey(r.resourceName))
                                     {
                                         resources[r.resourceName] = resources[r.resourceName] + amt;
                                         rmasses[r.resourceName] = rmasses[r.resourceName] + amt * dens;
+                                        Debug.LogWarning("Printing if Statement for ProtoResource containsKey r.resourceName");
                                     }
                                     else
                                     {
                                         resources[r.resourceName] = amt;
                                         rmasses[r.resourceName] = amt * dens;
+                                        Debug.LogWarning("Printing Else Statement for ProtoResource");
                                     }
-                                    rmass += amt * dens;
+                                    rmass += amt * dens;                                    
+                                    Debug.LogWarning("Resource Mass =  " + rmass + " Density =  " + dens + " Amount In this Part =  " + amt + " Type Of Resource is: " + r.resourceName);
                                 }
                             }
                         }
-                        /*if(!v.packed)
-                        {
-                            rmass = 0;
-                            resources.Clear();
-                            foreach(Part p in v.Parts)
-                            {
-                                foreach(PartResource r in p.Resources)
-                                {
-                                    double amt = r.amount;
-                                    //print(Tools.NodeToString(r.resourceValues, 0));
-                                    if (!(amt > 0))
-                                        continue;
-                                            //DBG print("Found resource " + r.resourceName + ", amount " + r.amount + ", cost = " + rCost);
-                                    double dens = r.info.density;
-                                    if (resources.ContainsKey(r.resourceName))
-                                    {
-                                        resources[r.resourceName] = resources[r.resourceName] + amt;
-                                        rmasses[r.resourceName] = rmasses[r.resourceName] + amt * dens;
-                                    }
-                                    else
-                                    {
-                                        resources[r.resourceName] = amt;
-                                        rmasses[r.resourceName] = amt * dens;
-                                    }
-                                    rmass += amt * dens;
-                                }
-                            }
-                        }*/
+                        
                         Debug.LogWarning("Is Total Parts Mass " + mass * Tools.Setting("parachuteDragPerTon", 70.0) + " < pdrag " + pdrag + " ?");
                         if (mass * Tools.Setting("parachuteDragPerTon", 70.0) <= pdrag)
                         {                           
@@ -395,7 +365,7 @@ namespace MissionController
             // Apparently this event is even fired when we stage in orbit...
             // Malkuth Edit To match the actual cost of launch with Visual Cost in Display.. (almost missed this one opps)
             if (activeVessel != null && activeVessel.situation == Vessel.Situations.PRELAUNCH)
-            {
+            {               
 
                 VesselResources res = new VesselResources(activeVessel);
                 FinanceMode fn = new FinanceMode();
@@ -415,9 +385,15 @@ namespace MissionController
                     canRecycle = true;
                     manager.recordVesselInfo(currentMission, activeVessel);
                     fn.checkloans();
+                    if (currentMission != null && currentMission.repeatable != true)
+                    {
+                        foreach (MissionGoal mg in currentMission.goals)
+                        {
+                            manager.clearMissionGoalByName(mg);
+                            Debug.LogWarning("Checking For NoRepeatable Mission Goals Saved.. And deleting");
+                        }
+                    }
                 }
-
-
 
                 if (settings.gameMode == 1 && !SettingsManager.Manager.getSettings().disablePlugin)
                 {
@@ -427,6 +403,14 @@ namespace MissionController
                     canRecycle = true;
                     manager.recordVesselInfo(currentMission, activeVessel);
                     fn.checkloans();
+                    if (currentMission != null && currentMission.repeatable != true)
+                    {
+                        foreach (MissionGoal mg in currentMission.goals)
+                        {
+                            manager.clearMissionGoalByName(mg);
+                            Debug.LogWarning("Checking For NoRepeatable Mission Goals Saved.. And deleting");
+                        }
+                    }
                 }
             }
                 
