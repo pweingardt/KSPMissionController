@@ -30,8 +30,7 @@ namespace MissionController
                     "DOCKINGGOAL: Used to dock vessel in orbit always follows last Orbit goal.\n\n" +
                     "CRASHGOAL: Used to crash a vessel into a Planet Body, used for science and research. Good idea to have orbit goal first.\n\n";
 
-                    
-
+       
         private UserContracts usercontracts
         {
             get { return ManageUserContracts.UCManager.getUserContractSettings(); }
@@ -48,6 +47,7 @@ namespace MissionController
         private bool isdocking = false;
         private bool isCrashing = false;
         private bool iscrewselected = false;
+        private bool isasteroid = false;
 
         private int goalpayment = 0;
         private int TotalPayout = 0;
@@ -55,6 +55,7 @@ namespace MissionController
         
         private int body = 1;
         private int goal = 1;
+        private int astcount = 0; 
         private bool isVesselIndy = false;
 
 
@@ -62,7 +63,7 @@ namespace MissionController
         private double orbitPeA = 0;
 
         private bool ucNoCrewGoal = false;
-        private int ucHasCrew = 20000;
+        private int ucHasCrew = 20000;        
 
         Dictionary<int, PlanetInfo> dictplanetinfo = new Dictionary<int, PlanetInfo>();
         Dictionary<int, GoalInfo> dictGoalInfo = new Dictionary<int, GoalInfo>();
@@ -74,6 +75,7 @@ namespace MissionController
             dictGoalInfo.Add(mce.GoalInfo3.ID, mce.GoalInfo3);
             dictGoalInfo.Add(mce.GoalInfo4.ID, mce.GoalInfo4);
             dictGoalInfo.Add(mce.GoalInfo5.ID, mce.GoalInfo5);
+            dictGoalInfo.Add(mce.GoalInfo6.ID, mce.GoalInfo6);
 
             dictplanetinfo.Add(mce.PlanetInfo1.ID, mce.PlanetInfo1);
             dictplanetinfo.Add(mce.PlanetInfo2.ID, mce.PlanetInfo2);
@@ -112,6 +114,8 @@ namespace MissionController
             GoalInfo sgoal = dictGoalInfo[goal];
             int sgoalamount = sgoal.Gamount;
             int splanetamount = splanet.Gamount;
+            int maxastcount = manager.asteroidCapture.Count;
+            AsteriodCapture tempasteroid = manager.asteroidCapture[astcount];
 
             GUI.skin = HighLogic.Skin;
             GUILayout.BeginVertical();
@@ -168,17 +172,17 @@ namespace MissionController
             else
             {
                 GUILayout.Space(5);
-                GUILayout.Label("Set The type of Goal, Some goals are dependent On others! For right now only 1 goal can be set for each Contract.", styleText);
+                GUILayout.Label("Set The type of Goal, Some goals are dependent On others! For right now only 1 goal each can be set for each Contract.", styleText);
                 GUILayout.BeginHorizontal();
                 if (goal != 2 && goal != 3 && goal != 5) { body = 1; }
                 if (goal == 1 || body == 1) { orbitApA = 0; orbitPeA = 0; }
                 if (GUILayout.Button("-", styleButtonWordWrap, GUILayout.Width(25))) { goal--; if (goal < 1) { goal = 1; } }
-                if (GUILayout.Button("+", styleButtonWordWrap, GUILayout.Width(25))) { goal++; if (goal > 5) { goal = 1; } }
+                if (GUILayout.Button("+", styleButtonWordWrap, GUILayout.Width(25))) { goal++; if (goal > 6) { goal = 1; } }
                 GUILayout.Box("Goal Type? ", GUILayout.Width(150), GUILayout.Height(30));
                 GUILayout.Box("" + sgoal.Gname, GUILayout.Width(150), GUILayout.Height(30));              
                                                                
                 GUILayout.Space(5);
-                if (goal == 2 && body != 1 && IsOrbit != 2)
+                if (goal == 2 && body != 1 && IsOrbit != 2 && isasteroid != true)
                 {
                     if (GUILayout.Button("Set OrbitGoal", styleButtonWordWrap, GUILayout.Width(120)))
                     {
@@ -218,7 +222,7 @@ namespace MissionController
                         isVesselIndy = false;
                     }
                 }
-                if (goal == 4 && isdocking != true && IsOrbit != 0)
+                if (goal == 4 && isdocking != true && IsOrbit != 0 && isasteroid != true)
                 {
                     if (GUILayout.Button("Set DockingGoal", styleButtonWordWrap, GUILayout.Width(120)))
                     {
@@ -235,7 +239,7 @@ namespace MissionController
                         managUserContracts.saveUserContracts();
                     }
                 }
-                if (goal == 5 && isCrashing != true && ucNoCrewGoal == false)
+                if (goal == 5 && isCrashing != true && ucNoCrewGoal == false && isasteroid != true)
                 {
                     if (GUILayout.Button("Set CrashGoal", styleButtonWordWrap, GUILayout.Width(120)))
                     {
@@ -252,6 +256,21 @@ namespace MissionController
                         isCrashing = true;
                         managUserContracts.saveUserContracts();
                     }
+                }
+                if (goal == 6 && !HighLogic.LoadedSceneIsFlight && isasteroid != true)
+                {
+                    if (GUILayout.Button("Set ARM", styleButtonWordWrap, GUILayout.Width(120)))
+                    {
+                        manager.SetCurrentAsteroidCustomName(tempasteroid.asName);
+                        usercontracts.ucArmGoal.Add(new UCArmGoal(true));
+                        goalpayment = sgoal.Gamount;
+                        TotalPayout = goalpayment + usercontracts.reward;
+                        usercontracts.scienceReward = sgoal.GSciAmount;
+                        usercontracts.reward = TotalPayout;
+                        isasteroid = true;                       
+                        goal = 1;
+                        managUserContracts.saveUserContracts();
+                    }                    
                 }
                 GUILayout.EndHorizontal();                                
                 GUILayout.Space(5);
@@ -309,6 +328,17 @@ namespace MissionController
                     GUILayout.Box("" + isVesselIndy, GUILayout.Width(50), GUILayout.Height(30));
                     GUILayout.EndHorizontal();
                 }
+                if (goal == 6)
+                {
+                    GUILayout.Label("Choose Available Asteroid To Capture", styleText);
+                    GUILayout.BeginHorizontal();
+                    if (GUILayout.Button("-", styleButtonWordWrap, GUILayout.Width(25))) { astcount--; if (astcount < 0) { astcount = 0; } }
+                    if (GUILayout.Button("+", styleButtonWordWrap, GUILayout.Width(25))) { astcount++; if (astcount >= maxastcount) { astcount = 0; } }                 
+                    GUILayout.Box("Name Asteroid: ", GUILayout.Width(150), GUILayout.Height(30));
+                    GUILayout.Box("" + tempasteroid.asName, GUILayout.Width(250), GUILayout.Height(30));
+                    GUILayout.EndHorizontal();
+                    GUILayout.Space(5);
+                }
             }
             GUILayout.Space(5);
             GUILayout.Label("You must reload contract after every change to see changes!");
@@ -344,6 +374,7 @@ namespace MissionController
                 isdocking = false;
                 iscrewselected = false;
                 isCrashing = false;
+                isasteroid = false;
                 TotalCrewCount = 0;
                 managUserContracts.saveUserContracts();
             }         
@@ -378,6 +409,7 @@ namespace MissionController
         public List<NoneCrew> noneCrew = new List<NoneCrew>();
         public List<UCOrbitGoal> ucOrbitGoal = new List<UCOrbitGoal>();
         public List<UCDockingGoal> ucDockingGoal = new List<UCDockingGoal>();
+        public List<UCArmGoal> ucArmGoal = new List<UCArmGoal>();
         public List<UCCrashGoal> ucCrashGoal = new List<UCCrashGoal>();
         public List<UCLandingGoal> ucLandingGoal = new List<UCLandingGoal>();
 
@@ -397,6 +429,10 @@ namespace MissionController
         {
             ucDockingGoal.Add(m);
         }
+        public void add(UCArmGoal m)
+        {
+            ucArmGoal.Add(m);
+        }
         public void add(UCCrashGoal m)
         {
             ucCrashGoal.Add(m);
@@ -415,6 +451,7 @@ namespace MissionController
             ucLandingGoal.Clear();
             ucDockingGoal.Clear();
             ucCrashGoal.Clear();
+            ucArmGoal.Clear();
             ManageUserContracts.UCManager.saveUserContracts();
         }
     }
@@ -489,6 +526,19 @@ namespace MissionController
             this.maxPeA = MaxPea;
             this.vesselIndenpendent = vi;
         }
+    }
+    public class UCArmGoal
+    {
+        public bool isAsteroidCaptureCustom;
+
+        public UCArmGoal()
+        {
+        }
+        public UCArmGoal(bool settrue)
+        {
+            this.isAsteroidCaptureCustom = settrue;
+        }
+
     }
     public class UCLandingGoal
     {

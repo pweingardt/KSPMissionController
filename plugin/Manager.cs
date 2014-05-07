@@ -1296,6 +1296,19 @@ namespace MissionController
         {
             get { return currentProgram.timeStartedName; }
         }
+        /// <summary>
+        /// set custom contracts target asteroid and or get name of current custom asteroid
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public string SetCurrentAsteroidCustomName(string name)
+        {
+            return currentProgram.asteroidCaptureNameCustom = name;
+        }
+        public string GetCurrentAsteroidCustomName
+        {
+            get { return currentProgram.asteroidCaptureNameCustom; }
+        }
         
         /// <summary>
         /// used to set Name for Rover Research Countdown

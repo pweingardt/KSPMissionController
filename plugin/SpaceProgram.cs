@@ -48,6 +48,7 @@ namespace MissionController
         public int randomLandingPay = 0;
         public float randomLandingScience = 0;
         public string asteroidCaptureName = "none";
+        public string asteroidCaptureNameCustom = "none";
 
         public List<MissionStatus> completedMissions = new List<MissionStatus>();       
 

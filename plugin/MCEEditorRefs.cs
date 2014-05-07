@@ -42,6 +42,13 @@ namespace MissionController
             Gamount = 30000,
             GSciAmount = 30,
         };
+        public GoalInfo GoalInfo6 = new GoalInfo()
+        {
+            ID = 6,
+            Gname = "Asteroid Capture",
+            Gamount = 400000,
+            GSciAmount = 100,
+        };
 
         public PlanetInfo PlanetInfo1 = new PlanetInfo()
         {

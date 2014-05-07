@@ -50,8 +50,14 @@ namespace MissionController
         }
         private void drawMiniContractsGoals(Mission mission, Status s)
         {
+            int index = 1;
             foreach (MissionGoal c in mission.goals)
             {
+                if (hiddenGoals.Contains(c))
+                {
+                    index++;
+                    continue;
+                }
                 List<Value> values = c.getValues(activeVessel, s.events);
 
                 foreach (Value v in values)
@@ -62,6 +68,15 @@ namespace MissionController
                     GUILayout.Label(v.shouldBe + " : " + v.currentlyIs, (v.done ? styleValueGreen : styleValueRed));
                                      
                     GUILayout.EndHorizontal();
+                }
+                if (activeVessel != null)
+                {
+                    if (s.finishableGoals.ContainsKey(c.id) && s.finishableGoals[c.id])
+                    {
+                        hiddenGoals.Add(c);
+                    }
+                        
+                
                 }
 
 

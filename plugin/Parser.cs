@@ -108,6 +108,10 @@ namespace MissionController
             {
                 writer.WriteLine("CrashGoal");
             }
+            if (t.Name == "UCArmGoal")
+            {
+                writer.WriteLine("DockingGoal");
+            }
 
             writer.WriteLine("{");
             foreach (FieldInfo info in t.GetFields())

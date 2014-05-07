@@ -843,7 +843,7 @@ namespace MissionController
 
             if (showUserContractWindowStatus && hideMCtoolbarsviews)
             {
-                userContractWindowStatus = GUILayout.Window(91311, userContractWindowStatus, drawUserContractWindow, "Player Custom Contracts", GUILayout.MinHeight(900), GUILayout.MinWidth(450));
+                userContractWindowStatus = GUILayout.Window(91311, userContractWindowStatus, drawUserContractWindow, "Player Custom Contracts", GUILayout.MinHeight(700), GUILayout.MinWidth(450));
                 userContractWindowStatus.x = Mathf.Clamp(userContractWindowStatus.x, 0, Screen.width - userContractWindowStatus.width);
                 userContractWindowStatus.y = Mathf.Clamp(userContractWindowStatus.y, 0, Screen.height - userContractWindowStatus.height);
             }
@@ -1707,10 +1707,11 @@ namespace MissionController
                 currentPreviewMission = null;
             }
 
-            if (GUILayout.Button("User Contrancts", styleButtonWordWrap, GUILayout.Width(140)))
+            if (GUILayout.Button("User Contracts", styleButtonWordWrap, GUILayout.Width(140)))
             {
                 showUserContractWindowStatus = !showUserContractWindowStatus;
                 currentPreviewMission3 = null;
+                manager.findAsteriodCapture();
             }
 
             if (currentMission != null)
