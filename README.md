@@ -63,8 +63,12 @@ After you select your package you will have a list of missions to choose from.
 This is the area to go to if you want to see a current list of available contracts.  Two Options are.
 
 ##Contracts:
+New in 23.5 KSP in .60 version of MCE is the ARM contract mission, you will get random contract missions that might have you capture a random asteriod in KSP.  These missions typically pay out very well.
+
+New In .65 new custom contract ARM mission you can now choose a custom made mission and select the asteroid you want to capture.
 
 Contracts button brings you to MCE random contract generator.  This is a system that will randomly choose for you certain base template missions to do. What makes the system random is that most values inside the contract are completely random.  Mission Payouts, Orbits, etc.  Also contracts are funded by companies. There are about 9 companies total in MCE that will offer you different contracts.
+
 ####Companies: 
 Some you will recognize others you won’t but all the different companies in MCE will offer you different things.  Some companies pay really well, others don’t.  Some offer more Science Payouts if you’re playing  career mode, others do not. It’s completely random what company is going to offer you a contract. Which makes the whole system pretty fun.
 
@@ -90,6 +94,8 @@ companies might offer you various test mission to do certain objectives. Like Fu
 
 SOI stands for Sphere Of Influence in this case this refers to The Kerbin SOI so anything that within range of Mun or minmus.
 
+.60 has changed this now This is replaced with the new Science Orbital mission that requires a new MCE part.
+
 ####Satellite missions: 
 Various missions from contractors that will have you deliver satellites to certain areas of Kerbin SOI.  Most of these missions require the MCE Repair part and your choice of Docking Ports.
 
@@ -106,6 +112,7 @@ These contracts will have you flying from kerbins SOI to other planetary bodies 
 ####Rover Missions: 
 These contracts will have you landing a rover on a celestial body.  Highly recommend that you use other mods that have Unmanned Science parts for these missions.  They make the missions much more fun.  Also these missions pay out more science then most other contract type missions. 
 
+.60 update this has been replaced with a new Rover Science mission with its own part that needs to be placed on your rovers.
 
 ##Custom Contracts
 
