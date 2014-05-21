@@ -1,5 +1,39 @@
 #Known Problems
 
+Apollo Syle Missions:
+
+People report having issues doing a mun mission apollo style.  Well the reason this happens is because MCE uses Vessel ID's to Record what Vessel has done what Mission Goal in each mission.  So when you say Land on Mun with Lander MCE records that landers ID and Finishes the Mission Goal.  When you take off from Mun, dock with CM and dump the lander your CM has a totally different Vessel ID.  So now when you land the CM back at kerbin, MCE doesn't think you did the Mun landing part of mission yet because the Landing Vessel at kerbin does not match the one that landed on Mun.  
+
+If you must have Apollo style Missions then there is a work around.
+
+Add this line to any landing goal in a mission you want to do Apollo Style.
+
+vesselIndenpendent = true
+
+This is what it should look like in a real mission type.
+
+`Mission
+{
+    name = 9 - Early Manned Missions Landing Mun
+    description = Our Early Years are all about the learning of Rockets.  Today It's time to land on the Mun.
+    category = MANNED, LANDING
+    reward = 230000
+    scienceReward = 5
+    repeatable = true
+    packageOrder = 9
+
+	LandingGoal
+        {
+            body = Mun
+	    vesselIndenpendent = true
+        }
+	LandingGoal
+        {
+            body = Kerbin
+	    vesselIndenpendent = true
+        }
+}`
+
 ##MechJeb Cost To Dam Much! (fixed in .51)
 
 The way to fix MechJeb if it costs too much is either:
