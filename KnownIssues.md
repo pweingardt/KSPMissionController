@@ -25,6 +25,7 @@ This is what it should look like in a real mission type.
 	    vesselIndenpendent = true
         }
 
+You can also use the Custom Contract Maker to make your own Apollo style missions.  The contract maker in game tool will automatically ask you if you want to use the vesselIndependent = true option when making the missions.  ;)
 
 ##MechJeb Cost To Dam Much! (fixed in .51)
 
