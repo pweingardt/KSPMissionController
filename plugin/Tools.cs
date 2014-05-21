@@ -49,16 +49,14 @@ namespace MissionController
         {
             if (node.HasValue(name))
                 val = atod(node.GetValue(name));
-            // DBG else
-            //DBG print"*MCEPC key not found: " + name);
+            //else Debug.Log("*MCEPC key not found: " + name);
             return val;
         }
         public static bool GetValueDefault(ConfigNode node, string name, bool val)
         {
             if (node.HasValue(name))
                 val = atob(node.GetValue(name));
-            // DBG else
-            //DBG print"*MCEPC key not found: " + name);
+            //else Debug.Log("*MCEPC key not found: " + name);
             return val;
         }
 
@@ -66,8 +64,7 @@ namespace MissionController
         {
             if (node.HasValue(name))
                 val = atoi(node.GetValue(name));
-            // DBG else
-            //DBG print"*MCEPC key not found: " + name);
+            //else Debug.Log("*MCEPC key not found: " + name);
             return val;
         }
 
@@ -75,8 +72,7 @@ namespace MissionController
         {
             if (node.HasValue(name))
                 vale = (node.GetValue(name));
-             else
-             Debug.Log("*MCEPC key not found: " + name);
+            //else Debug.Log("*MCEPC key not found: " + name);
             return vale;
         }
 

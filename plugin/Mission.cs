@@ -47,7 +47,7 @@ namespace MissionController
         public bool IsContract = false;
         public bool IsUserContract = false;
         public bool isRoverMission = false;
-        public bool isRepairMission = false;
+        public bool isRepairMission = false;     
 
         public int CompanyOrder;
 
@@ -155,7 +155,7 @@ namespace MissionController
             }
             return true;
         }
-
+       
         /// <summary>
         /// Needed for reflection
         /// </summary>

@@ -147,10 +147,13 @@ namespace MissionController
         private bool showModPayments = false;
         private bool showModCost = false;
         private bool showShipStatsWindow = false;
+        private bool showEventWindow = false;
                
         public string recycledName = "";
         public string recycledDesc = "";
         public int recycledCost = 0;
+
+        public string messageEvent = "";
        
         private FileBrowser fileBrowser = null;
         private Mission currentMission = null;
@@ -878,7 +881,7 @@ namespace MissionController
 
             if (showMissionPackageBrowser && hideMCtoolbarsviews)
             {
-                packageWindowPosition = GUILayout.Window(98762, packageWindowPosition, drawPackageWindow, currentPackage.name, GUILayout.MinHeight(750), GUILayout.MinWidth(1000));
+                packageWindowPosition = GUILayout.Window(98762, packageWindowPosition, drawPackageWindow, currentPackage.name, GUILayout.MinHeight(700), GUILayout.MinWidth(1000));
                 packageWindowPosition.x = Mathf.Clamp(packageWindowPosition.x, 0, Screen.width - packageWindowPosition.width);
                 packageWindowPosition.y = Mathf.Clamp(packageWindowPosition.y, 0, Screen.height - packageWindowPosition.height);
             }
@@ -965,6 +968,10 @@ namespace MissionController
                 ShipStatsWindow.x = Mathf.Clamp(ShipStatsWindow.x, 0, Screen.width - ShipStatsWindow.width);
                 ShipStatsWindow.y = Mathf.Clamp(ShipStatsWindow.y, 0, Screen.height - ShipStatsWindow.height);
             }
+            if (showEventWindow && hideMCtoolbarsviews)
+            {
+                GUILayout.Window(9832316, new Rect(Screen.width / 2 - 200, Screen.height / 2 - 100, 625, 150), drawEventWindow, "MCE Info Window");
+            }
 
             if (fileBrowser != null)
             {
@@ -981,6 +988,18 @@ namespace MissionController
                 list.normal.textColor = new Color(0.739f, 0.739f, 0.739f);
                 list.contentOffset = new Vector2(1, 42.4f);
                 list.fontSize = 10;
+            }
+        }
+
+        private void drawEventWindow(int id)
+        {
+            GUI.skin = HighLogic.Skin;
+            GUILayout.BeginVertical();
+            GUILayout.Label(messageEvent,styleText);
+            GUILayout.EndVertical();
+            if (GUILayout.Button("Ok"))
+            {
+                showEventWindow = false;
             }
         }
 
@@ -1162,12 +1181,17 @@ namespace MissionController
 
                 GUILayout.BeginHorizontal();
                 GUILayout.Box("Vessel Name", StyleBoxYellow, GUILayout.Width(350), GUILayout.Height(30));
-                GUILayout.Box("Cost Returned", StyleBoxYellow, GUILayout.Width(100), GUILayout.Height(30));                
+                GUILayout.Box("Cost Returned", StyleBoxYellow, GUILayout.Width(100), GUILayout.Height(30));
                 GUILayout.EndHorizontal();
                 
                 GUILayout.BeginHorizontal();
                 GUILayout.Box(recycledName, GUILayout.Width(350), GUILayout.Height(30));
                 GUILayout.Box("$ " + recycledCost.ToString("N2"), GUILayout.Width(100), GUILayout.Height(30));               
+                GUILayout.EndHorizontal();
+
+                GUILayout.BeginHorizontal();
+                GUILayout.Box("Landing Type", StyleBoxYellow, GUILayout.Width(150), GUILayout.Height(30));
+                GUILayout.Box(recycledDesc, GUILayout.Width(300), GUILayout.Height(30));
                 GUILayout.EndHorizontal();
             }
             GUILayout.EndVertical();
@@ -1958,7 +1982,7 @@ namespace MissionController
             float updatedScinece = mission.scienceReward;
             string compName = Tools.GetValueDefault(Tools.MCSettings.GetNode(manager.GetCompanyInfoString), "name", "Default");
             double comppayout = Tools.GetValueDefault(Tools.MCSettings.GetNode(manager.GetCompanyInfoString), "payout", 1.0);
-            double compscience = Tools.GetValueDefault(Tools.MCSettings.GetNode(manager.GetCompanyInfoString), "science", 1.0);
+            double compscience = Tools.GetValueDefault(Tools.MCSettings.GetNode(manager.GetCompanyInfoString), "science", 1.0);            
 
             if (mission.CompanyOrder == 2)
             {

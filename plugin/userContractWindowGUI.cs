@@ -384,7 +384,9 @@ namespace MissionController
                 manager.setUserContractCompany();               
                 usercontracts.IsUserContract = true;
                 usercontracts.IsContract = true;
-                managUserContracts.saveUserContracts();                
+                managUserContracts.saveUserContracts();
+                messageEvent = ("Contract Sent out for Bidding. Press \"Load User Contract\" to Load into Contract Screen");
+                showEventWindow = true;
             }
             if (GUILayout.Button("Save Contract", styleButtonWordWrap, GUILayout.Width(125))) { managUserContracts.saveUserContracts(); }
             if (GUILayout.Button("Exit", styleButtonWordWrap, GUILayout.Width(60))) { showUserContractWindowStatus = false; }

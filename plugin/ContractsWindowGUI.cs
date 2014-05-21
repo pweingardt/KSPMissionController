@@ -16,13 +16,13 @@ namespace MissionController
 
         private void drawContractsWindow(int id)
         {
-           
+            
             GUI.skin = HighLogic.Skin;
             GUILayout.BeginVertical();
             if (manager.Getrandomcontractsfreeze != false)
             { GUILayout.Box("You contrtact is locked, the random time check has been stoped until contract done, or canceled.", StyleBoxYellow); }
        
-            contractScrollPosition = GUILayout.BeginScrollView(contractScrollPosition);
+            contractScrollPosition = GUILayout.BeginScrollView(contractScrollPosition);         
             foreach (Mission m in currentPackage.Missions)
             {                            
                 Status s = calculateStatus(m, false, null);

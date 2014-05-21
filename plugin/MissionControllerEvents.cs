@@ -29,8 +29,17 @@ namespace MissionController
                 Debug.LogError ("Docked TO ID: " + action.to.vessel.id.ToString());
             }
         }
-        
 
+        public static object GetMemberInfoValue(System.Reflection.MemberInfo member, object sourceObject)
+        {
+            object newVal;
+            if (member is System.Reflection.FieldInfo)
+                newVal = ((System.Reflection.FieldInfo)member).GetValue(sourceObject);
+            else
+                newVal = ((System.Reflection.PropertyInfo)member).GetValue(sourceObject, null);
+            return newVal;
+        }
+        
         private void onUndock(Part action)
         {
             if (HighLogic.LoadedSceneIsFlight)
@@ -111,13 +120,17 @@ namespace MissionController
                     double mass = 0;
                     double rmass = 0;
                     double pdrag = 0.0;
+                    float mult = .60f;
                     int cost = 0;
                     float totalDrag = 0;
                     bool realchutesInstalled = false;
+                    bool FXEngineInstalled = false;
                     // need 70 drag per ton of vessel for 6m/s at 500m.
                     double jetIsp = Tools.Setting("jetIsp", 600.0);
                     List<ModuleEngines> engines = new List<ModuleEngines>();
+                    List<ModuleEnginesFX> enginesFX = new List<ModuleEnginesFX>();
                     List<ModuleEngines> jets = new List<ModuleEngines>();
+                    List<ModuleEnginesFX> jetsFX = new List<ModuleEnginesFX>();
                     Dictionary<string, double> resources = new Dictionary<string, double>();
                     Dictionary<string, double> rmasses = new Dictionary<string, double>();
                     try
@@ -125,35 +138,73 @@ namespace MissionController
                         if (!v.packed)
                             foreach (Part p in v.Parts)
                                 p.Pack();
+                        
+                        // Thanks to Magico13 for code to unlock Realchutes again, most realchute code based off of his code.
 
-                        foreach (ProtoPartSnapshot p in v.protoVessel.protoPartSnapshots)
+                        foreach (ProtoPartSnapshot p in v.protoVessel.protoPartSnapshots) 
                         {
                             print("Has part " + p.partName + ", mass " + p.mass + ", cost " + p.partRef.partInfo.cost);
                             mass += p.mass;
                             cost += p.partRef.partInfo.cost;
+                            foreach (ProtoPartResourceSnapshot r in p.resources)
+                            {
+                                double amt = Tools.GetValueDefault(r.resourceValues, "amount", 0.0);
+                                print("Printing Values Line For ProtoPartResourceSnapshot " + r.resourceValues);
+                                print("Printing Direct Line for ProtPart: " + p.resources.ToString());
+                                if (!(amt > 0))
+                                    continue;
+                                double dens = r.resourceRef.info.density;
+                                if (resources.ContainsKey(r.resourceName))
+                                {
+                                    resources[r.resourceName] = resources[r.resourceName] + amt;
+                                    rmasses[r.resourceName] = rmasses[r.resourceName] + amt * dens;
+                                    print("If Resource Contains Key Test True: " + rmasses + " and " + resources);
+                                }
+                                else
+                                {
+                                    resources[r.resourceName] = amt;
+                                    rmasses[r.resourceName] = amt * dens;
+                                    print("If Resource Contains Key Test false: " + rmasses + " and " + resources);
+                                }
+                                rmass += amt * dens;
+                                Debug.LogWarning("Resource Mass =  " + rmass + " Density =  " + dens + " Amount In this Part =  " + amt + " Type Of Resource is: " + r.resourceName);
+                            }
                             foreach (ProtoPartModuleSnapshot m in p.modules)                                
                             {
+                                
                                 if (p.partRef.Modules.Contains("RealChuteModule"))
                                 {
-                                    Debug.Log("[MCE] Found realchute module on part");
                                     PartModule realChute = p.partRef.Modules["RealChuteModule"];
                                     Type rCType = realChute.GetType();
+                                    System.Reflection.MemberInfo member = rCType.GetMember("deployedDiameter")[0];
+                                    float area = (float)GetMemberInfoValue(member, realChute);
+                                    area = Mathf.PI * Mathf.Pow(area / 2, 2); //Determine the area manually since the "deployedArea" parameter no longer exists in RC
+                                    Debug.Log("Chute area: " + area);
 
-                                    float area = (float)rCType.GetProperty("deployedArea").GetValue(realChute, null) * (float)0.39;
-                                    Debug.Log("Realchute area: " + area);
-                                    object mat = rCType.GetField("mat").GetValue(realChute);
-                                    Type matType = mat.GetType();
-                                    float dragC = (float)matType.GetProperty("dragCoefficient").GetValue(mat, null);
-                                    Debug.Log("RealChute dragC: " + dragC);                                                                     
-                                    totalDrag = dragC * area;
-                                    Debug.Log("Total Drag = " + totalDrag);
-                                    pdrag += p.mass * (double)totalDrag;
+                                    member = rCType.GetMember("material")[0];
+                                    string mat = (string)GetMemberInfoValue(member, realChute);
+                                    Debug.Log("Material for RC is " + mat);
+
+                                    Type matLibraryType = AssemblyLoader.loadedAssemblies
+                                        .SelectMany(a => a.assembly.GetExportedTypes())
+                                        .SingleOrDefault(t => t.FullName == "RealChute.Libraries.MaterialsLibrary");
+
+                                    System.Reflection.MethodInfo matMethod = matLibraryType.GetMethod("GetMaterial", new Type[] { mat.GetType() });
+                                    object MatLibraryInstance = matLibraryType.GetProperty("instance").GetValue(null, null);
+                                    object materialObject = matMethod.Invoke(MatLibraryInstance, new object[] { mat });
+
+                                    float dragC = (float)GetMemberInfoValue(materialObject.GetType().GetMember("dragCoefficient")[0], materialObject);
+                                    Debug.Log("dragC: " + dragC);                                   
+                                    
+                                    totalDrag += (dragC * area * mult);
+                                    
+                                    pdrag = p.mass * (double)totalDrag;
                                     Debug.LogWarning("mass " + p.mass + " * " + totalDrag + "  = " + pdrag);
+                                    
                                     realchutesInstalled = true;
+                                    Debug.LogWarning("Realchutes Found Set to True" + totalDrag + " Is the total Drag of part: " + p.partName);
                                 }
-                                        
-                                
-                    
+                                                         
                                 if (m.moduleName.Equals("ModuleParachute") && realchutesInstalled != true)
                                 {
                                     Debug.Log("[MCE] Found ModuleParachute on part");
@@ -170,36 +221,28 @@ namespace MissionController
                                     if (me.atmosphereCurve.Evaluate(1) > jetIsp)
                                         jets.Add(me);
                                     else
-                                        engines.Add(me);
-                                }
-                                foreach (ProtoPartResourceSnapshot r in p.resources)
-                                {
-                                    double amt = Tools.GetValueDefault(r.resourceValues, "amount", 0.0);
-                                    print(Tools.NodeToString(r.resourceValues, 0));
-                                    if (!(amt > 0))
-                                        continue;                                   
-                                    double dens = r.resourceRef.info.density;
-                                    if (resources.ContainsKey(r.resourceName))
                                     {
-                                        resources[r.resourceName] = resources[r.resourceName] + amt;
-                                        rmasses[r.resourceName] = rmasses[r.resourceName] + amt * dens;
-                                        Debug.LogWarning("Printing if Statement for ProtoResource containsKey r.resourceName");
+                                        engines.Add(me);                                     
                                     }
+                                }
+                                if (m.moduleName.Equals("ModuleEnginesFX"))
+                                {
+                                    ModuleEnginesFX mefx = (ModuleEnginesFX)m.moduleRef;
+                                    mefx.Load(m.moduleValues);
+                                    print("Found engine, SL Isp = " + mefx.atmosphereCurve.Evaluate(1) + " (jet cutoff: " + jetIsp + ")");
+                                    if (mefx.atmosphereCurve.Evaluate(1) > jetIsp)
+                                        jetsFX.Add(mefx);
                                     else
                                     {
-                                        resources[r.resourceName] = amt;
-                                        rmasses[r.resourceName] = amt * dens;
-                                        Debug.LogWarning("Printing Else Statement for ProtoResource");
+                                        enginesFX.Add(mefx);
                                     }
-                                    rmass += amt * dens;                                    
-                                    Debug.LogWarning("Resource Mass =  " + rmass + " Density =  " + dens + " Amount In this Part =  " + amt + " Type Of Resource is: " + r.resourceName);
-                                }
+                                }        
                             }
                         }
-                        
-                        Debug.LogWarning("Is Total Parts Mass " + mass * Tools.Setting("parachuteDragPerTon", 70.0) + " < pdrag " + pdrag + " ?");
+
+                        Debug.LogWarning("Para Landing Check, Is Total Parts Mass " + mass * Tools.Setting("parachuteDragPerTon", 70.0) + " < pdrag " + pdrag + " ?");
                         if (mass * Tools.Setting("parachuteDragPerTon", 70.0) <= pdrag)
-                        {                           
+                        {                          
                             recycledName = v.name;
                             VesselResources vr = new VesselResources(v);
                             int type = (mass + rmass) * Tools.Setting("parachuteDragPerTon", 70.0) <= pdrag ? 3 : 4;
@@ -217,6 +260,7 @@ namespace MissionController
                             // try for propulsive landing
                             if (jets.Count > 0) // jets! Assume vessel is a plane. Heck, if it's a rocket, it will have >1TWR anyway.
                             {
+                                Debug.LogWarning("Starting Jets Landing Algorithm");
                                 // find best SL Isp
                                 double isp = 0;
                                 ModuleEngines e = jets[0];
@@ -262,10 +306,49 @@ namespace MissionController
                                         landing = 0;
                                 }
                             }
-                            if (landing == 0 && engines.Count > 0) // propulsive via rockets
+                            if (landing == 0 && enginesFX.Count > 0 && (manager.GetRocketAutoLand || HighLogic.CurrentGame.Mode != Game.Modes.CAREER)) // propulsive via rockets
                             {
+                                Debug.LogWarning("Starting Propulsive Landing Algorithm for ModuleEngineFX");
+                                double isp = 999999;                               
+                                ModuleEnginesFX efx = enginesFX[0];
+                                double thrust = 0;                                
+                                foreach (ModuleEnginesFX eifx in enginesFX)
+                                    if (eifx.atmosphereCurve.Evaluate(1) < isp)
+                                    {
+                                        isp = eifx.atmosphereCurve.Evaluate(1);
+                                        efx = eifx;
+                                        thrust += eifx.maxThrust;
+                                        print("ModuleEngineFX ISP Is: " + isp + " thrust is: " + thrust);
+                                    }
+                                    else print("No ModuleEngineFX found to run ISP and Thrust Values");
+                                
+                                double rmassdry = rmass;
+                                                                
+                                foreach (Propellant prfx in efx.propellants)
+                                {
+                                    if (rmasses.Keys.Contains(prfx.name))
+                                    {
+                                        rmassdry -= rmasses[prfx.name];
+                                        print("ModuleEngine Using propellant " + prfx.name + "(mass: " + rmasses[prfx.name] + ")");
+                                    }
+                                    else print("[ModuleEngineFX] no prepellant found to run propellant and mass Values");
+                                }
+                                FXEngineInstalled = true;
+                                double TWR = thrust / (mass + rmassdry) / efx.g;
+                                double dV = isp * 9.81 * Math.Log((mass + rmass) / (mass + rmassdry));
+                                print("DeltaV available: " + dV + "(Mass ratio: " + (mass + rmassdry) + " / " + (mass + rmass) + ", TWR " + TWR + ")");
+                                if (dV >= Tools.Setting("deltaVRequired", 1000.0) && TWR >= Tools.Setting("minRocketTWR", 1.5))
+                                {
+                                    print("Rocket Assisted Landing Succesfull With ModuleEngineFX.. Kerbal X tycoon");
+                                    landing = 2;
+                                }
+                                else print("Delta V id not pass to allow Propulsive Rocket Landing");
+                            }
+                            if (FXEngineInstalled == false && landing == 0 && engines.Count > 0 && (manager.GetRocketAutoLand || HighLogic.CurrentGame.Mode != Game.Modes.CAREER)) // propulsive via rockets
+                            {
+                                Debug.LogWarning("Starting Propulsive Landing Algorithm for ModuleEngine");
                                 double isp = 999999;
-                                ModuleEngines e = engines[0];
+                                ModuleEngines e = engines[0];                               
                                 double thrust = 0;
                                 foreach (ModuleEngines ei in engines)
                                     if (ei.atmosphereCurve.Evaluate(1) < isp)
@@ -273,26 +356,35 @@ namespace MissionController
                                         isp = ei.atmosphereCurve.Evaluate(1);
                                         e = ei;
                                         thrust += ei.maxThrust;
+                                        print("ModuleEngine ISP Is: " + isp + " thrust is: " + thrust);
                                     }
+                                    else print("No ModuleEngine found to run ISP and Thrust Values");                             
+
                                 double rmassdry = rmass;
+
                                 foreach (Propellant pr in e.propellants)
                                 {
                                     if (rmasses.Keys.Contains(pr.name))
                                     {
                                         rmassdry -= rmasses[pr.name];
-                                        print("Using propellant " + pr.name + "(mass: " + rmasses[pr.name] + ")");
+                                        print("ModuleEngine Using propellant " + pr.name + "(mass: " + rmasses[pr.name] + ")");
                                     }
+                                    else print("[ModuleEngine] no prepellant found to run propellant and mass Values");
                                 }
+                               
                                 double TWR = thrust / (mass + rmassdry) / e.g;
                                 double dV = isp * 9.81 * Math.Log((mass + rmass) / (mass + rmassdry));
                                 print("DeltaV available: " + dV + "(Mass ratio: " + (mass + rmassdry) + " / " + (mass + rmass) + ", TWR " + TWR + ")");
                                 if (dV >= Tools.Setting("deltaVRequired", 1000.0) && TWR >= Tools.Setting("minRocketTWR", 1.5))
                                 {
+                                    print("ModuleEngine Rocket Assisted Landing Succesfull.. Kerbal X tycoon");
                                     landing = 2;
                                 }
+                                else print("Delta V id not pass to allow Propulsive Rocket Landing");
                             }
                             if (landing > 0) // landed!
                             {
+                                Debug.LogError("Starting Landing Algorithm This is last step in AutoRecyle");
                                 // remove fuel used (for now, remove all fuel of used types, don't try to remove only some.
                                 foreach (ProtoPartSnapshot p in v.protoVessel.protoPartSnapshots)
                                     foreach (ProtoPartResourceSnapshot r in p.resources)
@@ -312,6 +404,7 @@ namespace MissionController
 
                                 showRecycleWindow = true;
                                 manager.recycleVessel(v, recycledCost);
+                                FXEngineInstalled = false;
 
 
                             }

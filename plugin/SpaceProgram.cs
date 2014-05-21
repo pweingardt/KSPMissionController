@@ -21,6 +21,7 @@ namespace MissionController
         public bool VFuels = false;
         public bool VConstruction1 = false;
         public bool VConstruction2 = false;
+        public bool RocketAutoLand = false;
         public double loanmode = 0;
         public int currentpayoutlevel = 0;
         public bool missionlevel2 = false;

@@ -1270,6 +1270,14 @@ namespace MissionController
         {
             return currentProgram.showRepairVesselName = name;
         }
+        public bool GetRocketAutoLand
+        {
+            get { return currentProgram.RocketAutoLand; }
+        }
+        public bool SetRocketAutoLand()
+        {
+            return currentProgram.RocketAutoLand = true;
+        }
         
         /// <summary>
         /// Used to set Time countdown for Timed Event Missions
