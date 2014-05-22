@@ -54,6 +54,8 @@ To move around MCE many windows all you have to do is select its ToolBar Icon.  
 6.	Reset Window Positions: If any of your MCE windows won’t work they most likely have been saved off screen. Use this button to Reset the windows to 0 value.  This resets all windows!  But you will get your Missing window back.
 7.	Save Settings: This will save your current Settings.
 
+8. New debug menu.  This by default is disabled but can be turned on by setting the debug menu to true in the settings.cfg file located in the Mission Controller Folder.  The debug menu has a lot of options including the ability to run the simulation manually.  This allows the user to test what companies, ships and asteroids are on target for that Simulation cycle.  You can also cheat in money and science for testing purposes.	
+
 #MCE Select Mission Menu
 
 This is MCE mission selection window.  Select the package button to get a list of the current Mission Packages that are installed into you MCE game. The default ones are RandomMissions and Stock. 
