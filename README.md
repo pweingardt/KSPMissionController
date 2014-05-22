@@ -153,8 +153,12 @@ This window list all your current budget information.  From this window you can 
 
 This is MCE research window if you’re in Sandbox mode this window is disabled!  In career mode it is open for you to sink more Science into.  MCE uses the same science points for its research as Kerbal Space Program uses for its science tree.
 
-###Vessel Recycling: 
+###Vessel Recycling:  And Assisted Rocket Landings
 Researching this will allow you to recycle vessel when you recover them.  You will get back certain percentage of the cost of the vessel back when you recover your vessels.  Landing in water will lower the Percentage you get back.. And landing on land will Get you the most back for Rockets.  If you have a space plane landing on the runway will recover most of the vessel cost for you.
+
+types of Recycling
+1. Auto Recycling with Parachuts:  Add enough parachutes to a stage and you will be able to recover it for some cash back.
+2. Auto Recycling With Assisted Rocket Landings:  If you plan your stages well enough for you have 1000 DV left in a Spent stage and at least 1.5 TWR you will be able to recycle Space X style with Assisted Rocket landings.  You also need to research this in MCE research Tree before you can do it.
 
 ###Efficient fuels:
 This will lower the cost of fuels when building new vessels.
@@ -186,11 +190,14 @@ Feel free to use the quick save as much as you want.  This does not change the V
 
 #How does Vessel Recycling Work? 
 
-There are two options for recycling vessels. 
+There are Three options for recycling vessels. 
 
 1.	The default option is to land your vessel (whats left of it) and select the Recover button for KSP like you always do when recovering your vessel.  If you have recycling researched you will automatically be given back a percentage of the vessel cost.  If you landed on land you will get the a higher percentage back then if you land on water. Also if you have a space plane and land on runway you will get most of the vessel cost back.. Not including Maintenance  cost.
 
 2.	Saving parts of your rockets when launching.  You can also make use of the auto Recycling feature of MCE.  For any parts you are staging if you put enough parachutes onto the parts that are being Staged the auto recycler will recycle those parts once they disappear from the flight scene.  Even though you have to have the right amount of parachutes on the parts for them to count as recycled, YOU DON'T have to stage them to open! Just having them on the part is enough for MCE to calculate that the part would of survived a landing.
+
+3.	You can also do a Rocket Assited landing by makeing sure you spent stage has at least a rocket engine, 1000 DV left for that stage and a TWR of 1.5 or more.  No parachutes needed.  When the stage passes the test you will get a message that you rocket stage has completed a Rocket Assisted landing and will get a payment back for the recovery of the vessel.
+
 
 
 ## Whats the MCSettings.cfg file Do?
