@@ -1,5 +1,15 @@
 #Known Problems
 
+### How MCE does its calculations, and how Other Mods Might break this.
+MCE does most of its calculations during scenechanges, or when you go to a praticular scene.  There are some mods that
+will allow you to skip certain scenes or to go to scene in an order that is out of sync with what a Regular Vanilla game will allow.  Let me tell you now that if you use these types of mods with MCE, I guaratee you that you will have very bad experience with Mission Controller, and other mods that use the same type of system to comuicate and excute programs in the mod.
+
+Why does MCE use these changes to excute programs it uese?  Well its to keep Kerbal Space Program and MCE from completely bogging down your system.  If MCE only does 1 check for its whole program when a scene change takes place. Thats a lot better then doing 100 checks a second and bogging down your system.  It works out very well most of the time, unless of course you use a MOD that skips around KSP or completely skips certain scenes.  You been warned.
+
+### EVA Kerbal is giving me double mission payouts.
+This has been fixed in version .69.
+
+
 ### Apollo Syle Missions:
 
 People report having issues doing a mun mission apollo style.  Well the reason this happens is because MCE uses Vessel ID's to Record what Vessel has done what Mission Goal in each mission.  So when you say Land on Mun with Lander MCE records that landers ID and Finishes the Mission Goal.  When you take off from Mun, dock with CM and dump the lander your CM has a totally different Vessel ID.  So now when you land the CM back at kerbin, MCE doesn't think you did the Mun landing part of mission yet because the Landing Vessel at kerbin does not match the one that landed on Mun.  
