@@ -275,7 +275,7 @@ namespace MissionController
                 saveProgram();             
             }
 
-            if (!isMissionGoalAlreadyFinished (goal, vessel) && goal.nonPermanent && goal.isDone(vessel, events)) {
+            if (!isMissionGoalAlreadyFinished (goal, vessel) && goal.nonPermanent && goal.isDone(vessel, events) && !vessel.isEVA) {
                 currentProgram.add(new GoalStatus(vessel.id.ToString(), goal.id));
                 reward (goal.reward);
                 totalReward(goal.reward);

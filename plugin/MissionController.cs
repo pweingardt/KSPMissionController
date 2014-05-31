@@ -1637,7 +1637,7 @@ namespace MissionController
                 {
                     if (mg.vesselIndenpendent != false)
                     {
-                        GUILayout.Label("This Mission has docking Goal or Undock.  It must be done in one sitting,\n the docking goals are not saved to bypass issues with Vessel ID's", styleValueYellow);
+                        GUILayout.Label("This Mission has A docking Goal or Undock Or EVA Goal!  It must be done in one sitting, the docking goals are not saved to bypass issues with Vessel ID's", styleValueYellow);
                     }
                 }
             }
@@ -1715,6 +1715,22 @@ namespace MissionController
             if (settings.disablePlugin == true)
             {
                 GUILayout.Label("Plugin Disabled", styleValueRed);
+            }
+
+            if (manager.isVesselFlagged(activeVessel))
+            {
+                GUILayout.Label("Warning Vessel Is Flaged and Can't Do Missions", styleValueRedBold);
+                GUILayout.Label("Vessel Most Likely Launched In Disabled Mode", styleValueRedBold);
+            }
+            if (currentMission != null)
+            {
+                foreach (MissionGoal mg in currentMission.goals)
+                {
+                    if (mg.vesselIndenpendent != false)
+                    {
+                        GUILayout.Label("This Mission has A docking Goal or Undock Or EVA Goal!  It must be done in one sitting, These types of goals are not saved to bypass issues with Vessel ID's", styleValueYellow);
+                    }
+                }
             }
 
             if (currentMission != null && currentMission.IsContract != false)

@@ -153,6 +153,7 @@ namespace MissionController
                     return false;
                 }
             }
+
             return true;
         }
        

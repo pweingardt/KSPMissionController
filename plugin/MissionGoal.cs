@@ -69,6 +69,8 @@ namespace MissionController
         /// </summary>
         public bool special = false;
 
+        public bool evaNotAllowed = true;
+
         /// <summary>
         /// The maximal and minimal total mass
         /// </summary>
@@ -167,8 +169,13 @@ namespace MissionController
                     vs.Add (new Value ("Throttle down!", "true", "false", false));
                     done = false;
                 }
+                if (done && evaNotAllowed && vessel.isEVA)
+                {
+                    vs.Add(new Value("Kerbal Is EVA, Return To Pod!", "true", "false", false));
+                    done = false;
+                }    
             }
-
+                      
             if (done && manager.GetMissionTime == -1.0 && minSeconds > 0.0) {
                 manager.SetMissionTime(Planetarium.GetUniversalTime());
                 

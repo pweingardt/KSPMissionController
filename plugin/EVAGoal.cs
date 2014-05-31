@@ -10,6 +10,8 @@ namespace MissionController
     {
         public EVAGoal() {
             this.vesselIndenpendent = true;
+            this.evaNotAllowed = false;
+            this.special = true;
         }
 
         protected override List<Value> values (Vessel v, GameEvent events)
