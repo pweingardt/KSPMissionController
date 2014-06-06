@@ -13,6 +13,7 @@ This has been fixed in version .69.
 ### Apollo Syle Missions:
 
 New Test .dll that fixes this issue is out, will be part of .70 when fully tested and implemented.
+http://forum.kerbalspaceprogram.com/entries/1529-Mission-Controller-Developer-Test-Version-%28Apollo-Style-Mission-Support%21%29
 
 People report having issues doing a mun mission apollo style.  Well the reason this happens is because MCE uses Vessel ID's to Record what Vessel has done what Mission Goal in each mission.  So when you say Land on Mun with Lander MCE records that landers ID and Finishes the Mission Goal.  When you take off from Mun, dock with CM and dump the lander your CM has a totally different Vessel ID.  So now when you land the CM back at kerbin, MCE doesn't think you did the Mun landing part of mission yet because the Landing Vessel at kerbin does not match the one that landed on Mun.  
 
