@@ -56,7 +56,7 @@ namespace MissionController
             if (settings.disablePlugin == false)
             {
                 GUILayout.Box("FALSE", StyleBoxYellow, GUILayout.Width(112), GUILayout.Height(30));
-            }
+            }           
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
@@ -69,29 +69,84 @@ namespace MissionController
             if (settings.gameMode == 1)
             {
                 GUILayout.Box("HardCore",StyleBoxYellow, GUILayout.Width(112), GUILayout.Height(40));
-            }
+            }          
             GUILayout.EndHorizontal();
 
+            GUILayout.BeginHorizontal();
+            GUILayout.Box("Multi Vessel Landings Allowed", StyleBoxYellow, GUILayout.Width(112), GUILayout.Height(50));
+            if (settings.allowApolloLandings == true)
+            {
+                GUILayout.Box("TRUE", StyleBoxGreen, GUILayout.Width(112), GUILayout.Height(50));
+            }
+
+            if (settings.allowApolloLandings == false)
+            {
+                GUILayout.Box("FALSE", StyleBoxYellow, GUILayout.Width(112), GUILayout.Height(50));
+            }            
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
             if (GUILayout.Button("Disable Plugin",styleButtonWordWrap))
             {
                 settings.disablePlugin = !settings.disablePlugin;
             }
+            if (GUILayout.Button("i", GUILayout.Width(25), GUILayout.Height(25)))
+            {
+                messageEvent = "Will disable MCE plugin, any ship you launch while plugin is disabled will be flagged and can never be used in a Mission! While disabled nothing cost money.";
+                showEventWindow = true;
+            }
+            GUILayout.EndHorizontal();
 
+            GUILayout.BeginHorizontal();
             if (GUILayout.Button("Normal Mode", styleButtonWordWrap))
             {
                 settings.gameMode = 0;
             }
+            if (GUILayout.Button("i", GUILayout.Width(25), GUILayout.Height(25)))
+            {
+                messageEvent = "Nornal mode all prices and Mission Payouts are Default.";
+                showEventWindow = true;
+            }
+            GUILayout.EndHorizontal();
 
+            GUILayout.BeginHorizontal();
             if (GUILayout.Button("HardCore Mode", styleButtonWordWrap))
             {
                 settings.gameMode = 1;
             }
+            if (GUILayout.Button("i", GUILayout.Width(25), GUILayout.Height(25)))
+            {
+                messageEvent = "Hardcore mode all mission payouts are reduced by 40%.  Making MCE much more difficult to play!.";
+                showEventWindow = true;
+            }
+            GUILayout.EndHorizontal();
             GUILayout.Space(10);
 
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("Allow Multi Stage Landings", styleButtonWordWrap))
+            {
+                settings.allowApolloLandings = !settings.allowApolloLandings;
+            }
+            if (GUILayout.Button("i", GUILayout.Width(25), GUILayout.Height(25)))
+            {
+                messageEvent = "This setting allows you to land vessel during mission's Apollo Style. Traditional Missions only allow 1 Vessel and It's ID to complete missions. This Setting allows you to use 2 sepeate vessels with Sepeate Id's, and not suffer the Ship ID Problems During Landing Phase of a mission!\n\n"+ 
+                    "DO NOT change vessel while landing, if you switch to a vessel that is already landed then that will be recorded as a landing.  If you don't plan on doing Apollo style mission then TURN THIS TO FALSE, and you can switch vessel without any issues!  You have been warned!";
+                showEventWindow = true;
+            }
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
             if ((GUILayout.Button("GUI Skin Type",styleButtonWordWrap)))
             {
                 settings.KSPSKIN = !settings.KSPSKIN;
             }
+            if (GUILayout.Button("i", GUILayout.Width(25), GUILayout.Height(25)))
+            {
+                messageEvent = "Change the GUI skin from Kerbal GUI to the Smoke GUI.";
+                showEventWindow = true;
+            }
+            GUILayout.EndHorizontal();
+
             GUILayout.BeginHorizontal();
             if (GUILayout.Button(resetStrings[resetCount],styleButtonWordWrap))
             {
@@ -106,6 +161,11 @@ namespace MissionController
             if (resetCount >= 1 && GUILayout.Button("NO", styleButtonWordWrap))
             {
                 resetCount = 0;
+            }
+            if (GUILayout.Button("i", GUILayout.Width(25), GUILayout.Height(25)))
+            {
+                messageEvent = "This will reset your whole space program. Meaning everything will be reset to StartUp Values!  Do this if restarting a game with the same name.";
+                showEventWindow = true;
             }
             GUILayout.EndHorizontal();
             GUILayout.BeginHorizontal();
@@ -122,6 +182,11 @@ namespace MissionController
             {
                 resetGoalsCount = 0;
             }
+            if (GUILayout.Button("i", GUILayout.Width(25), GUILayout.Height(25)))
+            {
+                messageEvent = "This will reset all mission goals in your current game.  This can help if for some reason your mission is stuck! Most of the time this is not needed because most issues have been fixed.  But just in case.";
+                showEventWindow = true;
+            }
             GUILayout.EndHorizontal();
             GUILayout.BeginHorizontal();
             if (GUILayout.Button(resetMissions[resetMissionCount], styleButtonWordWrap))
@@ -136,6 +201,11 @@ namespace MissionController
             if (resetMissionCount >= 1 && GUILayout.Button("NO", styleButtonWordWrap))
             {
                 resetMissionCount = 0;
+            }
+            if (GUILayout.Button("i", GUILayout.Width(25), GUILayout.Height(25)))
+            {
+                messageEvent = "This will erase everysingle mission you have done in this game. Why do you need to do this? No idea but I suggest you don't.  Will keep budget intact though, and everything else that is not mission releated.";
+                showEventWindow = true;
             }
             GUILayout.EndHorizontal();
             GUILayout.Space(10);
@@ -198,15 +268,30 @@ namespace MissionController
                 GUILayout.EndHorizontal();
             }
 
+            GUILayout.BeginHorizontal();
             if (GUILayout.Button("Reset Contract Time Check", styleButtonWordWrap))
             {
                 manager.SetCurrentCheckTime(0);
                 Debug.Log("Current Time Check Reset To 0");
             }
+            if (GUILayout.Button("i", GUILayout.Width(25), GUILayout.Height(25)))
+            {
+                messageEvent = "If for some reason you think that the Random Contracts is stuck and not giving you contracts every 24 hours, this will reset the whole system and start it back up!";
+                showEventWindow = true;
+            }
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
             if (GUILayout.Button("Reset Window Postions", styleButtonWordWrap))
             {
                 ResetWindows();
             }
+            if (GUILayout.Button("i", GUILayout.Width(25), GUILayout.Height(25)))
+            {
+                messageEvent = "This will reset all your windows in MCE. Use this if your window disapears or gets messed up in some other way";
+                showEventWindow = true;
+            }
+            GUILayout.EndHorizontal();
             GUILayout.Space(10);
             if (GUILayout.Button("Save Settings", styleButtonWordWrap))
             {

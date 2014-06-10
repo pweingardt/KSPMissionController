@@ -337,7 +337,7 @@ namespace MissionController
                                 double TWR = thrust / (mass + rmassdry) / efx.g;
                                 double dV = isp * 9.81 * Math.Log((mass + rmass) / (mass + rmassdry));
                                 print("DeltaV available: " + dV + "(Mass ratio: " + (mass + rmassdry) + " / " + (mass + rmass) + ", TWR " + TWR + ")");
-                                if (dV >= Tools.Setting("deltaVRequired", 1000.0) && TWR >= Tools.Setting("minRocketTWR", 1.5))
+                                if (dV >= Tools.Setting("deltaVRequired", 500.0) && TWR >= Tools.Setting("minRocketTWR", 1.5))
                                 {
                                     print("Rocket Assisted Landing Succesfull With ModuleEngineFX.. Kerbal X tycoon");
                                     landing = 2;
@@ -375,12 +375,12 @@ namespace MissionController
                                 double TWR = thrust / (mass + rmassdry) / e.g;
                                 double dV = isp * 9.81 * Math.Log((mass + rmass) / (mass + rmassdry));
                                 print("DeltaV available: " + dV + "(Mass ratio: " + (mass + rmassdry) + " / " + (mass + rmass) + ", TWR " + TWR + ")");
-                                if (dV >= Tools.Setting("deltaVRequired", 1000.0) && TWR >= Tools.Setting("minRocketTWR", 1.5))
+                                if (dV >= Tools.Setting("deltaVRequired", 500.0) && TWR >= Tools.Setting("minRocketTWR", 1.5))
                                 {
                                     print("ModuleEngine Rocket Assisted Landing Succesfull.. Kerbal X tycoon");
                                     landing = 2;
                                 }
-                                else print("Delta V id not pass to allow Propulsive Rocket Landing");
+                                else print("Delta V did not pass to allow Propulsive Rocket Landing");
                             }
                             if (landing > 0) // landed!
                             {

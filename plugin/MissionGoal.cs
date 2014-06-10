@@ -64,6 +64,8 @@ namespace MissionController
         /// </summary>
         public bool vesselIndenpendent = false;
 
+        public bool isLandingGoal = false;
+
         /// <summary>
         /// If True this mission goal won't save the Vessel ID.. This is a hack used to get by the Vessel ID problem with UnDock...
         /// </summary>

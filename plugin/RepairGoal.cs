@@ -68,6 +68,10 @@ namespace MissionController
         {
             
             Manager m = new Manager();
+            public RepairGoal()
+            {
+                this.evaNotAllowed = false;
+            }
 
             protected override List<Value> values(Vessel vessel, GameEvent ev)
             {

@@ -874,7 +874,7 @@ namespace MissionController
 
             if (showSettingsWindow && hideMCtoolbarsviews)
             {
-                settingsWindowPosition = GUILayout.Window(98763, settingsWindowPosition, drawSettingsWindow, "Settings", GUILayout.MinHeight(225), GUILayout.MinWidth(150));
+                settingsWindowPosition = GUILayout.Window(98763, settingsWindowPosition, drawSettingsWindow, "Settings", GUILayout.MinHeight(225), GUILayout.MinWidth(175));
                 settingsWindowPosition.x = Mathf.Clamp(settingsWindowPosition.x, 0, Screen.width - settingsWindowPosition.width);
                 settingsWindowPosition.y = Mathf.Clamp(settingsWindowPosition.y, 0, Screen.height - settingsWindowPosition.height);
             }
@@ -1631,17 +1631,7 @@ namespace MissionController
                 GUILayout.Label("Warning Vessel Is Flaged and Can't Do Missions", styleValueRedBold);
                 GUILayout.Label("Vessel Most Likely Launched In Disabled Mode", styleValueRedBold);
             }
-            if (currentMission != null)
-            {
-                foreach (MissionGoal mg in currentMission.goals)
-                {
-                    if (mg.vesselIndenpendent != false)
-                    {
-                        GUILayout.Label("This Mission has A docking Goal or Undock Or EVA Goal!  It must be done in one sitting, the docking goals are not saved to bypass issues with Vessel ID's", styleValueYellow);
-                    }
-                }
-            }
-
+           
             if (settings.disablePlugin == true)
             {
                 GUILayout.Label("Plugin Disabled", styleValueRed);
@@ -1721,17 +1711,7 @@ namespace MissionController
             {
                 GUILayout.Label("Warning Vessel Is Flaged and Can't Do Missions", styleValueRedBold);
                 GUILayout.Label("Vessel Most Likely Launched In Disabled Mode", styleValueRedBold);
-            }
-            if (currentMission != null)
-            {
-                foreach (MissionGoal mg in currentMission.goals)
-                {
-                    if (mg.vesselIndenpendent != false)
-                    {
-                        GUILayout.Label("This Mission has A docking Goal or Undock Or EVA Goal!  It must be done in one sitting, These types of goals are not saved to bypass issues with Vessel ID's", styleValueYellow);
-                    }
-                }
-            }
+            }           
 
             if (currentMission != null && currentMission.IsContract != false)
             {
@@ -1937,7 +1917,7 @@ namespace MissionController
                 "3) Hit the ESC key. The game menu should appear.\n\n" +
                 "4) Click the SPACECENTER button.\n\n" +
                 "Failure to follow this will result in Science points not being paid!", styleWarning);
-            }
+            }          
 
             if (s.missionAlreadyFinished)
             {
@@ -2077,6 +2057,22 @@ namespace MissionController
 
             drawContractsGoals(mission, s);
 
+            if (currentMission != null && currentMission.crashGoalWarning != false)
+            {
+                GUILayout.Label("In order to gain credit for a CRASHGOAL Mission certain steps must be taken at end of mission.\n\n" +
+                "1) Accept the mission payment and exit payment window.\n\n" +
+                "2) Close the KSP crash log window That Pops Up (happens when crash). \n " +
+                "DO NOT USE ANY OTHER BUTTONS ON THE CRASH LOG WINDOW, EXCEPT FOR THE CLOSE BUTTON.\n\n" +
+                "3) Hit the ESC key. The game menu should appear.\n\n" +
+                "4) Click the SPACECENTER button.\n\n" +
+                "Failure to follow this will result in Science points not being paid!", styleWarning);
+            }           
+
+            if (s.missionAlreadyFinished)
+            {
+                GUILayout.Label("You have already finished this mission!", styleWarning);
+            }
+
             if (s.missionIsFinishable)
             {
                 showRandomWindow = true;
@@ -2210,6 +2206,18 @@ namespace MissionController
                             GUILayout.Label(v.shouldBe + " : " + v.currentlyIs, (v.done ? styleValueGreen : styleValueRed));
                         }
                         GUILayout.EndHorizontal();
+
+                        if (c.isLandingGoal)
+                        {
+                            if (settings.allowApolloLandings != false)
+                            {
+                                GUILayout.Label("Multi Vessel Landings is set to True in settings, Do not change vessel while doing a landing goal! See Settings", styleValueYellow);
+                            }
+                            else
+                            {
+                                GUILayout.Label("Multi Vessel Landings Is False in settings!  You can only use 1 Vessel for the whole Mission! See Settings", styleValueYellow);
+                            }
+                        }                                                                         
                     }
 
                     if (activeVessel != null)
@@ -2294,6 +2302,17 @@ namespace MissionController
                             GUILayout.Label(v.shouldBe + " : " + v.currentlyIs, (v.done ? styleValueGreen : styleValueRed));
                         }
                         GUILayout.EndHorizontal();
+                        if (c.isLandingGoal)
+                        {
+                            if (settings.allowApolloLandings != false)
+                            {
+                                GUILayout.Label("Multi Vessel Landings is set to True in settings, Do not change vessel while doing a landing goal! See Settings", styleValueYellow);
+                            }
+                            else
+                            {
+                                GUILayout.Label("Multi Vessel Landings Is False in settings!  You can only use 1 Vessel for the whole Mission! See Settings", styleValueYellow);
+                            }
+                        }      
                     }
 
                     if (activeVessel != null)

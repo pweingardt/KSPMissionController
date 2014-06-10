@@ -19,6 +19,22 @@ namespace MissionController
 
         public String biome = "";
 
+        private Settings settings
+        {
+            get { return SettingsManager.Manager.getSettings(); }
+        }
+        
+
+        public LandingGoal()
+        {
+            if (settings.allowApolloLandings == true)
+            {
+                this.special = true;
+                this.isLandingGoal = true;
+            }
+            else this.special = false;
+        }
+
         protected override List<Value> values(Vessel vessel, GameEvent events)
         {
 
@@ -29,7 +45,7 @@ namespace MissionController
                 values.Add(new Value("Landing Body", body));
             }
             else
-            {
+            {              
                 values.Add(new Value("Landing Body", body, vessel.orbit.referenceBody.bodyName,
                                                  vessel.orbit.referenceBody.bodyName.Equals(body) && (vessel.situation == Vessel.Situations.LANDED ||
                     (splashedValid ? vessel.situation == Vessel.Situations.SPLASHED : false))));

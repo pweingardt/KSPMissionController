@@ -13,6 +13,8 @@ namespace MissionController
         public bool KSPSKIN = true;
 
         public bool MCEDebug = false;
+
+        public bool allowApolloLandings = true;
     }
 
     public class SettingsManager 
