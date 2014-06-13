@@ -74,6 +74,7 @@
     </Compile>
     <Compile Include="PartCost.cs" />
     <Compile Include="ProbeScience.cs" />
+    <Compile Include="RefuelModule.cs" />
     <Compile Include="RepairGoal.cs" />
     <Compile Include="ShipStats.cs" />
     <Compile Include="SpaceProgram.cs" />

@@ -433,7 +433,8 @@ namespace MissionController
                 {
                     case 1: // landed
                         return (int)(Tools.Setting("landedRecycle", 0.85) * dry() + Tools.Setting("fuelRecycle", 0.95) * wet());
-                    // case 2: // landed on runway
+                    case 2: // landed on runway
+                        return (int)(Tools.Setting("runwayRecycle", 0.95) * dry() + Tools.Setting("fuelRecycle", 0.95) * wet());
                     case 3: // autorecycle with fuel
                         return (int)(Tools.Setting("autoRecycle", 0.63) * (Tools.Setting("runwayRecycle", 0.95) * dry() + Tools.Setting("fuelRecycle", 0.95) * wet()));
                     case 4: // autorecycle without fuel

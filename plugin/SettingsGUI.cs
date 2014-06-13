@@ -293,6 +293,12 @@ namespace MissionController
             }
             GUILayout.EndHorizontal();
             GUILayout.Space(10);
+            //if (GUILayout.Button("Disable Vessel", styleButtonWordWrap))
+            //{
+            //    settings.disableFlight = !settings.disableFlight;
+            //    messageEvent = "Warning You Current pilot is not qualified to Pilot this vessel, Please go back to VAB and select a qualified pilot or commander!\n\n Your Vessel is disabled, if you launch it at this time your pilot will have no control and bad things will happen!";
+            //    showEventWindow = true;
+            //}
             if (GUILayout.Button("Save Settings", styleButtonWordWrap))
             {
                 settingsWindow(!showSettingsWindow);

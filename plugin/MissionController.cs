@@ -147,13 +147,13 @@ namespace MissionController
         private bool showModPayments = false;
         private bool showModCost = false;
         private bool showShipStatsWindow = false;
-        private bool showEventWindow = false;
+        public static bool showEventWindow = false;
                
         public string recycledName = "";
         public string recycledDesc = "";
         public int recycledCost = 0;
 
-        public string messageEvent = "";
+        public static string messageEvent = "";
        
         private FileBrowser fileBrowser = null;
         private Mission currentMission = null;

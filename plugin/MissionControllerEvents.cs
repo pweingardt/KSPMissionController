@@ -12,6 +12,11 @@ namespace MissionController
     public partial class MissionController
     {
         private bool canRecycle = true;
+        private double runwayMinLatitude = -0.043;
+        private double runwayMaxLatitude = -0.038;
+        private double runwayMinLongitude = -74.719;
+        private double runwayMaxLongitude = -74.700;
+        private bool runwayTrue = false;
         /// <summary>
         /// This event is fired when two vessels dock.
         /// </summary>
@@ -68,9 +73,29 @@ namespace MissionController
         {
             VesselResources res = new VesselResources(pv.vesselRef);
             recycledName = pv.vesselName;
+            double currentLongitude = MathTools.calculateLongitude(pv.longitude);
+            double currentLatitude = pv.latitude;
+            if (MathTools.inMinMax(runwayMinLongitude, runwayMaxLongitude, currentLongitude) && MathTools.inMinMax(runwayMinLatitude, runwayMaxLatitude, currentLatitude))
+            {
+                runwayTrue = true;
+            }
             if (!manager.isVesselFlagged(pv.vesselRef) && !HighLogic.LoadedSceneIsEditor && !HighLogic.LoadedSceneIsFlight && (manager.ResearchRecycle || HighLogic.CurrentGame.Mode != Game.Modes.CAREER) && (pv.situation.Equals(Vessel.Situations.LANDED) || pv.situation.Equals(Vessel.Situations.SPLASHED)))
             {
-                recycledCost = res.recyclable(pv.situation.Equals(Vessel.Situations.LANDED) ? 1 : 0);
+                               
+                if (runwayTrue != false)
+                {
+                    recycledDesc = ("Runway Landing Recovered");
+                    recycledCost = res.recyclable(2);
+                    print("MCE runway landing accepted");
+                }
+                else
+                {
+                    int landing = 0;
+                    recycledCost = res.recyclable(pv.situation.Equals(Vessel.Situations.LANDED) ? 1 : 0);
+                    if (pv.situation.Equals(Vessel.Situations.LANDED)) { landing = 1; recycledDesc = ("Pod Dry Landing With Chutes"); }
+                    else { landing = 0; recycledDesc = ("Pod Ocean Landing"); }
+                    print("MCE Pod Landing Accepted");
+                }
                 print("*MC* Craft " + recycledName + " recovered for " + recycledCost);
                 manager.recycleVessel(pv.vesselRef, recycledCost);
                 showRecycleWindow = true;
@@ -572,7 +597,7 @@ namespace MissionController
         private void onFlyByWire(FlightCtrlState s) {
             Status status = calculateStatus(currentMission, false, activeVessel);
 
-            if(status.isClientControlled) {
+            if(status.isClientControlled || settings.disableFlight) {
                 s.fastThrottle = 0;
                 s.gearDown = false;
                 s.gearUp = false;
@@ -595,6 +620,7 @@ namespace MissionController
                 s.NeutralizeAll ();
             }
         }
+        
     }
 }
 
