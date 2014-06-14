@@ -21,36 +21,29 @@ namespace MissionController
             resourceTankList.Add(m);
         }
 
-        [KSPField(isPersistant = false)]
-        private double transferRate = 1;
-
         [KSPField(isPersistant = true)]
         private double CurrentRS1 = 0;
 
         [KSPField(isPersistant = true)]
-        private double SavedRS1 = 0;
-
-        public string rS1Name = "none";
-
-        private double ResourceCost = 0;
-
-        [KSPField(isPersistant = true)]
         private double CurrentRS2 = 0;
-
-        private double savedRS2 = 0;
-
-        private string rs2Name = "none";
 
         [KSPField(isPersistant = true)]
         private bool orderRS1On = false;
 
         [KSPField(isPersistant = true)]
         private bool orderRS2On = false;
+        
+        private double SavedRS1 = 0;
+        private double savedRS2 = 0;
 
+        private string rS1Name = "none";
+        private string rS2Name = "none";
+
+        private double transferRate = 1;
+        private double ResourceCost = 0;
         private bool priceCheck = false;
-
-        public double surcharge = .08;
-        public double deliveryCharge = .2;
+        private double surcharge = .08;
+        private double deliveryCharge = .2;       
 
         private void getResourceCost(string name)
         {
@@ -128,9 +121,9 @@ namespace MissionController
             if (resourceTankList.Count > 1)
             {
                 ResourceTankList rt2 = resourceTankList[1];
-                rs2Name = rt2.resource;
+                rS2Name = rt2.resource;
             }
-            Debug.LogWarning("rS1Name = " + rS1Name + " rS2Name = " + rs2Name);    
+            Debug.LogWarning("rS1Name = " + rS1Name + " rS2Name = " + rS2Name);    
             
         }
 
@@ -148,8 +141,8 @@ namespace MissionController
             }
             if (orderRS2On.Equals(true) && vs.situation.Equals(Vessel.Situations.LANDED))
             {
-                if (rs2Name == "none") { Debug.LogWarning("No 2nd Resource found skiping Load And Purchase"); orderRS2On = false; }
-                else { chargePurchasePrice(rs2Name, CurrentRS2, savedRS2); }   
+                if (rS2Name == "none") { Debug.LogWarning("No 2nd Resource found skiping Load And Purchase"); orderRS2On = false; }
+                else { chargePurchasePrice(rS2Name, CurrentRS2, savedRS2); }   
             }
 
         }
